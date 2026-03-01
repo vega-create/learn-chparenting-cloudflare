@@ -32,16 +32,43 @@ function levenshtein(a: string, b: string): number {
   return prev[n];
 }
 
+/* ─── Number ↔ word mappings for speech recognition normalization ─── */
+const NUM_TO_WORD: Record<string, string> = {
+  "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four",
+  "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine",
+  "10": "ten", "11": "eleven", "12": "twelve", "13": "thirteen",
+  "14": "fourteen", "15": "fifteen", "16": "sixteen", "17": "seventeen",
+  "18": "eighteen", "19": "nineteen", "20": "twenty", "30": "thirty",
+  "40": "forty", "50": "fifty", "60": "sixty", "70": "seventy",
+  "80": "eighty", "90": "ninety", "100": "hundred",
+};
+const WORD_TO_NUM: Record<string, string> = {};
+for (const [k, v] of Object.entries(NUM_TO_WORD)) WORD_TO_NUM[v] = k;
+
+/**
+ * Normalize text to handle Speech API quirks:
+ *  - "700" or "7:00" → "seven oclock"
+ *  - single numbers "7" → "seven"
+ *  - "o'clock" → "oclock" (strip apostrophe for matching)
+ */
+function normalizeEnglish(s: string): string[] {
+  let t = s.toLowerCase();
+  // Expand time patterns: "700" → "7 oclock", "7:00" → "7 oclock"
+  t = t.replace(/\b(\d{1,2}):?00\b/g, "$1 oclock");
+  // Convert digit numbers to words: "7" → "seven"
+  t = t.replace(/\b(\d{1,2})\b/g, (_, n) => NUM_TO_WORD[n] || n);
+  // Normalize o'clock → oclock
+  t = t.replace(/o'clock/g, "oclock");
+  return t.replace(/[^\w\s]/g, "").split(/\s+/).filter(Boolean);
+}
+
 /* ─── English: word-level comparison (stricter) ─── */
 export function compareTextEn(
   target: string,
   spoken: string,
 ): { pct: number; matched: number[] } {
-  const normalize = (s: string) =>
-    s.toLowerCase().replace(/[^\w\s']/g, "").split(/\s+/).filter(Boolean);
-
-  const targetWords = normalize(target);
-  const spokenWords = normalize(spoken);
+  const targetWords = normalizeEnglish(target);
+  const spokenWords = normalizeEnglish(spoken);
   const matched: number[] = [];
   const used = new Set<number>(); // prevent double-counting spoken words
 

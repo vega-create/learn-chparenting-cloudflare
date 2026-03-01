@@ -121,11 +121,19 @@ export default function WritingPage() {
     setQi(q => q + 1); setShow(false); setTransInput(""); setEssayInput(""); setSubmitted(false);
   };
 
+  const goBack = () => {
+    if (qi <= 0) return;
+    setQi(q => q - 1); setShow(false); setTransInput(""); setEssayInput(""); setSubmitted(false);
+  };
+
   // ─── Sentence Reorder handlers ───
   const handleSentenceCheck = () => {
     const isOk = sentArr.map((w: any) => w.t).join("") === questions[qi].parts.join("");
     setShow(true); addPt(15, isOk);
-    setTimeout(() => advance(), 1300);
+  };
+
+  const handleRetry = () => {
+    setShow(false);
   };
 
   // ─── Translation handlers ───
@@ -137,7 +145,6 @@ export default function WritingPage() {
     const pct = matched.length / q.keywords.length;
     setShow(true);
     addPt(Math.round(pct * 15), pct >= 0.5);
-    setTimeout(() => advance(), 2500);
   };
 
   // ─── Guided Writing handlers ───
@@ -232,11 +239,39 @@ export default function WritingPage() {
                 className="px-6 py-2.5 rounded-xl bg-red-500 text-white font-bold cursor-pointer border-none hover:bg-red-600 transition">確認答案 ✓</button>
             </div>
           )}
-          {show && (
-            <div className={`text-center p-3 rounded-xl text-sm font-bold ${sentArr.map((w: any) => w.t).join("") === q.parts.join("") ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"}`}>
-              {sentArr.map((w: any) => w.t).join("") === q.parts.join("") ? "✅ 完璧！" : `❌ 正解：${q.parts.join("")}`}
-            </div>
-          )}
+          {show && (() => {
+            const isCorrect = sentArr.map((w: any) => w.t).join("") === q.parts.join("");
+            return (
+              <div className="space-y-3">
+                <div className={`text-center p-3 rounded-xl text-sm font-bold ${isCorrect ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-600"}`}>
+                  {isCorrect ? "✅ 完璧！" : `❌ 正解：${q.parts.join("")}`}
+                </div>
+                {q.explanation && (
+                  <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-sm text-blue-800">
+                    <span className="font-semibold">📝 文法解說：</span>{q.explanation}
+                  </div>
+                )}
+                {!isCorrect && (
+                  <div className="text-center">
+                    <button onClick={handleRetry}
+                      className="px-4 py-2 rounded-lg text-sm font-medium text-amber-600 bg-amber-50 border border-amber-200 cursor-pointer hover:bg-amber-100 transition">
+                      🔄 再試一次
+                    </button>
+                  </div>
+                )}
+                <div className="flex justify-between">
+                  <button onClick={goBack} disabled={qi <= 0}
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-slate-500 bg-slate-100 border border-slate-200 cursor-pointer disabled:opacity-30 hover:bg-slate-200 transition">
+                    ← 上一題
+                  </button>
+                  <button onClick={advance}
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-red-600 bg-red-50 border border-red-200 cursor-pointer hover:bg-red-100 transition">
+                    {qi + 1 >= total ? "查看成績 📊" : "下一題 →"}
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       )}
 
@@ -267,12 +302,27 @@ export default function WritingPage() {
                 <div className="text-xs font-semibold text-emerald-600 mb-1">參考答案：</div>
                 <div className="text-sm text-emerald-800 font-medium">{q.answer}</div>
               </div>
+              {q.explanation && (
+                <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-sm text-blue-800">
+                  <span className="font-semibold">📝 文法解說：</span>{q.explanation}
+                </div>
+              )}
               <div className="p-3 rounded-xl bg-slate-50 text-xs text-slate-500">
                 <span className="font-semibold">關鍵字：</span>
                 {q.keywords.map((kw: string, i: number) => {
                   const matched = transInput.includes(kw);
                   return <span key={i} className={`ml-1 px-1.5 py-0.5 rounded ${matched ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-600"}`}>{kw}</span>;
                 })}
+              </div>
+              <div className="flex justify-between">
+                <button onClick={goBack} disabled={qi <= 0}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-slate-500 bg-slate-100 border border-slate-200 cursor-pointer disabled:opacity-30 hover:bg-slate-200 transition">
+                  ← 上一題
+                </button>
+                <button onClick={advance}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-red-600 bg-red-50 border border-red-200 cursor-pointer hover:bg-red-100 transition">
+                  {qi + 1 >= total ? "查看成績 📊" : "下一題 →"}
+                </button>
               </div>
             </div>
           )}
