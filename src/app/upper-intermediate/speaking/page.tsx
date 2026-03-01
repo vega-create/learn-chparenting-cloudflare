@@ -304,10 +304,12 @@ export default function SpeakingPage() {
             className="px-5 py-2.5 rounded-xl border-2 border-blue-300 text-blue-600 font-semibold text-sm cursor-pointer bg-white hover:bg-blue-50 transition">
             🔄 再唸一次
           </button>
-          <button onClick={next}
-            className="px-5 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none hover:bg-rose-400 transition">
-            {mode === "passage" ? "下一句 →" : idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
-          </button>
+          {mode !== "passage" && (
+            <button onClick={next}
+              className="px-5 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none hover:bg-rose-400 transition">
+              {idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
+            </button>
+          )}
         </div>
       </div>
     );

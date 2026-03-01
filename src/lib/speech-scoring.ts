@@ -5,9 +5,9 @@
  * 1. Incorporates Speech API `confidence` score (0-1) — low-confidence
  *    recognition (= poor pronunciation) pulls the score down.
  * 2. English: uses Levenshtein distance instead of naive substring matching.
- * 3. Japanese: uses sequential (greedy forward) matching instead of
- *    bag-of-characters, preventing unrelated sentences from scoring high
- *    just because they share common particles.
+ * 3. Japanese: uses LCS (Longest Common Subsequence) matching instead of
+ *    greedy forward scan — handles kanji↔hiragana differences gracefully
+ *    (e.g. AI returns "私" but target says "わたし").
  * 4. Prevents double-counting of matched words/characters.
  */
 
@@ -75,7 +75,7 @@ export function compareTextEn(
   };
 }
 
-/* ─── Japanese: character-level sequential comparison ─── */
+/* ─── Japanese: character-level LCS comparison ─── */
 export function compareTextJa(
   target: string,
   spoken: string,
@@ -85,22 +85,44 @@ export function compareTextJa(
 
   const targetChars = Array.from(clean(target));
   const spokenChars = Array.from(clean(spoken));
-  const matched: number[] = [];
+  const m = targetChars.length;
+  const n = spokenChars.length;
 
-  // Greedy forward scan — preserves order and prevents reuse
-  let si = 0;
-  for (let ti = 0; ti < targetChars.length; ti++) {
-    for (let j = si; j < spokenChars.length; j++) {
-      if (spokenChars[j] === targetChars[ti]) {
-        matched.push(ti);
-        si = j + 1;
-        break;
+  if (m === 0) return { pct: 0, matched: [] };
+  if (n === 0) return { pct: 0, matched: [] };
+
+  // LCS (Longest Common Subsequence) — handles kanji↔hiragana mismatches
+  // gracefully by finding the best alignment instead of greedy forward scan
+  // which breaks when e.g. AI returns "私" but target says "わたし".
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (targetChars[i - 1] === spokenChars[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
       }
     }
   }
 
+  // Backtrack to find which target positions were matched
+  const matched: number[] = [];
+  let i = m, j = n;
+  while (i > 0 && j > 0) {
+    if (targetChars[i - 1] === spokenChars[j - 1]) {
+      matched.push(i - 1);
+      i--;
+      j--;
+    } else if (dp[i - 1][j] > dp[i][j - 1]) {
+      i--;
+    } else {
+      j--;
+    }
+  }
+  matched.reverse();
+
   return {
-    pct: Math.round((matched.length / Math.max(targetChars.length, 1)) * 100),
+    pct: Math.round((matched.length / m) * 100),
     matched,
   };
 }
