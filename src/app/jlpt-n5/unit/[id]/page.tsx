@@ -4,6 +4,7 @@ import type { JlptUnit, JlptVocabItem, JlptGrammarPoint, JlptListenQ, JlptReadin
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
+import { speakJa as speak, stopSpeaking, pauseSpeaking, resumeSpeaking } from "@/lib/speech";
 
 /* Speech Recognition types (not natively typed in TS) */
 interface SRResult { transcript: string; confidence: number }
@@ -12,16 +13,6 @@ interface SREvent { results: { length: number; [index: number]: SRResultList } }
 interface SRecognition { lang: string; interimResults: boolean; maxAlternatives: number; onresult: ((e: SREvent) => void) | null; onerror: (() => void) | null; onend: (() => void) | null; start: () => void; stop: () => void }
 
 const LANG = "ja-JP";
-const speak = (text: string, rate = 0.85) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = LANG; u.rate = rate;
-  window.speechSynthesis.speak(u);
-};
-const stopSpeaking = () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel(); };
-const pauseSpeaking = () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.pause(); };
-const resumeSpeaking = () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.resume(); };
 
 const TABS = [
   { id: "vocab", label: "📖 單字" },
@@ -337,7 +328,7 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
           <div className="text-center py-2">
             <p className="text-sm text-slate-400 mb-4">① 先聽句子 → ② 按錄音唸一遍 → ③ 看結果</p>
             <div className="flex justify-center gap-3 mb-5">
-              <button onClick={() => { const u2 = new SpeechSynthesisUtterance(sentences[sentIdx].text); u2.lang = LANG; u2.rate = 0.55; window.speechSynthesis?.cancel(); window.speechSynthesis?.speak(u2); }}
+              <button onClick={() => speak(sentences[sentIdx].text, 0.55)}
                 className="px-4 py-2.5 rounded-xl text-sm font-medium border cursor-pointer transition active:scale-95"
                 style={{ borderColor: unit.color + "60", color: unit.color }}>🐢 慢速</button>
               <button onClick={() => speak(sentences[sentIdx].text, 0.8)}

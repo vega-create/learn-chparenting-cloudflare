@@ -3,14 +3,7 @@ import { UNITS } from "@/data/elementary";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
-
-const speak = (text: string, rate = 0.85) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US"; u.rate = rate;
-  window.speechSynthesis.speak(u);
-};
+import { speak, stopSpeaking } from "@/lib/speech";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 
@@ -49,7 +42,7 @@ export default function MockTestPage() {
   }, [started, phase]);
 
   // Stop speech when leaving page
-  useEffect(() => { return () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel(); }; }, []);
+  useEffect(() => { return () => { stopSpeaking(); }; }, []);
 
   const fmt = (s: number) => `${Math.floor(s / 60).toString().padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
   const setAns = (key: string, val: number) => setAnswers(a => ({ ...a, [key]: val }));

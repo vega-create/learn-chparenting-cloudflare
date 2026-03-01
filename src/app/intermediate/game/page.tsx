@@ -2,15 +2,9 @@
 import { INTER_UNITS as UNITS } from "@/data/intermediate";
 import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
+import { speak, stopSpeaking } from "@/lib/speech";
 
 /* ─── Utils ─── */
-const speak = (text: string, rate = 0.85) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US"; u.rate = rate;
-  window.speechSynthesis.speak(u);
-};
 const shuffle = <T,>(a: T[]): T[] => [...a].sort(() => Math.random() - 0.5);
 const pick = <T,>(a: T[], n: number): T[] => shuffle(a).slice(0, n);
 const r = (a: number, b: number) => Math.floor(Math.random() * (b - a + 1)) + a;
@@ -135,7 +129,7 @@ export default function GamePage() {
   }, []);
 
   // Stop speech when leaving page
-  useEffect(() => { return () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel(); }; }, []);
+  useEffect(() => { return () => { stopSpeaking(); }; }, []);
 
   const startGame = (m: GameMode) => {
     setMode(m); setScore(0); setCombo(0); setQi(0); setSel(null); setShow(false); setInput(""); setHint(false);

@@ -3,22 +3,13 @@ import { N5_UNITS } from "@/data/jlpt-n5";
 import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { compareTextJa, scoreSpeechResult } from "@/lib/speech-scoring";
+import { speakJa as speak } from "@/lib/speech";
 
 /* Speech Recognition types */
 interface SRResult { transcript: string; confidence: number }
 interface SRResultList { length: number; [index: number]: SRResult }
 interface SREvent { results: { length: number; [index: number]: SRResultList } }
 interface SRecognition { lang: string; interimResults: boolean; maxAlternatives: number; continuous: boolean; onresult: ((e: SREvent) => void) | null; onerror: (() => void) | null; onend: (() => void) | null; start: () => void; stop: () => void; abort: () => void }
-
-/* ─── Speech helpers ─── */
-const speak = (text: string, rate = 0.8, onEnd?: () => void) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ja-JP"; u.rate = rate;
-  if (onEnd) u.onend = onEnd;
-  window.speechSynthesis.speak(u);
-};
 
 /* ─── Utils ─── */
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
@@ -138,6 +129,12 @@ export default function SpeakingPage() {
   };
 
   const next = () => {
+    if (mode === "passage") {
+      setIdx(i => i + 1);
+      setResult(null);
+      setAttempts(0);
+      return;
+    }
     if (idx + 1 >= items.length) {
       setCompleted(items.length);
       return;
@@ -147,6 +144,12 @@ export default function SpeakingPage() {
     setAttempts(0);
     setShowText(false);
     setShowSample(false);
+  };
+
+  const skip = () => {
+    setResult(null);
+    setRecording(false);
+    next();
   };
 
   const prev = () => {
@@ -240,7 +243,7 @@ export default function SpeakingPage() {
     );
   }
 
-  const item = items[idx];
+  const item = mode === "passage" ? items[0] : items[idx];
   if (!item) return null;
 
   /* ─── Shared Recording Button ─── */
@@ -254,6 +257,12 @@ export default function SpeakingPage() {
       <div className="text-sm text-slate-400 mt-2">
         {recording ? "聞いています…大きな声で！" : result ? "もう一度試すには押してください" : "押して録音開始"}
       </div>
+      {!result && !recording && (
+        <button onClick={skip}
+          className="mt-3 text-xs text-slate-400 bg-transparent border-none cursor-pointer hover:text-slate-600 transition underline">
+          跳過此題 →
+        </button>
+      )}
     </div>
   );
 
@@ -303,7 +312,7 @@ export default function SpeakingPage() {
           </button>
           <button onClick={next}
             className="px-5 py-2.5 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none hover:bg-red-600 transition">
-            {idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
+            {mode === "passage" ? "下一句 →" : idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
           </button>
         </div>
       </div>

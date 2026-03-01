@@ -3,14 +3,7 @@ import { N2_UNITS } from "@/data/jlpt-n2";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
-
-const speak = (text: string, rate = 0.85) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ja-JP"; u.rate = rate;
-  window.speechSynthesis.speak(u);
-};
+import { speakJa as speak } from "@/lib/speech";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 

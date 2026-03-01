@@ -6,6 +6,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { AuthProvider } from "@/contexts/AuthContext";
 import OnboardingTutorial from "@/components/OnboardingTutorial";
+import SpeechCleanup from "@/components/SpeechCleanup";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3493526929407874" crossOrigin="anonymous" />
       </head>
       <body className="min-h-screen pb-16 md:pb-0">
+        <SpeechCleanup />
         <AuthProvider>
           <Header />
           <Breadcrumb />

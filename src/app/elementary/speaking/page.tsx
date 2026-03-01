@@ -3,15 +3,7 @@ import { UNITS } from "@/data/elementary";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { compareTextEn, scoreSpeechResult } from "@/lib/speech-scoring";
-
-const speak = (text: string, rate = 0.85, onEnd?: () => void) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US"; u.rate = rate;
-  if (onEnd) u.onend = onEnd;
-  window.speechSynthesis.speak(u);
-};
+import { speak } from "@/lib/speech";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 const pick = <T,>(arr: T[], n: number): T[] => shuffle(arr).slice(0, n);
@@ -136,6 +128,13 @@ export default function SpeakingPage() {
   };
 
   const next = () => {
+    // Passage mode: idx tracks sentence position within the single passage
+    if (mode === "passage") {
+      setIdx(i => i + 1);
+      setResult(null);
+      setAttempts(0);
+      return;
+    }
     if (idx + 1 >= items.length) {
       setCompleted(items.length);
       return;
@@ -145,6 +144,12 @@ export default function SpeakingPage() {
     setAttempts(0);
     setShowText(false);
     setShowSample(false);
+  };
+
+  const skip = () => {
+    setResult(null);
+    setRecording(false);
+    next();
   };
 
   const pctColor = (pct: number) => pct >= 80 ? "#059669" : pct >= 50 ? "#f59e0b" : "#ef4444";
@@ -229,7 +234,7 @@ export default function SpeakingPage() {
     );
   }
 
-  const item = items[idx];
+  const item = mode === "passage" ? items[0] : items[idx];
   if (!item) return null;
 
   // ─── Shared Recording Button ───
@@ -243,6 +248,12 @@ export default function SpeakingPage() {
       <div className="text-sm text-slate-400 mt-2">
         {recording ? "正在聽...大聲唸！" : result ? "再按一次可重試" : "按下開始錄音"}
       </div>
+      {!result && !recording && (
+        <button onClick={skip}
+          className="mt-3 text-xs text-slate-400 bg-transparent border-none cursor-pointer hover:text-slate-600 transition underline">
+          跳過此題 →
+        </button>
+      )}
     </div>
   );
 
@@ -286,7 +297,7 @@ export default function SpeakingPage() {
           </button>
           <button onClick={next}
             className="px-5 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none hover:bg-rose-400 transition">
-            {idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
+            {mode === "passage" ? "下一句 →" : idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
           </button>
         </div>
       </div>

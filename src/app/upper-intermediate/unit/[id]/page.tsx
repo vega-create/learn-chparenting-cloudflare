@@ -3,17 +3,7 @@ import { UI_UNITS as UNITS } from "@/data/upper-intermediate";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-
-const speak = (text: string, rate = 0.85) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US"; u.rate = rate;
-  window.speechSynthesis.speak(u);
-};
-const stopSpeaking = () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel(); };
-const pauseSpeaking = () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.pause(); };
-const resumeSpeaking = () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.resume(); };
+import { speak, stopSpeaking, pauseSpeaking, resumeSpeaking } from "@/lib/speech";
 
 const TABS = [
   { id: "vocab", label: "📖 單字" },
@@ -353,7 +343,7 @@ function SpeakingTab({ unit }: { unit: any }) {
 
             {/* Play at different speeds */}
             <div className="flex justify-center gap-3 mb-5">
-              <button onClick={() => { const u2 = new SpeechSynthesisUtterance(sentences[sentIdx].text); u2.lang = "en-US"; u2.rate = 0.55; window.speechSynthesis?.cancel(); window.speechSynthesis?.speak(u2); }}
+              <button onClick={() => speak(sentences[sentIdx].text, 0.55)}
                 className="px-4 py-2.5 rounded-xl text-sm font-medium border cursor-pointer transition active:scale-95"
                 style={{ borderColor: unit.color + "60", color: unit.color }}>🐢 慢速</button>
               <button onClick={() => speak(sentences[sentIdx].text, 0.8)}

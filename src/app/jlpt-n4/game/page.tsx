@@ -3,15 +3,9 @@ import { N4_UNITS } from "@/data/jlpt-n4";
 import type { JlptUnit } from "@/data/jlpt-types";
 import { useState, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
+import { speakJa as speak } from "@/lib/speech";
 
 /* ─── Utils ─── */
-const speak = (text: string, rate = 0.85) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ja-JP"; u.rate = rate;
-  window.speechSynthesis.speak(u);
-};
 const shuffle = <T,>(a: T[]): T[] => [...a].sort(() => Math.random() - 0.5);
 const pick = <T,>(a: T[], n: number): T[] => shuffle(a).slice(0, n);
 const r = (a: number, b: number) => Math.floor(Math.random() * (b - a + 1)) + a;
