@@ -79,8 +79,8 @@ export default function RedEnvelope() {
               </div>
               <input type="range" min={0} max={scenario.amount} step={50}
                 value={item.value} onChange={(e) => item.setter(parseInt(e.target.value))}
-                className="w-full h-2 rounded-full appearance-none cursor-pointer"
-                style={{ accentColor: item.color }} />
+                className="range-slider"
+                style={{ '--slider-color': item.color } as React.CSSProperties} />
             </div>
           ))}
 
