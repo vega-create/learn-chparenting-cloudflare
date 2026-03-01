@@ -240,7 +240,7 @@ export default function WritingPage() {
           </div>
           {/* Placed words area */}
           <div className="min-h-[56px] p-3 rounded-xl border-2 border-dashed border-violet-300 bg-violet-50 flex flex-wrap gap-2 mb-4">
-            {sentArr.length === 0 && <span className="text-violet-300 text-sm">👆 點擊單字排出句子</span>}
+            {sentArr.length === 0 && <span className="text-violet-300 text-sm">👆 點擊下方單字排出句子</span>}
             {sentArr.map((w: any) => (
               <button key={w.id} onClick={() => { if (show) return; setSentArr(a => a.filter(x => x.id !== w.id)); setSentRem(r => [...r, w]); }}
                 className="px-3 py-1.5 rounded-lg bg-violet-600 text-white font-medium text-sm cursor-pointer border-none hover:bg-violet-700 transition">
@@ -248,6 +248,9 @@ export default function WritingPage() {
               </button>
             ))}
           </div>
+          {sentArr.length > 0 && !show && (
+            <div className="text-center text-xs text-slate-400 -mt-2 mb-3">💡 點擊上方已排列的字詞可移除，重新排列順序</div>
+          )}
           {/* Remaining words */}
           <div className="flex flex-wrap gap-2 justify-center mb-4">
             {sentRem.map((w: any) => (
