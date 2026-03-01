@@ -168,6 +168,44 @@ export default function AboutPage() {
         </div>
       </div>
 
+      {/* ─── Pronunciation Tips ─── */}
+      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-6">
+        <h2 className="text-xl font-bold text-slate-800 mb-5">🎙️ 口說練習小技巧</h2>
+        <p className="text-slate-600 leading-7 mb-4">
+          口說練習使用瀏覽器的語音辨識功能，以下方法可以幫助你獲得更高的分數：
+        </p>
+        <div className="space-y-3 text-sm">
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
+            <span className="text-lg">🎧</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">先聽再唸</p>
+              <p className="text-slate-500">點「🔊 聽」按鈕聽標準發音，注意語調和節奏，再按麥克風錄音跟著唸。可以用「🐢 慢」按鈕放慢速度仔細聽。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
+            <span className="text-lg">🔇</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">安靜環境 + 靠近麥克風</p>
+              <p className="text-slate-500">背景噪音會嚴重影響辨識。建議在安靜環境練習，嘴巴距離麥克風 20-30 公分，聲音清晰、不需大喊。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
+            <span className="text-lg">🗣️</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">完整唸完整句</p>
+              <p className="text-slate-500">不要中途停頓太久，盡量一口氣完整唸完。如果中間停太久，語音辨識會以為你講完了。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
+            <span className="text-lg">📱</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">推薦使用 Chrome 瀏覽器</p>
+              <p className="text-slate-500">Google Chrome 的語音辨識最準確（使用 Google 語音引擎）。Safari 和 Firefox 的辨識率較低，分數可能偏低。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ─── Tips ─── */}
       <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-6">
         <h2 className="text-xl font-bold text-slate-800 mb-4">💡 使用小提示</h2>
