@@ -2,7 +2,7 @@
 import { N5_UNITS } from "@/data/jlpt-n5";
 import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { compareTextJa, scoreSpeechResult } from "@/lib/speech-scoring";
+import { compareTextJa, scoreSpeechResult, getPronunciationTip } from "@/lib/speech-scoring";
 import { speakJa as speak } from "@/lib/speech";
 
 /* Speech Recognition types */
@@ -100,10 +100,10 @@ export default function SpeakingPage() {
           confidence: e.results[0][i].confidence ?? 0,
         });
       }
-      const { pct: bestPct, transcript: bestTranscript, matched: bestMatched } =
-        scoreSpeechResult(alts, targetText, compareTextJa);
+      const scored = scoreSpeechResult(alts, targetText, compareTextJa);
+      const { pct: bestPct } = scored;
 
-      setResult({ transcript: bestTranscript, pct: bestPct, matched: bestMatched });
+      setResult({ transcript: scored.transcript, pct: scored.pct, matched: scored.matched, rawPct: scored.rawPct, confidence: scored.confidence });
       setRecording(false);
       setAttempts(a => a + 1);
       if (bestPct >= 90) playPerfect();
@@ -278,6 +278,7 @@ export default function SpeakingPage() {
             {pctEmoji(result.pct)} {result.pct}%
           </span>
           <div className="text-sm text-slate-500 mt-1">{pctMsg(result.pct)}</div>
+          <div className="text-xs mt-2 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 inline-block">{getPronunciationTip(result.pct, result.rawPct ?? 0)}</div>
         </div>
 
         {/* Character-by-character highlight */}

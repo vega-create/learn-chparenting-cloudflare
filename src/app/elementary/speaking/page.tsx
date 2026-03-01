@@ -2,7 +2,7 @@
 import { UNITS } from "@/data/elementary";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { compareTextEn, scoreSpeechResult } from "@/lib/speech-scoring";
+import { compareTextEn, scoreSpeechResult, getPronunciationTip, charLevelDiff } from "@/lib/speech-scoring";
 import { speak } from "@/lib/speech";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
@@ -98,10 +98,10 @@ export default function SpeakingPage() {
           confidence: e.results[0][i].confidence ?? 0,
         });
       }
-      const { pct: bestPct, transcript: bestTranscript, matched: bestMatched } =
-        scoreSpeechResult(alts, targetText, compareTextEn);
+      const scored = scoreSpeechResult(alts, targetText, compareTextEn);
+      const { pct: bestPct } = scored;
 
-      setResult({ transcript: bestTranscript, pct: bestPct, matched: bestMatched });
+      setResult({ transcript: scored.transcript, pct: scored.pct, matched: scored.matched, rawPct: scored.rawPct, confidence: scored.confidence });
       setRecording(false);
       setAttempts(a => a + 1);
       if (bestPct >= 90) playPerfect();
@@ -270,6 +270,10 @@ export default function SpeakingPage() {
   const ResultDisplay = ({ targetText }: { targetText: string }) => {
     if (!result) return null;
     const words = targetText.split(/\s+/);
+    const tip = getPronunciationTip(result.pct, result.rawPct ?? 0);
+    const isSingleWord = mode === "words";
+    const targetChars = isSingleWord ? Array.from(targetText.replace(/[^\w]/g, "")) : [];
+    const charMatched = isSingleWord && result.transcript ? charLevelDiff(targetText, result.transcript) : [];
     return (
       <div className="animate-fadeIn mt-4">
         <div className="text-center mb-3">
@@ -277,21 +281,36 @@ export default function SpeakingPage() {
             {pctEmoji(result.pct)} {result.pct}%
           </span>
           <div className="text-sm text-slate-500 mt-1">{pctMsg(result.pct)}</div>
+          <div className="text-xs mt-2 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 inline-block">{tip}</div>
         </div>
 
-        {/* Word-by-word highlight */}
-        <div className="bg-slate-50 rounded-xl p-4 mb-3">
-          <div className="text-sm text-slate-400 mb-2">逐字比對：</div>
-          <div className="text-base leading-8">
-            {words.map((w, i) => (
-              <span key={i} className="transition mr-1" style={{
-                color: result.matched.includes(i) ? "#059669" : "#ef4444",
-                fontWeight: result.matched.includes(i) ? 700 : 400,
-                textDecoration: result.matched.includes(i) ? "none" : "underline wavy",
-              }}>{w}</span>
-            ))}
+        {isSingleWord ? (
+          <div className="bg-slate-50 rounded-xl p-4 mb-3">
+            <div className="text-sm text-slate-400 mb-2">逐字母比對：</div>
+            <div className="text-3xl leading-12 tracking-[0.3em] text-center font-mono">
+              {targetChars.map((c, i) => (
+                <span key={i} style={{
+                  color: charMatched.includes(i) ? "#059669" : "#ef4444",
+                  fontWeight: charMatched.includes(i) ? 700 : 400,
+                  textDecoration: charMatched.includes(i) ? "none" : "underline wavy",
+                }}>{c}</span>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="bg-slate-50 rounded-xl p-4 mb-3">
+            <div className="text-sm text-slate-400 mb-2">逐字比對：</div>
+            <div className="text-base leading-8">
+              {words.map((w, i) => (
+                <span key={i} className="transition mr-1" style={{
+                  color: result.matched.includes(i) ? "#059669" : "#ef4444",
+                  fontWeight: result.matched.includes(i) ? 700 : 400,
+                  textDecoration: result.matched.includes(i) ? "none" : "underline wavy",
+                }}>{w}</span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {result.transcript && (
           <div className="text-xs text-slate-400 text-center">

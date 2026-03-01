@@ -167,11 +167,12 @@ export interface ScoredResult {
  * Given the alternatives from `SpeechRecognitionResult`, pick the best one
  * factoring in both text-match accuracy and the API's `confidence` score.
  *
- * Formula:  finalScore = textMatchPct × (0.3 + 0.7 × confidence)
- *   confidence = 1.0  →  multiplier = 1.00  (no penalty)
- *   confidence = 0.8  →  multiplier = 0.86
- *   confidence = 0.5  →  multiplier = 0.65
- *   confidence = 0.3  →  multiplier = 0.51
+ * Tiered scoring:
+ *   rawPct = 100% (all words/chars matched) → floor at 85%, confidence fine-tunes 85-100
+ *   rawPct < 100% → standard formula: rawPct × (0.3 + 0.7 × confidence)
+ *
+ * This prevents the frustrating "AI detected the correct word but score is low" issue,
+ * especially for single-word pronunciation where confidence tends to be lower.
  */
 export function scoreSpeechResult(
   alternatives: { transcript: string; confidence: number }[],
@@ -193,7 +194,13 @@ export function scoreSpeechResult(
     const conf =
       alt.confidence > 0 && alt.confidence <= 1 ? alt.confidence : 0.85;
 
-    const weighted = Math.round(rawPct * (0.3 + 0.7 * conf));
+    let weighted = Math.round(rawPct * (0.3 + 0.7 * conf));
+
+    // Tiered: if ALL words/chars matched, floor at 85%
+    // This ensures "correct recognition → high score" regardless of confidence
+    if (rawPct >= 100) {
+      weighted = Math.max(85, weighted);
+    }
 
     if (weighted > best.pct) {
       best = { pct: weighted, transcript: alt.transcript, matched, confidence: conf, rawPct };
@@ -201,4 +208,51 @@ export function scoreSpeechResult(
   }
 
   return best;
+}
+
+/* ─── Pronunciation feedback tip (做法 1) ─── */
+
+/**
+ * Returns a contextual pronunciation tip based on score and match quality.
+ * Used in ResultDisplay to guide the learner on how to improve.
+ */
+export function getPronunciationTip(pct: number, rawPct: number): string {
+  if (rawPct >= 100 && pct >= 95) return "發音非常標準！繼續保持 👏";
+  if (rawPct >= 100 && pct >= 85) return "辨識正確！語調可以再自然一點 🎯";
+  if (rawPct >= 100) return "辨識正確！放慢速度，把每個音節唸清楚 💡";
+  if (rawPct >= 80) return "很接近了！注意標紅的部分，再聽一次示範 🐢";
+  if (rawPct >= 50) return "部分正確！仔細聽示範音檔，模仿語調和重音 💪";
+  return "再聽一次示範，放慢速度逐字練習 🔄";
+}
+
+/* ─── Character-level diff for single words (做法 2) ─── */
+
+/**
+ * Uses LCS to find which characters in `target` are matched by `spoken`.
+ * Returns an array of matched character indices in the target string.
+ * Useful for highlighting letter-by-letter differences when AI hears
+ * a different word (e.g. target "apple", spoken "appeal").
+ */
+export function charLevelDiff(target: string, spoken: string): number[] {
+  const t = Array.from(target.toLowerCase().replace(/[^\w]/g, ""));
+  const s = Array.from(spoken.toLowerCase().replace(/[^\w]/g, ""));
+  const m = t.length, n = s.length;
+  if (m === 0 || n === 0) return [];
+
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (t[i - 1] === s[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+      else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+    }
+  }
+
+  const matched: number[] = [];
+  let i = m, j = n;
+  while (i > 0 && j > 0) {
+    if (t[i - 1] === s[j - 1]) { matched.push(i - 1); i--; j--; }
+    else if (dp[i - 1][j] > dp[i][j - 1]) i--;
+    else j--;
+  }
+  return matched.reverse();
 }
