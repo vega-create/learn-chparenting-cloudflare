@@ -129,6 +129,45 @@ export default function AboutPage() {
         </div>
       </div>
 
+      {/* ─── Voice Playback Notice ─── */}
+      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-6">
+        <h2 className="text-xl font-bold text-slate-800 mb-5">🔊 語音播放說明</h2>
+        <p className="text-slate-600 leading-7 mb-4">
+          本平台的英文與日文發音功能，使用瀏覽器內建的語音引擎。
+          不同瀏覽器的語音品質會有所差異，建議參考以下說明：
+        </p>
+        <div className="space-y-3 text-sm">
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+            <span className="text-lg">🏆</span>
+            <div>
+              <p className="font-bold text-emerald-700 mb-1">Google Chrome（電腦版）— 最推薦</p>
+              <p className="text-slate-500">使用 Google 自然語音引擎，英文與日文發音最自然、最接近真人。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-50 border border-blue-100">
+            <span className="text-lg">👍</span>
+            <div>
+              <p className="font-bold text-blue-700 mb-1">Safari（Mac / iPhone / iPad）</p>
+              <p className="text-slate-500">使用 Apple 內建語音（Samantha / Kyoko），品質不錯。iOS 裝置建議開啟「設定 → 輔助使用 → 語音內容」下載高品質語音。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <span className="text-lg">👌</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">Microsoft Edge</p>
+              <p className="text-slate-500">使用 Microsoft Natural 語音，品質也不錯。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-50 border border-amber-100">
+            <span className="text-lg">⚠️</span>
+            <div>
+              <p className="font-bold text-amber-700 mb-1">Firefox / 其他瀏覽器</p>
+              <p className="text-slate-500">語音品質較差，可能聽起來較機械。建議改用 Chrome 以獲得最佳體驗。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ─── Tips ─── */}
       <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-6">
         <h2 className="text-xl font-bold text-slate-800 mb-4">💡 使用小提示</h2>
