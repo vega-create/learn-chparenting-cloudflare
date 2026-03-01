@@ -260,7 +260,7 @@ export default function SpeakingPage() {
       {!result && !recording && (
         <button onClick={skip}
           className="mt-3 text-xs text-slate-400 bg-transparent border-none cursor-pointer hover:text-slate-600 transition underline">
-          跳過此題 →
+          跳過此句 →
         </button>
       )}
     </div>
@@ -486,7 +486,7 @@ export default function SpeakingPage() {
                   </button>
                   <button onClick={next}
                     className="px-4 py-2 rounded-lg text-sm font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition">
-                    {idx + 1 >= totalSentences ? "完成 →" : "跳過 →"}
+                    {idx + 1 >= totalSentences ? "完成 →" : "下一句 →"}
                   </button>
                 </div>
               </div>

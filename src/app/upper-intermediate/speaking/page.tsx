@@ -152,6 +152,15 @@ export default function SpeakingPage() {
     next();
   };
 
+  const prev = () => {
+    if (idx <= 0) return;
+    setIdx(i => i - 1);
+    setResult(null);
+    setAttempts(0);
+    setShowText(false);
+    setShowSample(false);
+  };
+
   const pctColor = (pct: number) => pct >= 80 ? "#059669" : pct >= 50 ? "#f59e0b" : "#ef4444";
   const pctEmoji = (pct: number) => pct >= 90 ? "🌟" : pct >= 80 ? "⭐" : pct >= 60 ? "👍" : pct >= 40 ? "💪" : "🔄";
   const pctMsg = (pct: number) => pct >= 90 ? "太棒了！Perfect!" : pct >= 80 ? "很好！Great job!" : pct >= 60 ? "不錯！Keep going!" : pct >= 40 ? "加油！Try again!" : "再試一次！";
@@ -251,7 +260,7 @@ export default function SpeakingPage() {
       {!result && !recording && (
         <button onClick={skip}
           className="mt-3 text-xs text-slate-400 bg-transparent border-none cursor-pointer hover:text-slate-600 transition underline">
-          跳過此題 →
+          跳過此句 →
         </button>
       )}
     </div>
@@ -446,6 +455,16 @@ export default function SpeakingPage() {
                 </div>
                 <RecordButton target={currentSentence} />
                 <ResultDisplay targetText={currentSentence} />
+                <div className="flex justify-between mt-4">
+                  <button onClick={prev} disabled={idx <= 0}
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-slate-500 bg-slate-100 border border-slate-200 cursor-pointer disabled:opacity-30 hover:bg-slate-200 transition">
+                    ← 上一句
+                  </button>
+                  <button onClick={next}
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-emerald-600 bg-emerald-50 border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition">
+                    {idx + 1 >= totalSentences ? "完成 →" : "下一句 →"}
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="bg-white rounded-2xl p-8 border border-slate-200 text-center">
