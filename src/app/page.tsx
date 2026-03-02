@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import NewsletterCTA from "@/components/NewsletterCTA";
+import DailyChallenge from "@/components/DailyChallenge";
 
 export const metadata: Metadata = {
-  title: "親子多元學習平台 — 免費英檢・日文・數學學習資源",
-  description: "免費親子多元學習平台，提供全民英檢電子書教學、互動測驗、模擬考試，日文、數學、教育桌遊等學習工具即將推出。減輕家長負擔，讓孩子快樂學習。",
+  title: "免費親子學習平台 | 全民英檢・日文檢定・數學・打字 | learn.chparenting.com",
+  description: "完全免費的親子學習平台，提供全民英檢 GEPT 初級到中高級、日文檢定 JLPT N5-N1、數學練習、打字練習、18 款教育桌遊、兒童理財。減輕家長負擔，讓孩子快樂學習。",
+  alternates: { canonical: "https://learn.chparenting.com" },
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://learn.chparenting.com";
@@ -104,6 +106,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Daily Challenge */}
+      <DailyChallenge />
+
       {/* Tools Grid */}
       <section id="tools" className="max-w-6xl mx-auto px-4 py-12">
         <h2 className="text-2xl font-bold text-center text-slate-800 mb-2">學習工具</h2>
@@ -154,8 +159,8 @@ export default function HomePage() {
           <div className="text-3xl mb-3">💡</div>
           <h3 className="text-xl font-bold text-slate-800 mb-2">學習建議</h3>
           <p className="text-slate-600 max-w-lg mx-auto">
-            每天 15 分鐘，按照 <strong className="text-rose-400">單字 → 文法 → 聽力 → 閱讀 → 測驗</strong> 的順序學習效果最好！
-            學完整個單元後到遊戲區綜合練習，讓學習更有趣。
+            按照 <strong className="text-rose-400">單字 → 文法 → 聽力 → 閱讀 → 測驗</strong> 的順序學習效果最好！
+            每天自由安排時間，不趕進度，學完一個單元記得到遊戲區綜合練習，讓學習更有趣。
           </p>
         </div>
       </section>

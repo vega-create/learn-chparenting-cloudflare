@@ -2,6 +2,7 @@
 import { N2_WRITING } from "@/data/writing/jlpt-n2-writing";
 import { useState, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
+import ShareButtons from "@/components/ShareButtons";
 
 /* ─── Utils ─── */
 const shuffle = <T,>(a: T[]): T[] => [...a].sort(() => Math.random() - 0.5);
@@ -47,9 +48,13 @@ function ResultScreen({ score, total, onBack }: { score: number; total: number; 
       </h2>
       <div className="text-5xl font-black text-amber-500 my-4">{score} 分</div>
       <div className="text-slate-400 mb-6">正確率 {pct}%</div>
-      <button onClick={onBack} className="px-8 py-3 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold cursor-pointer border-none text-base hover:opacity-90 transition">
-        回到選單
-      </button>
+      <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
+      <ShareButtons text={`我在JLPT N2寫作練習得了 ${score} 分！✍️`} url="/jlpt-n2/writing" />
+      <div className="mt-4">
+        <button onClick={onBack} className="px-8 py-3 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold cursor-pointer border-none text-base hover:opacity-90 transition">
+          回到選單
+        </button>
+      </div>
     </div>
   );
 }

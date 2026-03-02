@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { compareTextEn, scoreSpeechResult, getPronunciationTip, charLevelDiff } from "@/lib/speech-scoring";
 import { speak } from "@/lib/speech";
+import ShareButtons from "@/components/ShareButtons";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 const pick = <T,>(arr: T[], n: number): T[] => shuffle(arr).slice(0, n);
@@ -234,7 +235,9 @@ export default function SpeakingPage() {
             ))}
           </div>
 
-          <div className="flex gap-3 justify-center flex-wrap">
+          <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
+          <ShareButtons text={`我在全民英檢中高級口說練習得了 ${avgScore}% 的成績！🎙️`} url="/upper-intermediate/speaking" />
+          <div className="mt-4 flex gap-3 justify-center flex-wrap">
             <button onClick={() => startMode(mode)} className="px-6 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none">🔄 再練一次</button>
             <button onClick={() => setMode("menu")} className="px-6 py-2.5 rounded-xl border-2 border-slate-300 text-slate-600 font-semibold text-sm cursor-pointer bg-white">← 選其他模式</button>
           </div>

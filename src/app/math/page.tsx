@@ -3,8 +3,8 @@ import Link from "next/link";
 import { MATH_TOPICS } from "@/data/math/topics";
 
 export const metadata: Metadata = {
-  title: "數學練習 | 觀念教學 + 互動練習 + 限時挑戰",
-  description: "8 大主題數學學習工具：基礎運算、分數、小數、百分比、幾何、代數入門、應用題、時間與計量。觀念教學搭配互動練習，適合國小到國中學生。",
+  title: "免費國小數學練習 | 四則運算・分數・幾何・應用題 | learn.chparenting.com",
+  description: "免費國小數學線上練習，包含加減乘除、分數、小數、百分比、幾何、代數入門、應用題、時間與計量。互動式題目，即時回饋，讓孩子不怕數學。",
   alternates: { canonical: "https://learn.chparenting.com/math" },
 };
 

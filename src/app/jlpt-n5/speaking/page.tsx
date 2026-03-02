@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { compareTextJa, scoreSpeechResult, getPronunciationTip } from "@/lib/speech-scoring";
 import { speakJa as speak } from "@/lib/speech";
+import ShareButtons from "@/components/ShareButtons";
 
 /* Speech Recognition types */
 interface SRResult { transcript: string; confidence: number }
@@ -234,7 +235,9 @@ export default function SpeakingPage() {
             ))}
           </div>
 
-          <div className="flex gap-3 justify-center flex-wrap">
+          <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
+          <ShareButtons text={`我在JLPT N5口說練習得了 ${avgScore}% 的成績！🎙️`} url="/jlpt-n5/speaking" />
+          <div className="mt-4 flex gap-3 justify-center flex-wrap">
             <button onClick={() => startMode(mode)} className="px-6 py-2.5 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none">🔄 再練一次</button>
             <button onClick={() => setMode("menu")} className="px-6 py-2.5 rounded-xl border-2 border-slate-300 text-slate-600 font-semibold text-sm cursor-pointer bg-white">← 選其他模式</button>
           </div>

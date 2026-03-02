@@ -7,6 +7,7 @@ import type { MathTopic, MathPractice } from "@/data/math/types";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import { useParams } from "next/navigation";
+import ShareButtons from "@/components/ShareButtons";
 
 type Tab = "concepts" | "practice" | "challenge";
 
@@ -143,7 +144,14 @@ function PracticeTab({ topic }: { topic: MathTopic }) {
         <h2 className="text-2xl font-black text-slate-800 mb-2">練習完成！</h2>
         <div className="text-4xl font-black text-amber-500 my-3">{correct} / {practices.length}</div>
         <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
-        <button onClick={handleRestart} className="px-6 py-2.5 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">🔄 再做一次</button>
+        <div className="text-xs text-slate-500 mb-2 mt-4">分享你的成績：</div>
+        <ShareButtons
+          text={`我完成了數學「${topic.title}」練習，答對 ${correct}/${practices.length} 題！📝`}
+          url="/math"
+        />
+        <div className="mt-4">
+          <button onClick={handleRestart} className="px-6 py-2.5 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">🔄 再做一次</button>
+        </div>
       </div>
     );
   }
@@ -280,7 +288,14 @@ function ChallengeTab({ topic }: { topic: MathTopic }) {
         <div className="text-5xl mb-3">🏆</div>
         <h2 className="text-2xl font-black text-slate-800 mb-2">挑戰結束！</h2>
         <div className="text-4xl font-black text-amber-500 my-3">{score} 分</div>
-        <button onClick={start} className="px-6 py-2.5 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">🔄 再挑戰一次</button>
+        <div className="text-xs text-slate-500 mb-2 mt-4">分享你的成績：</div>
+        <ShareButtons
+          text={`我完成了數學「${topic.title}」限時挑戰，得到 ${score} 分！📝`}
+          url="/math"
+        />
+        <div className="mt-4">
+          <button onClick={start} className="px-6 py-2.5 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">🔄 再挑戰一次</button>
+        </div>
       </div>
     );
   }

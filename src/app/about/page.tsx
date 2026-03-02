@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "關於我們 | 親子多元學習平台",
+  title: "關於我們 | learn.chparenting.com 免費親子學習平台",
   description: "一位媽媽因為想幫自己的孩子準備英檢，開始做了這個免費學習平台。希望每個孩子都能快樂學習，不用擔心補習費。",
   alternates: { canonical: "https://learn.chparenting.com/about" },
 };

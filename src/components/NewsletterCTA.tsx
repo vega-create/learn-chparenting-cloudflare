@@ -63,7 +63,7 @@ export default function NewsletterCTA() {
       <div className="bg-gradient-to-r from-rose-50 to-orange-50 rounded-2xl p-8 text-center border border-rose-200">
         <div className="text-3xl mb-3">📬</div>
         <h3 className="text-xl font-bold text-slate-800 mb-2">訂閱學習通知</h3>
-        <p className="text-slate-600 mb-6">新功能上線時第一時間通知你！數學練習、兒童理財等全新內容已上線 🚀</p>
+        <p className="text-slate-600 mb-6">新工具上線第一時間通知你！國語學習・歷史地理・樂理基礎即將推出 🚀</p>
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
           <input
             type="email"
