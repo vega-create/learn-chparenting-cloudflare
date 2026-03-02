@@ -37,6 +37,7 @@ export default function CodePathPage() {
   const [robotPos, setRobotPos] = useState<[number, number]>([0, 0]);
   const [path, setPath] = useState<[number, number][]>([]);
   const [runResult, setRunResult] = useState<"success" | "fail" | "wall" | null>(null);
+  const [failCount, setFailCount] = useState(0);
   const [score, setScore] = useState(0);
   const [isNewHigh, setIsNewHigh] = useState(false);
   const { highScore, updateHighScore } = useHighScore("code-path");
@@ -52,6 +53,7 @@ export default function CodePathPage() {
     setRobotPos(LEVELS[0].start);
     setPath([]);
     setRunResult(null);
+    setFailCount(0);
     setMode("playing");
     setIsNewHigh(false);
   }, []);
@@ -81,6 +83,7 @@ export default function CodePathPage() {
       setRobotPos(LEVELS[nextLv].start);
       setPath([]);
       setRunResult(null);
+      setFailCount(0);
       setMode("playing");
     }
   }, [level, score, updateHighScore]);
@@ -126,6 +129,7 @@ export default function CodePathPage() {
           // Last step
           if (hitWall) {
             setRunResult("wall");
+            setFailCount(c => c + 1);
             playWrong();
             setTimeout(() => { setMode("playing"); setRunResult(null); setPath([]); setRobotPos(currentLevel.start); }, 1500);
           } else if (p[0] === currentLevel.goal[0] && p[1] === currentLevel.goal[1]) {
@@ -148,11 +152,13 @@ export default function CodePathPage() {
                 setRobotPos(LEVELS[nextLv].start);
                 setPath([]);
                 setRunResult(null);
+                setFailCount(0);
                 setMode("playing");
               }
             }, 1200);
           } else {
             setRunResult("fail");
+            setFailCount(c => c + 1);
             playWrong();
             setTimeout(() => { setMode("playing"); setRunResult(null); setPath([]); setRobotPos(currentLevel.start); }, 1500);
           }
@@ -286,15 +292,23 @@ export default function CodePathPage() {
               🗑️ 清除
             </button>
           </div>
-          {currentLevel.hint && (
-            <div className="text-center mt-3 text-xs text-slate-400">💡 {currentLevel.hint}</div>
+          {/* Show hint & skip after 3 failures */}
+          {failCount >= 3 && (
+            <div className="text-center mt-3 space-y-2">
+              <div className="text-xs text-amber-500">已嘗試 {failCount} 次，需要幫助嗎？</div>
+              {currentLevel.hint && (
+                <div className="text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg inline-block">
+                  💡 提示：{currentLevel.hint}
+                </div>
+              )}
+              <div>
+                <button onClick={skipLevel}
+                  className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                  跳過此關（不得分）
+                </button>
+              </div>
+            </div>
           )}
-          <div className="text-center mt-3">
-            <button onClick={skipLevel}
-              className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
-              跳過此關（不得分）
-            </button>
-          </div>
         </>
       )}
     </div>

@@ -60,6 +60,7 @@ export default function LoopBuilderPage() {
   const [drawnPath, setDrawnPath] = useState<[number, number][]>([]);
   const [turtlePos, setTurtlePos] = useState<{ x: number; y: number }>({ x: 1, y: 5 });
   const [runResult, setRunResult] = useState<"success" | "fail" | null>(null);
+  const [failCount, setFailCount] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [score, setScore] = useState(0);
   const [isNewHigh, setIsNewHigh] = useState(false);
@@ -72,6 +73,7 @@ export default function LoopBuilderPage() {
     setScore(0);
     setDrawnPath([]);
     setRunResult(null);
+    setFailCount(0);
     setShowAnswer(false);
     setRepeatCount(1);
     setForwardSteps(1);
@@ -91,6 +93,7 @@ export default function LoopBuilderPage() {
       setLevel(l => l + 1);
       setDrawnPath([]);
       setRunResult(null);
+      setFailCount(0);
       setShowAnswer(false);
       setRepeatCount(1);
       setForwardSteps(1);
@@ -136,6 +139,7 @@ export default function LoopBuilderPage() {
                 setLevel(l => l + 1);
                 setDrawnPath([]);
                 setRunResult(null);
+                setFailCount(0);
                 setShowAnswer(false);
                 setRepeatCount(1);
                 setForwardSteps(1);
@@ -144,6 +148,7 @@ export default function LoopBuilderPage() {
             }, 1200);
           } else {
             setRunResult("fail");
+            setFailCount(c => c + 1);
             playWrong();
             setTimeout(() => {
               setDrawnPath([]);
@@ -301,17 +306,22 @@ export default function LoopBuilderPage() {
         </div>
       )}
 
-      {currentLevel.hint && !isRunning && (
-        <div className="text-center mt-3 text-xs text-slate-400">💡 {currentLevel.hint}</div>
-      )}
-
-      {!isRunning && (
+      {/* Hint area: show after 3 failures */}
+      {!isRunning && failCount >= 3 && (
         <div className="text-center mt-3 space-y-2">
+          <div className="text-xs text-amber-500 mb-1">已嘗試 {failCount} 次，需要幫助嗎？</div>
+          {currentLevel.hint && !showAnswer && (
+            <div className="text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg inline-block">
+              💡 提示：{currentLevel.hint}
+            </div>
+          )}
           {!showAnswer ? (
-            <button onClick={() => setShowAnswer(true)}
-              className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
-              顯示答案
-            </button>
+            <div>
+              <button onClick={() => setShowAnswer(true)}
+                className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                還是不行？顯示答案
+              </button>
+            </div>
           ) : (
             <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-lg inline-block">
               💡 答案：重複 {currentLevel.solution.repeat} 次，前進 {currentLevel.solution.forward} 步，{currentLevel.solution.turn === "right" ? "右轉" : "左轉"}
