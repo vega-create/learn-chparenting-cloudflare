@@ -1,0 +1,49 @@
+"use client";
+import { useState, useEffect, useRef } from "react";
+
+export default function PracticeCounter() {
+  const [count, setCount] = useState<number | null>(null);
+  const [display, setDisplay] = useState(0);
+  const animated = useRef(false);
+
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.totalPractices > 0) setCount(d.totalPractices);
+      })
+      .catch(() => {});
+  }, []);
+
+  // Counting animation
+  useEffect(() => {
+    if (count === null || animated.current) return;
+    animated.current = true;
+
+    const duration = 1200;
+    const steps = 30;
+    const increment = count / steps;
+    let current = 0;
+    let step = 0;
+
+    const iv = setInterval(() => {
+      step++;
+      current = Math.min(Math.round(increment * step), count);
+      setDisplay(current);
+      if (step >= steps) clearInterval(iv);
+    }, duration / steps);
+
+    return () => clearInterval(iv);
+  }, [count]);
+
+  if (count === null) return null;
+
+  return (
+    <div className="flex items-center justify-center gap-2 py-3 text-sm text-slate-500">
+      <span className="text-lg">📊</span>
+      <span>
+        全站累計 <strong className="text-rose-400 text-base">{display.toLocaleString()}</strong> 次練習完成
+      </span>
+    </div>
+  );
+}
