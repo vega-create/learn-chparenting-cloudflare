@@ -10,7 +10,7 @@ export default function PracticeCounter() {
     fetch("/api/stats")
       .then((r) => r.json())
       .then((d) => {
-        if (d.totalPractices > 0) setCount(d.totalPractices);
+        if (d.totalPractices >= 0) setCount(d.totalPractices);
       })
       .catch(() => {});
   }, []);
