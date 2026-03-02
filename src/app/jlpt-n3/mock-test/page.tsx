@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import { speakJa as speak } from "@/lib/speech";
+import ShareButtons from "@/components/ShareButtons";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 
@@ -157,7 +158,9 @@ export default function MockTestPage() {
             <div className="flex justify-between"><span>📖 語彙・文法</span><span className="font-bold">{vS}/{vocabQs.length}</span></div>
             <div className="flex justify-between"><span>📗 讀解</span><span className="font-bold">{rS}/{rTotal2}</span></div>
           </div>
-          <div className="flex gap-3 justify-center flex-wrap">
+          <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
+          <ShareButtons text={`我在 JLPT N3 模擬考答對了 ${correct}/${total} 題！你也來試試 💪`} url="/jlpt-n3/mock-test" />
+          <div className="flex gap-3 justify-center flex-wrap mt-4">
             <button onClick={() => setPhase("review")} className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-sm cursor-pointer border-none hover:bg-indigo-700 transition">📋 查看答案</button>
             <button onClick={startTest} className="px-6 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none hover:bg-rose-400 transition">🔄 再測一次</button>
             <a href="/jlpt-n3" className="px-6 py-2.5 rounded-xl border-2 border-rose-300 text-rose-400 font-semibold text-sm no-underline hover:bg-rose-50 transition">← 返回</a>

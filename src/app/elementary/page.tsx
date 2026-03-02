@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "GEPT 初級英檢學習 | 電子書 + 測驗 + 遊戲",
-  description: "免費全民英檢初級線上學習，6個單元電子書教學，聽說讀寫文法完整涵蓋，搭配互動遊戲與模擬測驗。",
+  title: "全民英檢初級免費練習 | 單字・文法・聽力・閱讀・模擬考 | learn.chparenting.com",
+  description: "免費全民英檢初級線上練習，包含 2000+ 單字、文法解析、聽力訓練、閱讀理解、模擬測驗、口說練習。適合國小中高年級，不用花補習費也能準備英檢。",
+  alternates: { canonical: "https://learn.chparenting.com/elementary" },
 };
 
 export default function ElementaryPage() {

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { FINANCE_MODULES } from "@/data/finance/modules";
 
 export const metadata: Metadata = {
-  title: "兒童理財 | 認識金錢・儲蓄・預算・記帳",
-  description: "6 個互動式兒童理財學習模組：認識金錢、需要 vs 想要、儲蓄計算、零用錢分配、紅包理財、記帳小達人。培養孩子正確金錢觀念。",
+  title: "免費兒童理財遊戲 | 預算分配・存錢挑戰・記帳 | learn.chparenting.com",
+  description: "免費兒童理財互動遊戲，透過預算分配、存錢挑戰學習金錢觀念。讓孩子理解需要和想要的差別。",
   alternates: { canonical: "https://learn.chparenting.com/finance" },
 };
 

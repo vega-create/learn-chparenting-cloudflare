@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import { speak, stopSpeaking } from "@/lib/speech";
+import ShareButtons from "@/components/ShareButtons";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 
@@ -127,7 +128,9 @@ export default function MockTestPage() {
             <div className="flex justify-between"><span>📖 Vocabulary & Grammar</span><span className="font-bold">{vS}/{vocabQs.length}</span></div>
             <div className="flex justify-between"><span>📗 Reading</span><span className="font-bold">{rS}/{rTotal2}</span></div>
           </div>
-          <div className="flex gap-3 justify-center flex-wrap">
+          <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
+          <ShareButtons text={`我在全民英檢中高級模擬考答對了 ${correct}/${total} 題！你也來試試 💪`} url="/upper-intermediate/mock-test" />
+          <div className="flex gap-3 justify-center flex-wrap mt-4">
             <button onClick={() => setPhase("review")} className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-sm cursor-pointer border-none hover:bg-indigo-700 transition">📋 Review Answers</button>
             <button onClick={startTest} className="px-6 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none hover:bg-rose-400 transition">🔄 Try Again</button>
             <a href="/upper-intermediate" className="px-6 py-2.5 rounded-xl border-2 border-rose-300 text-rose-400 font-semibold text-sm no-underline hover:bg-rose-50 transition">← Back</a>

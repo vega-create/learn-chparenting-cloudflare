@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ENGLISH_WORDS, ENGLISH_SENTENCES } from "@/data/typing/english-words";
 import { CHINESE_PHRASES } from "@/data/typing/chinese-phrases";
+import ShareButtons from "@/components/ShareButtons";
 
 /* ─── Types ─── */
 type Lang = "en" | "zh";
@@ -353,7 +354,13 @@ export default function TypingGamePage() {
             </div>
           </div>
 
-          <div className="flex gap-2 justify-center">
+          <div className="text-xs text-slate-500 mb-2 mt-4">分享你的成績：</div>
+          <ShareButtons
+            text={`我的打字速度是 ${wpm} WPM，正確率 ${acc}%！你能打得比我快嗎？⌨️`}
+            url="/typing-game"
+          />
+
+          <div className="flex gap-2 justify-center mt-4">
             <button onClick={() => setMode("menu")}
               className="px-6 py-3 rounded-xl bg-slate-100 text-slate-600 font-semibold cursor-pointer border-none transition hover:bg-slate-200">
               選單

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { trackActivity, type TrackActivityParams } from "@/lib/tracking";
+import ShareButtons from "@/components/ShareButtons";
 
 /* ─── Timer Hook ─── */
 export function useTimer(running: boolean) {
@@ -122,9 +123,13 @@ export function GameOverScreen({ score, maxScore, gameName, stars, highScore, is
       <div className="text-4xl font-black text-amber-500 my-3">{score} 分</div>
       {maxScore > 0 && <div className="text-sm text-slate-400 mb-1">滿分 {maxScore}</div>}
       <div className="text-xs text-slate-400 mb-4">最高紀錄：{highScore}</div>
-      <div className="flex gap-3 justify-center flex-wrap">
+      <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
+      <ShareButtons
+        text={`我在「${gameName}」得了 ${score} 分 ${"⭐".repeat(stars)}${"☆".repeat(3 - stars)}！來挑戰看看 🎮`}
+        url="/board-games"
+      />
+      <div className="flex gap-3 justify-center flex-wrap mt-4">
         <button onClick={onRestart} className="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-bold cursor-pointer border-none hover:bg-orange-600 transition">🔄 再玩一次</button>
-        <button onClick={() => shareResult(gameName, score, stars)} className="px-6 py-2.5 rounded-xl border-2 border-orange-300 text-orange-600 font-bold cursor-pointer bg-white hover:bg-orange-50 transition">📤 分享</button>
         <button onClick={onBack} className="px-6 py-2.5 rounded-xl border-2 border-slate-300 text-slate-600 font-bold cursor-pointer bg-white hover:bg-slate-50 transition">← 返回</button>
       </div>
     </div>

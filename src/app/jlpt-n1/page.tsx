@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "JLPT N1 日文最上級學習 | 單字 + 文法 + 聽力 + 測驗",
-  description: "免費 JLPT N1 日文線上學習，20 個單元完整教學，800+ 單字，文法、聽力、閱讀、口說、遊戲與模擬測驗。",
+  title: "JLPT N1 日文檢定免費練習 | 高級單字・文法・聽力 | learn.chparenting.com",
+  description: "免費 JLPT N1 日文線上練習，高級單字與文法、學術聽力、進階閱讀。適合日文高級學習者和 N1 備考。",
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n1" },
 };
 

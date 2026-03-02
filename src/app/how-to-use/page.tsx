@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "使用說明 | 親子多元學習平台",
+  title: "使用說明 | learn.chparenting.com 免費親子學習平台",
   description: "了解如何使用親子多元學習平台的各項功能：電子書教學、練習題、遊戲、模擬測驗、口說練習和寫作練習的完整教學。",
   alternates: { canonical: "https://learn.chparenting.com/how-to-use" },
 };

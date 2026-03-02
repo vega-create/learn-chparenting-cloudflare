@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "教育桌遊專區 | 邏輯・程式・記憶・反應・數學・語言・棋盤訓練",
-  description: "18 款免費線上教育桌遊，訓練邏輯推理、程式設計概念、記憶力、反應力、數學能力、語言力與策略思考，適合 6-15 歲兒童。",
+  title: "免費教育桌遊 | 18 款邏輯遊戲・記憶力・數學・程式概念 | learn.chparenting.com",
+  description: "18 款免費線上教育桌遊，包含邏輯推理、記憶力、數學、程式概念、圍棋、跳棋等。邊玩邊學，適合全家一起。",
   alternates: { canonical: "https://learn.chparenting.com/board-games" },
 };
 
