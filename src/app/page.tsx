@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import NewsletterCTA from "@/components/NewsletterCTA";
 import DailyChallenge from "@/components/DailyChallenge";
+import PracticeCounter from "@/components/PracticeCounter";
 
 export const metadata: Metadata = {
   title: "免費親子學習平台 | 全民英檢・日文檢定・數學・打字 | learn.chparenting.com",
@@ -88,6 +89,7 @@ export default function HomePage() {
             <p className="text-base text-slate-500 max-w-xl mx-auto mb-8">
               英檢・日文・數學・桌遊 — 免費互動式學習工具
             </p>
+            <PracticeCounter />
             <div className="flex flex-wrap justify-center gap-3">
               <a href="/elementary" className="px-8 py-3 bg-rose-50 text-rose-500 border-2 border-rose-300 rounded-xl font-bold text-lg hover:bg-rose-100 transition shadow-md hover:shadow-lg no-underline">
                 📘 開始學英檢
