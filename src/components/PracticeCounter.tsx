@@ -39,11 +39,11 @@ export default function PracticeCounter() {
   if (count === null) return null;
 
   return (
-    <div className="flex items-center justify-center gap-2 py-3 text-sm text-slate-500">
-      <span className="text-lg">📊</span>
-      <span>
-        全站累計 <strong className="text-rose-400 text-base">{display.toLocaleString()}</strong> 次練習完成
-      </span>
+    <div className="flex flex-col items-center py-4 mb-2">
+      <div className="text-3xl md:text-4xl font-black text-rose-400 tabular-nums tracking-tight">
+        {display.toLocaleString()}
+      </div>
+      <div className="text-sm text-slate-500 mt-1">次練習完成 🎉</div>
     </div>
   );
 }
