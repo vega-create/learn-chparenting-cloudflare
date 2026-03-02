@@ -67,6 +67,24 @@ export default function CodePathPage() {
 
   const clearCommands = () => setCommands([]);
 
+  const skipLevel = useCallback(() => {
+    if (level + 1 >= TOTAL_LEVELS) {
+      const newHigh = updateHighScore(score);
+      setIsNewHigh(newHigh);
+      if (score >= TOTAL_LEVELS * 10) playPerfect();
+      else playVictory();
+      setMode("done");
+    } else {
+      const nextLv = level + 1;
+      setLevel(nextLv);
+      setCommands([]);
+      setRobotPos(LEVELS[nextLv].start);
+      setPath([]);
+      setRunResult(null);
+      setMode("playing");
+    }
+  }, [level, score, updateHighScore]);
+
   const runProgram = useCallback(() => {
     if (commands.length === 0) return;
     setMode("running");
@@ -271,6 +289,12 @@ export default function CodePathPage() {
           {currentLevel.hint && (
             <div className="text-center mt-3 text-xs text-slate-400">💡 {currentLevel.hint}</div>
           )}
+          <div className="text-center mt-3">
+            <button onClick={skipLevel}
+              className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+              跳過此關（不得分）
+            </button>
+          </div>
         </>
       )}
     </div>

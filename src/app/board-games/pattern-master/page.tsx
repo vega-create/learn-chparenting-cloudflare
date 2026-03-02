@@ -80,6 +80,7 @@ export default function PatternMasterPage() {
   const [score, setScore] = useState(0);
   const [pattern, setPattern] = useState<ReturnType<typeof generatePattern> | null>(null);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
+  const [showHint, setShowHint] = useState(false);
   const { highScore, updateHighScore } = useHighScore("pattern-master");
   const { fmt: timerFmt, reset: resetTimer } = useTimer(mode === "playing");
   const [isNewHigh, setIsNewHigh] = useState(false);
@@ -89,6 +90,7 @@ export default function PatternMasterPage() {
     setRound(0);
     setScore(0);
     setFeedback(null);
+    setShowHint(false);
     setPattern(generatePattern(d));
     setMode("playing");
     resetTimer();
@@ -108,13 +110,15 @@ export default function PatternMasterPage() {
     setRound(r => r + 1);
     setPattern(generatePattern(diff));
     setFeedback(null);
+    setShowHint(false);
   }, [round, score, diff, updateHighScore]);
 
   const handleChoice = useCallback((choice: string) => {
     if (feedback) return;
     if (!pattern) return;
     if (choice === pattern.answer) {
-      setScore(s => s + 10);
+      const points = showHint ? 5 : 10;
+      setScore(s => s + points);
       setFeedback("correct");
       playCorrect();
     } else {
@@ -122,6 +126,12 @@ export default function PatternMasterPage() {
       playWrong();
     }
     setTimeout(nextRound, 800);
+  }, [feedback, pattern, showHint, nextRound]);
+
+  const handleSkip = useCallback(() => {
+    if (feedback || !pattern) return;
+    setFeedback("wrong");
+    setTimeout(nextRound, 1200);
   }, [feedback, pattern, nextRound]);
 
   /* ─── Menu ─── */
@@ -212,14 +222,40 @@ export default function PatternMasterPage() {
 
       {/* Choices */}
       {pattern && !feedback && (
-        <div className="grid grid-cols-2 gap-3 max-w-[280px] mx-auto">
-          {pattern.choices.map((c, i) => (
-            <button key={i} onClick={() => handleChoice(c)}
-              className="py-4 rounded-xl bg-white border-2 border-purple-200 text-3xl cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition">
-              {c}
-            </button>
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-2 gap-3 max-w-[280px] mx-auto">
+            {pattern.choices.map((c, i) => {
+              // When hint is active, hide 2 wrong choices
+              if (showHint && c !== pattern.answer) {
+                const wrongChoices = pattern.choices.filter(ch => ch !== pattern.answer);
+                const hiddenTwo = wrongChoices.slice(0, 2);
+                if (hiddenTwo.includes(c)) {
+                  return <div key={i} className="py-4 rounded-xl bg-slate-100 border-2 border-slate-200 text-3xl opacity-30 text-center">✕</div>;
+                }
+              }
+              return (
+                <button key={i} onClick={() => handleChoice(c)}
+                  className="py-4 rounded-xl bg-white border-2 border-purple-200 text-3xl cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition">
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+          <div className="text-center mt-4 space-y-2">
+            {!showHint && (
+              <button onClick={() => setShowHint(true)}
+                className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                需要提示？（使用提示得分減半）
+              </button>
+            )}
+            <div>
+              <button onClick={handleSkip}
+                className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                跳過此題（不得分）
+              </button>
+            </div>
+          </div>
+        </>
       )}
 
       {/* Feedback */}

@@ -152,6 +152,12 @@ export default function SequenceQuestPage() {
     setTimeout(nextRound, 1200);
   }, [question, input, feedback, showHint, nextRound]);
 
+  const handleSkip = useCallback(() => {
+    if (!question || feedback) return;
+    setFeedback("wrong");
+    setTimeout(nextRound, 1200);
+  }, [question, feedback, nextRound]);
+
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
@@ -226,9 +232,9 @@ export default function SequenceQuestPage() {
             </div>
           </div>
 
-          {/* Hint */}
+          {/* Hint & Skip */}
           {!feedback && (
-            <div className="text-center">
+            <div className="text-center space-y-2">
               {showHint ? (
                 <div className="text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg inline-block">
                   💡 提示：{question.hint}
@@ -239,6 +245,12 @@ export default function SequenceQuestPage() {
                   需要提示？（使用提示得分減半）
                 </button>
               )}
+              <div>
+                <button onClick={handleSkip}
+                  className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                  跳過此題（不得分）
+                </button>
+              </div>
             </div>
           )}
         </div>
