@@ -5,6 +5,7 @@ export default function PracticeCounter() {
   const [count, setCount] = useState<number | null>(null);
   const [display, setDisplay] = useState(0);
   const animated = useRef(false);
+  const liveRef = useRef(false);
 
   useEffect(() => {
     fetch("/api/stats")
@@ -15,7 +16,7 @@ export default function PracticeCounter() {
       .catch(() => {});
   }, []);
 
-  // Counting animation
+  // Initial counting animation
   useEffect(() => {
     if (count === null || animated.current) return;
     animated.current = true;
@@ -23,17 +24,39 @@ export default function PracticeCounter() {
     const duration = 1200;
     const steps = 30;
     const increment = count / steps;
-    let current = 0;
     let step = 0;
 
     const iv = setInterval(() => {
       step++;
-      current = Math.min(Math.round(increment * step), count);
+      const current = Math.min(Math.round(increment * step), count);
       setDisplay(current);
-      if (step >= steps) clearInterval(iv);
+      if (step >= steps) {
+        clearInterval(iv);
+        liveRef.current = true; // start live ticking
+      }
     }, duration / steps);
 
     return () => clearInterval(iv);
+  }, [count]);
+
+  // Live auto-increment: +1 every 8-15 seconds (random interval)
+  useEffect(() => {
+    if (!liveRef.current || count === null) return;
+
+    const tick = () => {
+      setDisplay((d) => d + 1);
+    };
+
+    const scheduleNext = () => {
+      const delay = 8000 + Math.random() * 7000; // 8-15s
+      return setTimeout(() => {
+        tick();
+        timerRef = scheduleNext();
+      }, delay);
+    };
+
+    let timerRef = scheduleNext();
+    return () => clearTimeout(timerRef);
   }, [count]);
 
   if (count === null) return null;
