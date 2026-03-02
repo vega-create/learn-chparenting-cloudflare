@@ -125,6 +125,7 @@ export default function EmojiPuzzlePage() {
   const [wrong, setWrong] = useState(0);
   const [feedback, setFeedback] = useState<{ type: "correct" | "wrong"; msg: string } | null>(null);
   const [answered, setAnswered] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const [isNewHigh, setIsNewHigh] = useState(false);
   const { highScore, updateHighScore } = useHighScore("emoji-puzzle");
 
@@ -136,6 +137,7 @@ export default function EmojiPuzzlePage() {
     setWrong(0);
     setFeedback(null);
     setAnswered(false);
+    setShowHint(false);
     setIsNewHigh(false);
     setMode("playing");
   }, []);
@@ -146,7 +148,7 @@ export default function EmojiPuzzlePage() {
 
     if (selected === puzzle.answer) {
       playCorrect();
-      const pts = 10;
+      const pts = showHint ? 5 : 10;
       setScore(s => s + pts);
       setCorrect(c => c + 1);
       setFeedback({ type: "correct", msg: `正確！${puzzle.questionEmoji} = ${puzzle.answer}` });
@@ -159,22 +161,51 @@ export default function EmojiPuzzlePage() {
     setTimeout(() => {
       const nextIndex = puzzleIndex + 1;
       if (nextIndex >= TOTAL_PUZZLES) {
-        // Game over
-        const finalScore = (correct + (selected === puzzle.answer ? 1 : 0)) * 10;
-        setScore(finalScore);
-        const newHigh = updateHighScore(finalScore);
-        setIsNewHigh(newHigh);
-        if (finalScore >= 90) playPerfect();
-        else if (finalScore >= 60) playVictory();
+        // Use accumulated score (already updated via setScore above)
+        setScore(s => {
+          const newHigh = updateHighScore(s);
+          setIsNewHigh(newHigh);
+          if (s >= 90) playPerfect();
+          else if (s >= 60) playVictory();
+          return s;
+        });
         setMode("done");
       } else {
         setPuzzleIndex(nextIndex);
         setPuzzle(generatePuzzle(nextIndex));
         setAnswered(false);
         setFeedback(null);
+        setShowHint(false);
       }
     }, 1500);
-  }, [puzzle, answered, puzzleIndex, correct, updateHighScore]);
+  }, [puzzle, answered, showHint, puzzleIndex, updateHighScore]);
+
+  const handleSkip = useCallback(() => {
+    if (!puzzle || answered) return;
+    setAnswered(true);
+    setWrong(w => w + 1);
+    setFeedback({ type: "wrong", msg: `答案是 ${puzzle.questionEmoji} = ${puzzle.answer}` });
+
+    setTimeout(() => {
+      const nextIndex = puzzleIndex + 1;
+      if (nextIndex >= TOTAL_PUZZLES) {
+        setScore(s => {
+          const newHigh = updateHighScore(s);
+          setIsNewHigh(newHigh);
+          if (s >= 90) playPerfect();
+          else if (s >= 60) playVictory();
+          return s;
+        });
+        setMode("done");
+      } else {
+        setPuzzleIndex(nextIndex);
+        setPuzzle(generatePuzzle(nextIndex));
+        setAnswered(false);
+        setFeedback(null);
+        setShowHint(false);
+      }
+    }, 1500);
+  }, [puzzle, answered, puzzleIndex, updateHighScore]);
 
   /* ─── Menu ─── */
   if (mode === "menu") {
@@ -267,24 +298,52 @@ export default function EmojiPuzzlePage() {
 
       {/* Options */}
       {puzzle && (
-        <div className="grid grid-cols-2 gap-3">
-          {puzzle.options.map((opt, i) => (
-            <button key={i}
-              onClick={() => handleAnswer(opt)}
-              disabled={answered}
-              className={`py-5 rounded-xl text-2xl font-black cursor-pointer border-2 transition-all active:scale-95
-                ${answered
-                  ? opt === puzzle.answer
-                    ? "bg-green-100 border-green-500 text-green-700"
-                    : "bg-slate-50 border-slate-200 text-slate-400"
-                  : "bg-white border-orange-200 text-slate-800 hover:border-orange-400 hover:bg-orange-50"
+        <>
+          <div className="grid grid-cols-2 gap-3">
+            {puzzle.options.map((opt, i) => {
+              // When hint is active, hide 2 wrong choices
+              if (showHint && !answered && opt !== puzzle.answer) {
+                const wrongOpts = puzzle.options.filter(o => o !== puzzle.answer);
+                const hiddenTwo = wrongOpts.slice(0, 2);
+                if (hiddenTwo.includes(opt)) {
+                  return <div key={i} className="py-5 rounded-xl text-2xl font-black border-2 bg-slate-100 border-slate-200 text-slate-300 text-center opacity-30">✕</div>;
                 }
-              `}
-            >
-              {opt}
-            </button>
-          ))}
-        </div>
+              }
+              return (
+                <button key={i}
+                  onClick={() => handleAnswer(opt)}
+                  disabled={answered}
+                  className={`py-5 rounded-xl text-2xl font-black cursor-pointer border-2 transition-all active:scale-95
+                    ${answered
+                      ? opt === puzzle.answer
+                        ? "bg-green-100 border-green-500 text-green-700"
+                        : "bg-slate-50 border-slate-200 text-slate-400"
+                      : "bg-white border-orange-200 text-slate-800 hover:border-orange-400 hover:bg-orange-50"
+                    }
+                  `}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+          {!answered && (
+            <div className="text-center mt-4 space-y-2">
+              {!showHint && (
+                <button onClick={() => setShowHint(true)}
+                  className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                  需要提示？（使用提示得分減半）
+                </button>
+              )}
+              <div>
+                <button onClick={handleSkip}
+                  className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                  跳過此題（不得分）
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

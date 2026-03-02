@@ -60,6 +60,7 @@ export default function LoopBuilderPage() {
   const [drawnPath, setDrawnPath] = useState<[number, number][]>([]);
   const [turtlePos, setTurtlePos] = useState<{ x: number; y: number }>({ x: 1, y: 5 });
   const [runResult, setRunResult] = useState<"success" | "fail" | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
   const [score, setScore] = useState(0);
   const [isNewHigh, setIsNewHigh] = useState(false);
   const { highScore, updateHighScore } = useHighScore("loop-builder");
@@ -71,12 +72,31 @@ export default function LoopBuilderPage() {
     setScore(0);
     setDrawnPath([]);
     setRunResult(null);
+    setShowAnswer(false);
     setRepeatCount(1);
     setForwardSteps(1);
     setTurnDir("right");
     setMode("playing");
     setIsNewHigh(false);
   }, []);
+
+  const skipLevel = useCallback(() => {
+    if (level + 1 >= TOTAL_LEVELS) {
+      const newHigh = updateHighScore(score);
+      setIsNewHigh(newHigh);
+      if (score >= TOTAL_LEVELS * 8) playPerfect();
+      else playVictory();
+      setMode("done");
+    } else {
+      setLevel(l => l + 1);
+      setDrawnPath([]);
+      setRunResult(null);
+      setShowAnswer(false);
+      setRepeatCount(1);
+      setForwardSteps(1);
+      setMode("playing");
+    }
+  }, [level, score, updateHighScore]);
 
   const runProgram = useCallback(() => {
     const startX = currentLevel.targetPath[0][0];
@@ -116,6 +136,7 @@ export default function LoopBuilderPage() {
                 setLevel(l => l + 1);
                 setDrawnPath([]);
                 setRunResult(null);
+                setShowAnswer(false);
                 setRepeatCount(1);
                 setForwardSteps(1);
                 setMode("playing");
@@ -282,6 +303,27 @@ export default function LoopBuilderPage() {
 
       {currentLevel.hint && !isRunning && (
         <div className="text-center mt-3 text-xs text-slate-400">💡 {currentLevel.hint}</div>
+      )}
+
+      {!isRunning && (
+        <div className="text-center mt-3 space-y-2">
+          {!showAnswer ? (
+            <button onClick={() => setShowAnswer(true)}
+              className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+              顯示答案
+            </button>
+          ) : (
+            <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-lg inline-block">
+              💡 答案：重複 {currentLevel.solution.repeat} 次，前進 {currentLevel.solution.forward} 步，{currentLevel.solution.turn === "right" ? "右轉" : "左轉"}
+            </div>
+          )}
+          <div>
+            <button onClick={skipLevel}
+              className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+              跳過此關（不得分）
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

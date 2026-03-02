@@ -77,6 +77,7 @@ export default function LogicGatesPage() {
   const [score, setScore] = useState(0);
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
+  const [showHint, setShowHint] = useState(false);
   const [isNewHigh, setIsNewHigh] = useState(false);
   const { highScore, updateHighScore } = useHighScore("logic-gates");
 
@@ -84,6 +85,7 @@ export default function LogicGatesPage() {
     setRound(0);
     setScore(0);
     setFeedback(null);
+    setShowHint(false);
     setPuzzle(generatePuzzle(0));
     setMode("playing");
     setIsNewHigh(false);
@@ -102,6 +104,7 @@ export default function LogicGatesPage() {
     setRound(next);
     setPuzzle(generatePuzzle(next));
     setFeedback(null);
+    setShowHint(false);
   }, [round, score, updateHighScore]);
 
   const handleAnswer = useCallback((ans: 0 | 1) => {
@@ -111,12 +114,12 @@ export default function LogicGatesPage() {
     if (puzzle.mode === "output") {
       correct = ans === puzzle.output;
     } else {
-      // For "input" mode, check if the answer is the first input
       correct = ans === puzzle.inputs[0];
     }
 
     if (correct) {
-      setScore(s => s + 10);
+      const points = showHint ? 5 : 10;
+      setScore(s => s + points);
       setFeedback("correct");
       playCorrect();
     } else {
@@ -124,7 +127,19 @@ export default function LogicGatesPage() {
       playWrong();
     }
     setTimeout(nextRound, 1000);
+  }, [puzzle, feedback, showHint, nextRound]);
+
+  const handleSkip = useCallback(() => {
+    if (!puzzle || feedback) return;
+    setFeedback("wrong");
+    setTimeout(nextRound, 1200);
   }, [puzzle, feedback, nextRound]);
+
+  const getTruthTable = (gate: GateType): string => {
+    if (gate === "NOT") return "0→1, 1→0";
+    const pairs: [number, number][] = [[0,0],[0,1],[1,0],[1,1]];
+    return pairs.map(([a,b]) => `${a},${b}→${evalGate(gate, [a as 0|1, b as 0|1])}`).join("  ");
+  };
 
   /* ─── Menu ─── */
   if (mode === "menu") {
@@ -231,18 +246,41 @@ export default function LogicGatesPage() {
             <div className="text-xs text-slate-400 mt-1">{GATE_DESC[puzzle.gate]}</div>
           </div>
 
+          {/* Hint: truth table */}
+          {!feedback && showHint && puzzle && (
+            <div className="text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-lg mb-4 text-center">
+              💡 {puzzle.gate} 真值表：{getTruthTable(puzzle.gate)}
+            </div>
+          )}
+
           {/* Answer buttons */}
           {!feedback && (
-            <div className="flex gap-4 justify-center">
-              <button onClick={() => handleAnswer(0)}
-                className="w-20 h-20 rounded-2xl bg-red-50 border-2 border-red-200 text-3xl font-mono font-black text-red-600 cursor-pointer hover:bg-red-100 hover:border-red-400 transition">
-                0
-              </button>
-              <button onClick={() => handleAnswer(1)}
-                className="w-20 h-20 rounded-2xl bg-green-50 border-2 border-green-200 text-3xl font-mono font-black text-green-600 cursor-pointer hover:bg-green-100 hover:border-green-400 transition">
-                1
-              </button>
-            </div>
+            <>
+              <div className="flex gap-4 justify-center">
+                <button onClick={() => handleAnswer(0)}
+                  className="w-20 h-20 rounded-2xl bg-red-50 border-2 border-red-200 text-3xl font-mono font-black text-red-600 cursor-pointer hover:bg-red-100 hover:border-red-400 transition">
+                  0
+                </button>
+                <button onClick={() => handleAnswer(1)}
+                  className="w-20 h-20 rounded-2xl bg-green-50 border-2 border-green-200 text-3xl font-mono font-black text-green-600 cursor-pointer hover:bg-green-100 hover:border-green-400 transition">
+                  1
+                </button>
+              </div>
+              <div className="text-center mt-4 space-y-2">
+                {!showHint && (
+                  <button onClick={() => setShowHint(true)}
+                    className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                    需要提示？（使用提示得分減半）
+                  </button>
+                )}
+                <div>
+                  <button onClick={handleSkip}
+                    className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                    跳過此題（不得分）
+                  </button>
+                </div>
+              </div>
+            </>
           )}
 
           {/* Feedback */}
