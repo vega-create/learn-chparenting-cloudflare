@@ -14,18 +14,26 @@ interface Level {
   goal: [number, number];
   walls: [number, number][];
   maxMoves: number;
-  hint?: string;
+  hints: [string, string, string]; // 3次模糊、5次較明確、7次接近答案
 }
 
 const LEVELS: Level[] = [
-  { size: 5, start: [0, 0], goal: [0, 4], walls: [], maxMoves: 4, hint: "只需要一個方向就能到達" },
-  { size: 5, start: [0, 0], goal: [4, 0], walls: [], maxMoves: 4, hint: "只需要一個方向就能到達" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [], maxMoves: 8, hint: "需要用到兩個方向" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 1], [1, 1], [2, 1]], maxMoves: 10, hint: "牆壁擋住了，試試先繞過去" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[1, 0], [1, 1], [1, 2], [3, 2], [3, 3], [3, 4]], maxMoves: 12, hint: "兩道牆中間有缺口可以穿過" },
-  { size: 5, start: [2, 0], goal: [2, 4], walls: [[0, 2], [1, 2], [2, 2], [3, 2]], maxMoves: 10, hint: "直線走不通，要繞一大圈" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 2], [1, 2], [2, 0], [2, 1], [2, 3], [2, 4], [4, 2]], maxMoves: 14, hint: "中間有個缺口，找到它就能過" },
-  { size: 5, start: [4, 0], goal: [0, 4], walls: [[1, 1], [1, 3], [2, 2], [3, 1], [3, 3]], maxMoves: 12, hint: "斜對角的牆壁之間都有空隙" },
+  { size: 5, start: [0, 0], goal: [0, 4], walls: [], maxMoves: 4,
+    hints: ["只需要一個方向", "目標在你的右邊", "➡️ 右 × 4"] },
+  { size: 5, start: [0, 0], goal: [4, 0], walls: [], maxMoves: 4,
+    hints: ["只需要一個方向", "目標在你的下方", "⬇️ 下 × 4"] },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [], maxMoves: 8,
+    hints: ["需要用到兩個方向", "先水平再垂直移動", "➡️ 右 × 4 再 ⬇️ 下 × 4"] },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 1], [1, 1], [2, 1]], maxMoves: 10,
+    hints: ["牆壁擋住了，試試繞過去", "先往下繞過牆壁底部", "⬇️ 下 3 → ➡️ 右 4 → ⬆️ 上到目標"] },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [[1, 0], [1, 1], [1, 2], [3, 2], [3, 3], [3, 4]], maxMoves: 12,
+    hints: ["兩道牆中間有缺口", "第一道牆的右側有路", "先往右穿過第一道牆，再往下穿過第二道牆的左側"] },
+  { size: 5, start: [2, 0], goal: [2, 4], walls: [[0, 2], [1, 2], [2, 2], [3, 2]], maxMoves: 10,
+    hints: ["直線走不通，要繞路", "往上或往下繞過那面牆", "先移到牆的上方或下方，繞到右邊再回來"] },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 2], [1, 2], [2, 0], [2, 1], [2, 3], [2, 4], [4, 2]], maxMoves: 14,
+    hints: ["中間有個缺口可以穿過", "注意第 3 排中間的空格", "先到 (2,2) 的缺口穿過，再繞過最下面的牆"] },
+  { size: 5, start: [4, 0], goal: [0, 4], walls: [[1, 1], [1, 3], [2, 2], [3, 1], [3, 3]], maxMoves: 12,
+    hints: ["牆壁之間都有空隙可以走", "沿著邊緣走比較安全", "先沿左邊往上，再沿上方往右到達目標"] },
 ];
 
 const TOTAL_LEVELS = LEVELS.length;
@@ -292,15 +300,13 @@ export default function CodePathPage() {
               🗑️ 清除
             </button>
           </div>
-          {/* Show hint & skip after 3 failures */}
+          {/* Progressive hints: 3次模糊、5次較明確、7次給答案 */}
           {failCount >= 3 && (
             <div className="text-center mt-3 space-y-2">
               <div className="text-xs text-amber-500">已嘗試 {failCount} 次，需要幫助嗎？</div>
-              {currentLevel.hint && (
-                <div className="text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg inline-block">
-                  💡 提示：{currentLevel.hint}
-                </div>
-              )}
+              <div className="text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg inline-block">
+                💡 提示：{currentLevel.hints[failCount >= 7 ? 2 : failCount >= 5 ? 1 : 0]}
+              </div>
               <div>
                 <button onClick={skipLevel}
                   className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
