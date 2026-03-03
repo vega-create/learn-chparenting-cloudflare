@@ -1,17 +1,10 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 type Direction = 0 | 1 | 2 | 3; // 0=up, 1=right, 2=down, 3=left
-const DIR_NAMES = ["上", "右", "下", "左"];
-
-interface TurtleState {
-  x: number;
-  y: number;
-  dir: Direction;
-}
 
 interface Level {
   name: string;
@@ -20,6 +13,10 @@ interface Level {
   solution: { repeat: number; forward: number; turn: "left" | "right" };
 }
 
+const GRID_SIZE = 10;
+const TOTAL_LEVELS = 8;
+
+/* ─── Core path generator (reused for both target and player) ─── */
 function generatePath(startX: number, startY: number, startDir: Direction, repeat: number, forward: number, turn: "left" | "right"): [number, number][] {
   const path: [number, number][] = [[startX, startY]];
   let x = startX, y = startY, dir = startDir;
@@ -37,22 +34,95 @@ function generatePath(startX: number, startY: number, startDir: Direction, repea
   return path;
 }
 
-const LEVELS: Level[] = [
-  { name: "直線", hint: "重複 1 次，前進 4 步", targetPath: generatePath(1, 5, 1, 1, 4, "right"), solution: { repeat: 1, forward: 4, turn: "right" } },
-  { name: "L 形", hint: "重複 1 次前進再轉彎", targetPath: generatePath(1, 5, 1, 2, 3, "left"), solution: { repeat: 2, forward: 3, turn: "left" } },
-  { name: "正方形", hint: "重複 4 次：前進 + 右轉", targetPath: generatePath(2, 6, 0, 4, 3, "right"), solution: { repeat: 4, forward: 3, turn: "right" } },
-  { name: "三角形", hint: "重複 3 次，每次轉更多", targetPath: generatePath(1, 7, 1, 3, 3, "right"), solution: { repeat: 3, forward: 3, turn: "right" } },
-  { name: "長方形", hint: "交替不同長度", targetPath: generatePath(1, 6, 1, 4, 4, "right"), solution: { repeat: 4, forward: 4, turn: "right" } },
-  { name: "Z 字形", hint: "重複 3 次：前進 + 左轉", targetPath: generatePath(1, 2, 1, 3, 3, "left"), solution: { repeat: 3, forward: 3, turn: "left" } },
-  { name: "大正方形", hint: "每邊 5 步的正方形", targetPath: generatePath(1, 7, 1, 4, 5, "right"), solution: { repeat: 4, forward: 5, turn: "right" } },
-  { name: "螺旋線", hint: "重複 6 次，前進 2 步", targetPath: generatePath(3, 5, 0, 6, 2, "right"), solution: { repeat: 6, forward: 2, turn: "right" } },
+/* ─── Difficulty tiers for procedural generation ─── */
+interface DifficultyTier {
+  repeatRange: [number, number];
+  forwardRange: [number, number];
+  turnOptions: ("left" | "right")[];
+  shapeNames: string[];
+}
+
+const DIFFICULTY_TIERS: DifficultyTier[] = [
+  // Level 1: Simple line
+  { repeatRange: [1, 1], forwardRange: [3, 5], turnOptions: ["right", "left"],
+    shapeNames: ["直線", "短跑道", "光線"] },
+  // Level 2: L-shape
+  { repeatRange: [2, 2], forwardRange: [2, 4], turnOptions: ["left", "right"],
+    shapeNames: ["L 形", "轉角", "拐彎"] },
+  // Level 3: Triangle
+  { repeatRange: [3, 3], forwardRange: [2, 3], turnOptions: ["right", "left"],
+    shapeNames: ["三角形", "V 字形", "折線"] },
+  // Level 4: Square
+  { repeatRange: [4, 4], forwardRange: [2, 4], turnOptions: ["right"],
+    shapeNames: ["正方形", "方框", "田字格"] },
+  // Level 5: Rectangle / larger
+  { repeatRange: [4, 4], forwardRange: [3, 5], turnOptions: ["right", "left"],
+    shapeNames: ["長方形", "大方框", "城牆"] },
+  // Level 6: Z-shape / zigzag
+  { repeatRange: [3, 4], forwardRange: [2, 4], turnOptions: ["left"],
+    shapeNames: ["Z 字形", "閃電", "鋸齒"] },
+  // Level 7: Large shape
+  { repeatRange: [4, 5], forwardRange: [4, 5], turnOptions: ["right"],
+    shapeNames: ["大正方形", "城堡", "巨框"] },
+  // Level 8: Spiral / complex
+  { repeatRange: [5, 7], forwardRange: [2, 3], turnOptions: ["right", "left"],
+    shapeNames: ["螺旋線", "漩渦", "蝸牛殼"] },
 ];
 
-const GRID_SIZE = 10;
-const TOTAL_LEVELS = LEVELS.length;
+function generateLoopLevels(): Level[] {
+  return DIFFICULTY_TIERS.map((tier) => {
+    for (let attempt = 0; attempt < 100; attempt++) {
+      // Random solution parameters
+      const repeat = tier.repeatRange[0] +
+        Math.floor(Math.random() * (tier.repeatRange[1] - tier.repeatRange[0] + 1));
+      const forward = tier.forwardRange[0] +
+        Math.floor(Math.random() * (tier.forwardRange[1] - tier.forwardRange[0] + 1));
+      const turn = tier.turnOptions[
+        Math.floor(Math.random() * tier.turnOptions.length)
+      ];
 
+      // Always start facing right (dir=1) to match runProgram execution
+      const startDir: Direction = 1;
+
+      // Try random starting positions
+      for (let posAttempt = 0; posAttempt < 20; posAttempt++) {
+        const startX = 1 + Math.floor(Math.random() * (GRID_SIZE - 2));
+        const startY = 1 + Math.floor(Math.random() * (GRID_SIZE - 2));
+
+        const path = generatePath(startX, startY, startDir, repeat, forward, turn);
+
+        // Validate: all points within grid
+        const inBounds = path.every(
+          ([x, y]) => x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE
+        );
+        if (!inBounds) continue;
+
+        // Validate: enough unique points (not degenerate)
+        const uniquePoints = new Set(path.map(([x, y]) => `${x},${y}`));
+        if (uniquePoints.size < 3) continue;
+
+        const name = tier.shapeNames[Math.floor(Math.random() * tier.shapeNames.length)];
+        const turnStr = turn === "right" ? "右轉" : "左轉";
+        const hint = `重複 ${repeat} 次，前進 ${forward} 步，${turnStr}`;
+
+        return { name, targetPath: path, hint, solution: { repeat, forward, turn } };
+      }
+    }
+
+    // Fallback: simple line
+    return {
+      name: "直線",
+      targetPath: generatePath(1, 5, 1, 1, 4, "right"),
+      hint: "重複 1 次，前進 4 步，右轉",
+      solution: { repeat: 1, forward: 4, turn: "right" as const },
+    };
+  });
+}
+
+/* ─── Component ─── */
 export default function LoopBuilderPage() {
   const [mode, setMode] = useState<"menu" | "playing" | "running" | "done">("menu");
+  const [levels, setLevels] = useState<Level[]>([]);
   const [level, setLevel] = useState(0);
   const [repeatCount, setRepeatCount] = useState(1);
   const [forwardSteps, setForwardSteps] = useState(1);
@@ -66,9 +136,11 @@ export default function LoopBuilderPage() {
   const [isNewHigh, setIsNewHigh] = useState(false);
   const { highScore, updateHighScore } = useHighScore("loop-builder");
 
-  const currentLevel = LEVELS[level] || LEVELS[0];
+  const currentLevel = levels[level] || { name: "", targetPath: [[0, 0]] as [number, number][], hint: "", solution: { repeat: 1, forward: 1, turn: "right" as const } };
 
   const startGame = useCallback(() => {
+    const newLevels = generateLoopLevels();
+    setLevels(newLevels);
     setLevel(0);
     setScore(0);
     setDrawnPath([]);
@@ -174,7 +246,7 @@ export default function LoopBuilderPage() {
         <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
           <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
           <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
-            <li>共 {TOTAL_LEVELS} 關</li>
+            <li>共 {TOTAL_LEVELS} 關，每次隨機產生</li>
             <li>設定「重複次數」「前進步數」「轉向」</li>
             <li>讓烏龜畫出和目標一樣的圖形</li>
             <li>最高紀錄：{highScore} 分</li>

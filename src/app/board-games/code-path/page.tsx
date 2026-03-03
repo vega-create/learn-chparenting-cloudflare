@@ -14,32 +14,171 @@ interface Level {
   goal: [number, number];
   walls: [number, number][];
   maxMoves: number;
-  hints: [string, string, string]; // 3次模糊、5次較明確、7次接近答案
+  hints: [string, string, string];
 }
 
-const LEVELS: Level[] = [
-  { size: 5, start: [0, 0], goal: [0, 4], walls: [], maxMoves: 4,
-    hints: ["只需要一個方向", "目標在你的右邊", "➡️ 右 × 4"] },
-  { size: 5, start: [0, 0], goal: [4, 0], walls: [], maxMoves: 4,
-    hints: ["只需要一個方向", "目標在你的下方", "⬇️ 下 × 4"] },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [], maxMoves: 8,
-    hints: ["需要用到兩個方向", "先水平再垂直移動", "➡️ 右 × 4 再 ⬇️ 下 × 4"] },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 1], [1, 1], [2, 1]], maxMoves: 10,
-    hints: ["牆壁擋住了，試試繞過去", "先往下繞過牆壁底部", "⬇️ 下 3 → ➡️ 右 4 → ⬆️ 上到目標"] },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[1, 0], [1, 1], [1, 2], [3, 2], [3, 3], [3, 4]], maxMoves: 12,
-    hints: ["兩道牆中間有缺口", "第一道牆的右側有路", "先往右穿過第一道牆，再往下穿過第二道牆的左側"] },
-  { size: 5, start: [2, 0], goal: [2, 4], walls: [[0, 2], [1, 2], [2, 2], [3, 2]], maxMoves: 10,
-    hints: ["直線走不通，要繞路", "往上或往下繞過那面牆", "先移到牆的上方或下方，繞到右邊再回來"] },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 2], [2, 0], [2, 1], [2, 3], [2, 4], [4, 2]], maxMoves: 14,
-    hints: ["中間有個缺口可以穿過", "先走到第 2 排中間，穿過缺口再往右下走", "→ ↓ → ↓ ↓ → → ↓（8步）"] },
-  { size: 5, start: [4, 0], goal: [0, 4], walls: [[1, 1], [1, 3], [2, 2], [3, 1], [3, 3]], maxMoves: 12,
-    hints: ["牆壁之間都有空隙可以走", "沿著邊緣走比較安全", "先沿左邊往上，再沿上方往右到達目標"] },
+const TOTAL_LEVELS = 8;
+
+/* ─── BFS pathfinding ─── */
+function bfs(
+  size: number,
+  start: [number, number],
+  goal: [number, number],
+  wallSet: Set<string>
+): [number, number][] | null {
+  const queue: { pos: [number, number]; path: [number, number][] }[] = [
+    { pos: start, path: [start] },
+  ];
+  const visited = new Set<string>();
+  visited.add(`${start[0]},${start[1]}`);
+
+  while (queue.length > 0) {
+    const { pos, path } = queue.shift()!;
+    if (pos[0] === goal[0] && pos[1] === goal[1]) return path;
+
+    for (const [dr, dc] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+      const nr = pos[0] + dr;
+      const nc = pos[1] + dc;
+      const key = `${nr},${nc}`;
+      if (nr >= 0 && nr < size && nc >= 0 && nc < size && !wallSet.has(key) && !visited.has(key)) {
+        visited.add(key);
+        queue.push({ pos: [nr, nc], path: [...path, [nr, nc]] });
+      }
+    }
+  }
+  return null;
+}
+
+/* ─── Compress moves for hint display ─── */
+function compressMoves(moves: string[]): string[] {
+  const result: string[] = [];
+  let i = 0;
+  while (i < moves.length) {
+    let count = 1;
+    while (i + count < moves.length && moves[i + count] === moves[i]) count++;
+    result.push(count === 1 ? moves[i] : `${moves[i]}x${count}`);
+    i += count;
+  }
+  return result;
+}
+
+/* ─── Auto-generate 3-tier hints from path ─── */
+function generateHints(
+  start: [number, number],
+  goal: [number, number],
+  walls: [number, number][],
+  optimalPath: [number, number][]
+): [string, string, string] {
+  // Hint 1 (vague): direction + wall count
+  const dirParts: string[] = [];
+  if (goal[0] > start[0]) dirParts.push("下方");
+  if (goal[0] < start[0]) dirParts.push("上方");
+  if (goal[1] > start[1]) dirParts.push("右邊");
+  if (goal[1] < start[1]) dirParts.push("左邊");
+  const hint1 = walls.length === 0
+    ? `目標在你的${dirParts.join("和")}`
+    : `目標在${dirParts.join("")}，需要繞過 ${walls.length} 面牆`;
+
+  // Hint 2 (moderate): step count
+  const steps = optimalPath.length - 1;
+  const hint2 = `最短路線需要 ${steps} 步`;
+
+  // Hint 3 (near-answer): full compressed path
+  const moves: string[] = [];
+  for (let i = 1; i < optimalPath.length; i++) {
+    const dRow = optimalPath[i][0] - optimalPath[i - 1][0];
+    const dCol = optimalPath[i][1] - optimalPath[i - 1][1];
+    moves.push(dRow === -1 ? "⬆️" : dRow === 1 ? "⬇️" : dCol === -1 ? "⬅️" : "➡️");
+  }
+  const hint3 = compressMoves(moves).join(" ") + `（${steps}步）`;
+
+  return [hint1, hint2, hint3];
+}
+
+/* ─── Difficulty tiers for procedural generation ─── */
+interface DifficultyConfig {
+  wallCount: number;
+  minPathLen: number;
+  maxPathLen: number;
+  startOptions: [number, number][];
+  goalOptions: [number, number][];
+}
+
+const DIFFICULTY: DifficultyConfig[] = [
+  // 1-2: Tutorial, no walls
+  { wallCount: 0, minPathLen: 3, maxPathLen: 4, startOptions: [[0, 0]], goalOptions: [[0, 4], [4, 0]] },
+  { wallCount: 0, minPathLen: 5, maxPathLen: 8, startOptions: [[0, 0]], goalOptions: [[4, 4], [2, 4], [4, 2]] },
+  // 3-4: Easy walls
+  { wallCount: 2, minPathLen: 5, maxPathLen: 8, startOptions: [[0, 0], [0, 2]], goalOptions: [[4, 4], [4, 2]] },
+  { wallCount: 3, minPathLen: 6, maxPathLen: 10, startOptions: [[0, 0]], goalOptions: [[4, 4], [3, 4]] },
+  // 5-6: Medium walls
+  { wallCount: 4, minPathLen: 7, maxPathLen: 12, startOptions: [[0, 0], [2, 0], [0, 2]], goalOptions: [[4, 4], [2, 4], [4, 2]] },
+  { wallCount: 5, minPathLen: 7, maxPathLen: 12, startOptions: [[0, 0], [2, 0]], goalOptions: [[4, 4], [2, 4]] },
+  // 7-8: Hard walls
+  { wallCount: 5, minPathLen: 8, maxPathLen: 14, startOptions: [[0, 0], [4, 0], [0, 4]], goalOptions: [[4, 4], [0, 4], [4, 0]] },
+  { wallCount: 6, minPathLen: 8, maxPathLen: 14, startOptions: [[0, 0], [4, 0]], goalOptions: [[4, 4], [0, 4]] },
 ];
 
-const TOTAL_LEVELS = LEVELS.length;
+function generateLevels(): Level[] {
+  const SIZE = 5;
+  return DIFFICULTY.map((cfg) => {
+    for (let attempt = 0; attempt < 100; attempt++) {
+      const start = cfg.startOptions[Math.floor(Math.random() * cfg.startOptions.length)] as [number, number];
+      const goal = cfg.goalOptions[Math.floor(Math.random() * cfg.goalOptions.length)] as [number, number];
+      if (start[0] === goal[0] && start[1] === goal[1]) continue;
 
+      // Place random walls
+      const walls: [number, number][] = [];
+      const occupied = new Set<string>();
+      occupied.add(`${start[0]},${start[1]}`);
+      occupied.add(`${goal[0]},${goal[1]}`);
+
+      for (let w = 0; w < cfg.wallCount; w++) {
+        for (let t = 0; t < 50; t++) {
+          const wr = Math.floor(Math.random() * SIZE);
+          const wc = Math.floor(Math.random() * SIZE);
+          const key = `${wr},${wc}`;
+          if (!occupied.has(key)) {
+            walls.push([wr, wc]);
+            occupied.add(key);
+            break;
+          }
+        }
+      }
+
+      // Validate with BFS
+      const wallSet = new Set(walls.map((w) => `${w[0]},${w[1]}`));
+      const optimalPath = bfs(SIZE, start, goal, wallSet);
+      if (!optimalPath) continue;
+
+      const pathLen = optimalPath.length - 1;
+      if (pathLen < cfg.minPathLen || pathLen > cfg.maxPathLen) continue;
+
+      const slack = Math.max(2, Math.floor(pathLen * 0.5));
+      return {
+        size: SIZE,
+        start,
+        goal,
+        walls,
+        maxMoves: pathLen + slack,
+        hints: generateHints(start, goal, walls, optimalPath),
+      };
+    }
+
+    // Fallback
+    const start: [number, number] = [0, 0];
+    const goal: [number, number] = [4, 4];
+    return {
+      size: SIZE, start, goal, walls: [], maxMoves: 10,
+      hints: ["需要用到兩個方向", "先右再下", "➡️x4 ⬇️x4（8步）"] as [string, string, string],
+    };
+  });
+}
+
+/* ─── Component ─── */
 export default function CodePathPage() {
   const [mode, setMode] = useState<"menu" | "playing" | "running" | "done">("menu");
+  const [levels, setLevels] = useState<Level[]>([]);
   const [level, setLevel] = useState(0);
   const [commands, setCommands] = useState<Dir[]>([]);
   const [robotPos, setRobotPos] = useState<[number, number]>([0, 0]);
@@ -51,14 +190,16 @@ export default function CodePathPage() {
   const { highScore, updateHighScore } = useHighScore("code-path");
   const runTimeoutRef = useRef<NodeJS.Timeout[]>([]);
 
-  const currentLevel = LEVELS[level] || LEVELS[0];
+  const currentLevel = levels[level] || { size: 5, start: [0, 0] as [number, number], goal: [4, 4] as [number, number], walls: [] as [number, number][], maxMoves: 8, hints: ["", "", ""] as [string, string, string] };
   const wallSet = new Set(currentLevel.walls.map(w => `${w[0]},${w[1]}`));
 
   const startGame = useCallback(() => {
+    const newLevels = generateLevels();
+    setLevels(newLevels);
     setLevel(0);
     setScore(0);
     setCommands([]);
-    setRobotPos(LEVELS[0].start);
+    setRobotPos(newLevels[0].start);
     setPath([]);
     setRunResult(null);
     setFailCount(0);
@@ -88,13 +229,13 @@ export default function CodePathPage() {
       const nextLv = level + 1;
       setLevel(nextLv);
       setCommands([]);
-      setRobotPos(LEVELS[nextLv].start);
+      setRobotPos(levels[nextLv].start);
       setPath([]);
       setRunResult(null);
       setFailCount(0);
       setMode("playing");
     }
-  }, [level, score, updateHighScore]);
+  }, [level, levels, score, updateHighScore]);
 
   const runProgram = useCallback(() => {
     if (commands.length === 0) return;
@@ -134,7 +275,6 @@ export default function CodePathPage() {
         setPath(positions.slice(0, i + 1));
 
         if (i === positions.length - 1) {
-          // Last step
           if (hitWall) {
             setRunResult("wall");
             setFailCount(c => c + 1);
@@ -157,7 +297,7 @@ export default function CodePathPage() {
                 const nextLv = level + 1;
                 setLevel(nextLv);
                 setCommands([]);
-                setRobotPos(LEVELS[nextLv].start);
+                setRobotPos(levels[nextLv].start);
                 setPath([]);
                 setRunResult(null);
                 setFailCount(0);
@@ -174,7 +314,7 @@ export default function CodePathPage() {
       }, i * 400);
       runTimeoutRef.current.push(t);
     });
-  }, [commands, currentLevel, level, score, wallSet, updateHighScore]);
+  }, [commands, currentLevel, level, levels, score, wallSet, updateHighScore]);
 
   /* ─── Menu ─── */
   if (mode === "menu") {
@@ -189,7 +329,7 @@ export default function CodePathPage() {
         <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
           <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
           <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
-            <li>共 {TOTAL_LEVELS} 關</li>
+            <li>共 {TOTAL_LEVELS} 關，每次隨機產生</li>
             <li>用方向指令引導 🤖 到達 🎯</li>
             <li>避開牆壁 🧱</li>
             <li>指令越少，分數越高</li>
