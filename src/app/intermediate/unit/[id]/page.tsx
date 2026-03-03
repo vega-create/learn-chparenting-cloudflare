@@ -230,7 +230,7 @@ function SpeakingTab({ unit }: { unit: any }) {
         const spokenWords = transcript.split(/\s+/);
         const matched: number[] = [];
         targetWords.forEach((tw: string, idx: number) => {
-          if (spokenWords.some((sw: string) => sw === tw || (tw.length > 3 && (sw.includes(tw) || tw.includes(sw))))) {
+          if (spokenWords.some((sw: string) => sw === tw || (tw.length > 3 && (sw.includes(tw) || (tw.includes(sw) && sw.length >= tw.length * 0.6))))) {
             matched.push(idx);
           }
         });
