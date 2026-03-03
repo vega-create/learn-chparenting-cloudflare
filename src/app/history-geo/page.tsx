@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HISTORY_GEO_REGIONS, getTotalQuestionCount } from "@/data/history-geo";
+import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "免費歷史地理練習 | 台灣・亞洲・世界 | learn.chparenting.com",
@@ -14,6 +15,7 @@ export default function HistoryGeoPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      <SubjectVisitTracker subject="history-geo" />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3 animate-float">🌏</div>
         <h1 className="text-3xl font-black text-slate-800 mb-2">歷史地理</h1>

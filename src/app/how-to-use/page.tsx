@@ -73,6 +73,28 @@ const FEATURES = [
       "引導式寫作：看提示自由寫作，提交後可對照範文",
     ],
   },
+  {
+    icon: "👨‍👩‍👧‍👦",
+    title: "家長陪伴指南",
+    color: "bg-amber-50 border-amber-100",
+    steps: [
+      "上方選單「更多 → 陪伴指南」查看全部 8 個等級",
+      "每個單元都有學習目標、陪伴方式、過關清單",
+      "可以輸入 email 索取整本 ebook PDF",
+      "跟孩子一起學習，效果更好！",
+    ],
+  },
+  {
+    icon: "🏆",
+    title: "學習成就",
+    color: "bg-yellow-50 border-yellow-100",
+    steps: [
+      "上方選單「更多 → 學習成就」查看 18 個徽章",
+      "完成學習目標自動解鎖徽章和動畫",
+      "涵蓋新手里程碑、學科精通、桌遊等類別",
+      "可以分享你的成就給朋友！",
+    ],
+  },
 ];
 
 export default function HowToUsePage() {

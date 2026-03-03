@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { getDailyChallenge, type DailyChallenge } from "@/data/daily-challenges";
 import ShareButtons from "@/components/ShareButtons";
+import { useAchievements } from "@/contexts/AchievementContext";
 
 function getToday(): string {
   return new Date().toISOString().split("T")[0];
@@ -14,6 +15,7 @@ export default function DailyChallengeBlock() {
   const [todayStr, setTodayStr] = useState("");
   const [stats, setStats] = useState<{ total: number; correct: number } | null>(null);
   const [collapsed, setCollapsed] = useState(false);
+  const { checkAndUnlock } = useAchievements();
 
   useEffect(() => {
     const today = getToday();
@@ -45,6 +47,7 @@ export default function DailyChallengeBlock() {
     setAnswered(true);
     localStorage.setItem("daily_challenge_date", todayStr);
     localStorage.setItem("daily_challenge_answer", String(idx));
+    checkAndUnlock("first-challenge");
 
     const isCorrect = idx === challenge.answer;
 

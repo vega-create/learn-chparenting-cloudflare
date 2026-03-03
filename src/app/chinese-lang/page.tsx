@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CHINESE_GRADES, getTotalQuestionCount } from "@/data/chinese-lang";
+import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "免費國小國語練習 | 注音・生字・成語・閱讀 | learn.chparenting.com",
@@ -14,6 +15,7 @@ export default function ChineseLangPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      <SubjectVisitTracker subject="chinese-lang" />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3 animate-float">📝</div>
         <h1 className="text-3xl font-black text-slate-800 mb-2">國語學習</h1>

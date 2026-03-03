@@ -1,6 +1,7 @@
 import { UNITS } from "@/data/elementary";
 import type { Metadata } from "next";
 import Link from "next/link";
+import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "全民英檢初級免費練習 | 單字・文法・聽力・閱讀・模擬考 | learn.chparenting.com",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function ElementaryPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <SubjectVisitTracker subject="gept" />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3">🌱</div>
         <h1 className="text-3xl font-black text-slate-800 mb-2">GEPT 初級</h1>

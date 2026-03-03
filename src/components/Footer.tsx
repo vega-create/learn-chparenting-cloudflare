@@ -42,6 +42,9 @@ export default function Footer() {
             <div className="flex flex-col gap-1.5">
               <a href="/how-to-use" className="text-slate-500 hover:text-rose-400 transition">使用說明</a>
               <a href="/faq" className="text-slate-500 hover:text-rose-400 transition">常見問題</a>
+              <a href="/parent-guide" className="text-slate-500 hover:text-rose-400 transition">陪伴指南</a>
+              <a href="/exam-info" className="text-slate-500 hover:text-rose-400 transition">報考資訊</a>
+              <a href="/achievements" className="text-slate-500 hover:text-rose-400 transition">學習成就</a>
               <a href="/about" className="text-slate-500 hover:text-rose-400 transition">關於我們</a>
             </div>
           </div>
