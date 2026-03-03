@@ -19,10 +19,30 @@ const JLPT_LEVELS = [
   { label: "N1（最上級）", href: "/jlpt-n1", active: true },
 ];
 
+const TOOLS = [
+  { icon: "📝", label: "國語學習", href: "/chinese-lang", prefix: "/chinese-lang" },
+  { icon: "🌏", label: "歷史地理", href: "/history-geo", prefix: "/history-geo" },
+  { icon: "🔢", label: "數學練習", href: "/math", prefix: "/math" },
+  { icon: "⌨️", label: "打字練習", href: "/typing-game", prefix: "/typing-game" },
+  { icon: "🎲", label: "教育桌遊", href: "/board-games", prefix: "/board-games" },
+  { icon: "💰", label: "兒童理財", href: "/finance", prefix: "/finance" },
+];
+
+const INFO_LINKS = [
+  { label: "使用說明", href: "/how-to-use" },
+  { label: "常見問題", href: "/faq" },
+  { label: "關於我們", href: "/about" },
+];
+
 export default function Header() {
   const pathname = usePathname();
   const [geptOpen, setGeptOpen] = useState(false);
   const [jlptOpen, setJlptOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
+
+  const isToolsActive = TOOLS.some(t => pathname.startsWith(t.prefix));
+  const isInfoActive = INFO_LINKS.some(l => pathname === l.href);
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
@@ -48,7 +68,7 @@ export default function Header() {
                   : "text-slate-600 hover:bg-rose-50 hover:text-rose-400"
               }`}
             >
-              全民英檢 <span className="text-xs">▾</span>
+              📘 英檢 <span className="text-xs">▾</span>
             </button>
             {geptOpen && (
               <div className="absolute left-0 top-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden min-w-[120px]">
@@ -76,7 +96,7 @@ export default function Header() {
                   : "text-slate-600 hover:bg-red-50 hover:text-red-600"
               }`}
             >
-              日文檢定 <span className="text-xs">▾</span>
+              🇯🇵 日文 <span className="text-xs">▾</span>
             </button>
             {jlptOpen && (
               <div className="absolute left-0 top-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden min-w-[130px]">
@@ -93,45 +113,61 @@ export default function Header() {
             )}
           </div>
 
-          {/* Chinese Language */}
-          <a href="/chinese-lang" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname.startsWith("/chinese-lang") ? "text-orange-600 bg-orange-50" : "text-slate-600 hover:bg-orange-50 hover:text-orange-600"
-          }`}>📝 國語</a>
+          {/* Learning Tools dropdown */}
+          <div className="relative"
+            onMouseEnter={() => setToolsOpen(true)}
+            onMouseLeave={() => setToolsOpen(false)}
+          >
+            <button
+              className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-1 bg-transparent border-0 cursor-pointer ${
+                isToolsActive
+                  ? "text-orange-600 bg-orange-50"
+                  : "text-slate-600 hover:bg-orange-50 hover:text-orange-600"
+              }`}
+            >
+              🎯 學習工具 <span className="text-xs">▾</span>
+            </button>
+            {toolsOpen && (
+              <div className="absolute left-0 top-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden min-w-[140px]">
+                {TOOLS.map(t => (
+                  <a key={t.href} href={t.href}
+                    className={`block px-4 py-2.5 text-sm font-medium no-underline transition ${
+                      pathname.startsWith(t.prefix) ? "text-orange-600 bg-orange-50" : "text-slate-600 hover:bg-slate-50"
+                    }`}>
+                    {t.icon} {t.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
 
-          {/* History & Geography */}
-          <a href="/history-geo" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname.startsWith("/history-geo") ? "text-emerald-600 bg-emerald-50" : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-600"
-          }`}>🌏 歷史</a>
-
-          {/* Typing game */}
-          <a href="/typing-game" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname === "/typing-game" ? "text-cyan-600 bg-cyan-50" : "text-slate-600 hover:bg-cyan-50 hover:text-cyan-600"
-          }`}>打字練習</a>
-
-          {/* Board games */}
-          <a href="/board-games" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname.startsWith("/board-games") ? "text-orange-600 bg-orange-50" : "text-slate-600 hover:bg-orange-50 hover:text-orange-600"
-          }`}>🎲 桌遊</a>
-
-          {/* Math */}
-          <a href="/math" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname.startsWith("/math") ? "text-amber-600 bg-amber-50" : "text-slate-600 hover:bg-amber-50 hover:text-amber-600"
-          }`}>🔢 數學</a>
-
-          {/* Finance */}
-          <a href="/finance" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname.startsWith("/finance") ? "text-purple-600 bg-purple-50" : "text-slate-600 hover:bg-purple-50 hover:text-purple-600"
-          }`}>💰 理財</a>
-
-          <a href="/how-to-use" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname === "/how-to-use" ? "text-rose-400 bg-rose-50" : "text-slate-600 hover:bg-rose-50 hover:text-rose-400"
-          }`}>使用說明</a>
-          <a href="/faq" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname === "/faq" ? "text-rose-400 bg-rose-50" : "text-slate-600 hover:bg-rose-50 hover:text-rose-400"
-          }`}>常見問題</a>
-          <a href="/about" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
-            pathname === "/about" ? "text-rose-400 bg-rose-50" : "text-slate-600 hover:bg-rose-50 hover:text-rose-400"
-          }`}>關於</a>
+          {/* Info dropdown */}
+          <div className="relative"
+            onMouseEnter={() => setInfoOpen(true)}
+            onMouseLeave={() => setInfoOpen(false)}
+          >
+            <button
+              className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-1 bg-transparent border-0 cursor-pointer ${
+                isInfoActive
+                  ? "text-rose-400 bg-rose-50"
+                  : "text-slate-600 hover:bg-rose-50 hover:text-rose-400"
+              }`}
+            >
+              更多 <span className="text-xs">▾</span>
+            </button>
+            {infoOpen && (
+              <div className="absolute right-0 top-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden min-w-[120px]">
+                {INFO_LINKS.map(l => (
+                  <a key={l.href} href={l.href}
+                    className={`block px-4 py-2.5 text-sm font-medium no-underline transition ${
+                      pathname === l.href ? "text-rose-400 bg-rose-50" : "text-slate-600 hover:bg-slate-50"
+                    }`}>
+                    {l.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Streak + Auth button */}
           <StreakBadge />
