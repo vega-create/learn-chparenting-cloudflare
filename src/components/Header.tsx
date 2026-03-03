@@ -93,6 +93,11 @@ export default function Header() {
             )}
           </div>
 
+          {/* Chinese Language */}
+          <a href="/chinese-lang" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
+            pathname.startsWith("/chinese-lang") ? "text-orange-600 bg-orange-50" : "text-slate-600 hover:bg-orange-50 hover:text-orange-600"
+          }`}>📝 國語</a>
+
           {/* Typing game */}
           <a href="/typing-game" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
             pathname === "/typing-game" ? "text-cyan-600 bg-cyan-50" : "text-slate-600 hover:bg-cyan-50 hover:text-cyan-600"
