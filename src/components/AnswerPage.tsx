@@ -33,6 +33,8 @@ export default function AnswerPage({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      // Clean up old localStorage value (migrated to sessionStorage)
+      localStorage.removeItem(PARENT_GATE_KEY);
       // Use sessionStorage so the gate resets when browser is closed
       setConfirmed(sessionStorage.getItem(PARENT_GATE_KEY) === "true");
     }
