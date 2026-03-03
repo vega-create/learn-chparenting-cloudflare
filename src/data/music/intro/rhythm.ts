@@ -1,4 +1,4 @@
-import type { MusicTopic } from "../types";
+import type { MusicTopic, MusicConcept } from "../types";
 
 const rhythm: MusicTopic = {
   id: "rhythm",
@@ -7,6 +7,47 @@ const rhythm: MusicTopic = {
   description: "認識拍號、節拍與節奏",
   color: "from-pink-500 to-pink-600",
   border: "border-pink-200",
+  concepts: [
+    {
+      title: "什麼是節拍",
+      explanation: "節拍是音樂中規律的強弱交替，就像心跳一樣穩定地跳動。",
+      keyPoints: [
+        "節拍讓音樂有規律的律動感",
+        "每個小節的第 1 拍是最強的（強拍）",
+        "強拍和弱拍交替出現，形成音樂的韻律",
+      ],
+    },
+    {
+      title: "拍號的意義",
+      explanation: "拍號寫在樂譜開頭，用兩個上下排列的數字告訴我們節拍的規則。",
+      keyPoints: [
+        "上面的數字：每個小節有幾拍",
+        "下面的數字：以什麼音符為一拍",
+        "例如 4/4 拍：每小節 4 拍，四分音符為一拍",
+        "拍號寫在譜號的後面、樂曲的最開頭",
+      ],
+    },
+    {
+      title: "常見拍號",
+      explanation: "不同的拍號會讓音樂產生不同的韻律感，適合不同的風格。",
+      keyPoints: [
+        "4/4 拍：最常見，強-弱-中強-弱，大部分流行歌都用",
+        "3/4 拍：華爾滋的節奏，強-弱-弱，有旋轉的感覺",
+        "2/4 拍：進行曲的節奏，強-弱，像走路一樣",
+        "6/8 拍：搖擺的感覺，常用在搖籃曲和田園風格",
+      ],
+    },
+    {
+      title: "小節與小節線",
+      explanation: "小節線是五線譜上的垂直線，把音樂分成一段一段等長的小節。",
+      keyPoints: [
+        "每個小節裡的拍數必須和拍號一致",
+        "小節線讓樂譜更容易閱讀",
+        "終止線（一粗一細）表示樂曲結束",
+        "反覆記號（兩條線加兩個點）表示要重複演奏",
+      ],
+    },
+  ],
   questions: [
     // ===== 拍號認識 (10) =====
     {

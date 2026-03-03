@@ -1,4 +1,4 @@
-import type { MusicTopic } from "../types";
+import type { MusicTopic, MusicConcept } from "../types";
 
 const pitch: MusicTopic = {
   id: "pitch",
@@ -7,6 +7,48 @@ const pitch: MusicTopic = {
   description: "認識五線譜、音名和譜號",
   color: "from-pink-500 to-pink-600",
   border: "border-pink-200",
+  concepts: [
+    {
+      title: "什麼是音高",
+      explanation: "音高就是聲音的高低，由物體震動的快慢（頻率）來決定。",
+      keyPoints: [
+        "震動越快，頻率越高，聲音就越高（越尖）",
+        "震動越慢，頻率越低，聲音就越低（越沉）",
+        "鋼琴右邊的琴鍵音高較高，左邊較低",
+      ],
+    },
+    {
+      title: "五線譜基礎",
+      explanation: "五線譜有五條線和四個間，音符放的位置越高，代表音越高。",
+      keyPoints: [
+        "五條線從下往上數：第 1 線到第 5 線",
+        "兩條線之間的空間叫做「間」，共有 4 個間",
+        "音符可以寫在線上，也可以寫在間上",
+        "超出五線譜範圍時，用「加線」來標記",
+      ],
+    },
+    {
+      title: "譜號",
+      explanation: "譜號寫在五線譜最前面，告訴我們每條線和每個間代表什麼音。",
+      keyPoints: [
+        "高音譜號（G 譜號）：最常見，中央 C 在下加一線",
+        "低音譜號（F 譜號）：記錄較低的音，中央 C 在上加一線",
+        "中音譜號（C 譜號）：中提琴等樂器使用",
+        "鋼琴用大譜表：上面高音譜號，下面低音譜號",
+      ],
+    },
+    {
+      title: "音名與唱名",
+      explanation: "每個音都有英文字母的音名和唱名兩種叫法，要能互相對照。",
+      keyPoints: [
+        "七個音名：C、D、E、F、G、A、B",
+        "七個唱名：Do、Re、Mi、Fa、Sol、La、Si",
+        "C = Do、D = Re、E = Mi、F = Fa",
+        "G = Sol、A = La、B = Si",
+        "升記號（♯）升高半音，降記號（♭）降低半音",
+      ],
+    },
+  ],
   questions: [
     // ===== 五線譜基礎 (8) =====
     {

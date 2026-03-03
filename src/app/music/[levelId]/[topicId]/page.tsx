@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getTopicByIds } from "@/data/music";
-import type { MusicQ } from "@/data/music";
+import type { MusicQ, MusicTopic } from "@/data/music";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import ShareButtons from "@/components/ShareButtons";
@@ -27,6 +27,7 @@ export default function TopicPracticePage() {
   }
 
   const { level, topic } = result;
+  const hasConcepts = topic.concepts && topic.concepts.length > 0;
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -43,15 +44,83 @@ export default function TopicPracticePage() {
         <p className="text-sm text-slate-500">{level.title}</p>
       </div>
 
-      <QuizSection
-        questions={topic.questions}
-        topicTitle={topic.title}
-        topicId={topic.id}
-        levelId={levelId}
-        levelTitle={level.title}
-        color={topic.color}
-      />
+      {hasConcepts ? (
+        <TabbedView topic={topic} levelId={levelId} levelTitle={level.title} />
+      ) : (
+        <QuizSection
+          questions={topic.questions}
+          topicTitle={topic.title}
+          topicId={topic.id}
+          levelId={levelId}
+          levelTitle={level.title}
+          color={topic.color}
+        />
+      )}
     </div>
+  );
+}
+
+type ViewTab = "concepts" | "practice";
+
+function TabbedView({ topic, levelId, levelTitle }: { topic: MusicTopic; levelId: string; levelTitle: string }) {
+  const [tab, setTab] = useState<ViewTab>("concepts");
+
+  const tabs: { key: ViewTab; label: string }[] = [
+    { key: "concepts", label: "📖 觀念教學" },
+    { key: "practice", label: "✏️ 開始練習" },
+  ];
+
+  return (
+    <>
+      <div className="flex gap-2 justify-center mb-6">
+        {tabs.map((t) => (
+          <button key={t.key} onClick={() => setTab(t.key)}
+            className={`px-5 py-2 rounded-xl font-bold text-sm border-none cursor-pointer transition ${
+              tab === t.key
+                ? `bg-gradient-to-r ${topic.color} text-white shadow`
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }`}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "concepts" && (
+        <div className="space-y-4">
+          {topic.concepts!.map((c, i) => (
+            <div key={i} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-800 mb-2">{c.title}</h2>
+              <p className="text-slate-600 leading-7 mb-3">{c.explanation}</p>
+              <ul className="space-y-1.5">
+                {c.keyPoints.map((kp, j) => (
+                  <li key={j} className="flex items-start gap-2 text-sm text-slate-600">
+                    <span className="text-pink-400 mt-0.5">•</span>
+                    <span>{kp}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div className="text-center pt-2">
+            <button onClick={() => setTab("practice")}
+              className={`px-6 py-2.5 rounded-xl bg-gradient-to-r ${topic.color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}>
+              觀念看完了，開始練習 →
+            </button>
+          </div>
+        </div>
+      )}
+
+      {tab === "practice" && (
+        <QuizSection
+          questions={topic.questions}
+          topicTitle={topic.title}
+          topicId={topic.id}
+          levelId={levelId}
+          levelTitle={levelTitle}
+          color={topic.color}
+        />
+      )}
+    </>
   );
 }
 
