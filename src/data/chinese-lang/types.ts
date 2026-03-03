@@ -12,6 +12,15 @@ export interface ChineseReading {
   questions: { q: string; opts: string[]; ans: number }[];
 }
 
+/** 聽力題 — TTS 播放 text，選正確選項 */
+export interface ChineseListening {
+  text: string;       // TTS 要唸的字/詞
+  hint?: string;      // 可選提示（例如「這是一種動物」）
+  opts: string[];     // 4 選項（注音或國字）
+  ans: number;        // 正確答案 index
+  explain?: string;
+}
+
 /** 練習主題 */
 export interface ChineseTopic {
   id: string;
@@ -22,6 +31,7 @@ export interface ChineseTopic {
   border: string;   // e.g. "border-orange-200"
   questions: ChineseQ[];
   readings?: ChineseReading[];
+  listening?: ChineseListening[];
 }
 
 /** 年級 */

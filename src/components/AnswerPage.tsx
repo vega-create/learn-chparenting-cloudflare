@@ -33,12 +33,13 @@ export default function AnswerPage({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setConfirmed(localStorage.getItem(PARENT_GATE_KEY) === "true");
+      // Use sessionStorage so the gate resets when browser is closed
+      setConfirmed(sessionStorage.getItem(PARENT_GATE_KEY) === "true");
     }
   }, []);
 
   const handleConfirm = () => {
-    localStorage.setItem(PARENT_GATE_KEY, "true");
+    sessionStorage.setItem(PARENT_GATE_KEY, "true");
     setConfirmed(true);
   };
 

@@ -1,11 +1,15 @@
 "use client";
 import { usePathname } from "next/navigation";
 
+// Segments that don't have their own page — render as text, not links
+const NON_LINKABLE = new Set(["answers", "guide"]);
+
 const ROUTE_LABELS: Record<string, string> = {
   "": "首頁",
   "elementary": "初級英檢",
   "intermediate": "中級英檢",
   "upper-intermediate": "中高級英檢",
+  "answers": "答案",
   "game": "遊戲練習",
   "mock-test": "模擬測驗",
   "speaking": "口說練習",
@@ -82,6 +86,7 @@ const ROUTE_LABELS: Record<string, string> = {
 interface BreadcrumbItem {
   label: string;
   href: string;
+  noLink?: boolean;
 }
 
 function buildCrumbs(pathname: string): BreadcrumbItem[] {
@@ -100,8 +105,12 @@ function buildCrumbs(pathname: string): BreadcrumbItem[] {
     } else if (seg === "unit") {
       // Skip the "unit" segment itself — we show "Unit X" instead
       continue;
+    } else if (/^unit-\d+$/.test(seg)) {
+      // Answer pages: /elementary/answers/unit-01 → "第1單元"
+      const num = parseInt(seg.replace("unit-", ""), 10);
+      crumbs.push({ label: `第${num}單元`, href });
     } else {
-      crumbs.push({ label: ROUTE_LABELS[seg] || seg, href });
+      crumbs.push({ label: ROUTE_LABELS[seg] || seg, href, noLink: NON_LINKABLE.has(seg) });
     }
   }
 
@@ -142,8 +151,8 @@ export default function Breadcrumb() {
           {crumbs.map((c, i) => (
             <li key={c.href} className="flex items-center gap-1">
               <span className="text-slate-300">/</span>
-              {i === crumbs.length - 1 ? (
-                <span className="text-slate-600 font-medium">{c.label}</span>
+              {i === crumbs.length - 1 || c.noLink ? (
+                <span className={i === crumbs.length - 1 ? "text-slate-600 font-medium" : ""}>{c.label}</span>
               ) : (
                 <a href={c.href} className="hover:text-rose-400 transition no-underline">{c.label}</a>
               )}
