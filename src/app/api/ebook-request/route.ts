@@ -26,8 +26,9 @@ const GUIDE_URLS: Record<string, string> = {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://learn.chparenting.com";
 
-function buildEmailHtml(bookName: string, guideUrl: string): string {
+function buildEmailHtml(bookName: string, ebookSlug: string, guideUrl: string): string {
   const fullUrl = `${SITE_URL}${guideUrl}`;
+  const pdfUrl = `${SITE_URL}/ebooks/${ebookSlug}.pdf`;
 
   return `
 <!DOCTYPE html>
@@ -43,13 +44,19 @@ function buildEmailHtml(bookName: string, guideUrl: string): string {
           你的《${bookName}》來囉！
         </h1>
         <p style="font-size:14px;color:#64748b;margin:0;">
-          點擊下方按鈕開始閱讀
+          PDF 下載 + 線上閱讀，兩種方式任你選
         </p>
       </div>
 
       <div style="text-align:center;margin:24px 0;">
-        <a href="${fullUrl}" style="display:inline-block;background:#4f46e5;color:#ffffff;font-size:16px;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;">
-          開始閱讀指南 →
+        <a href="${pdfUrl}" style="display:inline-block;background:#4f46e5;color:#ffffff;font-size:16px;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;">
+          下載 PDF 電子書 📥
+        </a>
+      </div>
+
+      <div style="text-align:center;margin:8px 0 24px;">
+        <a href="${fullUrl}" style="display:inline-block;background:#ffffff;color:#4f46e5;font-size:14px;font-weight:600;padding:10px 24px;border-radius:10px;text-decoration:none;border:2px solid #4f46e5;">
+          線上閱讀指南 →
         </a>
       </div>
 
@@ -58,7 +65,7 @@ function buildEmailHtml(bookName: string, guideUrl: string): string {
           <div>✅ 每單元 30 秒看完就知道怎麼陪</div>
           <div>✅ 常見問題 & 解決方式</div>
           <div>✅ 學習目標 & 過關清單</div>
-          <div>✅ 手機也能輕鬆看</div>
+          <div>✅ 精美排版，手機也能輕鬆看</div>
         </div>
       </div>
 
@@ -122,7 +129,7 @@ export async function POST(request: Request) {
           from: "learn.chparenting.com <learn@chparenting.com>",
           to: cleanEmail,
           subject: `你的《${bookName}》來囉！`,
-          html: buildEmailHtml(bookName, guideUrl),
+          html: buildEmailHtml(bookName, ebookSlug, guideUrl),
         });
       } catch (emailErr) {
         console.error("Resend error:", emailErr);
