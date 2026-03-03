@@ -1,4 +1,4 @@
-import type { MusicTopic } from "../types";
+import type { MusicConcept, MusicTopic } from "../types";
 
 const form: MusicTopic = {
   id: "form",
@@ -7,6 +7,49 @@ const form: MusicTopic = {
   description: "樂曲的結構與形式",
   color: "from-cyan-500 to-cyan-600",
   border: "border-cyan-200",
+  concepts: [
+    {
+      title: "什麼是曲式",
+      explanation: "曲式是音樂的結構與組織方式，用英文字母代表不同段落，幫助我們理解樂曲的架構。",
+      keyPoints: [
+        "曲式就是音樂的「建築藍圖」",
+        "用 A、B、C 等字母代表不同的段落",
+        "相同字母表示相同或相似的音樂內容",
+        "不同字母表示對比或全新的音樂內容",
+      ],
+    },
+    {
+      title: "基本曲式",
+      explanation: "最常見的基本曲式有一段體、二段體和三段體，是許多樂曲的基礎結構。",
+      keyPoints: [
+        "一段體（A）：只有一個樂段，結構最簡單",
+        "二段體（AB）：兩個對比段落，B 段帶來變化",
+        "三段體（ABA）：第三段再現第一段，帶來統一感",
+        "三段體是最常用的曲式之一",
+      ],
+    },
+    {
+      title: "進階曲式",
+      explanation: "進階曲式包含更多段落與發展手法，常見於古典音樂的大型作品中。",
+      keyPoints: [
+        "迴旋曲式（ABACA）：主題 A 反覆出現，穿插不同插段",
+        "奏鳴曲式：呈示部（提出主題）→ 發展部（變化發展）→ 再現部（主題再現）",
+        "變奏曲：一個主題經過多次變化演奏",
+        "賦格：各聲部依次模仿主題進入，展現對位技巧",
+      ],
+    },
+    {
+      title: "反覆記號",
+      explanation: "樂譜中常用義大利文縮寫標示反覆與結束的方式，演奏者需依指示演奏。",
+      keyPoints: [
+        "D.C.（Da Capo）：從頭反覆",
+        "D.S.（Dal Segno）：從記號（𝄋）處反覆",
+        "Fine：結束，通常搭配 D.C. 或 D.S. 使用",
+        "Coda（⊕）：尾奏，樂曲最後的結尾段落",
+        "D.C. al Fine 表示從頭再來，到 Fine 處結束",
+      ],
+    },
+  ] satisfies MusicConcept[],
   questions: [
     // === 基本曲式 (8) ===
     {

@@ -1,4 +1,4 @@
-import type { MusicTopic } from "../types";
+import type { MusicConcept, MusicTopic } from "../types";
 
 const chords: MusicTopic = {
   id: "chords",
@@ -7,6 +7,49 @@ const chords: MusicTopic = {
   description: "三和弦、七和弦與和弦進行",
   color: "from-cyan-500 to-cyan-600",
   border: "border-cyan-200",
+  concepts: [
+    {
+      title: "什麼是和弦",
+      explanation: "三個或以上的音同時發聲就形成和弦，最基本的和弦是由三個音組成的三和弦。",
+      keyPoints: [
+        "和弦是多個音同時響起的組合",
+        "最基本的和弦由三個音組成，稱為三和弦",
+        "三和弦由根音向上疊兩個三度音程構成",
+        "和弦是伴奏與和聲的基礎",
+      ],
+    },
+    {
+      title: "三和弦的種類",
+      explanation: "三和弦依據組成音程的不同，分為四種：大三和弦、小三和弦、增三和弦與減三和弦。",
+      keyPoints: [
+        "大三和弦：大三度＋小三度，聽起來明亮（如 C-E-G）",
+        "小三和弦：小三度＋大三度，聽起來柔和（如 A-C-E）",
+        "增三和弦：大三度＋大三度，聽起來擴張緊張（如 C-E-G#）",
+        "減三和弦：小三度＋小三度，聽起來不安（如 B-D-F）",
+      ],
+    },
+    {
+      title: "七和弦",
+      explanation: "在三和弦上方再疊加一個三度音，就形成由四個音組成的七和弦。",
+      keyPoints: [
+        "大七和弦（maj7）：大三和弦＋大七度，柔美夢幻",
+        "小七和弦（m7）：小三和弦＋小七度，溫暖放鬆",
+        "屬七和弦（7）：大三和弦＋小七度，有強烈解決傾向",
+        "減七和弦（dim7）：減三和弦＋減七度，極度緊張",
+      ],
+    },
+    {
+      title: "和弦功能",
+      explanation: "大調中每個音級上都可建立和弦，其中 I、IV、V 級最重要，構成基本和聲進行。",
+      keyPoints: [
+        "I 級（主和弦）：調性中心，給人安定感",
+        "IV 級（下屬和弦）：離開主和弦，準備進入屬和弦",
+        "V 級（屬和弦）：產生想回到主和弦的強烈傾向",
+        "I → IV → V → I 是最基本的和聲進行",
+        "V → I 稱為完全終止，是最常見的結束方式",
+      ],
+    },
+  ] satisfies MusicConcept[],
   questions: [
     // === 三和弦 (10) ===
     {

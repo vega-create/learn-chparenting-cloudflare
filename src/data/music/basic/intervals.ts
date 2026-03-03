@@ -1,4 +1,4 @@
-import type { MusicTopic } from "../types";
+import type { MusicConcept, MusicTopic } from "../types";
 
 const intervals: MusicTopic = {
   id: "intervals",
@@ -7,6 +7,52 @@ const intervals: MusicTopic = {
   description: "認識音程的度數與性質",
   color: "from-violet-500 to-violet-600",
   border: "border-violet-200",
+  concepts: [
+    {
+      title: "什麼是音程",
+      explanation:
+        "音程是兩個音之間的距離，用「度」來計算，就像量兩個音之間隔了幾步。",
+      keyPoints: [
+        "音程 = 兩個音之間的距離",
+        "用「度」來表示距離的大小",
+        "同一個音到自己是一度（同度）",
+        "音程可以是往上（上行）或往下（下行）",
+      ],
+    },
+    {
+      title: "音程的計算",
+      explanation:
+        "計算音程時，從下面的音數到上面的音，頭和尾都要算進去。例如 C 到 E，C 是 1、D 是 2、E 是 3，所以是三度。",
+      keyPoints: [
+        "起始音算第 1 度，然後依序往上數",
+        "C 到 E = 三度（C-D-E 共 3 個音名）",
+        "C 到 G = 五度（C-D-E-F-G 共 5 個音名）",
+        "C 到高八度 C = 八度（經過 8 個音名）",
+      ],
+    },
+    {
+      title: "音程的種類",
+      explanation:
+        "同樣度數的音程，因為半音數不同，又分成大、小、完全、增、減等種類。",
+      keyPoints: [
+        "完全音程：一度、四度、五度、八度用「完全」來修飾",
+        "大／小音程：二度、三度、六度、七度用「大」或「小」來區分",
+        "大音程縮小半音變小音程，完全音程縮小半音變減音程",
+        "增音程 = 完全或大音程再擴大半音",
+      ],
+    },
+    {
+      title: "協和與不協和",
+      explanation:
+        "不同音程聽起來的和諧程度不一樣。有些很穩定好聽（協和），有些聽起來緊張刺激（不協和）。",
+      keyPoints: [
+        "完全協和：純一度、純八度、純五度（最穩定）",
+        "不完全協和：大小三度、大小六度（和諧但有色彩）",
+        "不協和：二度、七度、增四度/減五度（聽起來緊張）",
+        "增四度（三全音）在古代被稱為「魔鬼音程」",
+      ],
+    },
+  ] satisfies MusicConcept[],
   questions: [
     // ===== 音程度數 (10) =====
     {

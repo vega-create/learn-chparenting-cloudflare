@@ -5,6 +5,12 @@ export interface MusicQ {
   explain?: string; // 解說
 }
 
+export interface MusicConcept {
+  title: string;        // 小節標題
+  explanation: string;  // 1-2 句說明
+  keyPoints: string[];  // 重點條列
+}
+
 export interface MusicTopic {
   id: string;           // URL slug
   title: string;        // 顯示名稱
@@ -12,6 +18,7 @@ export interface MusicTopic {
   description: string;  // 卡片描述
   color: string;        // Tailwind gradient
   border: string;       // border 色
+  concepts?: MusicConcept[];  // 觀念教學
   questions: MusicQ[];
 }
 
