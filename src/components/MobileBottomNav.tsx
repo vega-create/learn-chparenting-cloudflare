@@ -7,6 +7,7 @@ const JLPT_PREFIXES = ["/jlpt-n5", "/jlpt-n4", "/jlpt-n3", "/jlpt-n2", "/jlpt-n1
 const BOARD_GAME_PREFIX = "/board-games";
 const CHINESE_LANG_PREFIX = "/chinese-lang";
 const MATH_PREFIX = "/math";
+const HISTORY_GEO_PREFIX = "/history-geo";
 const FINANCE_PREFIX = "/finance";
 const DASHBOARD_PREFIX = "/dashboard";
 
@@ -18,6 +19,7 @@ export default function MobileBottomNav() {
   const isJlptSection = JLPT_PREFIXES.some(p => pathname.startsWith(p));
   const isBoardGameSection = pathname.startsWith(BOARD_GAME_PREFIX);
   const isChineseLangSection = pathname.startsWith(CHINESE_LANG_PREFIX);
+  const isHistoryGeoSection = pathname.startsWith(HISTORY_GEO_PREFIX);
   const isMathSection = pathname.startsWith(MATH_PREFIX);
   const isFinanceSection = pathname.startsWith(FINANCE_PREFIX);
   const isDashboardSection = pathname.startsWith(DASHBOARD_PREFIX);
@@ -40,6 +42,10 @@ export default function MobileBottomNav() {
 
   if (isChineseLangSection) {
     return <ChineseLangNav pathname={pathname} />;
+  }
+
+  if (isHistoryGeoSection) {
+    return <HistoryGeoNav pathname={pathname} />;
   }
 
   if (isMathSection) {
@@ -65,6 +71,7 @@ function PlatformNav({ pathname }: { pathname: string }) {
 
   const moreItems = [
     { href: "/chinese-lang", icon: "📝", label: "國語學習" },
+    { href: "/history-geo", icon: "🌏", label: "歷史地理" },
     { href: "/math", icon: "🔢", label: "數學練習" },
     { href: "/finance", icon: "💰", label: "兒童理財" },
     { href: "/typing-game", icon: "⌨️", label: "打字練習" },
@@ -118,6 +125,32 @@ function PlatformNav({ pathname }: { pathname: string }) {
           <span className="text-lg">⋯</span>
           <span className="text-[10px] font-medium">更多</span>
         </button>
+      </div>
+    </nav>
+  );
+}
+
+function HistoryGeoNav({ pathname }: { pathname: string }) {
+  const items = [
+    { href: "/", icon: "🏠", label: "首頁", match: false },
+    { href: "/history-geo", icon: "🌏", label: "歷史地理", match: pathname === "/history-geo" },
+    { href: "/history-geo/taiwan", icon: "🇹🇼", label: "台灣", match: pathname.includes("/taiwan") },
+    { href: "/history-geo/asia", icon: "🌏", label: "亞洲", match: pathname.includes("/asia") },
+    { href: "/history-geo/world", icon: "🌍", label: "世界", match: pathname.includes("/world") },
+  ];
+
+  return (
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 safe-bottom">
+      <div className="flex justify-around items-center h-14">
+        {items.map(item => (
+          <a key={item.href} href={item.href}
+            className={`flex flex-col items-center gap-0.5 no-underline py-1 px-3 transition ${
+              item.match ? "text-emerald-600" : "text-slate-400 hover:text-emerald-600"
+            }`}>
+            <span className="text-lg">{item.icon}</span>
+            <span className="text-[10px] font-medium">{item.label}</span>
+          </a>
+        ))}
       </div>
     </nav>
   );

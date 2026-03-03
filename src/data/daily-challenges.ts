@@ -101,6 +101,16 @@ export const DAILY_CHALLENGES: DailyChallenge[] = [
   { id: "dc-cl-09", category: "國語", categoryLink: "/chinese-lang", question: "一隻（　）鳥，括號中應填入什麼量詞？", options: ["張", "顆", "隻", "條"], answer: 2, explanation: "鳥用量詞「隻」。一隻鳥。" },
   { id: "dc-cl-10", category: "國語", categoryLink: "/chinese-lang", question: "「杯弓蛇影」形容什麼？", options: ["非常勇敢", "疑神疑鬼", "很有學問", "做事認真"], answer: 1, explanation: "「杯弓蛇影」比喻因疑慮而引起恐懼，疑神疑鬼。" },
 
+  // ─── 歷史地理 ───
+  { id: "dc-hg-01", category: "歷史地理", categoryLink: "/history-geo", question: "台灣最高的山是哪一座？", options: ["阿里山", "玉山", "雪山", "大霸尖山"], answer: 1, explanation: "玉山海拔 3,952 公尺，是台灣最高峰，也是東北亞最高峰。" },
+  { id: "dc-hg-02", category: "歷史地理", categoryLink: "/history-geo", question: "世界上最長的河流是？", options: ["亞馬遜河", "長江", "尼羅河", "密西西比河"], answer: 2, explanation: "尼羅河全長約 6,650 公里，是世界上最長的河流。" },
+  { id: "dc-hg-03", category: "歷史地理", categoryLink: "/history-geo", question: "哪一個朝代修建了萬里長城的大部分？", options: ["秦朝", "漢朝", "唐朝", "明朝"], answer: 3, explanation: "雖然秦朝開始修建，但現存的萬里長城大多是明朝重新修建的。" },
+  { id: "dc-hg-04", category: "歷史地理", categoryLink: "/history-geo", question: "日本的首都是？", options: ["大阪", "京都", "東京", "名古屋"], answer: 2, explanation: "東京是日本的首都，也是世界最大的都會區之一。" },
+  { id: "dc-hg-05", category: "歷史地理", categoryLink: "/history-geo", question: "台灣在日治時期建造了哪個大型水利工程？", options: ["翡翠水庫", "嘉南大圳", "石門水庫", "曾文水庫"], answer: 1, explanation: "嘉南大圳由八田與一設計，1930年完工，是日治時期最重要的水利建設。" },
+  { id: "dc-hg-06", category: "歷史地理", categoryLink: "/history-geo", question: "世界上面積最大的國家是？", options: ["中國", "美國", "加拿大", "俄羅斯"], answer: 3, explanation: "俄羅斯面積約 1,710 萬平方公里，是世界上面積最大的國家。" },
+  { id: "dc-hg-07", category: "歷史地理", categoryLink: "/history-geo", question: "古埃及人建造金字塔的主要目的是？", options: ["存放糧食", "作為法老的陵墓", "觀測天象", "防禦外敵"], answer: 1, explanation: "金字塔主要是作為法老（古埃及國王）的陵墓而建造的。" },
+  { id: "dc-hg-08", category: "歷史地理", categoryLink: "/history-geo", question: "台灣最長的河流是？", options: ["高屏溪", "淡水河", "濁水溪", "大甲溪"], answer: 2, explanation: "濁水溪全長約 186.6 公里，是台灣最長的河流。" },
+
   // ─── 繼續補充到 100+ 題 ───
   { id: "dc-061", category: "英檢初級", categoryLink: "/elementary", question: "What does 'surprised' mean?", options: ["開心的", "驚訝的", "害怕的", "無聊的"], answer: 1, explanation: "surprised 是「驚訝的」，surprise 是驚喜。" },
   { id: "dc-062", category: "英檢初級", categoryLink: "/elementary", question: "They ___ playing in the park now.", options: ["is", "am", "are", "was"], answer: 2, explanation: "They 搭配 are，現在進行式：are + V-ing。" },
@@ -161,13 +171,13 @@ function hashString(str: string): number {
 
 /* ─── Weekday subject rotation ─── */
 const WEEKDAY_SUBJECTS: Record<number, string[]> = {
-  0: ["數學", "國語"],            // 週日
-  1: ["英檢初級"],                // 週一
-  2: ["日文 N5", "日文 N4"],      // 週二
-  3: ["英檢中級", "國語"],        // 週三
-  4: ["數學"],                    // 週四
-  5: ["英檢初級", "英檢中級"],    // 週五
-  6: ["日文 N5", "國語"],         // 週六
+  0: ["數學", "國語"],                 // 週日
+  1: ["英檢初級", "歷史地理"],         // 週一
+  2: ["日文 N5", "日文 N4"],           // 週二
+  3: ["英檢中級", "國語"],             // 週三
+  4: ["數學", "歷史地理"],             // 週四
+  5: ["英檢初級", "英檢中級"],         // 週五
+  6: ["日文 N5", "國語", "歷史地理"],  // 週六
 };
 
 export function getDailyChallenge(date: Date): DailyChallenge {

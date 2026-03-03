@@ -98,6 +98,11 @@ export default function Header() {
             pathname.startsWith("/chinese-lang") ? "text-orange-600 bg-orange-50" : "text-slate-600 hover:bg-orange-50 hover:text-orange-600"
           }`}>📝 國語</a>
 
+          {/* History & Geography */}
+          <a href="/history-geo" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
+            pathname.startsWith("/history-geo") ? "text-emerald-600 bg-emerald-50" : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-600"
+          }`}>🌏 歷史</a>
+
           {/* Typing game */}
           <a href="/typing-game" className={`px-3 py-2 rounded-lg font-medium transition no-underline ${
             pathname === "/typing-game" ? "text-cyan-600 bg-cyan-50" : "text-slate-600 hover:bg-cyan-50 hover:text-cyan-600"

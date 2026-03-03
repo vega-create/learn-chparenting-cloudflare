@@ -61,6 +61,13 @@ const TOOLS = [
     features: ["8 大主題 + 120 題練習", "觀念教學 + 範例解說", "限時計算挑戰", "國小到國中完整涵蓋"],
   },
   {
+    id: "history-geo", title: "歷史地理", sub: "History & Geography", icon: "🌏",
+    desc: "台灣・亞洲・世界歷史地理",
+    color: "from-emerald-500 to-emerald-600", border: "border-emerald-200",
+    active: true, href: "/history-geo",
+    features: ["台灣歷史地理文化", "亞洲歷史地理", "世界歷史地理文化", "320+ 題選擇題"],
+  },
+  {
     id: "typing", title: "打字練習", sub: "Typing Game", icon: "⌨️",
     desc: "中英雙語打字訓練",
     color: "from-emerald-400 to-emerald-500", border: "border-emerald-200",
