@@ -146,6 +146,37 @@ export default function HowToUsePage() {
         </p>
       </div>
 
+      {/* Answer Access for Parents */}
+      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-8">
+        <h2 className="text-xl font-bold text-slate-800 mb-5">🔑 答案查看說明</h2>
+        <p className="text-slate-600 leading-7 mb-4">
+          為了讓孩子能夠獨立完成練習，我們將答案設計為<strong>「家長專區」</strong>：
+        </p>
+        <div className="space-y-3 text-sm">
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <span className="text-lg">📝</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">練習單（PDF）不含答案</p>
+              <p className="text-slate-500">下載的練習單只有題目，可以放心讓孩子自己寫。答案需要在網站上由家長查看。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <span className="text-lg">👩‍👦</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">線上答案需要家長確認</p>
+              <p className="text-slate-500">點「🔑 查看答案」後，會先看到提示畫面。確認是家長後才會顯示答案。第一次確認後，同一裝置不需要再次確認。</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <span className="text-lg">💡</span>
+            <div>
+              <p className="font-bold text-slate-700 mb-1">建議的對答案方式</p>
+              <p className="text-slate-500">孩子寫完練習單後，家長用手機開啟答案頁面對照，跟孩子一起討論做錯的題目。也可以搭配「家長陪伴指南」了解每單元的重點。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Tips for Parents */}
       <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-8 border border-amber-200">
         <h2 className="text-xl font-bold text-slate-800 mb-4 text-center">👨‍👩‍👧‍👦 給家長的小提示</h2>
