@@ -147,9 +147,28 @@ function hashString(str: string): number {
   return Math.abs(hash);
 }
 
+/* ─── Weekday subject rotation ─── */
+const WEEKDAY_SUBJECTS: Record<number, string[]> = {
+  0: ["數學"],                    // 週日
+  1: ["英檢初級"],                // 週一
+  2: ["日文 N5", "日文 N4"],      // 週二
+  3: ["英檢中級"],                // 週三
+  4: ["數學"],                    // 週四
+  5: ["英檢初級", "英檢中級"],    // 週五
+  6: ["日文 N5", "日文 N4"],      // 週六
+};
+
 export function getDailyChallenge(date: Date): DailyChallenge {
   const dateString = date.toISOString().split("T")[0];
   const seed = hashString(dateString);
-  const index = seed % DAILY_CHALLENGES.length;
-  return DAILY_CHALLENGES[index];
+  const day = date.getDay(); // 0=Sun, 1=Mon...
+
+  // Filter by today's subject
+  const subjects = WEEKDAY_SUBJECTS[day] ?? [];
+  const filtered = DAILY_CHALLENGES.filter((q) => subjects.includes(q.category));
+
+  // If filtered has questions, pick from them; otherwise pick from all
+  const pool = filtered.length > 0 ? filtered : DAILY_CHALLENGES;
+  const index = seed % pool.length;
+  return pool[index];
 }
