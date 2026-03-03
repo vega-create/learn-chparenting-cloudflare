@@ -87,11 +87,6 @@ export default function UnitPage() {
         {tab === "quiz" && <QuizTab key={uid + "q"} unit={unit} />}
       </div>
 
-      {/* Bottom Download Actions */}
-      <div className="max-w-4xl mx-auto px-3 md:px-4 pb-3">
-        <WorksheetActions toolSlug="gept" level="upper-intermediate" unitId={unitId} unitName={unit.title} color="rose" />
-      </div>
-
       {/* Unit Navigation - bottom */}
       <div className="max-w-4xl mx-auto px-4 pb-8 flex justify-between items-center gap-3">
         {prevUnit ? (
