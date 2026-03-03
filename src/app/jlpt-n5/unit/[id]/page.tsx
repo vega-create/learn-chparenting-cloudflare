@@ -210,45 +210,96 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
   const sentences = unit.listening;
   const resetForNew = () => { setResult(null); setAttempts(0); setBestScore(0); setShowText(false); };
 
-  const startRecording = (targetText: string) => {
-    const w = window as unknown as Record<string, unknown>;
-    const SRClass = (w.SpeechRecognition || w.webkitSpeechRecognition) as { new(): SRecognition } | undefined;
-    if (!SRClass) return;
-    const recog = new SRClass();
-    recog.lang = LANG; recog.interimResults = false; recog.maxAlternatives = 5;
+  const scoreJaResult = (targetText: string, allTranscripts: string[][]) => {
+    const target = targetText.replace(/[。、！？「」（）\s]/g, "");
+    const targetChars = Array.from(target);
+    let bestPct = 0;
+    let bestTranscript = "";
+    const bestMatched: number[] = [];
 
-    recog.onresult = (e: SREvent) => {
-      // For Japanese, compare character by character
-      const target = targetText.replace(/[。、！？「」（）\s]/g, "");
-      const targetChars = Array.from(target);
-      let bestPct = 0;
-      let bestTranscript = "";
-      const bestMatched: number[] = [];
-
-      for (let i = 0; i < e.results[0].length; i++) {
-        const transcript = e.results[0][i].transcript.replace(/[。、！？「」（）\s]/g, "");
+    for (const alternatives of allTranscripts) {
+      for (const raw of alternatives) {
+        const transcript = raw.replace(/[。、！？「」（）\s]/g, "");
         const spokenChars = Array.from(transcript);
         const matched: number[] = [];
         targetChars.forEach((tc: string, idx: number) => {
           if (spokenChars.includes(tc)) matched.push(idx);
         });
         const pct = Math.round((matched.length / targetChars.length) * 100);
-        if (pct > bestPct) { bestPct = pct; bestTranscript = e.results[0][i].transcript; bestMatched.length = 0; bestMatched.push(...matched); }
+        if (pct > bestPct) { bestPct = pct; bestTranscript = raw; bestMatched.length = 0; bestMatched.push(...matched); }
       }
+    }
 
-      setResult({ transcript: bestTranscript, pct: bestPct, matchedWords: bestMatched });
-      setAttempts(a => a + 1);
-      setBestScore(s => Math.max(s, bestPct));
-      setRecording(false);
-      if (bestPct >= 90) playPerfect();
-      else if (bestPct >= 50) playCorrect();
-      else playWrong();
-    };
-    recog.onerror = () => setRecording(false);
-    recog.onend = () => setRecording(false);
-    recog.start();
-    setRecording(true);
-    setResult(null);
+    setResult({ transcript: bestTranscript, pct: bestPct, matchedWords: bestMatched });
+    setAttempts(a => a + 1);
+    setBestScore(s => Math.max(s, bestPct));
+    setRecording(false);
+    if (bestPct >= 90) playPerfect();
+    else if (bestPct >= 50) playCorrect();
+    else playWrong();
+  };
+
+  const startRecording = (targetText: string, isSentence = false) => {
+    const w = window as unknown as Record<string, unknown>;
+    const SRClass = (w.SpeechRecognition || w.webkitSpeechRecognition) as { new(): SRecognition } | undefined;
+    if (!SRClass) return;
+    const recog = new SRClass();
+    recog.lang = LANG; recog.interimResults = false; recog.maxAlternatives = 5;
+
+    if (isSentence) {
+      (recog as any).continuous = true;
+      const collected: string[][] = [];
+      let stopTimer: ReturnType<typeof setTimeout>;
+      // 日文句子：每個字約 0.4 秒，最少 5 秒，最多 15 秒
+      const charCount = targetText.replace(/[。、！？「」（）\s]/g, "").length;
+      const duration = Math.min(15000, Math.max(5000, charCount * 400));
+
+      recog.onresult = ((e: any) => {
+        for (let r = 0; r < e.results.length; r++) {
+          if (e.results[r].isFinal && !collected[r]) {
+            const alts: string[] = [];
+            for (let a = 0; a < e.results[r].length; a++) {
+              alts.push(e.results[r][a].transcript);
+            }
+            collected[r] = alts;
+          }
+        }
+        clearTimeout(stopTimer);
+        stopTimer = setTimeout(() => { try { recog.stop(); } catch {} }, 2000);
+      }) as any;
+
+      recog.onend = () => {
+        clearTimeout(stopTimer);
+        if (collected.length > 0) {
+          const merged: string[][] = [];
+          const fullTranscript = collected.map(alts => alts[0]).join("");
+          merged.push([fullTranscript]);
+          for (const alts of collected) merged.push(alts);
+          scoreJaResult(targetText, merged);
+        } else {
+          setRecording(false);
+        }
+      };
+      recog.onerror = () => { clearTimeout(stopTimer); setRecording(false); };
+
+      recog.start();
+      setRecording(true);
+      setResult(null);
+      setTimeout(() => { try { recog.stop(); } catch {} }, duration);
+    } else {
+      recog.onresult = ((e: SREvent) => {
+        const alts: string[] = [];
+        for (let i = 0; i < e.results[0].length; i++) {
+          alts.push(e.results[0][i].transcript);
+        }
+        scoreJaResult(targetText, [alts]);
+      }) as any;
+      recog.onerror = () => setRecording(false);
+      recog.onend = () => setRecording(false);
+      recog.start();
+      setRecording(true);
+      setResult(null);
+    }
   };
 
   const getScoreEmoji = (pct: number) => pct >= 90 ? "🌟" : pct >= 70 ? "😊" : pct >= 50 ? "💪" : "🔄";
@@ -357,12 +408,12 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
               </div>
             )}
             <div className="my-5">
-              <button onClick={() => startRecording(sentences[sentIdx].text)} disabled={recording}
+              <button onClick={() => startRecording(sentences[sentIdx].text, true)} disabled={recording}
                 className={`w-24 h-24 rounded-full text-4xl cursor-pointer transition-all border-none ${recording ? "animate-pulse" : "active:scale-90"}`}
                 style={{ background: recording ? "#ef4444" : unit.color, color: "white", boxShadow: recording ? "0 0 0 8px rgba(239,68,68,0.2)" : `0 0 0 4px ${unit.color}25` }}>
                 {recording ? "⏹️" : "🎙️"}
               </button>
-              <div className="text-sm text-slate-400 mt-2">{recording ? "正在聽你說..." : "點擊開始錄音"}</div>
+              <div className="text-sm text-slate-400 mt-2">{recording ? "正在聽你說...（說完會自動停止）" : "點擊開始錄音"}</div>
             </div>
             {result && (
               <div className="animate-fadeIn rounded-xl p-5 mb-4 text-left" style={{ background: getScoreColor(result.pct) + "08", border: `2px solid ${getScoreColor(result.pct)}25` }}>

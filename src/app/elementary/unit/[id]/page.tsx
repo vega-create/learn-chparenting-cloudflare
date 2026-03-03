@@ -207,21 +207,16 @@ function SpeakingTab({ unit }: { unit: any }) {
 
   const resetForNew = () => { setResult(null); setAttempts(0); setBestScore(0); setShowText(false); };
 
-  const startRecording = (targetText: string) => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return;
-    const recog = new SR();
-    recog.lang = "en-US"; recog.interimResults = false; recog.maxAlternatives = 5;
+  const scoreResult = (targetText: string, allTranscripts: string[][]) => {
+    const target = targetText.toLowerCase().replace(/[^\w\s]/g, "");
+    const targetWords = target.split(/\s+/);
+    let bestPct = 0;
+    let bestTranscript = "";
+    const bestMatched: number[] = [];
 
-    recog.onresult = (e: any) => {
-      const target = targetText.toLowerCase().replace(/[^\w\s]/g, "");
-      const targetWords = target.split(/\s+/);
-      let bestPct = 0;
-      let bestTranscript = "";
-      const bestMatched: number[] = [];
-
-      for (let i = 0; i < e.results[0].length; i++) {
-        const transcript = e.results[0][i].transcript.toLowerCase().replace(/[^\w\s]/g, "");
+    for (const alternatives of allTranscripts) {
+      for (const raw of alternatives) {
+        const transcript = raw.toLowerCase().replace(/[^\w\s]/g, "");
         const spokenWords = transcript.split(/\s+/);
         const matched: number[] = [];
         targetWords.forEach((tw: string, idx: number) => {
@@ -230,22 +225,85 @@ function SpeakingTab({ unit }: { unit: any }) {
           }
         });
         const pct = Math.round((matched.length / targetWords.length) * 100);
-        if (pct > bestPct) { bestPct = pct; bestTranscript = e.results[0][i].transcript; bestMatched.length = 0; bestMatched.push(...matched); }
+        if (pct > bestPct) { bestPct = pct; bestTranscript = raw; bestMatched.length = 0; bestMatched.push(...matched); }
       }
+    }
 
-      setResult({ transcript: bestTranscript, pct: bestPct, matchedWords: bestMatched });
-      setAttempts(a => a + 1);
-      setBestScore(s => Math.max(s, bestPct));
-      setRecording(false);
-      if (bestPct >= 90) playPerfect();
-      else if (bestPct >= 50) playCorrect();
-      else playWrong();
-    };
-    recog.onerror = () => setRecording(false);
-    recog.onend = () => setRecording(false);
-    recog.start();
-    setRecording(true);
-    setResult(null);
+    setResult({ transcript: bestTranscript, pct: bestPct, matchedWords: bestMatched });
+    setAttempts(a => a + 1);
+    setBestScore(s => Math.max(s, bestPct));
+    setRecording(false);
+    if (bestPct >= 90) playPerfect();
+    else if (bestPct >= 50) playCorrect();
+    else playWrong();
+  };
+
+  const startRecording = (targetText: string, isSentence = false) => {
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) return;
+    const recog = new SR();
+    recog.lang = "en-US"; recog.interimResults = false; recog.maxAlternatives = 5;
+
+    if (isSentence) {
+      recog.continuous = true;
+      const collected: string[][] = [];
+      let stopTimer: ReturnType<typeof setTimeout>;
+      // 根據句子字數計算錄音時間：每個字約 0.6 秒，最少 5 秒，最多 15 秒
+      const wordCount = targetText.split(/\s+/).length;
+      const duration = Math.min(15000, Math.max(5000, wordCount * 600));
+
+      recog.onresult = (e: any) => {
+        // 收集所有結果
+        for (let r = 0; r < e.results.length; r++) {
+          if (e.results[r].isFinal && !collected[r]) {
+            const alts: string[] = [];
+            for (let a = 0; a < e.results[r].length; a++) {
+              alts.push(e.results[r][a].transcript);
+            }
+            collected[r] = alts;
+          }
+        }
+        // 每次收到結果，重設停止計時器（靜默 2 秒後自動結束）
+        clearTimeout(stopTimer);
+        stopTimer = setTimeout(() => { try { recog.stop(); } catch {} }, 2000);
+      };
+
+      recog.onend = () => {
+        clearTimeout(stopTimer);
+        if (collected.length > 0) {
+          // 把所有片段合併成完整句子再評分
+          const merged: string[][] = [];
+          const fullTranscript = collected.map(alts => alts[0]).join(" ");
+          merged.push([fullTranscript]);
+          // 也把各段的替代選項加入
+          for (const alts of collected) merged.push(alts);
+          scoreResult(targetText, merged);
+        } else {
+          setRecording(false);
+        }
+      };
+      recog.onerror = () => { clearTimeout(stopTimer); setRecording(false); };
+
+      recog.start();
+      setRecording(true);
+      setResult(null);
+      // 設定最長錄音時間
+      setTimeout(() => { try { recog.stop(); } catch {} }, duration);
+    } else {
+      // 單字模式：保持原本行為
+      recog.onresult = (e: any) => {
+        const alts: string[] = [];
+        for (let i = 0; i < e.results[0].length; i++) {
+          alts.push(e.results[0][i].transcript);
+        }
+        scoreResult(targetText, [alts]);
+      };
+      recog.onerror = () => setRecording(false);
+      recog.onend = () => setRecording(false);
+      recog.start();
+      setRecording(true);
+      setResult(null);
+    }
   };
 
   const getScoreEmoji = (pct: number) => pct >= 90 ? "🌟" : pct >= 70 ? "😊" : pct >= 50 ? "💪" : "🔄";
@@ -377,12 +435,12 @@ function SpeakingTab({ unit }: { unit: any }) {
 
             {/* Record button */}
             <div className="my-5">
-              <button onClick={() => startRecording(sentences[sentIdx].text)} disabled={recording}
+              <button onClick={() => startRecording(sentences[sentIdx].text, true)} disabled={recording}
                 className={`w-24 h-24 rounded-full text-4xl cursor-pointer transition-all border-none ${recording ? "animate-pulse" : "active:scale-90"}`}
                 style={{ background: recording ? "#ef4444" : unit.color, color: "white", boxShadow: recording ? "0 0 0 8px rgba(239,68,68,0.2)" : `0 0 0 4px ${unit.color}25` }}>
                 {recording ? "⏹️" : "🎙️"}
               </button>
-              <div className="text-sm text-slate-400 mt-2">{recording ? "正在聽你說..." : "點擊開始錄音"}</div>
+              <div className="text-sm text-slate-400 mt-2">{recording ? "正在聽你說...（說完會自動停止）" : "點擊開始錄音"}</div>
             </div>
 
             {/* Result with word-by-word highlighting */}
