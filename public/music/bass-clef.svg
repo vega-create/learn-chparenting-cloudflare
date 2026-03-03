@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 90">
+  <!-- 五線譜背景線 -->
+  <line x1="0" y1="30" x2="50" y2="30" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="40" x2="50" y2="40" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="50" x2="50" y2="50" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="60" x2="50" y2="60" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="70" x2="50" y2="70" stroke="#ccc" stroke-width="1"/>
+  <!-- 低音譜號（F clef 簡化版） -->
+  <circle cx="14" cy="38" r="4" fill="#333"/>
+  <path d="M18 38 C26 38 32 44 32 52 C32 62 24 70 14 70"
+        fill="none" stroke="#333" stroke-width="2.8" stroke-linecap="round"/>
+  <!-- 兩個小圓點（F線兩側） -->
+  <circle cx="36" cy="35" r="2.5" fill="#333"/>
+  <circle cx="36" cy="45" r="2.5" fill="#333"/>
+</svg>
