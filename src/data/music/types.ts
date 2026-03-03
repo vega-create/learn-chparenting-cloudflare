@@ -9,6 +9,7 @@ export interface MusicConcept {
   title: string;        // 小節標題
   explanation: string;  // 1-2 句說明
   keyPoints: string[];  // 重點條列
+  visual?: string;      // 視覺圖示（monospace 呈現）
 }
 
 export interface MusicTopic {

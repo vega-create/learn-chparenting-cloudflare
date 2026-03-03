@@ -12,6 +12,10 @@ const dynamics: MusicTopic = {
       title: "力度記號",
       explanation:
         "力度記號告訴演奏者要彈多大聲或多小聲，從很弱到很強有一整套記號。",
+      visual: `🔈 音量大小的刻度：
+🤫 pp ─ p ─ mp ─ mf ─ f ─ ff 📢
+  很弱  弱  中弱  中強  強  很強
+   ░░   ▒▒  ▓▓▓  ███  ███ ████`,
       keyPoints: [
         "pp（很弱）→ p（弱）→ mp（中弱）→ mf（中強）→ f（強）→ ff（很強）",
         "p 來自義大利文 piano（輕柔），f 來自 forte（有力）",
@@ -23,6 +27,11 @@ const dynamics: MusicTopic = {
       title: "漸變記號",
       explanation:
         "漸變記號表示音量要慢慢變大或慢慢變小，不是突然改變，而是像溜滑梯一樣漸漸過渡。",
+      visual: `📈 漸強 cresc.        📉 漸弱 dim.
+  ＜               ＞
+ ／  ＼            ＼  ／
+p → → → f        f → → → p
+小聲→大聲         大聲→小聲`,
       keyPoints: [
         "crescendo（漸強）：音量慢慢變大，符號像張開的嘴巴「<」",
         "diminuendo（漸弱）：音量慢慢變小，符號像收合的嘴巴「>」",
@@ -34,6 +43,10 @@ const dynamics: MusicTopic = {
       title: "速度記號",
       explanation:
         "速度記號告訴演奏者這首曲子要彈多快或多慢，用義大利文標示在樂譜開頭。",
+      visual: `🐌 慢 ─────────────────────→ 快 🐇
+Largo  Adagio  Andante  Moderato  Allegro  Presto
+~40    ~66     ~76      ~108      ~120     ~168
+最緩板  慢板    行板     中板      快板     急板`,
       keyPoints: [
         "Largo（很慢）→ Adagio（慢板）→ Andante（行板）→ Moderato（中速）",
         "Allegro（快板）→ Presto（急板），速度越來越快",
@@ -45,6 +58,11 @@ const dynamics: MusicTopic = {
       title: "其他表情記號",
       explanation:
         "表情記號告訴演奏者用什麼方式或感覺來演奏，讓音樂更有生命力。",
+      visual: `🎶 常見表情記號：
+legato（圓滑）：♩‿♩‿♩‿♩  音音相連
+staccato（斷奏）：♩·♩·♩·♩ 短促分離
+accent（重音）：♩ > ♩    強調某音
+fermata（延長）：♩ 𝄐     自由延長`,
       keyPoints: [
         "legato（圓滑）：音與音之間要連接順暢",
         "staccato（斷奏）：每個音短促分離，音符上標一個小圓點",
