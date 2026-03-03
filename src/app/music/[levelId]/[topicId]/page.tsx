@@ -91,6 +91,11 @@ function TabbedView({ topic, levelId, levelTitle }: { topic: MusicTopic; levelId
             <div key={i} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
               <h2 className="text-lg font-bold text-slate-800 mb-2">{c.title}</h2>
               <p className="text-slate-600 leading-7 mb-3">{c.explanation}</p>
+              {c.visual && (
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-3 overflow-x-auto">
+                  <pre className="text-sm leading-6 text-slate-700 whitespace-pre font-mono m-0">{c.visual}</pre>
+                </div>
+              )}
               <ul className="space-y-1.5">
                 {c.keyPoints.map((kp, j) => (
                   <li key={j} className="flex items-start gap-2 text-sm text-slate-600">
