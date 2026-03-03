@@ -62,12 +62,12 @@ Largo  Adagio  Andante  Moderato  Allegro  Presto
 legato（圓滑）：♩‿♩‿♩‿♩  音音相連
 staccato（斷奏）：♩·♩·♩·♩ 短促分離
 accent（重音）：♩ > ♩    強調某音
-fermata（延長）：♩ 𝄐     自由延長`,
+fermata（延長）：♩ 🔴    自由延長`,
       keyPoints: [
         "legato（圓滑）：音與音之間要連接順暢",
         "staccato（斷奏）：每個音短促分離，音符上標一個小圓點",
         "accent（重音）：特別強調某個音，標記為「>」",
-        "fermata（延長記號 𝄐）：自由延長那個音的長度",
+        "fermata（延長記號 ⌓）：自由延長那個音的長度",
       ],
     },
   ] satisfies MusicConcept[],
@@ -252,7 +252,7 @@ fermata（延長）：♩ 𝄐     自由延長`,
       explain: "staccato 意為「斷奏」，每個音要短促分離，在音符上方或下方標記一個小圓點。",
     },
     {
-      s: "「fermata（𝄐）」代表什麼意思？",
+      s: "「fermata（延長記號）」代表什麼意思？",
       opts: [
         "延長記號，自由延長音符時值",
         "反覆記號",
