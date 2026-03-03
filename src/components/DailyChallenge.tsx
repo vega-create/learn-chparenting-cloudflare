@@ -13,6 +13,7 @@ export default function DailyChallengeBlock() {
   const [answered, setAnswered] = useState(false);
   const [todayStr, setTodayStr] = useState("");
   const [stats, setStats] = useState<{ total: number; correct: number } | null>(null);
+  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     const today = getToday();
@@ -27,6 +28,7 @@ export default function DailyChallengeBlock() {
       if (savedAnswer !== null) {
         setSelected(Number(savedAnswer));
         setAnswered(true);
+        setCollapsed(true); // Auto-collapse if already answered
       }
     }
 
@@ -45,6 +47,9 @@ export default function DailyChallengeBlock() {
     localStorage.setItem("daily_challenge_answer", String(idx));
 
     const isCorrect = idx === challenge.answer;
+
+    // Auto-collapse after 4 seconds so user can see result first
+    setTimeout(() => setCollapsed(true), 4000);
 
     // Record to Supabase
     fetch("/api/daily-challenge", {
@@ -73,6 +78,29 @@ export default function DailyChallengeBlock() {
   const weekday = ["日", "一", "二", "三", "四", "五", "六"][new Date().getDay()];
   const accuracy = stats && stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
 
+  // Collapsed view — compact bar
+  if (answered && collapsed) {
+    return (
+      <section className="max-w-4xl mx-auto px-4 py-4">
+        <button
+          onClick={() => setCollapsed(false)}
+          className={`w-full rounded-2xl px-5 py-3 border shadow-sm transition-all flex items-center justify-between cursor-pointer hover:shadow-md ${
+            isCorrect
+              ? "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200"
+              : "bg-gradient-to-r from-red-50 to-orange-50 border-red-200"
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{isCorrect ? "✅" : "❌"}</span>
+            <span className="font-bold text-slate-700 text-sm">今日挑戰已完成</span>
+            <span className="text-xs text-slate-400">— {challenge.category}</span>
+          </div>
+          <span className="text-xs text-slate-400">展開 ▼</span>
+        </button>
+      </section>
+    );
+  }
+
   return (
     <section className="max-w-4xl mx-auto px-4 py-8">
       <div className={`rounded-2xl p-6 md:p-8 border shadow-sm transition-all ${
@@ -88,8 +116,18 @@ export default function DailyChallengeBlock() {
             <span className="text-xl">✨</span>
             <h3 className="text-lg font-bold text-slate-800">今日挑戰</h3>
           </div>
-          <div className="text-xs text-slate-400 font-mono">
-            {todayStr} ({weekday})
+          <div className="flex items-center gap-3">
+            <div className="text-xs text-slate-400 font-mono">
+              {todayStr} ({weekday})
+            </div>
+            {answered && (
+              <button
+                onClick={() => setCollapsed(true)}
+                className="text-xs text-slate-400 hover:text-slate-600 transition cursor-pointer"
+              >
+                收起 ▲
+              </button>
+            )}
           </div>
         </div>
 

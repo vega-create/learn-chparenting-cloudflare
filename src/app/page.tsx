@@ -74,36 +74,43 @@ export default function HomePage() {
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Hero */}
+      {/* Hero — compact, CTA-first */}
       <section className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-orange-50 to-amber-50">
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #fda4af 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-        <div className="max-w-6xl mx-auto px-4 py-16 md:py-24 relative">
+        <div className="max-w-6xl mx-auto px-4 pt-10 pb-6 md:pt-16 md:pb-10 relative">
           <div className="text-center">
-            <div className="text-6xl mb-4 animate-float">📚</div>
-            <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight text-slate-800">
-              親子多元<span className="text-rose-400">學習</span>平台
+            <h1 className="text-2xl md:text-4xl font-black mb-2 leading-tight text-slate-800">
+              📚 親子多元<span className="text-rose-400">學習</span>平台
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-3">
-              減輕家長負擔，讓孩子快樂學習
+            <p className="text-base md:text-lg text-slate-500 mb-6">
+              英檢・日文・數學・桌遊 — 完全免費
             </p>
-            <p className="text-base text-slate-500 max-w-xl mx-auto mb-8">
-              英檢・日文・數學・桌遊 — 免費互動式學習工具
-            </p>
-            <PracticeCounter />
-            <div className="flex flex-wrap justify-center gap-3">
-              <a href="/elementary" className="px-8 py-3 bg-rose-50 text-rose-500 border-2 border-rose-300 rounded-xl font-bold text-lg hover:bg-rose-100 transition shadow-md hover:shadow-lg no-underline">
-                📘 開始學英檢
+
+            {/* Quick-start cards — big, tappable, above the fold */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto mb-6">
+              <a href="/elementary" className="group bg-white rounded-2xl p-4 border-2 border-rose-200 shadow-sm hover:shadow-lg hover:border-rose-400 transition-all no-underline hover-lift">
+                <div className="text-3xl mb-1">📘</div>
+                <div className="font-bold text-slate-800 text-sm">全民英檢</div>
+                <div className="text-xs text-slate-400">GEPT</div>
               </a>
-              <a href="/jlpt-n5" className="px-8 py-3 bg-white text-red-500 border border-red-200 rounded-xl font-bold text-lg hover:bg-red-50 transition shadow-md hover:shadow-lg no-underline">
-                🇯🇵 學日文
+              <a href="/jlpt-n5" className="group bg-white rounded-2xl p-4 border-2 border-red-200 shadow-sm hover:shadow-lg hover:border-red-400 transition-all no-underline hover-lift">
+                <div className="text-3xl mb-1">🇯🇵</div>
+                <div className="font-bold text-slate-800 text-sm">日文檢定</div>
+                <div className="text-xs text-slate-400">JLPT</div>
               </a>
-              <a href="/board-games" className="px-8 py-3 bg-white text-orange-500 border border-orange-200 rounded-xl font-bold text-lg hover:bg-orange-50 transition shadow-md hover:shadow-lg no-underline">
-                🎲 玩桌遊
+              <a href="/board-games" className="group bg-white rounded-2xl p-4 border-2 border-orange-200 shadow-sm hover:shadow-lg hover:border-orange-400 transition-all no-underline hover-lift">
+                <div className="text-3xl mb-1">🎲</div>
+                <div className="font-bold text-slate-800 text-sm">教育桌遊</div>
+                <div className="text-xs text-slate-400">18 款遊戲</div>
               </a>
-              <a href="#tools" className="px-8 py-3 bg-white text-slate-600 border border-slate-200 rounded-xl font-semibold text-lg hover:bg-slate-50 transition shadow-md no-underline">
-                探索所有工具 ↓
+              <a href="#tools" className="group bg-white rounded-2xl p-4 border-2 border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-400 transition-all no-underline hover-lift">
+                <div className="text-3xl mb-1">🔢</div>
+                <div className="font-bold text-slate-800 text-sm">更多工具</div>
+                <div className="text-xs text-slate-400">數學・打字・理財</div>
               </a>
             </div>
+
+            <PracticeCounter />
           </div>
         </div>
       </section>
