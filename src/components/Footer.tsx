@@ -27,6 +27,7 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-slate-700 mb-2">🎯 更多工具</h4>
             <div className="flex flex-col gap-1.5">
+              <a href="/chinese-lang" className="text-slate-500 hover:text-orange-500 transition">📝 國語學習</a>
               <a href="/board-games" className="text-slate-500 hover:text-orange-500 transition">🎲 教育桌遊</a>
               <a href="/math" className="text-slate-500 hover:text-amber-500 transition">🔢 數學練習</a>
               <a href="/typing-game" className="text-slate-500 hover:text-emerald-500 transition">⌨️ 打字練習</a>

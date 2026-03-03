@@ -47,6 +47,13 @@ const TOOLS = [
     features: ["18 款教育遊戲", "邏輯推理 + 程式概念", "數學衝刺 + 單字搜尋", "記憶力 + 圍棋 + 跳棋"],
   },
   {
+    id: "chinese-lang", title: "國語學習", sub: "Chinese Language", icon: "📝",
+    desc: "注音・生字・成語・閱讀理解",
+    color: "from-orange-400 to-amber-500", border: "border-orange-200",
+    active: true, href: "/chinese-lang",
+    features: ["注音符號 + 生字練習", "成語典故 + 修辭文法", "閱讀理解（低中高年級）", "370+ 題選擇題"],
+  },
+  {
     id: "math", title: "數學練習", sub: "Math", icon: "🔢",
     desc: "觀念教學 + 互動練習 + 限時挑戰",
     color: "from-amber-400 to-amber-500", border: "border-amber-200",

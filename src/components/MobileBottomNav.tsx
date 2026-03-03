@@ -5,6 +5,7 @@ import { useState } from "react";
 const GEPT_PREFIXES = ["/elementary", "/intermediate", "/upper-intermediate"];
 const JLPT_PREFIXES = ["/jlpt-n5", "/jlpt-n4", "/jlpt-n3", "/jlpt-n2", "/jlpt-n1"];
 const BOARD_GAME_PREFIX = "/board-games";
+const CHINESE_LANG_PREFIX = "/chinese-lang";
 const MATH_PREFIX = "/math";
 const FINANCE_PREFIX = "/finance";
 const DASHBOARD_PREFIX = "/dashboard";
@@ -16,6 +17,7 @@ export default function MobileBottomNav() {
   const isGeptSection = GEPT_PREFIXES.some(p => pathname.startsWith(p));
   const isJlptSection = JLPT_PREFIXES.some(p => pathname.startsWith(p));
   const isBoardGameSection = pathname.startsWith(BOARD_GAME_PREFIX);
+  const isChineseLangSection = pathname.startsWith(CHINESE_LANG_PREFIX);
   const isMathSection = pathname.startsWith(MATH_PREFIX);
   const isFinanceSection = pathname.startsWith(FINANCE_PREFIX);
   const isDashboardSection = pathname.startsWith(DASHBOARD_PREFIX);
@@ -34,6 +36,10 @@ export default function MobileBottomNav() {
 
   if (isBoardGameSection) {
     return <BoardGameNav pathname={pathname} />;
+  }
+
+  if (isChineseLangSection) {
+    return <ChineseLangNav pathname={pathname} />;
   }
 
   if (isMathSection) {
@@ -58,6 +64,7 @@ function PlatformNav({ pathname }: { pathname: string }) {
   ];
 
   const moreItems = [
+    { href: "/chinese-lang", icon: "📝", label: "國語學習" },
     { href: "/math", icon: "🔢", label: "數學練習" },
     { href: "/finance", icon: "💰", label: "兒童理財" },
     { href: "/typing-game", icon: "⌨️", label: "打字練習" },
@@ -111,6 +118,32 @@ function PlatformNav({ pathname }: { pathname: string }) {
           <span className="text-lg">⋯</span>
           <span className="text-[10px] font-medium">更多</span>
         </button>
+      </div>
+    </nav>
+  );
+}
+
+function ChineseLangNav({ pathname }: { pathname: string }) {
+  const items = [
+    { href: "/", icon: "🏠", label: "首頁", match: false },
+    { href: "/chinese-lang", icon: "📝", label: "國語", match: pathname === "/chinese-lang" },
+    { href: "/chinese-lang/lower", icon: "🌱", label: "低年級", match: pathname.includes("/lower") },
+    { href: "/chinese-lang/middle", icon: "📖", label: "中年級", match: pathname.includes("/middle") },
+    { href: "/chinese-lang/high", icon: "🚀", label: "高年級", match: pathname.includes("/high") },
+  ];
+
+  return (
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 safe-bottom">
+      <div className="flex justify-around items-center h-14">
+        {items.map(item => (
+          <a key={item.href} href={item.href}
+            className={`flex flex-col items-center gap-0.5 no-underline py-1 px-3 transition ${
+              item.match ? "text-orange-500" : "text-slate-400 hover:text-orange-500"
+            }`}>
+            <span className="text-lg">{item.icon}</span>
+            <span className="text-[10px] font-medium">{item.label}</span>
+          </a>
+        ))}
       </div>
     </nav>
   );
