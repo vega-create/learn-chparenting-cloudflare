@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { trackActivity, type TrackActivityParams } from "@/lib/tracking";
 import ShareButtons from "@/components/ShareButtons";
+import { useAchievements } from "@/contexts/AchievementContext";
 
 /* ─── Timer Hook ─── */
 export function useTimer(running: boolean) {
@@ -102,6 +103,8 @@ export function GameOverScreen({ score, maxScore, gameName, stars, highScore, is
   onRestart: () => void; onBack: () => void;
   trackingData?: TrackingData;
 }) {
+  const { checkAndUnlock } = useAchievements();
+
   // Auto-track activity on mount (fire-and-forget)
   const tracked = useRef(false);
   useEffect(() => {
@@ -113,6 +116,10 @@ export function GameOverScreen({ score, maxScore, gameName, stars, highScore, is
       maxScore,
       stars,
     }).catch(() => {});
+
+    // Achievement triggers
+    checkAndUnlock("first-game");
+    if (stars >= 3) checkAndUnlock("game-master");
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

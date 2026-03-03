@@ -113,17 +113,43 @@ export default function AboutPage() {
             <span className="ml-auto text-orange-400">→</span>
           </a>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <a href="/typing-game" className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-100 hover:shadow-md transition no-underline">
-              <span className="text-2xl">⌨️</span>
-              <div className="font-bold text-sm text-slate-800">打字練習</div>
+            <a href="/chinese-lang" className="flex items-center gap-3 p-3 rounded-xl bg-orange-50 border border-orange-100 hover:shadow-md transition no-underline">
+              <span className="text-2xl">📝</span>
+              <div className="font-bold text-sm text-slate-800">國語學習</div>
             </a>
             <a href="/math" className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 border border-amber-100 hover:shadow-md transition no-underline">
               <span className="text-2xl">🔢</span>
               <div className="font-bold text-sm text-slate-800">數學練習</div>
             </a>
+            <a href="/history-geo" className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-100 hover:shadow-md transition no-underline">
+              <span className="text-2xl">🌏</span>
+              <div className="font-bold text-sm text-slate-800">歷史地理</div>
+            </a>
+            <a href="/typing-game" className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50 border border-emerald-100 hover:shadow-md transition no-underline">
+              <span className="text-2xl">⌨️</span>
+              <div className="font-bold text-sm text-slate-800">打字練習</div>
+            </a>
+            <a href="/music" className="flex items-center gap-3 p-3 rounded-xl bg-pink-50 border border-pink-100 hover:shadow-md transition no-underline">
+              <span className="text-2xl">🎵</span>
+              <div className="font-bold text-sm text-slate-800">樂理基礎</div>
+            </a>
             <a href="/finance" className="flex items-center gap-3 p-3 rounded-xl bg-purple-50 border border-purple-100 hover:shadow-md transition no-underline">
               <span className="text-2xl">💰</span>
               <div className="font-bold text-sm text-slate-800">兒童理財</div>
+            </a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+            <a href="/parent-guide" className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 border border-amber-100 hover:shadow-md transition no-underline">
+              <span className="text-2xl">👨‍👩‍👧‍👦</span>
+              <div className="font-bold text-sm text-slate-800">陪伴指南</div>
+            </a>
+            <a href="/achievements" className="flex items-center gap-3 p-3 rounded-xl bg-yellow-50 border border-yellow-100 hover:shadow-md transition no-underline">
+              <span className="text-2xl">🏆</span>
+              <div className="font-bold text-sm text-slate-800">學習成就</div>
+            </a>
+            <a href="/exam-info" className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100 hover:shadow-md transition no-underline">
+              <span className="text-2xl">📋</span>
+              <div className="font-bold text-sm text-slate-800">報考資訊</div>
             </a>
           </div>
         </div>

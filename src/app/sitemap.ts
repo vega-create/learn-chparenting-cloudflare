@@ -51,6 +51,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/how-to-use`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/login`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/achievements`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
+    { url: `${BASE}/exam-info`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/parent-guide`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
 
     // GEPT levels
     ...levelPages("elementary", 20, 0.9),

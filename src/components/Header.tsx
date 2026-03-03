@@ -32,6 +32,9 @@ const TOOLS = [
 const INFO_LINKS = [
   { label: "使用說明", href: "/how-to-use" },
   { label: "常見問題", href: "/faq" },
+  { label: "陪伴指南", href: "/parent-guide" },
+  { label: "報考資訊", href: "/exam-info" },
+  { label: "學習成就", href: "/achievements" },
   { label: "關於我們", href: "/about" },
 ];
 

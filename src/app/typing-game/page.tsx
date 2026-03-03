@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { ENGLISH_WORDS, ENGLISH_SENTENCES } from "@/data/typing/english-words";
 import { CHINESE_PHRASES } from "@/data/typing/chinese-phrases";
 import ShareButtons from "@/components/ShareButtons";
+import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 /* ─── Types ─── */
 type Lang = "en" | "zh";
@@ -273,6 +274,7 @@ export default function TypingGamePage() {
   // ─── MENU ───
   if (mode === "menu") return (
     <div className="max-w-3xl mx-auto px-4 py-10">
+      <SubjectVisitTracker subject="typing" />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3">⌨️</div>
         <h1 className="text-3xl font-black text-slate-800 mb-2">打字練習</h1>

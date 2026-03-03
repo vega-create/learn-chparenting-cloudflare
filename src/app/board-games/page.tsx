@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "免費教育桌遊 | 18 款邏輯遊戲・記憶力・數學・程式概念 | learn.chparenting.com",
@@ -71,6 +72,7 @@ const CATEGORIES = [
 export default function BoardGamesPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      <SubjectVisitTracker subject="board-games" />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3 animate-float">🎲</div>
         <h1 className="text-3xl font-black text-slate-800 mb-2">教育桌遊專區</h1>

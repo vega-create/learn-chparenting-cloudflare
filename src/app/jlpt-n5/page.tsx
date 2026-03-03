@@ -1,6 +1,7 @@
 import { N5_UNITS } from "@/data/jlpt-n5";
 import type { Metadata } from "next";
 import Link from "next/link";
+import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "JLPT N5 日文檢定免費練習 | 五十音・單字・文法・聽力 | learn.chparenting.com",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function JlptN5Page() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <SubjectVisitTracker subject="jlpt" />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3">🇯🇵</div>
         <h1 className="text-3xl font-black text-slate-800 mb-2">JLPT N5 入門</h1>

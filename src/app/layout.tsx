@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AchievementProvider } from "@/contexts/AchievementContext";
+import AchievementNotification from "@/components/AchievementNotification";
 import OnboardingTutorial from "@/components/OnboardingTutorial";
 import SpeechCleanup from "@/components/SpeechCleanup";
 
@@ -86,12 +88,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen pb-16 md:pb-0">
         <SpeechCleanup />
         <AuthProvider>
-          <Header />
-          <Breadcrumb />
-          <main className="min-h-[calc(100vh-140px)]">{children}</main>
-          <Footer />
-          <MobileBottomNav />
-          <OnboardingTutorial />
+          <AchievementProvider>
+            <Header />
+            <Breadcrumb />
+            <main className="min-h-[calc(100vh-140px)]">{children}</main>
+            <Footer />
+            <MobileBottomNav />
+            <OnboardingTutorial />
+            <AchievementNotification />
+          </AchievementProvider>
         </AuthProvider>
       </body>
     </html>

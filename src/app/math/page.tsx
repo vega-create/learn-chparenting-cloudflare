@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MATH_TOPICS } from "@/data/math/topics";
+import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "免費國小數學練習 | 四則運算・分數・幾何・應用題 | learn.chparenting.com",
@@ -17,6 +18,7 @@ const GRADE_GROUPS = [
 export default function MathPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      <SubjectVisitTracker subject="math" />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3 animate-float">🔢</div>
         <h1 className="text-3xl font-black text-slate-800 mb-2">數學練習</h1>
