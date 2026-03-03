@@ -1,5 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 
 const GEPT_PREFIXES = ["/elementary", "/intermediate", "/upper-intermediate"];
@@ -65,34 +66,102 @@ export default function MobileBottomNav() {
   return <PlatformNav pathname={pathname} />;
 }
 
+/* ── 更多面板 ── */
+const MORE_TOOLS = [
+  { href: "/chinese-lang", icon: "📝", label: "國語學習" },
+  { href: "/math", icon: "🔢", label: "數學練習" },
+  { href: "/history-geo", icon: "🌏", label: "歷史地理" },
+  { href: "/music", icon: "🎵", label: "樂理基礎" },
+  { href: "/typing-game", icon: "⌨️", label: "打字練習" },
+  { href: "/finance", icon: "💰", label: "兒童理財" },
+];
+
+const MORE_INFO = [
+  { href: "/achievements", icon: "🏆", label: "學習成就" },
+  { href: "/parent-guide", icon: "👨‍👩‍👧‍👦", label: "陪伴指南" },
+  { href: "/exam-info", icon: "📋", label: "報考資訊" },
+  { href: "/about", icon: "ℹ️", label: "關於我們" },
+  { href: "/how-to-use", icon: "📖", label: "使用說明" },
+  { href: "/faq", icon: "❓", label: "常見問題" },
+];
+
 function PlatformNav({ pathname }: { pathname: string }) {
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  const isMoreActive = [...MORE_TOOLS, ...MORE_INFO].some(l => pathname === l.href);
+
   const items = [
     { href: "/", icon: "🏠", label: "首頁", match: pathname === "/" },
     { href: "/elementary", icon: "📘", label: "英檢", match: false },
     { href: "/jlpt-n5", icon: "🇯🇵", label: "日文", match: false },
-    { href: "/chinese-lang", icon: "📝", label: "國語", match: false },
-    { href: "/math", icon: "🔢", label: "數學", match: false },
-    { href: "/history-geo", icon: "🌏", label: "歷史", match: false },
-    { href: "/music", icon: "🎵", label: "樂理", match: false },
     { href: "/board-games", icon: "🎲", label: "桌遊", match: false },
-    { href: "/typing-game", icon: "⌨️", label: "打字", match: false },
-    { href: "/finance", icon: "💰", label: "理財", match: false },
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 safe-bottom">
-      <div className="flex items-center h-14 overflow-x-auto px-1">
-        {items.map(item => (
-          <a key={item.href} href={item.href}
-            className={`flex flex-col items-center gap-0.5 no-underline py-1 px-2.5 shrink-0 transition ${
-              item.match ? "text-rose-400" : "text-slate-400 hover:text-rose-400"
+    <>
+      {/* 更多面板 backdrop + panel */}
+      {moreOpen && (
+        <>
+          <div className="md:hidden fixed inset-0 bg-black/30 z-[60]" onClick={() => setMoreOpen(false)} />
+          <div className="md:hidden fixed bottom-14 left-0 right-0 z-[61] bg-white rounded-t-2xl shadow-2xl border-t border-slate-200 animate-slideUp safe-bottom">
+            <div className="px-4 pt-4 pb-2">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-sm font-bold text-slate-700">學習工具</span>
+                <button onClick={() => setMoreOpen(false)} className="text-slate-400 text-xs bg-transparent border-0 cursor-pointer">✕ 關閉</button>
+              </div>
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                {MORE_TOOLS.map(item => (
+                  <a key={item.href} href={item.href}
+                    className={`flex flex-col items-center gap-1 py-2.5 rounded-xl no-underline transition ${
+                      pathname === item.href ? "bg-rose-50 text-rose-500" : "text-slate-600 hover:bg-slate-50"
+                    }`}>
+                    <span className="text-xl">{item.icon}</span>
+                    <span className="text-[11px] font-medium">{item.label}</span>
+                  </a>
+                ))}
+              </div>
+              <div className="border-t border-slate-100 pt-3 mb-3">
+                <span className="text-sm font-bold text-slate-700">網站資訊</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 pb-2">
+                {MORE_INFO.map(item => (
+                  <a key={item.href} href={item.href}
+                    className={`flex flex-col items-center gap-1 py-2.5 rounded-xl no-underline transition ${
+                      pathname === item.href ? "bg-rose-50 text-rose-500" : "text-slate-600 hover:bg-slate-50"
+                    }`}>
+                    <span className="text-xl">{item.icon}</span>
+                    <span className="text-[11px] font-medium">{item.label}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Bottom nav bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 safe-bottom">
+        <div className="flex justify-around items-center h-14">
+          {items.map(item => (
+            <a key={item.href} href={item.href}
+              className={`flex flex-col items-center gap-0.5 no-underline py-1 px-3 transition ${
+                item.match ? "text-rose-400" : "text-slate-400 hover:text-rose-400"
+              }`}>
+              <span className="text-lg">{item.icon}</span>
+              <span className="text-[10px] font-medium">{item.label}</span>
+            </a>
+          ))}
+          <button
+            onClick={() => setMoreOpen(!moreOpen)}
+            className={`flex flex-col items-center gap-0.5 py-1 px-3 bg-transparent border-0 cursor-pointer transition ${
+              moreOpen || isMoreActive ? "text-rose-400" : "text-slate-400"
             }`}>
-            <span className="text-lg">{item.icon}</span>
-            <span className="text-[10px] font-medium">{item.label}</span>
-          </a>
-        ))}
-      </div>
-    </nav>
+            <span className="text-lg">{moreOpen ? "✕" : "⋯"}</span>
+            <span className="text-[10px] font-medium">更多</span>
+          </button>
+        </div>
+      </nav>
+    </>
   );
 }
 
