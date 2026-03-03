@@ -59,13 +59,13 @@ const form: MusicTopic = {
       explanation: "樂譜中常用義大利文縮寫標示反覆與結束的方式，演奏者需依指示演奏。",
       visual: `🔁 常見反覆記號：
 D.C.（Da Capo）→ 從頭再來
-D.S.（Dal Segno）→ 從 𝄋 記號處再來
+D.S.（Dal Segno）→ 從 S 記號處再來
 Fine → 結束！
 Coda ⊕ → 跳到尾聲
 D.C. al Fine = 從頭來，到Fine停`,
       keyPoints: [
         "D.C.（Da Capo）：從頭反覆",
-        "D.S.（Dal Segno）：從記號（𝄋）處反覆",
+        "D.S.（Dal Segno）：從 Segno 記號（S）處反覆",
         "Fine：結束，通常搭配 D.C. 或 D.S. 使用",
         "Coda（⊕）：尾奏，樂曲最後的結尾段落",
         "D.C. al Fine 表示從頭再來，到 Fine 處結束",
@@ -250,7 +250,7 @@ D.C. al Fine = 從頭來，到Fine停`,
       s: "樂譜中的 D.S.（Dal Segno）是什麼意思？",
       opts: ["從記號處再來", "從頭再來", "到此結束", "加快速度"],
       ans: 0,
-      explain: "D.S.（Dal Segno）意指「從記號（𝄋）處再來」，演奏者需回到 Segno 記號處。",
+      explain: "D.S.（Dal Segno）意指「從 Segno 記號處再來」，演奏者需回到 S 記號處。",
     },
     {
       s: "樂譜中的 Fine 是什麼意思？",
