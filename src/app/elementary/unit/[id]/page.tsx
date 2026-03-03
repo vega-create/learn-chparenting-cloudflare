@@ -87,14 +87,6 @@ export default function UnitPage() {
         {tab === "quiz" && <QuizTab key={uid + "q"} unit={unit} />}
       </div>
 
-      {/* Bottom Download Actions */}
-      <div className="max-w-4xl mx-auto px-3 md:px-4 pb-3">
-        <WorksheetActions toolSlug="gept" level="elementary" unitId={unitId} unitName={unit.title} />
-        <a href="/elementary/guide" className="inline-flex items-center gap-1.5 mt-3 text-sm text-indigo-600 hover:text-indigo-700 font-medium no-underline">
-          👩 家長陪伴指南 →
-        </a>
-      </div>
-
       {/* Unit Navigation - bottom */}
       <div className="max-w-4xl mx-auto px-4 pb-8 flex justify-between items-center gap-3">
         {prevUnit ? (

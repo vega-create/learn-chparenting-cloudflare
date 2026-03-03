@@ -86,11 +86,6 @@ export default function JlptUnitPage() {
         {tab === "quiz" && <QuizTab key={uid + "q"} unit={unit} />}
       </div>
 
-      {/* Bottom Download Actions */}
-      <div className="max-w-4xl mx-auto px-3 md:px-4 pb-3">
-        <WorksheetActions toolSlug="japanese" level="n5" unitId={unitId} unitName={unit.title} color="purple" />
-      </div>
-
       <div className="max-w-4xl mx-auto px-4 pb-8 flex justify-between items-center gap-3">
         {prevUnit ? (
           <button onClick={() => { router.push(`/jlpt-n5/unit/${prevUnit.id}`); setTab("vocab"); }}
