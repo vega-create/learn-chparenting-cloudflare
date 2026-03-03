@@ -18,14 +18,14 @@ interface Level {
 }
 
 const LEVELS: Level[] = [
-  { size: 5, start: [0, 0], goal: [0, 4], walls: [], maxMoves: 4, hint: "試試往右走 4 步" },
-  { size: 5, start: [0, 0], goal: [4, 0], walls: [], maxMoves: 4, hint: "試試往下走 4 步" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [], maxMoves: 8, hint: "先往右再往下" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 1], [1, 1], [2, 1]], maxMoves: 10, hint: "繞過牆壁" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[1, 0], [1, 1], [1, 2], [3, 2], [3, 3], [3, 4]], maxMoves: 12, hint: "找到迷宮路線" },
-  { size: 5, start: [2, 0], goal: [2, 4], walls: [[0, 2], [1, 2], [2, 2], [3, 2]], maxMoves: 10, hint: "需要繞一大圈" },
-  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 2], [1, 2], [2, 0], [2, 1], [2, 3], [2, 4], [4, 2]], maxMoves: 14 },
-  { size: 5, start: [4, 0], goal: [0, 4], walls: [[1, 1], [1, 3], [2, 2], [3, 1], [3, 3]], maxMoves: 12 },
+  { size: 5, start: [0, 0], goal: [0, 4], walls: [], maxMoves: 4, hint: "只需要一個方向就能到達" },
+  { size: 5, start: [0, 0], goal: [4, 0], walls: [], maxMoves: 4, hint: "只需要一個方向就能到達" },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [], maxMoves: 8, hint: "需要用到兩個方向" },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 1], [1, 1], [2, 1]], maxMoves: 10, hint: "牆壁擋住了，試試先繞過去" },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [[1, 0], [1, 1], [1, 2], [3, 2], [3, 3], [3, 4]], maxMoves: 12, hint: "兩道牆中間有缺口可以穿過" },
+  { size: 5, start: [2, 0], goal: [2, 4], walls: [[0, 2], [1, 2], [2, 2], [3, 2]], maxMoves: 10, hint: "直線走不通，要繞一大圈" },
+  { size: 5, start: [0, 0], goal: [4, 4], walls: [[0, 2], [1, 2], [2, 0], [2, 1], [2, 3], [2, 4], [4, 2]], maxMoves: 14, hint: "中間有個缺口，找到它就能過" },
+  { size: 5, start: [4, 0], goal: [0, 4], walls: [[1, 1], [1, 3], [2, 2], [3, 1], [3, 3]], maxMoves: 12, hint: "斜對角的牆壁之間都有空隙" },
 ];
 
 const TOTAL_LEVELS = LEVELS.length;
