@@ -12,6 +12,7 @@ export default function DailyChallengeBlock() {
   const [selected, setSelected] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
   const [todayStr, setTodayStr] = useState("");
+  const [stats, setStats] = useState<{ total: number; correct: number } | null>(null);
 
   useEffect(() => {
     const today = getToday();
@@ -28,6 +29,12 @@ export default function DailyChallengeBlock() {
         setAnswered(true);
       }
     }
+
+    // Fetch stats
+    fetch("/api/daily-challenge")
+      .then((r) => r.json())
+      .then((d) => setStats(d))
+      .catch(() => {});
   }, []);
 
   const handleAnswer = (idx: number) => {
@@ -36,12 +43,35 @@ export default function DailyChallengeBlock() {
     setAnswered(true);
     localStorage.setItem("daily_challenge_date", todayStr);
     localStorage.setItem("daily_challenge_answer", String(idx));
+
+    const isCorrect = idx === challenge.answer;
+
+    // Record to Supabase
+    fetch("/api/daily-challenge", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        questionId: challenge.id,
+        subject: challenge.category,
+        isCorrect,
+      }),
+    })
+      .then((r) => r.json())
+      .then(() => {
+        // Update local stats
+        setStats((prev) => ({
+          total: (prev?.total ?? 0) + 1,
+          correct: (prev?.correct ?? 0) + (isCorrect ? 1 : 0),
+        }));
+      })
+      .catch(() => {});
   };
 
   if (!challenge) return null;
 
   const isCorrect = selected === challenge.answer;
   const weekday = ["日", "一", "二", "三", "四", "五", "六"][new Date().getDay()];
+  const accuracy = stats && stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
 
   return (
     <section className="max-w-4xl mx-auto px-4 py-8">
@@ -99,6 +129,15 @@ export default function DailyChallengeBlock() {
             );
           })}
         </div>
+
+        {/* Stats bar */}
+        {stats && stats.total > 0 && (
+          <div className="flex items-center justify-center gap-3 text-xs text-slate-400 mb-3">
+            <span>📊 今日 {stats.total.toLocaleString()} 人作答</span>
+            <span>｜</span>
+            <span>正確率 {accuracy}%</span>
+          </div>
+        )}
 
         {/* Result */}
         {answered && (

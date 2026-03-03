@@ -8,11 +8,24 @@ interface ShareButtonsProps {
 
 const SITE_URL = "https://learn.chparenting.com";
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+function trackShare(method: string) {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "share", { method, content_type: "page" });
+  }
+}
+
 export default function ShareButtons({ text, url }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
   const shareUrl = url ? `${SITE_URL}${url}` : SITE_URL;
 
   const shareToFB = () => {
+    trackShare("facebook");
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(text)}`,
       "_blank",
@@ -21,6 +34,7 @@ export default function ShareButtons({ text, url }: ShareButtonsProps) {
   };
 
   const shareToLINE = () => {
+    trackShare("line");
     window.open(
       `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`,
       "_blank"
@@ -28,6 +42,7 @@ export default function ShareButtons({ text, url }: ShareButtonsProps) {
   };
 
   const copyLink = () => {
+    trackShare("copy_link");
     const fullText = `${text}\n${shareUrl}`;
     navigator.clipboard.writeText(fullText).then(() => {
       setCopied(true);
