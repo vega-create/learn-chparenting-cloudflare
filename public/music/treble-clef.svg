@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 90">
+  <!-- 五線譜背景線 -->
+  <line x1="0" y1="30" x2="50" y2="30" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="40" x2="50" y2="40" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="50" x2="50" y2="50" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="60" x2="50" y2="60" stroke="#ccc" stroke-width="1"/>
+  <line x1="0" y1="70" x2="50" y2="70" stroke="#ccc" stroke-width="1"/>
+  <!-- 高音譜號（G clef 簡化版） -->
+  <path d="M26 78 C26 78 18 68 18 58 C18 48 28 42 28 42 C20 42 14 48 14 56 C14 66 22 72 28 72 C34 72 38 66 38 60 C38 52 30 44 24 38 C18 32 22 20 26 14 C28 10 26 8 26 8 L26 78"
+        fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 中心小圓點在第4線（G線） -->
+  <circle cx="26" cy="8" r="2.5" fill="#333"/>
+</svg>
