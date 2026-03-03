@@ -89,6 +89,18 @@ export const DAILY_CHALLENGES: DailyChallenge[] = [
   { id: "dc-059", category: "英檢中級", categoryLink: "/intermediate", question: "She ___ here since 2020.", options: ["works", "worked", "has worked", "is working"], answer: 2, explanation: "since + 過去時間 → 現在完成式 has/have + p.p.。" },
   { id: "dc-060", category: "日文 N4", categoryLink: "/jlpt-n4", question: "「〜なければならない」表示？", options: ["不可以", "必須", "想要", "可能"], answer: 1, explanation: "〜なければならない 表示「必須做...」。" },
 
+  // ─── 國語 ───
+  { id: "dc-cl-01", category: "國語", categoryLink: "/chinese-lang", question: "「守株待兔」的意思是？", options: ["不勞而獲", "勇敢面對", "團結合作", "助人為樂"], answer: 0, explanation: "「守株待兔」比喻不努力而想得到收穫，坐等好運降臨。" },
+  { id: "dc-cl-02", category: "國語", categoryLink: "/chinese-lang", question: "下列哪個字的部首是「水」（氵）？", options: ["林", "河", "明", "花"], answer: 1, explanation: "「河」的部首是三點水（氵），屬於「水」部。" },
+  { id: "dc-cl-03", category: "國語", categoryLink: "/chinese-lang", question: "「ㄅㄆㄇ」是注音符號的前三個，第四個是？", options: ["ㄈ", "ㄉ", "ㄊ", "ㄋ"], answer: 0, explanation: "注音符號的順序是：ㄅㄆㄇㄈ…，第四個是ㄈ。" },
+  { id: "dc-cl-04", category: "國語", categoryLink: "/chinese-lang", question: "「畫蛇添足」比喻什麼？", options: ["做事認真", "多此一舉", "勇於嘗試", "精益求精"], answer: 1, explanation: "「畫蛇添足」比喻做了多餘的事，反而把事情弄糟了。" },
+  { id: "dc-cl-05", category: "國語", categoryLink: "/chinese-lang", question: "「快樂」的相反詞是？", options: ["高興", "悲傷", "開心", "歡喜"], answer: 1, explanation: "「快樂」的相反詞是「悲傷」。" },
+  { id: "dc-cl-06", category: "國語", categoryLink: "/chinese-lang", question: "哪個句子使用了「譬喻」修辭？", options: ["風在唱歌", "他跑得像風一樣快", "我好餓", "今天天氣好"], answer: 1, explanation: "「像風一樣快」用「像」比喻，是明喻的修辭手法。" },
+  { id: "dc-cl-07", category: "國語", categoryLink: "/chinese-lang", question: "「亡羊補牢」告訴我們什麼道理？", options: ["不要養羊", "犯錯後及時改正還來得及", "羊不能跑", "要蓋好圍欄"], answer: 1, explanation: "「亡羊補牢，猶未遲也」——發現問題及時改正，還不算太晚。" },
+  { id: "dc-cl-08", category: "國語", categoryLink: "/chinese-lang", question: "「日」加一筆可以變成哪個字？", options: ["月", "田", "目", "白"], answer: 3, explanation: "「日」加一撇就變成「白」字。" },
+  { id: "dc-cl-09", category: "國語", categoryLink: "/chinese-lang", question: "一隻（　）鳥，括號中應填入什麼量詞？", options: ["張", "顆", "隻", "條"], answer: 2, explanation: "鳥用量詞「隻」。一隻鳥。" },
+  { id: "dc-cl-10", category: "國語", categoryLink: "/chinese-lang", question: "「杯弓蛇影」形容什麼？", options: ["非常勇敢", "疑神疑鬼", "很有學問", "做事認真"], answer: 1, explanation: "「杯弓蛇影」比喻因疑慮而引起恐懼，疑神疑鬼。" },
+
   // ─── 繼續補充到 100+ 題 ───
   { id: "dc-061", category: "英檢初級", categoryLink: "/elementary", question: "What does 'surprised' mean?", options: ["開心的", "驚訝的", "害怕的", "無聊的"], answer: 1, explanation: "surprised 是「驚訝的」，surprise 是驚喜。" },
   { id: "dc-062", category: "英檢初級", categoryLink: "/elementary", question: "They ___ playing in the park now.", options: ["is", "am", "are", "was"], answer: 2, explanation: "They 搭配 are，現在進行式：are + V-ing。" },
@@ -149,13 +161,13 @@ function hashString(str: string): number {
 
 /* ─── Weekday subject rotation ─── */
 const WEEKDAY_SUBJECTS: Record<number, string[]> = {
-  0: ["數學"],                    // 週日
+  0: ["數學", "國語"],            // 週日
   1: ["英檢初級"],                // 週一
   2: ["日文 N5", "日文 N4"],      // 週二
-  3: ["英檢中級"],                // 週三
+  3: ["英檢中級", "國語"],        // 週三
   4: ["數學"],                    // 週四
   5: ["英檢初級", "英檢中級"],    // 週五
-  6: ["日文 N5", "日文 N4"],      // 週六
+  6: ["日文 N5", "國語"],         // 週六
 };
 
 export function getDailyChallenge(date: Date): DailyChallenge {

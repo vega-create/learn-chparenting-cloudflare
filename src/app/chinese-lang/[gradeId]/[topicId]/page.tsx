@@ -178,7 +178,7 @@ function QuizSection({
   useEffect(() => {
     if (done && shuffled.length > 0) {
       trackActivity({
-        subject: "chinese-lang" as "math",
+        subject: "chinese-lang",
         activityType: "quiz",
         activityId: `${gradeId}-${topicId}`,
         activityName: `國語 ${gradeTitle} ${topicTitle}`,
@@ -329,7 +329,7 @@ function ReadingSection({
     else playWrong();
 
     trackActivity({
-      subject: "chinese-lang" as "math",
+      subject: "chinese-lang",
       activityType: "quiz",
       activityId: `${gradeId}-${topicId}-reading-${pIdx + 1}`,
       activityName: `國語 ${gradeTitle} ${topicTitle} 第${pIdx + 1}篇`,
