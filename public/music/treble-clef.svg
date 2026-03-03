@@ -1,13 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 90">
-  <!-- 五線譜背景線 -->
-  <line x1="0" y1="30" x2="50" y2="30" stroke="#ccc" stroke-width="1"/>
-  <line x1="0" y1="40" x2="50" y2="40" stroke="#ccc" stroke-width="1"/>
-  <line x1="0" y1="50" x2="50" y2="50" stroke="#ccc" stroke-width="1"/>
-  <line x1="0" y1="60" x2="50" y2="60" stroke="#ccc" stroke-width="1"/>
-  <line x1="0" y1="70" x2="50" y2="70" stroke="#ccc" stroke-width="1"/>
-  <!-- 高音譜號（G clef 簡化版） -->
-  <path d="M26 78 C26 78 18 68 18 58 C18 48 28 42 28 42 C20 42 14 48 14 56 C14 66 22 72 28 72 C34 72 38 66 38 60 C38 52 30 44 24 38 C18 32 22 20 26 14 C28 10 26 8 26 8 L26 78"
-        fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- 中心小圓點在第4線（G線） -->
-  <circle cx="26" cy="8" r="2.5" fill="#333"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 100">
+  <!-- 五線譜 -->
+  <line x1="0" y1="30" x2="50" y2="30" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="40" x2="50" y2="40" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="50" x2="50" y2="50" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="60" x2="50" y2="60" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="0" y1="70" x2="50" y2="70" stroke="#ccc" stroke-width="0.8"/>
+  <!-- 高音譜號 G clef -->
+  <!-- 主體：從底部向上的S曲線 -->
+  <path d="
+    M 25 82
+    C 23 76 19 72 18 66
+    C 17 58 21 50 23 44
+    C 25 38 26 32 25 26
+    C 24 20 21 18 19 21
+    C 17 24 16 30 17 36
+    C 18 44 23 48 28 52
+    C 33 56 35 62 33 67
+    C 31 72 26 74 22 71
+    C 18 68 17 63 20 59
+    C 23 55 27 57 27 61
+    C 27 65 23 67 21 64
+  " fill="none" stroke="#333" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 底部小圓 -->
+  <circle cx="25" cy="82" r="2.5" fill="#333"/>
 </svg>
