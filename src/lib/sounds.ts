@@ -1,3 +1,5 @@
+import { trackPractice } from "./track-practice";
+
 // Sound effects using Web Audio API — zero external files
 let ctx: AudioContext | null = null;
 
@@ -26,6 +28,7 @@ function tone(freq: number, duration: number, type: OscillatorType = "sine", vol
 /** 🎉 Perfect / 100% — bright cheerful ascending arpeggio + sparkle */
 export function playPerfect() {
   if (typeof window === "undefined") return;
+  trackPractice(); // count this completion
   tone(523, 0.15, "sine", 0.35, 0);       // C5
   tone(659, 0.15, "sine", 0.35, 0.1);     // E5
   tone(784, 0.15, "sine", 0.35, 0.2);     // G5
@@ -37,6 +40,7 @@ export function playPerfect() {
 /** ✅ Correct answer — quick bright ding */
 export function playCorrect() {
   if (typeof window === "undefined") return;
+  trackPractice(); // debounced: counts max once per 30s
   tone(880, 0.12, "sine", 0.3, 0);        // A5
   tone(1175, 0.2, "sine", 0.35, 0.08);    // D6
 }
@@ -52,6 +56,7 @@ export function playWrong() {
 /** 🏆 Game complete / high score — victory fanfare */
 export function playVictory() {
   if (typeof window === "undefined") return;
+  trackPractice(); // count this completion
   tone(523, 0.12, "sine", 0.3, 0);        // C5
   tone(659, 0.12, "sine", 0.3, 0.1);      // E5
   tone(784, 0.12, "sine", 0.3, 0.2);      // G5
