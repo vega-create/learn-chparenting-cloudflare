@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CHINESE_GRADES, getTopicByIds } from "@/data/chinese-lang";
-import type { ChineseQ, ChineseReading } from "@/data/chinese-lang";
+import type { ChineseQ, ChineseReading, ChineseListening } from "@/data/chinese-lang";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import ShareButtons from "@/components/ShareButtons";
 
-type Tab = "quiz" | "reading";
+type Tab = "quiz" | "reading" | "listening";
 
 export default function TopicPracticePage() {
   const params = useParams();
@@ -31,8 +31,9 @@ export default function TopicPracticePage() {
   const { grade, topic } = result;
   const hasReadings = topic.readings && topic.readings.length > 0;
   const hasQuiz = topic.questions.length > 0;
+  const hasListening = topic.listening && topic.listening.length > 0;
 
-  return <TopicContent grade={grade} topic={topic} gradeId={gradeId} hasReadings={!!hasReadings} hasQuiz={hasQuiz} />;
+  return <TopicContent grade={grade} topic={topic} gradeId={gradeId} hasReadings={!!hasReadings} hasQuiz={hasQuiz} hasListening={!!hasListening} />;
 }
 
 function TopicContent({
@@ -41,18 +42,21 @@ function TopicContent({
   gradeId,
   hasReadings,
   hasQuiz,
+  hasListening,
 }: {
   grade: { id: string; title: string; icon: string; color: string; accentColor: string };
-  topic: { id: string; title: string; icon: string; color: string; questions: ChineseQ[]; readings?: ChineseReading[] };
+  topic: { id: string; title: string; icon: string; color: string; questions: ChineseQ[]; readings?: ChineseReading[]; listening?: ChineseListening[] };
   gradeId: string;
   hasReadings: boolean;
   hasQuiz: boolean;
+  hasListening: boolean;
 }) {
-  const defaultTab: Tab = hasQuiz ? "quiz" : "reading";
+  const defaultTab: Tab = hasQuiz ? "quiz" : hasListening ? "listening" : "reading";
   const [tab, setTab] = useState<Tab>(defaultTab);
 
   const tabs: { key: Tab; label: string; show: boolean }[] = [
     { key: "quiz", label: "✏️ 練習", show: hasQuiz },
+    { key: "listening", label: "🔊 聽力", show: hasListening },
     { key: "reading", label: "📗 閱讀", show: hasReadings },
   ];
 
@@ -95,6 +99,16 @@ function TopicContent({
       {tab === "quiz" && hasQuiz && (
         <QuizSection
           questions={topic.questions}
+          topicTitle={topic.title}
+          topicId={topic.id}
+          gradeId={gradeId}
+          gradeTitle={grade.title}
+          color={topic.color}
+        />
+      )}
+      {tab === "listening" && hasListening && topic.listening && (
+        <ListeningSection
+          items={topic.listening}
           topicTitle={topic.title}
           topicId={topic.id}
           gradeId={gradeId}
@@ -487,6 +501,245 @@ function ReadingSection({
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ─── Listening Section (TTS) ─── */
+function ListeningSection({
+  items,
+  topicTitle,
+  topicId,
+  gradeId,
+  gradeTitle,
+  color,
+}: {
+  items: ChineseListening[];
+  topicTitle: string;
+  topicId: string;
+  gradeId: string;
+  gradeTitle: string;
+  color: string;
+}) {
+  const [shuffled, setShuffled] = useState<ChineseListening[]>([]);
+  const [idx, setIdx] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [correct, setCorrect] = useState(0);
+  const [done, setDone] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
+  const [ttsSupported, setTtsSupported] = useState(true);
+
+  useEffect(() => {
+    setShuffled([...items].sort(() => Math.random() - 0.5));
+    // Check TTS support
+    if (typeof window !== "undefined" && !window.speechSynthesis) {
+      setTtsSupported(false);
+    }
+  }, [items]);
+
+  const speak = (text: string) => {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "zh-TW";
+    u.rate = 0.8;
+    u.onstart = () => setSpeaking(true);
+    u.onend = () => setSpeaking(false);
+    u.onerror = () => setSpeaking(false);
+    window.speechSynthesis.speak(u);
+  };
+
+  // Auto-play when question changes
+  useEffect(() => {
+    if (shuffled.length > 0 && !done && ttsSupported) {
+      const timer = setTimeout(() => speak(shuffled[idx]?.text || ""), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [idx, shuffled, done, ttsSupported]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const q = shuffled[idx];
+
+  const handleSelect = (i: number) => {
+    if (selected !== null || !q) return;
+    setSelected(i);
+    if (i === q.ans) {
+      setCorrect((c) => c + 1);
+      playCorrect();
+    } else {
+      playWrong();
+    }
+  };
+
+  const handleNext = () => {
+    if (idx + 1 >= shuffled.length) {
+      setDone(true);
+      if (correct + (selected === q?.ans ? 1 : 0) >= shuffled.length * 0.9) playPerfect();
+      else playVictory();
+    } else {
+      setIdx(idx + 1);
+      setSelected(null);
+    }
+  };
+
+  const handleRestart = () => {
+    setShuffled([...items].sort(() => Math.random() - 0.5));
+    setIdx(0);
+    setSelected(null);
+    setCorrect(0);
+    setDone(false);
+  };
+
+  // Track completion
+  useEffect(() => {
+    if (done && shuffled.length > 0) {
+      trackActivity({
+        subject: "chinese-lang",
+        activityType: "quiz",
+        activityId: `${gradeId}-${topicId}-listening`,
+        activityName: `國語 ${gradeTitle} ${topicTitle} 聽力`,
+        score: correct,
+        maxScore: shuffled.length,
+        stars:
+          correct >= shuffled.length * 0.9
+            ? 3
+            : correct >= shuffled.length * 0.6
+              ? 2
+              : correct >= shuffled.length * 0.3
+                ? 1
+                : 0,
+      }).catch(() => {});
+    }
+  }, [done]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!ttsSupported) {
+    return (
+      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm text-center">
+        <div className="text-4xl mb-3">🔇</div>
+        <p className="text-slate-600">你的瀏覽器不支援語音功能</p>
+        <p className="text-sm text-slate-400 mt-1">請使用 Chrome 或 Safari 瀏覽器</p>
+      </div>
+    );
+  }
+
+  if (!q && !done) return null;
+
+  if (done) {
+    const pct = Math.round((correct / shuffled.length) * 100);
+    return (
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+        <div className="text-5xl mb-3">
+          {pct >= 90 ? "🎉" : pct >= 60 ? "👍" : "💪"}
+        </div>
+        <h2 className="text-2xl font-black text-slate-800 mb-2">
+          聽力練習完成！
+        </h2>
+        <div className="text-4xl font-black text-orange-500 my-3">
+          {correct} / {shuffled.length}
+        </div>
+        <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
+        <div className="text-xs text-slate-500 mb-2 mt-4">
+          分享你的成績：
+        </div>
+        <ShareButtons
+          text={`我完成了國語「${topicTitle}」聽力練習，答對 ${correct}/${shuffled.length} 題！🔊`}
+          url="/chinese-lang"
+        />
+        <div className="mt-4">
+          <button
+            onClick={handleRestart}
+            className="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-bold cursor-pointer border-none hover:bg-orange-600 transition"
+          >
+            🔄 再做一次
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+      <div className="flex justify-between items-center mb-4">
+        <span className="text-sm text-slate-400">
+          第 {idx + 1} / {shuffled.length} 題
+        </span>
+        <span className="text-sm font-bold text-emerald-600">
+          ✅ {correct} 題正確
+        </span>
+      </div>
+
+      {/* Speaker button */}
+      <div className="text-center mb-5">
+        <button
+          onClick={() => speak(q.text)}
+          disabled={speaking}
+          className={`inline-flex items-center justify-center w-20 h-20 rounded-full border-none cursor-pointer transition text-4xl ${
+            speaking
+              ? "bg-orange-100 text-orange-400 animate-pulse"
+              : "bg-orange-50 text-orange-500 hover:bg-orange-100"
+          }`}
+        >
+          🔊
+        </button>
+        <p className="text-sm text-slate-400 mt-2">
+          {speaking ? "播放中…" : "點擊播放聲音"}
+        </p>
+        {q.hint && (
+          <p className="text-sm text-slate-500 mt-1 bg-slate-50 rounded-lg px-3 py-1.5 inline-block">
+            💡 提示：{q.hint}
+          </p>
+        )}
+      </div>
+
+      {/* Options */}
+      <div className="space-y-2.5">
+        {q.opts.map((opt, i) => {
+          let cls = "bg-slate-50 border-slate-200 hover:bg-slate-100";
+          if (selected !== null) {
+            if (i === q.ans)
+              cls = "bg-emerald-50 border-emerald-400 text-emerald-700";
+            else if (i === selected)
+              cls = "bg-red-50 border-red-400 text-red-700";
+          }
+          return (
+            <button
+              key={i}
+              onClick={() => handleSelect(i)}
+              disabled={selected !== null}
+              className={`w-full text-left p-3.5 rounded-xl border-2 font-medium cursor-pointer transition ${cls} ${selected !== null ? "cursor-default" : ""}`}
+            >
+              <span className="text-slate-400 mr-2 text-sm">
+                {String.fromCharCode(65 + i)}.
+              </span>
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+
+      {selected !== null && (
+        <div className="mt-4">
+          <div
+            className={`p-3 rounded-xl text-sm ${
+              selected === q.ans
+                ? "bg-emerald-50 text-emerald-700"
+                : "bg-red-50 text-red-700"
+            }`}
+          >
+            {selected === q.ans
+              ? "✅ 答對了！"
+              : `❌ 正確答案：${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans]}`}
+            {q.explain && (
+              <div className="mt-1 text-slate-500">💡 {q.explain}</div>
+            )}
+          </div>
+          <button
+            onClick={handleNext}
+            className={`mt-3 px-5 py-2 rounded-xl bg-gradient-to-r ${color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}
+          >
+            {idx + 1 >= shuffled.length ? "看結果 →" : "下一題 →"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

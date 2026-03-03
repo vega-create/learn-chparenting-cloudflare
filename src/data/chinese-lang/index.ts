@@ -14,7 +14,7 @@ import highReadingTopic from "./high/reading";
 import grammarTopic from "./high/grammar";
 
 export type { ChineseGrade, ChineseTopic };
-export type { ChineseQ, ChineseReading } from "./types";
+export type { ChineseQ, ChineseReading, ChineseListening } from "./types";
 
 export const CHINESE_GRADES: ChineseGrade[] = [
   {
