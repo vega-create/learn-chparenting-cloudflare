@@ -3,28 +3,28 @@ import { useState, useEffect } from "react";
 
 const STEPS = [
   {
-    icon: "👋",
-    title: "歡迎來到親子多元學習平台",
-    description: "完全免費的學習平台，提供英檢、日文、數學、桌遊、打字、理財等豐富學習工具，讓孩子快樂學習！",
+    icon: "🌟",
+    title: "歡迎來到 learn.chparenting.com",
+    description: "「孩子才是最強 AI」\n免費的親子學習平台，讓孩子自己學、自己做、爸媽輕鬆陪。",
   },
   {
-    icon: "📚",
-    title: "六大學習工具",
-    description: "📘 全民英檢（初～中高級）・🇯🇵 日文檢定（N5～N1）・🎲 18款教育桌遊・🔢 數學練習・⌨️ 打字練習・💰 兒童理財",
+    icon: "🎯",
+    title: "豐富的學習工具",
+    description: "✅ 全民英檢（初級・中級・中高級）\n✅ 日文檢定（N1～N5）\n✅ 數學練習・邏輯遊戲・打字練習・兒童理財\n🔜 國語學習・歷史地理・樂理基礎\n\n每天自由安排時間，輕鬆學習無壓力！",
   },
   {
-    icon: "📖",
-    title: "建議學習順序",
-    description: "語言學習按 單字 → 文法 → 聽力 → 閱讀 → 測驗 的順序效果最好。每天自由安排時間，不趕進度。",
+    icon: "👩",
+    title: "專為爸媽設計",
+    description: "📥 每單元都有練習單可以下載\n🔑 線上答案對照，手機就能看\n📚 免費家長陪伴指南，30 秒就知道怎麼陪\n\n不用懂教學，也能陪孩子學！",
   },
   {
-    icon: "🎮",
-    title: "邊玩邊學",
-    description: "學完後到桌遊區練習，用模擬測驗檢驗成果。每天回來挑戰「今日挑戰」，持續進步！",
+    icon: "🚀",
+    title: "開始學習吧！",
+    description: "選一個工具，讓孩子自己探索。\n做完記得下載練習單，線下再練一次效果更好！",
   },
 ];
 
-const STORAGE_KEY = "onboarding_completed";
+const STORAGE_KEY = "onboarding_v2_completed";
 
 export default function OnboardingTutorial() {
   const [show, setShow] = useState(false);
@@ -80,7 +80,7 @@ export default function OnboardingTutorial() {
         <div className="p-8 text-center">
           <div className="text-5xl mb-4">{current.icon}</div>
           <h2 className="text-xl font-bold text-slate-800 mb-3">{current.title}</h2>
-          <p className="text-slate-600 text-sm leading-6">{current.description}</p>
+          <p className="text-slate-600 text-sm leading-6 whitespace-pre-line">{current.description}</p>
         </div>
 
         {/* Dots */}
