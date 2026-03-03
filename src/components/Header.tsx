@@ -25,6 +25,7 @@ const TOOLS = [
   { icon: "🔢", label: "數學練習", href: "/math", prefix: "/math" },
   { icon: "⌨️", label: "打字練習", href: "/typing-game", prefix: "/typing-game" },
   { icon: "🎲", label: "教育桌遊", href: "/board-games", prefix: "/board-games" },
+  { icon: "🎵", label: "樂理基礎", href: "/music", prefix: "/music" },
   { icon: "💰", label: "兒童理財", href: "/finance", prefix: "/finance" },
 ];
 

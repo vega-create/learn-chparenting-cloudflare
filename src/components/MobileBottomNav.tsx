@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+
 
 const GEPT_PREFIXES = ["/elementary", "/intermediate", "/upper-intermediate"];
 const JLPT_PREFIXES = ["/jlpt-n5", "/jlpt-n4", "/jlpt-n3", "/jlpt-n2", "/jlpt-n1"];
@@ -8,6 +8,7 @@ const BOARD_GAME_PREFIX = "/board-games";
 const CHINESE_LANG_PREFIX = "/chinese-lang";
 const MATH_PREFIX = "/math";
 const HISTORY_GEO_PREFIX = "/history-geo";
+const MUSIC_PREFIX = "/music";
 const FINANCE_PREFIX = "/finance";
 const DASHBOARD_PREFIX = "/dashboard";
 
@@ -20,6 +21,7 @@ export default function MobileBottomNav() {
   const isBoardGameSection = pathname.startsWith(BOARD_GAME_PREFIX);
   const isChineseLangSection = pathname.startsWith(CHINESE_LANG_PREFIX);
   const isHistoryGeoSection = pathname.startsWith(HISTORY_GEO_PREFIX);
+  const isMusicSection = pathname.startsWith(MUSIC_PREFIX);
   const isMathSection = pathname.startsWith(MATH_PREFIX);
   const isFinanceSection = pathname.startsWith(FINANCE_PREFIX);
   const isDashboardSection = pathname.startsWith(DASHBOARD_PREFIX);
@@ -48,6 +50,10 @@ export default function MobileBottomNav() {
     return <HistoryGeoNav pathname={pathname} />;
   }
 
+  if (isMusicSection) {
+    return <MusicNav pathname={pathname} />;
+  }
+
   if (isMathSection) {
     return <MathNav pathname={pathname} />;
   }
@@ -60,71 +66,57 @@ export default function MobileBottomNav() {
 }
 
 function PlatformNav({ pathname }: { pathname: string }) {
-  const [moreOpen, setMoreOpen] = useState(false);
-
   const items = [
     { href: "/", icon: "🏠", label: "首頁", match: pathname === "/" },
     { href: "/elementary", icon: "📘", label: "英檢", match: false },
     { href: "/jlpt-n5", icon: "🇯🇵", label: "日文", match: false },
+    { href: "/chinese-lang", icon: "📝", label: "國語", match: false },
+    { href: "/math", icon: "🔢", label: "數學", match: false },
+    { href: "/history-geo", icon: "🌏", label: "歷史", match: false },
+    { href: "/music", icon: "🎵", label: "樂理", match: false },
     { href: "/board-games", icon: "🎲", label: "桌遊", match: false },
+    { href: "/typing-game", icon: "⌨️", label: "打字", match: false },
+    { href: "/finance", icon: "💰", label: "理財", match: false },
   ];
-
-  const moreItems = [
-    { href: "/chinese-lang", icon: "📝", label: "國語學習" },
-    { href: "/history-geo", icon: "🌏", label: "歷史地理" },
-    { href: "/math", icon: "🔢", label: "數學練習" },
-    { href: "/finance", icon: "💰", label: "兒童理財" },
-    { href: "/typing-game", icon: "⌨️", label: "打字練習" },
-    { href: "/how-to-use", icon: "📋", label: "使用說明" },
-    { href: "/faq", icon: "❓", label: "常見問題" },
-    { href: "/about", icon: "💕", label: "關於我們" },
-  ];
-
-  const isMoreActive = moreItems.some(m => pathname === m.href || pathname.startsWith(m.href + "/"));
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 safe-bottom">
-      {/* More menu popup */}
-      {moreOpen && (
-        <>
-          <div className="fixed inset-0 z-40 bg-black/30" onClick={() => setMoreOpen(false)} />
-          <div className="absolute bottom-full left-0 right-0 z-50 bg-white border-t border-slate-200 rounded-t-2xl shadow-lg px-4 py-4">
-            <div className="grid grid-cols-3 gap-3">
-              {moreItems.map(item => (
-                <a key={item.href} href={item.href}
-                  className={`flex flex-col items-center gap-1 no-underline py-3 px-2 rounded-xl transition ${
-                    pathname === item.href || pathname.startsWith(item.href + "/")
-                      ? "text-rose-400 bg-rose-50"
-                      : "text-slate-500 hover:bg-slate-50"
-                  }`}>
-                  <span className="text-xl">{item.icon}</span>
-                  <span className="text-xs font-medium">{item.label}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-
-      <div className="flex justify-around items-center h-14">
+      <div className="flex items-center h-14 overflow-x-auto px-1">
         {items.map(item => (
           <a key={item.href} href={item.href}
-            className={`flex flex-col items-center gap-0.5 no-underline py-1 px-3 transition ${
+            className={`flex flex-col items-center gap-0.5 no-underline py-1 px-2.5 shrink-0 transition ${
               item.match ? "text-rose-400" : "text-slate-400 hover:text-rose-400"
             }`}>
             <span className="text-lg">{item.icon}</span>
             <span className="text-[10px] font-medium">{item.label}</span>
           </a>
         ))}
-        {/* More button */}
-        <button
-          onClick={() => setMoreOpen(!moreOpen)}
-          className={`flex flex-col items-center gap-0.5 py-1 px-3 transition bg-transparent border-0 cursor-pointer ${
-            moreOpen || isMoreActive ? "text-rose-400" : "text-slate-400"
-          }`}>
-          <span className="text-lg">⋯</span>
-          <span className="text-[10px] font-medium">更多</span>
-        </button>
+      </div>
+    </nav>
+  );
+}
+
+function MusicNav({ pathname }: { pathname: string }) {
+  const items = [
+    { href: "/", icon: "🏠", label: "首頁", match: false },
+    { href: "/music", icon: "🎵", label: "樂理", match: pathname === "/music" },
+    { href: "/music/intro", icon: "🎵", label: "入門", match: pathname.includes("/intro") },
+    { href: "/music/basic", icon: "🎹", label: "基礎", match: pathname.includes("/basic") },
+    { href: "/music/advanced", icon: "🎼", label: "進階", match: pathname.includes("/advanced") },
+  ];
+
+  return (
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 safe-bottom">
+      <div className="flex justify-around items-center h-14">
+        {items.map(item => (
+          <a key={item.href} href={item.href}
+            className={`flex flex-col items-center gap-0.5 no-underline py-1 px-3 transition ${
+              item.match ? "text-pink-600" : "text-slate-400 hover:text-pink-600"
+            }`}>
+            <span className="text-lg">{item.icon}</span>
+            <span className="text-[10px] font-medium">{item.label}</span>
+          </a>
+        ))}
       </div>
     </nav>
   );

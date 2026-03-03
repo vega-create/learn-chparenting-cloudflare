@@ -75,6 +75,13 @@ const TOOLS = [
     features: ["英文打字練習", "注音輸入練習", "落下文字遊戲", "打字速度測試"],
   },
   {
+    id: "music", title: "樂理基礎", sub: "Music Theory", icon: "🎵",
+    desc: "音符・音階・和弦・音樂常識",
+    color: "from-pink-400 to-pink-500", border: "border-pink-200",
+    active: true, href: "/music",
+    features: ["音符與節拍入門", "音階調性與音程", "和弦與曲式結構", "300+ 題選擇題"],
+  },
+  {
     id: "finance", title: "兒童理財", sub: "Financial Literacy", icon: "💰",
     desc: "儲蓄・預算・記帳・紅包理財",
     color: "from-purple-400 to-purple-500", border: "border-purple-200",
@@ -100,27 +107,52 @@ export default function HomePage() {
               英檢・日文・數學・桌遊 — 完全免費
             </p>
 
-            {/* Quick-start cards — big, tappable, above the fold */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto mb-6">
-              <a href="/elementary" className="group bg-white rounded-2xl p-4 border-2 border-rose-200 shadow-sm hover:shadow-lg hover:border-rose-400 transition-all no-underline hover-lift">
-                <div className="text-3xl mb-1">📘</div>
-                <div className="font-bold text-slate-800 text-sm">全民英檢</div>
-                <div className="text-xs text-slate-400">GEPT</div>
+            {/* Quick-start cards — all categories, tappable, above the fold */}
+            <div className="grid grid-cols-3 gap-2.5 max-w-md md:max-w-2xl mx-auto mb-6">
+              <a href="/elementary" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-rose-200 shadow-sm hover:shadow-lg hover:border-rose-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">📘</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">全民英檢</div>
+                <div className="text-[10px] md:text-xs text-slate-400">GEPT</div>
               </a>
-              <a href="/jlpt-n5" className="group bg-white rounded-2xl p-4 border-2 border-red-200 shadow-sm hover:shadow-lg hover:border-red-400 transition-all no-underline hover-lift">
-                <div className="text-3xl mb-1">🇯🇵</div>
-                <div className="font-bold text-slate-800 text-sm">日文檢定</div>
-                <div className="text-xs text-slate-400">JLPT</div>
+              <a href="/jlpt-n5" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-red-200 shadow-sm hover:shadow-lg hover:border-red-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">🇯🇵</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">日文檢定</div>
+                <div className="text-[10px] md:text-xs text-slate-400">JLPT</div>
               </a>
-              <a href="/board-games" className="group bg-white rounded-2xl p-4 border-2 border-orange-200 shadow-sm hover:shadow-lg hover:border-orange-400 transition-all no-underline hover-lift">
-                <div className="text-3xl mb-1">🎲</div>
-                <div className="font-bold text-slate-800 text-sm">教育桌遊</div>
-                <div className="text-xs text-slate-400">18 款遊戲</div>
+              <a href="/chinese-lang" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-orange-200 shadow-sm hover:shadow-lg hover:border-orange-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">📝</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">國語學習</div>
+                <div className="text-[10px] md:text-xs text-slate-400">國小國語</div>
               </a>
-              <a href="#tools" className="group bg-white rounded-2xl p-4 border-2 border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-400 transition-all no-underline hover-lift">
-                <div className="text-3xl mb-1">🔢</div>
-                <div className="font-bold text-slate-800 text-sm">更多工具</div>
-                <div className="text-xs text-slate-400">數學・打字・理財</div>
+              <a href="/math" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-amber-200 shadow-sm hover:shadow-lg hover:border-amber-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">🔢</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">數學練習</div>
+                <div className="text-[10px] md:text-xs text-slate-400">Math</div>
+              </a>
+              <a href="/history-geo" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-emerald-200 shadow-sm hover:shadow-lg hover:border-emerald-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">🌏</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">歷史地理</div>
+                <div className="text-[10px] md:text-xs text-slate-400">History</div>
+              </a>
+              <a href="/music" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-pink-200 shadow-sm hover:shadow-lg hover:border-pink-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">🎵</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">樂理基礎</div>
+                <div className="text-[10px] md:text-xs text-slate-400">Music</div>
+              </a>
+              <a href="/board-games" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-orange-200 shadow-sm hover:shadow-lg hover:border-orange-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">🎲</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">教育桌遊</div>
+                <div className="text-[10px] md:text-xs text-slate-400">18 款遊戲</div>
+              </a>
+              <a href="/typing-game" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-emerald-200 shadow-sm hover:shadow-lg hover:border-emerald-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">⌨️</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">打字練習</div>
+                <div className="text-[10px] md:text-xs text-slate-400">Typing</div>
+              </a>
+              <a href="/finance" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-purple-200 shadow-sm hover:shadow-lg hover:border-purple-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">💰</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">兒童理財</div>
+                <div className="text-[10px] md:text-xs text-slate-400">Finance</div>
               </a>
             </div>
 
