@@ -162,7 +162,7 @@ export default function HomePage() {
           <h3 className="text-xl font-bold text-slate-800 mb-2">學習建議</h3>
           <p className="text-slate-600 max-w-lg mx-auto">
             按照 <strong className="text-rose-400">單字 → 文法 → 聽力 → 閱讀 → 測驗</strong> 的順序學習效果最好！
-            每天自由安排時間，不趕進度，學完一個單元記得到遊戲區綜合練習，讓學習更有趣。
+            每天自由安排時間，不趕進度，學完一個單元記得下載練習單再練一次 📥
           </p>
         </div>
       </section>

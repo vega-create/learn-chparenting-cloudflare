@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
 import { speakJa as speak, stopSpeaking, pauseSpeaking, resumeSpeaking } from "@/lib/speech";
+import WorksheetActions from "@/components/WorksheetActions";
+import EbookModal from "@/components/EbookModal";
 
 /* Speech Recognition types (not natively typed in TS) */
 interface SRResult { transcript: string; confidence: number }
@@ -42,6 +44,7 @@ export default function JlptUnitPage() {
   useEffect(() => { return () => { stopSpeaking(); }; }, []);
 
   if (!unit) return <div className="text-center py-20">找不到此單元</div>;
+  const unitId = `unit-${String(uid).padStart(2, "0")}`;
 
   const nextUnit = N2_UNITS.find(u => u.id === uid + 1);
   const prevUnit = N2_UNITS.find(u => u.id === uid - 1);
@@ -60,6 +63,11 @@ export default function JlptUnitPage() {
         </div>
       </div>
 
+      {/* Download & Answer Actions */}
+      <div className="max-w-4xl mx-auto px-3 md:px-4 pt-3">
+        <WorksheetActions toolSlug="japanese" level="n2" unitId={unitId} unitName={unit.title} color="amber" />
+      </div>
+
       <div ref={tabRef} className="flex border-b border-slate-200 bg-white overflow-x-auto sticky top-14 z-40">
         {TABS.map(t => (
           <button key={t.id} data-active={tab === t.id} onClick={() => setTab(t.id)}
@@ -76,6 +84,11 @@ export default function JlptUnitPage() {
         {tab === "listening" && <ListeningTab key={uid + "l"} unit={unit} />}
         {tab === "reading" && <ReadingTab key={uid + "r"} unit={unit} />}
         {tab === "quiz" && <QuizTab key={uid + "q"} unit={unit} />}
+      </div>
+
+      {/* Bottom Download Actions */}
+      <div className="max-w-4xl mx-auto px-3 md:px-4 pb-3">
+        <WorksheetActions toolSlug="japanese" level="n2" unitId={unitId} unitName={unit.title} color="amber" />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 pb-8 flex justify-between items-center gap-3">
@@ -555,6 +568,7 @@ function QuizTab({ unit }: { unit: JlptUnit }) {
   const qs = shuffled.length > 0 ? shuffled : unit.quiz;
   const allDone = Object.keys(sel).length === qs.length;
   const score = show ? qs.filter((q: JlptQuizQ, i: number) => sel[i] === q.ans).length : 0;
+  const [ebookOpen, setEbookOpen] = useState(false);
   const retry = () => { setSel({}); setShow(false); setShuffled([...unit.quiz].sort(() => Math.random() - 0.5)); };
 
   return (
@@ -599,9 +613,25 @@ function QuizTab({ unit }: { unit: JlptUnit }) {
             <button onClick={retry}
               className="px-6 py-2.5 rounded-xl font-semibold text-sm cursor-pointer bg-transparent border-2 active:scale-95 transition"
               style={{ borderColor: unit.color, color: unit.color }}>🔀 重新出題</button>
+
+            <div className="mt-6 space-y-3 text-center">
+              <div className="bg-slate-50 rounded-xl p-4">
+                <p className="text-sm font-medium text-slate-700 mb-2">📥 下載本單元練習單，讓孩子再練一次</p>
+                <a href={`/worksheets/japanese/n2/unit-${String(unit.id).padStart(2,"0")}.pdf`} download
+                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-bold text-sm no-underline hover:bg-blue-700 transition">
+                  📥 下載練習單 (PDF)
+                </a>
+              </div>
+              <button onClick={() => setEbookOpen(true)}
+                className="w-full p-4 rounded-xl bg-indigo-50 border border-indigo-200 text-left cursor-pointer hover:bg-indigo-100 transition">
+                <p className="text-sm font-medium text-indigo-800">📚 不知道怎麼陪孩子複習嗎？</p>
+                <p className="text-xs text-indigo-600 mt-1">免費索取《日文 N2家長陪伴指南》→ 立即索取</p>
+              </button>
+            </div>
           </div>
         )}
       </div>
+      <EbookModal toolName="日文 N2" ebookSlug="japanese-n2" isOpen={ebookOpen} onClose={() => setEbookOpen(false)} />
     </div>
   );
 }
