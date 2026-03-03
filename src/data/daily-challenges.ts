@@ -111,6 +111,16 @@ export const DAILY_CHALLENGES: DailyChallenge[] = [
   { id: "dc-hg-07", category: "歷史地理", categoryLink: "/history-geo", question: "古埃及人建造金字塔的主要目的是？", options: ["存放糧食", "作為法老的陵墓", "觀測天象", "防禦外敵"], answer: 1, explanation: "金字塔主要是作為法老（古埃及國王）的陵墓而建造的。" },
   { id: "dc-hg-08", category: "歷史地理", categoryLink: "/history-geo", question: "台灣最長的河流是？", options: ["高屏溪", "淡水河", "濁水溪", "大甲溪"], answer: 2, explanation: "濁水溪全長約 186.6 公里，是台灣最長的河流。" },
 
+  // ─── 樂理 ───
+  { id: "dc-mu-01", category: "樂理", categoryLink: "/music", question: "五線譜上有幾條線？", options: ["3 條", "4 條", "5 條", "6 條"], answer: 2, explanation: "五線譜由 5 條平行的橫線組成，線和線之間的空間叫做「間」。" },
+  { id: "dc-mu-02", category: "樂理", categoryLink: "/music", question: "一個全音符等於幾個四分音符？", options: ["2 個", "3 個", "4 個", "8 個"], answer: 2, explanation: "全音符 = 4 拍 = 4 個四分音符（每個四分音符 1 拍）。" },
+  { id: "dc-mu-03", category: "樂理", categoryLink: "/music", question: "「f」這個力度記號代表什麼？", options: ["很弱", "弱", "強", "很強"], answer: 2, explanation: "f 是 forte 的縮寫，意思是「強」。" },
+  { id: "dc-mu-04", category: "樂理", categoryLink: "/music", question: "C 大調音階有幾個升降記號？", options: ["0 個", "1 個", "2 個", "3 個"], answer: 0, explanation: "C 大調沒有任何升降記號，只使用白鍵（C D E F G A B）。" },
+  { id: "dc-mu-05", category: "樂理", categoryLink: "/music", question: "「Allegro」是什麼意思？", options: ["慢板", "行板", "快板", "極快"], answer: 2, explanation: "Allegro 是「快板」，速度約 120-156 BPM。" },
+  { id: "dc-mu-06", category: "樂理", categoryLink: "/music", question: "被稱為「音樂之父」的是哪位作曲家？", options: ["莫札特", "貝多芬", "巴哈", "蕭邦"], answer: 2, explanation: "巴哈（J.S. Bach）被尊稱為「音樂之父」，是巴洛克時期最重要的作曲家。" },
+  { id: "dc-mu-07", category: "樂理", categoryLink: "/music", question: "小提琴屬於哪個樂器家族？", options: ["管樂", "弦樂", "打擊樂", "鍵盤樂"], answer: 1, explanation: "小提琴是弦樂器，靠弓摩擦琴弦發聲。" },
+  { id: "dc-mu-08", category: "樂理", categoryLink: "/music", question: "4/4 拍表示什麼？", options: ["每小節 4 拍，以二分音符為一拍", "每小節 4 拍，以四分音符為一拍", "每小節 3 拍，以四分音符為一拍", "每小節 2 拍，以四分音符為一拍"], answer: 1, explanation: "4/4 拍：上面的 4 = 每小節 4 拍，下面的 4 = 四分音符為一拍。" },
+
   // ─── 繼續補充到 100+ 題 ───
   { id: "dc-061", category: "英檢初級", categoryLink: "/elementary", question: "What does 'surprised' mean?", options: ["開心的", "驚訝的", "害怕的", "無聊的"], answer: 1, explanation: "surprised 是「驚訝的」，surprise 是驚喜。" },
   { id: "dc-062", category: "英檢初級", categoryLink: "/elementary", question: "They ___ playing in the park now.", options: ["is", "am", "are", "was"], answer: 2, explanation: "They 搭配 are，現在進行式：are + V-ing。" },
@@ -171,13 +181,13 @@ function hashString(str: string): number {
 
 /* ─── Weekday subject rotation ─── */
 const WEEKDAY_SUBJECTS: Record<number, string[]> = {
-  0: ["數學", "國語"],                 // 週日
-  1: ["英檢初級", "歷史地理"],         // 週一
-  2: ["日文 N5", "日文 N4"],           // 週二
-  3: ["英檢中級", "國語"],             // 週三
-  4: ["數學", "歷史地理"],             // 週四
-  5: ["英檢初級", "英檢中級"],         // 週五
-  6: ["日文 N5", "國語", "歷史地理"],  // 週六
+  0: ["數學", "國語", "樂理"],              // 週日
+  1: ["英檢初級", "歷史地理"],              // 週一
+  2: ["日文 N5", "日文 N4", "樂理"],        // 週二
+  3: ["英檢中級", "國語"],                  // 週三
+  4: ["數學", "歷史地理"],                  // 週四
+  5: ["英檢初級", "英檢中級", "樂理"],      // 週五
+  6: ["日文 N5", "國語", "歷史地理"],       // 週六
 };
 
 export function getDailyChallenge(date: Date): DailyChallenge {
