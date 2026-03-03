@@ -2,7 +2,7 @@ import { createClient, isSupabaseConfigured } from "./supabase";
 
 // ── Types ──────────────────────────────────────────────────
 export interface TrackActivityParams {
-  subject: "gept" | "jlpt" | "board-game" | "math" | "finance" | "typing" | "chinese-lang";
+  subject: "gept" | "jlpt" | "board-game" | "math" | "finance" | "typing" | "chinese-lang" | "history-geo";
   activityType: "game" | "mock-test" | "quiz" | "challenge" | "speaking" | "writing" | "unit" | "module";
   activityId: string;
   activityName: string;
