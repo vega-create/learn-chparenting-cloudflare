@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getTopicByIds } from "@/data/music";
-import type { MusicQ, MusicTopic } from "@/data/music";
+import type { MusicQ, MusicTopic, ConceptAudioDemo } from "@/data/music";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import ShareButtons from "@/components/ShareButtons";
@@ -91,6 +91,19 @@ function TabbedView({ topic, levelId, levelTitle }: { topic: MusicTopic; levelId
             <div key={i} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
               <h2 className="text-lg font-bold text-slate-800 mb-2">{c.title}</h2>
               <p className="text-slate-600 leading-7 mb-3">{c.explanation}</p>
+              {c.images && c.images.length > 0 && (
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-3 overflow-x-auto">
+                  <div className="flex justify-around items-end gap-2 min-w-0">
+                    {c.images.map((img, k) => (
+                      <div key={k} className="flex flex-col items-center gap-1 shrink-0">
+                        <img src={img.src} alt={img.label} className="h-12 md:h-16 w-auto" />
+                        <span className="text-xs font-bold text-slate-700">{img.label}</span>
+                        {img.sublabel && <span className="text-[10px] text-slate-400">{img.sublabel}</span>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               {c.visual && (
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-3 overflow-x-auto">
                   <pre className="text-sm leading-6 text-slate-700 whitespace-pre font-mono m-0">{c.visual}</pre>
@@ -104,6 +117,13 @@ function TabbedView({ topic, levelId, levelTitle }: { topic: MusicTopic; levelId
                   </li>
                 ))}
               </ul>
+              {c.audioDemos && c.audioDemos.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-100">
+                  {c.audioDemos.map((demo, k) => (
+                    <AudioDemoButton key={k} demo={demo} />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
           <div className="text-center pt-2">
@@ -306,5 +326,39 @@ function QuizSection({
         </div>
       )}
     </div>
+  );
+}
+
+function AudioDemoButton({ demo }: { demo: ConceptAudioDemo }) {
+  const [playing, setPlaying] = useState(false);
+
+  const handlePlay = async () => {
+    if (playing) return;
+    setPlaying(true);
+    try {
+      const { playDemoFromData } = await import("@/lib/musicAudio");
+      playDemoFromData(demo);
+      const gap = demo.gap ?? 0.05;
+      const totalDuration = demo.chord
+        ? demo.chord[1]
+        : demo.steps.reduce((sum, s) => sum + s[1] + gap, 0);
+      setTimeout(() => setPlaying(false), totalDuration * 1000 + 300);
+    } catch {
+      setPlaying(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handlePlay}
+      disabled={playing}
+      className={`px-3 py-1.5 rounded-lg text-xs font-medium border cursor-pointer transition ${
+        playing
+          ? "bg-pink-100 border-pink-300 text-pink-500 animate-pulse"
+          : "bg-white border-slate-200 text-slate-600 hover:bg-pink-50 hover:border-pink-300 hover:text-pink-500"
+      }`}
+    >
+      {playing ? "🔊 播放中..." : demo.label}
+    </button>
   );
 }
