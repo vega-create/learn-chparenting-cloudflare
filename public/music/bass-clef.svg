@@ -1,21 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 100">
-  <!-- 五線譜 -->
-  <line x1="0" y1="30" x2="50" y2="30" stroke="#ccc" stroke-width="0.8"/>
-  <line x1="0" y1="40" x2="50" y2="40" stroke="#ccc" stroke-width="0.8"/>
-  <line x1="0" y1="50" x2="50" y2="50" stroke="#ccc" stroke-width="0.8"/>
-  <line x1="0" y1="60" x2="50" y2="60" stroke="#ccc" stroke-width="0.8"/>
-  <line x1="0" y1="70" x2="50" y2="70" stroke="#ccc" stroke-width="0.8"/>
-  <!-- 低音譜號 F clef -->
-  <!-- 大圓點在第4線（F線 y=40） -->
-  <circle cx="12" cy="40" r="4" fill="#333"/>
-  <!-- 曲線從大圓點向右下彎 -->
-  <path d="
-    M 16 40
-    C 24 40 32 42 34 48
-    C 36 54 34 62 28 68
-    C 22 74 14 74 10 70
-  " fill="none" stroke="#333" stroke-width="2.8" stroke-linecap="round"/>
-  <!-- 兩個小圓點（F線上下） -->
-  <circle cx="38" cy="35" r="2.5" fill="#333"/>
-  <circle cx="38" cy="45" r="2.5" fill="#333"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -310 720 1110">
+  <!-- 五線譜 (Bravura: 250 units/space, F line at origin) -->
+  <line x1="-10" y1="-250" x2="700" y2="-250" stroke="#bbb" stroke-width="10"/>
+  <line x1="-10" y1="0" x2="700" y2="0" stroke="#bbb" stroke-width="10"/>
+  <line x1="-10" y1="250" x2="700" y2="250" stroke="#bbb" stroke-width="10"/>
+  <line x1="-10" y1="500" x2="700" y2="500" stroke="#bbb" stroke-width="10"/>
+  <line x1="-10" y1="750" x2="700" y2="750" stroke="#bbb" stroke-width="10"/>
+  <!-- 低音譜號 Bravura F Clef · SIL Open Font License -->
+  <g transform="scale(1,-1)">
+    <path fill="#333" d="M252 262C78 262 0 135 0 39C0 -41 42 -110 123 -110C186 -110 229 -66 229 -4C229 60 182 100 133 100C106 100 96 93 83 93C70 93 67 101 67 111C67 151 127 224 229 224C335 224 381 120 381 -37C381 -316 243 -472 10 -605C1 -610 -5 -615 -5 -623C-5 -629 -1 -635 8 -635C13 -635 19 -633 25 -630C271 -510 531 -332 531 -28C531 146 425 262 252 262ZM629 180C598 180 574 156 574 125C574 94 598 70 629 70C660 70 684 94 684 125C684 156 660 180 629 180ZM630 -71C599 -71 576 -94 576 -125C576 -156 599 -179 630 -179C661 -179 684 -156 684 -125C684 -94 661 -71 630 -71Z"/>
+  </g>
 </svg>
