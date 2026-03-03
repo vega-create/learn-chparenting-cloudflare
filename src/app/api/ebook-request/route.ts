@@ -126,7 +126,7 @@ export async function POST(request: Request) {
       try {
         const resend = new Resend(resendKey);
         await resend.emails.send({
-          from: "learn.chparenting.com <learn@chparenting.com>",
+          from: "親子學習平台 <no-reply@chparenting.com>",
           to: cleanEmail,
           subject: `你的《${bookName}》來囉！`,
           html: buildEmailHtml(bookName, ebookSlug, guideUrl),
