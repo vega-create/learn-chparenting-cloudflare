@@ -77,7 +77,7 @@ export default function SpeakingPage() {
     }
   };
 
-  const startRecording = (targetText: string) => {
+  const startRecording = (targetText: string, qaMode = false) => {
     const wnd = window as unknown as Record<string, unknown>;
     const SRClass = (wnd.SpeechRecognition || wnd.webkitSpeechRecognition) as { new(): SRecognition } | undefined;
     if (!SRClass) return;
@@ -101,10 +101,22 @@ export default function SpeakingPage() {
           confidence: e.results[0][i].confidence ?? 0,
         });
       }
-      const scored = scoreSpeechResult(alts, targetText, compareTextJa);
-      const { pct: bestPct } = scored;
-
-      setResult({ transcript: scored.transcript, pct: scored.pct, matched: scored.matched, rawPct: scored.rawPct, confidence: scored.confidence });
+      let bestPct: number;
+      if (qaMode) {
+        const bestAlt = alts.reduce((best, alt) =>
+          (alt.confidence > best.confidence) ? alt : best, alts[0]);
+        const conf = bestAlt.confidence > 0 && bestAlt.confidence <= 1
+          ? bestAlt.confidence : 0.85;
+        const charCount = bestAlt.transcript.replace(/[\s。、！？「」（）\u3000・～〜…ー]/g, "").length;
+        const clarityScore = Math.round(conf * 55);
+        const completeScore = Math.min(45, Math.round((charCount / 15) * 45));
+        bestPct = Math.min(100, clarityScore + completeScore);
+        setResult({ transcript: bestAlt.transcript, pct: bestPct, matched: [], rawPct: 0, confidence: conf, isQa: true, charCount });
+      } else {
+        const scored = scoreSpeechResult(alts, targetText, compareTextJa);
+        bestPct = scored.pct;
+        setResult({ transcript: scored.transcript, pct: scored.pct, matched: scored.matched, rawPct: scored.rawPct, confidence: scored.confidence });
+      }
       setRecording(false);
       setAttempts(a => a + 1);
       if (bestPct >= 90) playPerfect();
@@ -250,9 +262,9 @@ export default function SpeakingPage() {
   if (!item) return null;
 
   /* ─── Shared Recording Button ─── */
-  const RecordButton = ({ target, size = "lg" }: { target: string; size?: "lg" | "sm" }) => (
+  const RecordButton = ({ target, size = "lg", qaMode = false }: { target: string; size?: "lg" | "sm"; qaMode?: boolean }) => (
     <div className="text-center">
-      <button onClick={() => recording ? null : startRecording(target)} disabled={recording}
+      <button onClick={() => recording ? null : startRecording(target, qaMode)} disabled={recording}
         className={`rounded-full cursor-pointer transition border-3 ${recording ? "animate-pulse" : "hover:scale-105"} ${size === "lg" ? "w-20 h-20 text-3xl" : "w-14 h-14 text-xl"}`}
         style={{ borderColor: recording ? "#ef4444" : "#dc2626", background: recording ? "#fee2e2" : "#fef2f2" }}>
         {recording ? "🎤" : "🎙️"}
@@ -530,7 +542,7 @@ export default function SpeakingPage() {
             <div className="text-sm text-slate-400 mb-3">用日文回答，不用完美，勇敢說就對了！💪</div>
           </div>
 
-          <RecordButton target={item.sample} />
+          <RecordButton target={item.sample} qaMode />
 
           {result && (
             <div className="animate-fadeIn mt-4">
@@ -540,6 +552,24 @@ export default function SpeakingPage() {
                 </span>
                 <div className="text-sm text-slate-500 mt-1">{result.pct >= 60 ? "よくできました！回答得很好！" : "頑張って！多說幾次就會更好！"}</div>
               </div>
+
+              {/* Q&A feedback */}
+              {result.isQa && (
+                <div className="grid grid-cols-2 gap-2 mb-3">
+                  <div className="bg-blue-50 rounded-xl p-3 text-center">
+                    <div className="text-xs text-blue-400 mb-1">🎯 語音清晰度</div>
+                    <div className="text-lg font-bold" style={{ color: result.confidence >= 0.7 ? "#059669" : result.confidence >= 0.4 ? "#f59e0b" : "#ef4444" }}>
+                      {Math.round(result.confidence * 100)}%
+                    </div>
+                  </div>
+                  <div className="bg-purple-50 rounded-xl p-3 text-center">
+                    <div className="text-xs text-purple-400 mb-1">📝 回答完整度</div>
+                    <div className="text-lg font-bold" style={{ color: (result.charCount || 0) >= 15 ? "#059669" : (result.charCount || 0) >= 8 ? "#f59e0b" : "#ef4444" }}>
+                      {result.charCount || 0} 字
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {result.transcript && (
                 <div className="bg-blue-50 rounded-xl p-4 mb-3">
@@ -557,7 +587,7 @@ export default function SpeakingPage() {
               </div>
               {showSample && (
                 <div className="bg-amber-50 rounded-xl p-4 mb-3 animate-fadeIn">
-                  <div className="text-xs text-amber-500 mb-1">參考答案：</div>
+                  <div className="text-xs text-amber-500 mb-1">參考答案（不一定要一樣）：</div>
                   <div className="text-sm text-slate-700">{item.sample}</div>
                   <button onClick={() => speak(item.sample, 0.8)} className="mt-2 text-xs text-amber-600 bg-transparent border border-amber-200 rounded-lg px-2 py-1 cursor-pointer">🔊 聽參考答案</button>
                 </div>
