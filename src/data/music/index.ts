@@ -1,5 +1,5 @@
 import type { MusicLevel } from "./types";
-export type { MusicQ, MusicTopic, MusicLevel } from "./types";
+export type { MusicQ, MusicTopic, MusicLevel, MusicConcept, ConceptAudioDemo, ConceptImage } from "./types";
 
 // Intro
 import notes from "./intro/notes";
