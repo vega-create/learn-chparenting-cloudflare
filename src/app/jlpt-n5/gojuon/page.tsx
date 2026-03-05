@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
+import { speakJa, stopSpeaking } from "@/lib/speech";
 
+/** 50音專用：單一假名重複讀三次、大幅降速，使用女聲（Kyoko） */
 const speak = (text: string, rate = 0.8) => {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ja-JP"; u.rate = rate;
-  window.speechSynthesis.speak(u);
+  const finalText = text.length <= 2 ? `${text}、、、${text}、、、${text}` : text;
+  const finalRate = text.length <= 2 ? 0.3 : rate;
+  speakJa(finalText, finalRate);
 };
 
 const HIRAGANA = [
@@ -81,7 +81,7 @@ export default function GojuonPage() {
   const [options, setOptions] = useState<string[]>([]);
 
   // Stop speech when leaving page
-  useEffect(() => { return () => { if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel(); }; }, []);
+  useEffect(() => { return () => { stopSpeaking(); }; }, []);
 
   const startQuiz = (type: QuizType) => {
     setQuizType(type);
@@ -257,8 +257,8 @@ export default function GojuonPage() {
                       下一題 →
                     </button>
                   ) : (
-                    <button onClick={() => startQuiz(quizType)} className="px-6 py-3 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none active:scale-95 transition">
-                      🔄 重新測驗
+                    <button onClick={() => { setQi(quizItems.length); if (score >= 18) playPerfect(); else playCorrect(); }} className="px-6 py-3 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none active:scale-95 transition">
+                      看結果 →
                     </button>
                   )}
                 </div>

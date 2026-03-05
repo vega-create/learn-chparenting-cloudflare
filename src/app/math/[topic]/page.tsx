@@ -9,6 +9,11 @@ import { trackActivity } from "@/lib/tracking";
 import { useParams } from "next/navigation";
 import ShareButtons from "@/components/ShareButtons";
 
+function shuffleMathOpts<T extends { options: string[]; answer: number }>(item: T): T {
+  const indices = item.options.map((_, i) => i).sort(() => Math.random() - 0.5);
+  return { ...item, options: indices.map(i => item.options[i]), answer: indices.indexOf(item.answer) };
+}
+
 type Tab = "concepts" | "practice" | "challenge";
 
 export default function MathTopicPage() {
@@ -89,15 +94,21 @@ function ConceptsTab({ topic }: { topic: MathTopic }) {
 
 /* ─── Practice Tab ─── */
 function PracticeTab({ topic }: { topic: MathTopic }) {
+  const [shuffled, setShuffled] = useState<MathPractice[]>([]);
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [correct, setCorrect] = useState(0);
   const [done, setDone] = useState(false);
-  const practices = topic.practices;
+
+  useEffect(() => {
+    setShuffled([...topic.practices].sort(() => Math.random() - 0.5).map(shuffleMathOpts));
+  }, [topic.practices]);
+
+  const practices = shuffled;
   const q = practices[idx];
 
   const handleSelect = (i: number) => {
-    if (selected !== null) return;
+    if (selected !== null || !q) return;
     setSelected(i);
     if (i === q.answer) {
       setCorrect((c) => c + 1);
@@ -119,6 +130,7 @@ function PracticeTab({ topic }: { topic: MathTopic }) {
   };
 
   const handleRestart = () => {
+    setShuffled([...topic.practices].sort(() => Math.random() - 0.5).map(shuffleMathOpts));
     setIdx(0);
     setSelected(null);
     setCorrect(0);
@@ -135,6 +147,8 @@ function PracticeTab({ topic }: { topic: MathTopic }) {
       }).catch(() => {});
     }
   }, [done]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!q && !done) return null;
 
   if (done) {
     const pct = Math.round((correct / practices.length) * 100);

@@ -210,8 +210,28 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
   const sentences = unit.listening;
   const resetForNew = () => { setResult(null); setAttempts(0); setBestScore(0); setShowText(false); };
 
+  /** 日文正規化：漢字數字→阿拉伯、ぐ↔く等發音等價 */
+  const normalizeJa = (s: string) => {
+    let t = s.replace(/[。、！？「」（）\s・]/g, "");
+    // 漢字數字→阿拉伯（常見）
+    const kanjiMap: Record<string, string> = { '一': '1', '二': '2', '三': '3', '四': '4', '五': '5', '六': '6', '七': '7', '八': '8', '九': '9', '十': '10', '百': '100', '千': '1000', '万': '10000', '零': '0' };
+    // 處理複合數字：十一→11, 二十→20, etc.
+    t = t.replace(/十([一二三四五六七八九])/g, (_, d) => '1' + kanjiMap[d]);
+    t = t.replace(/([二三四五六七八九])十/g, (_, d) => kanjiMap[d] + '0');
+    for (const [k, v] of Object.entries(kanjiMap)) t = t.replaceAll(k, v);
+    // 發音等價
+    t = t.replace(/ぐ/g, 'く').replace(/グ/g, 'ク');   // ぐらい = くらい
+    t = t.replace(/づ/g, 'ず').replace(/ヅ/g, 'ズ');   // つづく = つずく
+    t = t.replace(/ぢ/g, 'じ').replace(/ヂ/g, 'ジ');   // はなぢ = はなじ
+    t = t.replace(/を/g, 'お').replace(/ヲ/g, 'オ');   // を → お (pronunciation)
+    t = t.replace(/は([^行])/g, 'わ$1');               // 助詞 は → わ
+    // 全形→半形數字
+    t = t.replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFF10 + 0x30));
+    return t;
+  };
+
   const scoreJaResult = (targetText: string, allTranscripts: string[][]) => {
-    const target = targetText.replace(/[。、！？「」（）\s]/g, "");
+    const target = normalizeJa(targetText);
     const targetChars = Array.from(target);
     let bestPct = 0;
     let bestTranscript = "";
@@ -219,7 +239,7 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
 
     for (const alternatives of allTranscripts) {
       for (const raw of alternatives) {
-        const transcript = raw.replace(/[。、！？「」（）\s]/g, "");
+        const transcript = normalizeJa(raw);
         const spokenChars = Array.from(transcript);
         const matched: number[] = [];
         targetChars.forEach((tc: string, idx: number) => {

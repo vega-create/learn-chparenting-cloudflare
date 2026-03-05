@@ -9,6 +9,11 @@ import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import ShareButtons from "@/components/ShareButtons";
 
+function shuffleOpts<T extends { opts: string[]; ans: number }>(item: T): T {
+  const indices = item.opts.map((_, i) => i).sort(() => Math.random() - 0.5);
+  return { ...item, opts: indices.map(i => item.opts[i]), ans: indices.indexOf(item.ans) };
+}
+
 type Tab = "quiz" | "reading";
 
 export default function TopicPracticePage() {
@@ -139,7 +144,7 @@ function QuizSection({
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    setShuffled([...questions].sort(() => Math.random() - 0.5));
+    setShuffled([...questions].sort(() => Math.random() - 0.5).map(shuffleOpts));
   }, [questions]);
 
   const q = shuffled[idx];
@@ -167,7 +172,7 @@ function QuizSection({
   };
 
   const handleRestart = () => {
-    setShuffled([...questions].sort(() => Math.random() - 0.5));
+    setShuffled([...questions].sort(() => Math.random() - 0.5).map(shuffleOpts));
     setIdx(0);
     setSelected(null);
     setCorrect(0);
@@ -316,16 +321,20 @@ function ReadingSection({
   const [pIdx, setPIdx] = useState(0);
   const [sel, setSel] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [shuffledRdQs, setShuffledRdQs] = useState<{ q: string; opts: string[]; ans: number }[]>([]);
 
   const rd = readings[pIdx];
-  const allAnswered = Object.keys(sel).length === rd.questions.length;
+  useEffect(() => {
+    setShuffledRdQs(rd.questions.map(shuffleOpts));
+  }, [pIdx, rd]);
+  const allAnswered = Object.keys(sel).length === shuffledRdQs.length;
 
   const handleSubmit = () => {
     if (!allAnswered) return;
     setSubmitted(true);
-    const correct = rd.questions.filter((q, i) => sel[i] === q.ans).length;
-    if (correct === rd.questions.length) playPerfect();
-    else if (correct >= rd.questions.length * 0.6) playCorrect();
+    const correct = shuffledRdQs.filter((q, i) => sel[i] === q.ans).length;
+    if (correct === shuffledRdQs.length) playPerfect();
+    else if (correct >= shuffledRdQs.length * 0.6) playCorrect();
     else playWrong();
 
     trackActivity({
@@ -334,11 +343,11 @@ function ReadingSection({
       activityId: `${regionId}-${topicId}-reading-${pIdx + 1}`,
       activityName: `歷史地理 ${regionTitle} ${topicTitle} 第${pIdx + 1}篇`,
       score: correct,
-      maxScore: rd.questions.length,
+      maxScore: shuffledRdQs.length,
       stars:
-        correct >= rd.questions.length * 0.9
+        correct >= shuffledRdQs.length * 0.9
           ? 3
-          : correct >= rd.questions.length * 0.6
+          : correct >= shuffledRdQs.length * 0.6
             ? 2
             : 1,
     }).catch(() => {});
@@ -351,7 +360,7 @@ function ReadingSection({
   };
 
   const correctCount = submitted
-    ? rd.questions.filter((q, i) => sel[i] === q.ans).length
+    ? shuffledRdQs.filter((q, i) => sel[i] === q.ans).length
     : 0;
 
   return (
@@ -395,12 +404,12 @@ function ReadingSection({
           📝 閱讀理解題
           {submitted && (
             <span className="ml-2 text-sm font-normal text-slate-500">
-              {correctCount}/{rd.questions.length} 題正確
+              {correctCount}/{shuffledRdQs.length} 題正確
             </span>
           )}
         </h3>
         <div className="space-y-6">
-          {rd.questions.map((q, qi) => (
+          {shuffledRdQs.map((q, qi) => (
             <div key={qi}>
               <div className="font-medium text-slate-800 mb-2">
                 {qi + 1}. {q.q}
@@ -461,9 +470,9 @@ function ReadingSection({
             <>
               <div className="w-full text-center mb-2">
                 <div className="text-lg font-bold">
-                  {correctCount === rd.questions.length
+                  {correctCount === shuffledRdQs.length
                     ? "🎉 全部答對！"
-                    : `答對 ${correctCount}/${rd.questions.length} 題`}
+                    : `答對 ${correctCount}/${shuffledRdQs.length} 題`}
                 </div>
               </div>
               {readings.length > 1 && (

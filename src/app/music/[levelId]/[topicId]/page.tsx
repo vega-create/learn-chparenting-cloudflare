@@ -9,6 +9,11 @@ import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import ShareButtons from "@/components/ShareButtons";
 
+function shuffleOpts<T extends { opts: string[]; ans: number }>(item: T): T {
+  const indices = item.opts.map((_, i) => i).sort(() => Math.random() - 0.5);
+  return { ...item, opts: indices.map(i => item.opts[i]), ans: indices.indexOf(item.ans) };
+}
+
 export default function TopicPracticePage() {
   const params = useParams();
   const levelId = params.levelId as string;
@@ -171,7 +176,7 @@ function QuizSection({
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    setShuffled([...questions].sort(() => Math.random() - 0.5));
+    setShuffled([...questions].sort(() => Math.random() - 0.5).map(shuffleOpts));
   }, [questions]);
 
   const q = shuffled[idx];
@@ -199,7 +204,7 @@ function QuizSection({
   };
 
   const handleRestart = () => {
-    setShuffled([...questions].sort(() => Math.random() - 0.5));
+    setShuffled([...questions].sort(() => Math.random() - 0.5).map(shuffleOpts));
     setIdx(0);
     setSelected(null);
     setCorrect(0);
