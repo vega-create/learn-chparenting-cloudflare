@@ -3,11 +3,15 @@ import { useState, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
 import { speakJa, stopSpeaking } from "@/lib/speech";
 
-/** 50音專用：單一假名重複讀三次、大幅降速，使用女聲（Kyoko） */
-const speak = (text: string, rate = 0.8) => {
+/** 表格點擊：唸一次，稍慢 */
+const speak = (text: string, rate = 0.65) => {
+  speakJa(text, rate);
+};
+
+/** 練習模式：重複唸三次、大幅降速 */
+const speakRepeat = (text: string) => {
   const finalText = text.length <= 2 ? `${text}、、、${text}、、、${text}` : text;
-  const finalRate = text.length <= 2 ? 0.3 : rate;
-  speakJa(finalText, finalRate);
+  speakJa(finalText, 0.3);
 };
 
 const HIRAGANA = [
@@ -218,7 +222,7 @@ export default function GojuonPage() {
 
               <div className="text-center mb-6">
                 {quizType === "listen" ? (
-                  <button onClick={() => speak(quizItems[qi].h)}
+                  <button onClick={() => speakRepeat(quizItems[qi].h)}
                     className="w-24 h-24 rounded-full text-4xl bg-red-50 border-2 border-red-200 cursor-pointer transition active:scale-95 mx-auto">
                     🔊
                   </button>

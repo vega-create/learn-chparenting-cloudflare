@@ -359,7 +359,7 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
             )}
             <div className="text-lg font-medium mb-1" style={{ color: unit.color }}>{words[wordIdx].zh}</div>
             <div className="text-xs text-slate-400 italic mb-6">{words[wordIdx].pos}</div>
-            <button onClick={() => speak(words[wordIdx].ja, 0.75)}
+            <button onClick={() => speak(words[wordIdx].reading, 0.75)}
               className="px-5 py-2.5 rounded-xl text-sm font-medium border mb-4 cursor-pointer transition active:scale-95"
               style={{ borderColor: unit.color + "60", color: unit.color }}>🔊 先聽一次</button>
             <div className="my-5">
