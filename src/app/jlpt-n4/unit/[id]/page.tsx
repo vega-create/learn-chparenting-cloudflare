@@ -127,7 +127,7 @@ function VocabTab({ unit }: { unit: JlptUnit }) {
                 <span className="text-xs text-slate-400 ml-2 italic">{w.pos}</span>
                 <div className="text-sm font-semibold mt-0.5" style={{ color: unit.color }}>{w.zh}</div>
               </div>
-              <button onClick={e => { e.stopPropagation(); speak(w.ja); }}
+              <button onClick={e => { e.stopPropagation(); speak(w.reading); }}
                 className="text-xl bg-transparent border-none cursor-pointer p-2 -mr-1 -mt-1 active:scale-90 transition">🔊</button>
             </div>
             {flipped[i] && (
