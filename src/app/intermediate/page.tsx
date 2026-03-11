@@ -1,19 +1,48 @@
 import { INTER_UNITS as UNITS } from "@/data/intermediate";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ToolIntroSection } from "@/components/ToolIntroSection";
+import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
-  title: "全民英檢中級免費練習 | 5000+ 單字・文法・聽力・模擬考 | learn.chparenting.com",
-  description: "免費全民英檢中級線上練習，涵蓋 5000+ 必考單字、進階文法、聽力理解、閱讀測驗、模擬考。適合國中生和英文進階學習者。",
+  title: "GEPT 中級免費練習題庫｜全民英檢中級線上測驗 - learn.chparenting.com",
+  description: "免費 GEPT 全民英檢中級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。適合國中生、高中生備考，每單元附練習單 PDF 可下載。",
+  keywords: ["GEPT中級", "全民英檢中級", "英檢中級練習", "英檢中級題庫", "GEPT中級免費"],
+  openGraph: {
+    title: "GEPT 中級免費練習題庫｜全民英檢中級線上測驗",
+    description: "免費 GEPT 全民英檢中級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。",
+    url: "https://learn.chparenting.com/intermediate/",
+    siteName: "learn.chparenting.com",
+    locale: "zh_TW",
+    type: "website",
+  },
   alternates: { canonical: "https://learn.chparenting.com/intermediate" },
 };
 
 export default function ElementaryPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <ToolStructuredData
+        name="GEPT 中級免費練習題庫"
+        description="專為備考 GEPT 全民英檢中級設計的免費線上練習平台，適合國中生、高中生"
+        url="https://learn.chparenting.com/intermediate/"
+        educationalLevel="國中"
+        subject="英語"
+      />
+      <ToolIntroSection
+        badge="免費線上練習"
+        title="GEPT 中級免費練習題庫"
+        description="專為備考 GEPT 全民英檢中級設計的免費線上練習平台，適合國中生、高中生使用。題庫涵蓋中級程度的單字、文法、聽力、閱讀，完整對應英檢中級考試範圍。每個單元可下載練習單 PDF，搭配線上練習反覆熟悉題型。不需要帳號，免費直接開始。"
+        highlights={[
+          "中級程度單字、文法、聽力、閱讀",
+          "每單元附練習單 PDF 免費下載",
+          "完整對應 GEPT 中級考試範圍",
+          "不需要帳號，免費直接練習",
+        ]}
+      />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3">⚡</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">GEPT 中級</h1>
+        <h2 className="text-3xl font-black text-slate-800 mb-2">GEPT 中級</h2>
         <p className="text-slate-500">高中畢業程度 · 5000 單字 · 聽說讀寫 + 文法</p>
       </div>
 

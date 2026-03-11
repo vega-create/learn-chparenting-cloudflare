@@ -2,20 +2,49 @@ import { UNITS } from "@/data/elementary";
 import type { Metadata } from "next";
 import Link from "next/link";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
+import { ToolIntroSection } from "@/components/ToolIntroSection";
+import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
-  title: "全民英檢初級免費練習 | 單字・文法・聽力・閱讀・模擬考 | learn.chparenting.com",
-  description: "免費全民英檢初級線上練習，包含 2000+ 單字、文法解析、聽力訓練、閱讀理解、模擬測驗、口說練習。適合國小中高年級，不用花補習費也能準備英檢。",
+  title: "GEPT 初級免費練習題庫｜國小英檢線上練習 - learn.chparenting.com",
+  description: "免費 GEPT 全民英檢初級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。適合國小 5-6 年級備考，每單元附練習單 PDF 可下載列印。",
+  keywords: ["GEPT初級", "全民英檢初級", "英檢初級練習", "國小英檢", "GEPT初級題庫", "英檢免費練習"],
+  openGraph: {
+    title: "GEPT 初級免費練習題庫｜國小英檢線上練習",
+    description: "免費 GEPT 全民英檢初級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。適合國小 5-6 年級備考。",
+    url: "https://learn.chparenting.com/elementary/",
+    siteName: "learn.chparenting.com",
+    locale: "zh_TW",
+    type: "website",
+  },
   alternates: { canonical: "https://learn.chparenting.com/elementary" },
 };
 
 export default function ElementaryPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <ToolStructuredData
+        name="GEPT 初級免費練習題庫"
+        description="專為國小 5-6 年級備考 GEPT 全民英檢初級設計的免費線上練習平台"
+        url="https://learn.chparenting.com/elementary/"
+        educationalLevel="國小"
+        subject="英語"
+      />
       <SubjectVisitTracker subject="gept" />
+      <ToolIntroSection
+        badge="免費線上練習"
+        title="GEPT 初級免費練習題庫"
+        description="專為國小 5-6 年級備考 GEPT 全民英檢初級設計的免費線上練習平台。題庫涵蓋單字、文法、聽力、閱讀四大題型，完整對應英檢初級考試範圍。每個單元練習完成後，可下載練習單 PDF 讓孩子在紙上再練一次，線上線下搭配，學習效果更好。不需要帳號，免費直接開始練習。"
+        highlights={[
+          "單字、文法、聽力、閱讀完整題型",
+          "每單元附練習單 PDF 免費下載",
+          "手機、平板、電腦都能使用",
+          "不需要帳號，免費直接練習",
+        ]}
+      />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3">🌱</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">GEPT 初級</h1>
+        <h2 className="text-3xl font-black text-slate-800 mb-2">GEPT 初級</h2>
         <p className="text-slate-500">國中畢業程度 · 2000 單字 · 聽說讀寫 + 文法</p>
       </div>
 

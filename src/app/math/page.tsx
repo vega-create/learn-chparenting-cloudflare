@@ -2,10 +2,21 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MATH_TOPICS } from "@/data/math/topics";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
+import { ToolIntroSection } from "@/components/ToolIntroSection";
+import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
-  title: "免費國小數學練習 | 四則運算・分數・幾何・應用題 | learn.chparenting.com",
-  description: "免費國小數學線上練習，包含加減乘除、分數、小數、百分比、幾何、代數入門、應用題、時間與計量。互動式題目，即時回饋，讓孩子不怕數學。",
+  title: "國小數學免費練習｜四則運算線上練習題 - learn.chparenting.com",
+  description: "免費國小數學線上練習，涵蓋四則運算、應用題、闖關模式。適合國小 1-6 年級，遊戲化學習讓孩子愛上數學。",
+  keywords: ["國小數學練習", "四則運算練習", "國小數學題庫", "數學免費練習", "小學數學"],
+  openGraph: {
+    title: "國小數學免費練習｜四則運算線上練習題",
+    description: "免費國小數學線上練習，涵蓋四則運算、應用題、闖關模式。遊戲化學習讓孩子愛上數學。",
+    url: "https://learn.chparenting.com/math/",
+    siteName: "learn.chparenting.com",
+    locale: "zh_TW",
+    type: "website",
+  },
   alternates: { canonical: "https://learn.chparenting.com/math" },
 };
 
@@ -18,10 +29,28 @@ const GRADE_GROUPS = [
 export default function MathPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      <ToolStructuredData
+        name="國小數學免費線上練習"
+        description="專為國小生設計的免費數學練習平台，涵蓋四則運算和應用題"
+        url="https://learn.chparenting.com/math/"
+        educationalLevel="國小"
+        subject="數學"
+      />
       <SubjectVisitTracker subject="math" />
+      <ToolIntroSection
+        badge="免費數學練習"
+        title="國小數學免費線上練習｜四則運算題庫"
+        description="專為國小生設計的免費數學練習平台，涵蓋加減乘除四則運算和應用題。闖關模式讓孩子越練越有成就感，不像傳統測驗那麼枯燥。適合每天做完功課後當作小複習，也可以用來加強比較弱的單元。"
+        highlights={[
+          "四則運算、應用題完整題型",
+          "闖關模式，練習更有動力",
+          "適合國小 1-6 年級",
+          "不需要帳號，免費直接練習",
+        ]}
+      />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3 animate-float">🔢</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">數學練習</h1>
+        <h2 className="text-3xl font-black text-slate-800 mb-2">數學練習</h2>
         <p className="text-slate-500">觀念教學 · 互動練習 · 限時挑戰 — 從基礎到進階</p>
       </div>
 

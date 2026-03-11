@@ -2,20 +2,49 @@ import { N5_UNITS } from "@/data/jlpt-n5";
 import type { Metadata } from "next";
 import Link from "next/link";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
+import { ToolIntroSection } from "@/components/ToolIntroSection";
+import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
-  title: "JLPT N5 日文檢定免費練習 | 五十音・單字・文法・聽力 | learn.chparenting.com",
-  description: "免費 JLPT N5 日文線上練習，從五十音開始，包含必考單字、基礎文法、聽力訓練、模擬測驗。適合日文初學者。",
+  title: "日文免費練習｜JLPT N5 線上題庫 - learn.chparenting.com",
+  description: "免費日文線上練習，從五十音到 JLPT N5 單字、文法完整題庫。適合兒童和初學者入門，邊玩邊學日文最有效。",
+  keywords: ["日文練習", "JLPT N5", "日文免費學習", "五十音練習", "兒童學日文", "N5題庫"],
+  openGraph: {
+    title: "日文免費練習｜JLPT N5 線上題庫",
+    description: "免費日文線上練習，從五十音到 JLPT N5 單字、文法完整題庫。適合兒童和初學者入門。",
+    url: "https://learn.chparenting.com/jlpt-n5/",
+    siteName: "learn.chparenting.com",
+    locale: "zh_TW",
+    type: "website",
+  },
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n5" },
 };
 
 export default function JlptN5Page() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <ToolStructuredData
+        name="日文免費線上練習 JLPT N5"
+        description="專為日文初學者和兒童設計的免費日文練習平台，從五十音到 JLPT N5"
+        url="https://learn.chparenting.com/jlpt-n5/"
+        educationalLevel="初學者"
+        subject="日語"
+      />
       <SubjectVisitTracker subject="jlpt" />
+      <ToolIntroSection
+        badge="免費日文練習"
+        title="日文免費線上練習｜JLPT N5 入門題庫"
+        description="專為日文初學者和兒童設計的免費日文練習平台。從五十音發音開始，到 JLPT N5 單字和文法，循序漸進學習。遊戲化的練習方式讓孩子在玩中學，不枯燥不壓力。適合想讓孩子接觸日文、或自己想從零開始學日文的家長使用。"
+        highlights={[
+          "五十音、N5 單字、文法完整練習",
+          "遊戲化學習，孩子不排斥",
+          "手機、平板、電腦都能使用",
+          "不需要帳號，免費直接練習",
+        ]}
+      />
       <div className="text-center mb-10">
         <div className="text-5xl mb-3">🇯🇵</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">JLPT N5 入門</h1>
+        <h2 className="text-3xl font-black text-slate-800 mb-2">JLPT N5 入門</h2>
         <p className="text-slate-500">基礎日文 · {N5_UNITS.reduce((sum, u) => sum + u.vocab.length, 0)}+ 單字 · 聽說讀寫完整練習</p>
       </div>
 
