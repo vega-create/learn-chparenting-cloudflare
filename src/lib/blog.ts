@@ -13,6 +13,11 @@ export interface TocItem {
   level: number;
 }
 
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -26,10 +31,10 @@ export interface BlogPost {
   htmlContent?: string;
   toc?: TocItem[];
   readingTime?: number;
+  faq?: FaqItem[];
 }
 
 function estimateReadingTime(content: string): number {
-  // Chinese: ~400 chars/min, English: ~200 words/min
   const chineseChars = (content.match(/[\u4e00-\u9fff]/g) || []).length;
   const englishWords = content.replace(/[\u4e00-\u9fff]/g, '').split(/\s+/).filter(Boolean).length;
   const minutes = Math.ceil(chineseChars / 400 + englishWords / 200);
@@ -92,6 +97,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     author: data.author || 'Mommy Wisdom',
     content,
     readingTime: estimateReadingTime(content),
+    faq: data.faq || undefined,
   };
 }
 
@@ -105,7 +111,6 @@ export async function getPostWithHtml(slug: string): Promise<BlogPost | null> {
     .process(post.content);
   let htmlStr = processed.toString();
 
-  // Add IDs to headings for TOC linking
   htmlStr = addHeadingIds(htmlStr);
 
   post.htmlContent = htmlStr;

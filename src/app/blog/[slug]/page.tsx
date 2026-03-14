@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getAllSlugs, getPostWithHtml, getAllPosts, TocItem } from '@/lib/blog';
+import { getAllSlugs, getPostWithHtml, getAllPosts, TocItem, FaqItem } from '@/lib/blog';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -53,29 +53,52 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
   '日檢攻略': { bg: 'bg-purple-50', text: 'text-purple-600', border: 'border-purple-200' },
   '親子教養': { bg: 'bg-rose-50', text: 'text-rose-600', border: 'border-rose-200' },
   '學習技巧': { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-200' },
+  '學習工具': { bg: 'bg-teal-50', text: 'text-teal-600', border: 'border-teal-200' },
+  '語言學習': { bg: 'bg-indigo-50', text: 'text-indigo-600', border: 'border-indigo-200' },
+  '親子教育': { bg: 'bg-pink-50', text: 'text-pink-600', border: 'border-pink-200' },
 };
 
 function TableOfContents({ toc }: { toc: TocItem[] }) {
   if (toc.length < 3) return null;
-
+  let h2Index = 0;
   return (
     <nav className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8" aria-label="目錄">
       <h2 className="text-base font-bold text-slate-700 mb-3 flex items-center gap-2">
         📑 本文目錄
       </h2>
       <ol className="space-y-1.5 list-none pl-0 m-0">
-        {toc.map((item, i) => (
-          <li key={item.id} className={item.level === 3 ? 'pl-4' : ''}>
-            <a
-              href={`#${item.id}`}
-              className="text-sm text-slate-500 hover:text-rose-500 no-underline hover:underline transition-colors leading-relaxed"
-            >
-              {item.level === 2 ? `${i + 1}. ` : '› '}{item.text}
-            </a>
-          </li>
-        ))}
+        {toc.map((item) => {
+          if (item.level === 2) h2Index++;
+          return (
+            <li key={item.id} className={item.level === 3 ? 'pl-4' : ''}>
+              <a
+                href={`#${item.id}`}
+                className="text-sm text-slate-500 hover:text-rose-500 no-underline hover:underline transition-colors leading-relaxed"
+              >
+                {item.level === 2 ? `${h2Index}. ` : '› '}{item.text}
+              </a>
+            </li>
+          );
+        })}
       </ol>
     </nav>
+  );
+}
+
+function FaqSection({ faq }: { faq: FaqItem[] }) {
+  if (!faq || faq.length === 0) return null;
+  return (
+    <section className="mt-10 bg-amber-50 border border-amber-200 rounded-2xl p-6">
+      <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">💡 常見問題 FAQ</h2>
+      <dl className="space-y-4">
+        {faq.map((item, i) => (
+          <div key={i}>
+            <dt className="font-semibold text-slate-800 mb-1">Q：{item.q}</dt>
+            <dd className="text-slate-600 leading-relaxed ml-0">{item.a}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
   );
 }
 
@@ -88,15 +111,12 @@ export default async function BlogPostPage({ params }: Props) {
   const related = allPosts
     .filter(p => p.slug !== slug && p.category === post.category)
     .slice(0, 3);
-
-  // If no same-category posts, show latest posts
   const relatedPosts = related.length > 0
     ? related
     : allPosts.filter(p => p.slug !== slug).slice(0, 3);
 
   const style = CATEGORY_COLORS[post.category] || { bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' };
 
-  // Enhanced BlogPosting Schema
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -104,19 +124,9 @@ export default async function BlogPostPage({ params }: Props) {
     description: post.description,
     datePublished: post.date,
     dateModified: post.date,
-    author: {
-      '@type': 'Person',
-      name: post.author,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Mommy Wisdom International',
-      url: 'https://learn.chparenting.com',
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://learn.chparenting.com/blog/${slug}`,
-    },
+    author: { '@type': 'Person', name: post.author, url: 'https://learn.chparenting.com/about' },
+    publisher: { '@type': 'Organization', name: 'Mommy Wisdom International', url: 'https://learn.chparenting.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://learn.chparenting.com/blog/${slug}` },
     url: `https://learn.chparenting.com/blog/${slug}`,
     keywords: post.tags.join(', '),
     articleSection: post.category,
@@ -124,36 +134,31 @@ export default async function BlogPostPage({ params }: Props) {
     wordCount: post.content.length,
   };
 
-  // BreadcrumbList Schema
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: '首頁',
-        item: 'https://learn.chparenting.com',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: '部落格',
-        item: 'https://learn.chparenting.com/blog',
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: post.title,
-        item: `https://learn.chparenting.com/blog/${slug}`,
-      },
+      { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://learn.chparenting.com' },
+      { '@type': 'ListItem', position: 2, name: '部落格', item: 'https://learn.chparenting.com/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://learn.chparenting.com/blog/${slug}` },
     ],
   };
+
+  const faqJsonLd = post.faq && post.faq.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: post.faq.map(item => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  } : null;
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
 
       {/* Breadcrumb */}
       <nav className="text-sm text-slate-400 mb-8" aria-label="breadcrumb">
@@ -168,7 +173,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Article Header */}
       <header className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3 mb-4 flex-wrap">
           <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${style.bg} ${style.text} ${style.border}`}>
             {post.category}
           </span>
@@ -178,6 +183,9 @@ export default async function BlogPostPage({ params }: Props) {
           {post.readingTime && (
             <span className="text-sm text-slate-400">· 閱讀 {post.readingTime} 分鐘</span>
           )}
+          <Link href="/about" className="text-sm text-slate-400 hover:text-rose-500 no-underline ml-auto">
+            ✍️ {post.author}
+          </Link>
         </div>
         <h1 className="text-2xl md:text-3xl font-black text-slate-800 leading-tight mb-4">
           {post.title}
@@ -201,6 +209,9 @@ export default async function BlogPostPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: post.htmlContent || '' }}
       />
 
+      {/* FAQ Section (from frontmatter) */}
+      <FaqSection faq={post.faq || []} />
+
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
         <aside className="mt-12 pt-8 border-t border-slate-200">
@@ -209,11 +220,8 @@ export default async function BlogPostPage({ params }: Props) {
             {relatedPosts.map(r => {
               const rs = CATEGORY_COLORS[r.category] || { bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' };
               return (
-                <Link
-                  key={r.slug}
-                  href={`/blog/${r.slug}`}
-                  className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group"
-                >
+                <Link key={r.slug} href={`/blog/${r.slug}`}
+                  className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-md hover:-translate-y-0.5 transition-all no-underline group">
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${rs.bg} ${rs.text} ${rs.border}`}>
                     {r.category}
                   </span>
@@ -228,7 +236,6 @@ export default async function BlogPostPage({ params }: Props) {
         </aside>
       )}
 
-      {/* Back to Blog */}
       <div className="mt-10 text-center">
         <Link href="/blog"
           className="inline-block px-6 py-2.5 bg-rose-100 border border-rose-300 text-rose-500 rounded-xl font-semibold text-sm hover:bg-rose-200 transition no-underline">
