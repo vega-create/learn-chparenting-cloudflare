@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
+import remarkGfm from 'remark-gfm';
 import html from 'remark-html';
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content/blog');
@@ -98,7 +99,10 @@ export async function getPostWithHtml(slug: string): Promise<BlogPost | null> {
   const post = getPostBySlug(slug);
   if (!post) return null;
 
-  const processed = await remark().use(html).process(post.content);
+  const processed = await remark()
+    .use(remarkGfm)
+    .use(html, { sanitize: false })
+    .process(post.content);
   let htmlStr = processed.toString();
 
   // Add IDs to headings for TOC linking
