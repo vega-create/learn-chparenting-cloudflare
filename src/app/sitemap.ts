@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { getAllSlugs } from "@/lib/blog";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL || "https://learn.chparenting.com";
 
@@ -54,6 +55,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/achievements`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE}/exam-info`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/parent-guide`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
+
+    // Blog
+    { url: `${BASE}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
+    ...getAllSlugs().map(slug => ({
+      url: `${BASE}/blog/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })),
 
     // GEPT levels
     ...levelPages("elementary", 20, 0.9),

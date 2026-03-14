@@ -30,6 +30,7 @@ const TOOLS = [
 ];
 
 const INFO_LINKS = [
+  { label: "📝 部落格", href: "/blog" },
   { label: "使用說明", href: "/how-to-use" },
   { label: "常見問題", href: "/faq" },
   { label: "陪伴指南", href: "/parent-guide" },
