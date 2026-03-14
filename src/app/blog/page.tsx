@@ -3,15 +3,26 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/blog';
 
 export const metadata: Metadata = {
-  title: '學習部落格 | 親子多元學習平台',
-  description: '全民英檢準備攻略、JLPT日檢學習技巧、親子教養心得分享。提供實用的學習方法與考試準備建議。',
-  keywords: ['全民英檢', 'GEPT', 'JLPT', '日文檢定', '親子教養', '學習技巧', '考試攻略', '英文學習'],
+  title: '學習部落格 | 英檢日檢攻略・親子教養 | 親子多元學習平台',
+  description: '全民英檢GEPT準備攻略、JLPT日文檢定學習技巧、親子教養心得分享。提供系統化的學習方法、考試準備建議與免費學習資源。',
+  keywords: ['全民英檢', 'GEPT', 'JLPT', '日文檢定', '親子教養', '學習技巧', '考試攻略', '英文學習', '日語學習', '親子學習'],
   alternates: { canonical: 'https://learn.chparenting.com/blog' },
   openGraph: {
-    title: '學習部落格 | 親子多元學習平台',
-    description: '全民英檢準備攻略、JLPT日檢學習技巧、親子教養心得分享',
+    title: '學習部落格 | 英檢日檢攻略・親子教養',
+    description: '全民英檢GEPT準備攻略、JLPT日文檢定學習技巧、親子教養心得分享',
     url: 'https://learn.chparenting.com/blog',
+    siteName: '親子多元學習平台',
     type: 'website',
+    locale: 'zh_TW',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '學習部落格 | 親子多元學習平台',
+    description: '全民英檢GEPT準備攻略、JLPT日文檢定學習技巧、親子教養心得分享',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -28,30 +39,56 @@ function getCategoryStyle(category: string) {
 
 export default function BlogPage() {
   const posts = getAllPosts();
-  const categories = ['all', ...Object.keys(CATEGORY_COLORS)];
 
+  // CollectionPage + Blog Schema
   const blogJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Blog',
+    '@type': 'CollectionPage',
     name: '學習部落格',
-    description: '全民英檢準備攻略、JLPT日檢學習技巧、親子教養心得分享',
+    description: '全民英檢GEPT準備攻略、JLPT日文檢定學習技巧、親子教養心得分享',
     url: 'https://learn.chparenting.com/blog',
-    publisher: {
-      '@type': 'Organization',
-      name: 'Mommy Wisdom International',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: '親子多元學習平台',
+      url: 'https://learn.chparenting.com',
     },
-    blogPost: posts.map(p => ({
-      '@type': 'BlogPosting',
-      headline: p.title,
-      description: p.description,
-      datePublished: p.date,
-      url: `https://learn.chparenting.com/blog/${p.slug}`,
-    })),
+    mainEntity: {
+      '@type': 'Blog',
+      name: '學習部落格',
+      description: '全民英檢GEPT準備攻略、JLPT日文檢定學習技巧、親子教養心得分享',
+      url: 'https://learn.chparenting.com/blog',
+      publisher: {
+        '@type': 'Organization',
+        name: 'Mommy Wisdom International',
+        url: 'https://learn.chparenting.com',
+      },
+      blogPost: posts.map(p => ({
+        '@type': 'BlogPosting',
+        headline: p.title,
+        description: p.description,
+        datePublished: p.date,
+        url: `https://learn.chparenting.com/blog/${p.slug}`,
+        author: { '@type': 'Person', name: p.author },
+        articleSection: p.category,
+        keywords: p.tags.join(', '),
+      })),
+    },
+  };
+
+  // BreadcrumbList Schema
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://learn.chparenting.com' },
+      { '@type': 'ListItem', position: 2, name: '部落格', item: 'https://learn.chparenting.com/blog' },
+    ],
   };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <div className="text-center mb-10">
         <div className="text-5xl mb-3">📝</div>
@@ -89,12 +126,17 @@ export default function BlogPage() {
                   <p className="text-sm text-slate-500 leading-relaxed line-clamp-3">
                     {post.description}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {post.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="text-xs text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">
-                        #{tag}
-                      </span>
-                    ))}
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="flex flex-wrap gap-1.5">
+                      {post.tags.slice(0, 3).map(tag => (
+                        <span key={tag} className="text-xs text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                    {post.readingTime && (
+                      <span className="text-xs text-slate-400 shrink-0">{post.readingTime} 分鐘</span>
+                    )}
                   </div>
                 </div>
               </Link>

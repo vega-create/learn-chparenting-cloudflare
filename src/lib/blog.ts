@@ -6,6 +6,12 @@ import html from 'remark-html';
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content/blog');
 
+export interface TocItem {
+  id: string;
+  text: string;
+  level: number;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -15,8 +21,43 @@ export interface BlogPost {
   tags: string[];
   image?: string;
   author: string;
-  content: string;       // raw markdown
-  htmlContent?: string;  // rendered HTML
+  content: string;
+  htmlContent?: string;
+  toc?: TocItem[];
+  readingTime?: number;
+}
+
+function estimateReadingTime(content: string): number {
+  // Chinese: ~400 chars/min, English: ~200 words/min
+  const chineseChars = (content.match(/[\u4e00-\u9fff]/g) || []).length;
+  const englishWords = content.replace(/[\u4e00-\u9fff]/g, '').split(/\s+/).filter(Boolean).length;
+  const minutes = Math.ceil(chineseChars / 400 + englishWords / 200);
+  return Math.max(1, minutes);
+}
+
+function extractToc(htmlStr: string): TocItem[] {
+  const headingRegex = /<h([2-3])[^>]*id="([^"]*)"[^>]*>(.*?)<\/h[2-3]>/gi;
+  const toc: TocItem[] = [];
+  let match;
+  while ((match = headingRegex.exec(htmlStr)) !== null) {
+    toc.push({
+      level: parseInt(match[1]),
+      id: match[2],
+      text: match[3].replace(/<[^>]*>/g, ''),
+    });
+  }
+  return toc;
+}
+
+function addHeadingIds(htmlStr: string): string {
+  return htmlStr.replace(/<h([2-3])>(.*?)<\/h[2-3]>/gi, (_, level, text) => {
+    const plainText = text.replace(/<[^>]*>/g, '');
+    const id = plainText
+      .toLowerCase()
+      .replace(/[^\w\u4e00-\u9fff]+/g, '-')
+      .replace(/^-|-$/g, '');
+    return `<h${level} id="${id}">${text}</h${level}>`;
+  });
 }
 
 export function getAllPosts(): BlogPost[] {
@@ -29,7 +70,6 @@ export function getAllPosts(): BlogPost[] {
     return getPostBySlug(slug);
   }).filter(Boolean) as BlogPost[];
 
-  // Sort by date descending
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
@@ -50,6 +90,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     image: data.image || undefined,
     author: data.author || 'Mommy Wisdom',
     content,
+    readingTime: estimateReadingTime(content),
   };
 }
 
@@ -58,7 +99,13 @@ export async function getPostWithHtml(slug: string): Promise<BlogPost | null> {
   if (!post) return null;
 
   const processed = await remark().use(html).process(post.content);
-  post.htmlContent = processed.toString();
+  let htmlStr = processed.toString();
+
+  // Add IDs to headings for TOC linking
+  htmlStr = addHeadingIds(htmlStr);
+
+  post.htmlContent = htmlStr;
+  post.toc = extractToc(htmlStr);
 
   return post;
 }
