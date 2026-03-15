@@ -220,6 +220,39 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Blog CTA */}
+      <section className="max-w-6xl mx-auto px-4 py-10">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">📖 學習攻略文章</h2>
+          <p className="text-slate-500">考試準備技巧、學習方法、免費資源整理</p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { title: "全民英檢初級 3 個月備考計畫", href: "/blog/gept-elementary-3-month-plan", icon: "📘", tag: "英檢攻略" },
+            { title: "九九乘法背不起來？5 種趣味遊戲", href: "/blog/multiplication-table-games", icon: "🔢", tag: "數學學習" },
+            { title: "注音符號 37 個記憶口訣", href: "/blog/zhuyin-practice", icon: "📝", tag: "國語學習" },
+            { title: "JLPT N3 自學 6 個月讀書計畫", href: "/blog/jlpt-n3-self-study", icon: "🇯🇵", tag: "日文學習" },
+            { title: "小學生學程式設計免費入門指南", href: "/blog/coding-for-kids", icon: "💻", tag: "程式設計" },
+            { title: "10 個免費邏輯遊戲越玩越聰明", href: "/blog/logic-games-for-kids", icon: "🎲", tag: "邏輯思維" },
+          ].map((post) => (
+            <a key={post.href} href={post.href} className="group bg-white rounded-xl p-4 border border-slate-200 shadow-sm hover:shadow-md hover:border-rose-300 transition-all no-underline hover-lift">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">{post.icon}</span>
+                <div>
+                  <span className="inline-block text-[10px] font-semibold text-rose-400 bg-rose-50 px-2 py-0.5 rounded-full mb-1">{post.tag}</span>
+                  <h3 className="text-sm font-bold text-slate-700 group-hover:text-rose-500 transition-colors leading-snug">{post.title}</h3>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div className="text-center mt-6">
+          <a href="/blog" className="inline-flex items-center gap-1 text-rose-400 hover:text-rose-500 font-semibold text-sm no-underline transition-colors">
+            查看全部文章 →
+          </a>
+        </div>
+      </section>
+
       {/* Newsletter CTA */}
       <NewsletterCTA />
     </div>
