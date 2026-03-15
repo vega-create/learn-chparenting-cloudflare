@@ -80,7 +80,6 @@ export default function DailyChallengeBlock() {
 
   const isCorrect = selected === challenge.answer;
   const weekday = ["日", "一", "二", "三", "四", "五", "六"][new Date().getDay()];
-  const accuracy = stats && stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
 
   // Collapsed view — compact bar
   if (answered && collapsed) {
@@ -172,14 +171,6 @@ export default function DailyChallengeBlock() {
           })}
         </div>
 
-        {/* Stats bar */}
-        {stats && stats.total > 0 && (
-          <div className="flex items-center justify-center gap-3 text-xs text-slate-400 mb-3">
-            <span>📊 今日 {stats.total.toLocaleString()} 人作答</span>
-            <span>｜</span>
-            <span>正確率 {accuracy}%</span>
-          </div>
-        )}
 
         {/* Result */}
         {answered && (
