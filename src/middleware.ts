@@ -1,44 +1,11 @@
-import { createServerClient } from "@supabase/auth-helpers-nextjs";
+// Middleware disabled for Cloudflare Pages compatibility
+// Auth protection is handled client-side in AuthContext
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-
-  // Only create Supabase client if env vars are set
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!supabaseUrl || !supabaseKey) return res;
-
-  const supabase = createServerClient(supabaseUrl, supabaseKey, {
-    cookies: {
-      get(name: string) {
-        return req.cookies.get(name)?.value;
-      },
-      set(name: string, value: string, options: Record<string, unknown>) {
-        res.cookies.set(name, value, options);
-      },
-      remove(name: string, options: Record<string, unknown>) {
-        res.cookies.set(name, "", options);
-      },
-    },
-  });
-
-  const { data: { session } } = await supabase.auth.getSession();
-
-  // Protect /dashboard — redirect to /login if not logged in
-  if (req.nextUrl.pathname.startsWith("/dashboard") && !session) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
-  // If already logged in, redirect /login to /dashboard
-  if (req.nextUrl.pathname === "/login" && session) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-
-  return res;
+export function middleware() {
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login"],
+  matcher: [],
 };
