@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { Resend } from "resend";
@@ -102,7 +103,7 @@ export async function POST(request: Request) {
     const guideUrl = GUIDE_URLS[ebookSlug];
 
     // 1. Store email in Supabase
-    const supabase = createServerSupabaseClient();
+    const supabase = await createServerSupabaseClient();
     if (supabase) {
       const { error: dbError } = await supabase
         .from("newsletter_subscribers")

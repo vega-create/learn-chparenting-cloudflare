@@ -1,12 +1,13 @@
+export const runtime = "edge";
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 
-export const revalidate = 60; // cache 1 minute (was 5 min)
+export const dynamic = "force-dynamic";
 
 const BASE_COUNT = 13250; // 上線前累積的歷史練習次數
 
 export async function GET() {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   if (!supabase) {
     return NextResponse.json({ totalPractices: BASE_COUNT });
   }

@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 
@@ -8,7 +9,7 @@ function getToday(): string {
 // GET: fetch today's stats
 export async function GET() {
   const today = getToday();
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   if (!supabase) {
     return NextResponse.json({ total: 0, correct: 0 });
   }
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
     const { questionId, subject, isCorrect } = await request.json();
     const today = getToday();
 
-    const supabase = createServerSupabaseClient();
+    const supabase = await createServerSupabaseClient();
     if (!supabase) {
       return NextResponse.json({ ok: true });
     }
