@@ -184,6 +184,15 @@ faq:
 3. **用連接詞：** First, Second, Moreover, Finally 讓文章有條理
 4. **留時間檢查：** 最後 5 分鐘檢查拼字和文法錯誤
 
+## 推薦備考書籍
+
+中級準備也建議搭配紙本教材，打好單字和文法基礎：
+
+- [怪物講師 GEPT 初級套書](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0010996262?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 如果初級基礎還不夠穩，先用這本回頭補強
+- [學霸 GEPT 初級單字+片語+文法](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011044477?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 快速複習初級重點，確保基礎穩固再往上挑戰
+
+> *以上連結為博客來聯盟行銷連結，透過連結購買不會增加費用，能幫助我們持續提供免費學習資源！*
+
 ## 現在就開始你的中級準備之路
 
 不要等了！打開 **[英檢中級練習專區](/intermediate)**，先做一回模擬題，了解自己目前的程度和弱項。

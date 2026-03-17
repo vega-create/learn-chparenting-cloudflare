@@ -127,6 +127,19 @@ faq:
 - **[打字練習](/typing-game)** — 在練打字的同時也在學英文單字
 - **[教育桌遊](/board-games)** — 18 款遊戲讓你在玩樂中複習英文
 
+### 推薦備考書籍
+
+📖 **單字文法打底：**
+- [怪物講師 GEPT 初級「單字」+「文法」+模擬試題套書](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0010996262?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 單字、文法、模擬試題一次搞定，附教學影片
+- [學霸 GEPT 初級單字+片語+文法](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011044477?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 高命中率整理，目標一次過關
+
+📖 **模擬試題衝刺：**
+- [NEW GEPT 新制全民英檢初級 初試／複試題庫大全](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0010930644?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 第 3 個月拿來做模考最適合
+- [闖關！新制全民英檢初級必考試題（六回精選）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011016650?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 六回完整模擬，附隨身聽 APP
+- [全民英檢初級模擬試題（增訂五版）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011012357?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 經典暢銷，附完整解析
+
+> *以上連結為博客來聯盟行銷連結，透過連結購買不會增加費用，能幫助我們持續提供免費學習資源！*
+
 ## 現在就開始你的備考計畫
 
 不要再等了！點擊前往 **[英檢初級練習專區](/elementary)**，從今天開始你的 3 個月準備計畫。每天花 30 分鐘，穩定練習，通過初級絕對不是問題。

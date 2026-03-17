@@ -222,6 +222,15 @@ N3 閱讀是很多人失分最多的部分，因為文章變長、句子變複�
 | 打字練習 | 邊打字邊記日文詞彙 | [前往練習](/typing-game) |
 | 教育桌遊 | 在遊戲中複習語言知識 | [開始玩](/board-games) |
 
+## 推薦 N3 備考書籍
+
+📖 **文法與綜合能力：**
+- [日文自學 ALL IN ONE 全攻略（初級+中級+高級）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011033446?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 涵蓋 N5 到 N1，N3 的文法和單字在中級篇有完整整理
+- [王可樂日語中高級直達車](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0010886867?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 詳盡文法+大量練習題，N3 到 N2 最推的一本
+- [日本語職場日文法及單字句型套書](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011030051?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 如果學日文有職場需求，這本的商用日語很實用
+
+> *以上連結為博客來聯盟行銷連結，透過連結購買不會增加費用，能幫助我們持續提供免費學習資源！*
+
 ## 現在就開始你的 N3 之旅
 
 點擊前往 **[JLPT N3 練習專區](/jlpt-n3)**，今天就開始你的第一個練習單元！

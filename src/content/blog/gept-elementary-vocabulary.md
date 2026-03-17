@@ -216,6 +216,21 @@ kitchen → cook → stove → oven → pot → pan → fry → boil → cut →
 
 **解決方法：** 每學一個新單字，一定要**大聲唸 3 遍**。搭配 [打字練習](/typing-game) 邊打邊唸，同時訓練多個能力。
 
+## 推薦備考書籍
+
+搭配線上練習，紙本教材可以幫助更全面地準備：
+
+📖 **單字文法類：**
+- [怪物講師教學團隊的 GEPT 全民英檢初級「單字」+「文法」+模擬試題套書](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0010996262?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 單字、文法、模擬試題一次包辦，附點讀筆和教學影片
+- [學霸 GEPT 初級單字+片語+文法](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011044477?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 高命中率重點整理，考一次就過關
+
+📖 **模擬試題類：**
+- [NEW GEPT 新制全民英檢初級 初試／複試題庫大全](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0010930644?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 初試複試完整題庫，附 MP3 音檔
+- [闖關！新制全民英檢初級必考試題（六回精選）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011016650?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 六回完整模擬，附隨身聽 APP
+- [全民英檢初級模擬試題（增訂五版）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011012357?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 經典暢銷改版，附完整解析
+
+> *以上連結為博客來聯盟行銷連結，透過連結購買不會增加你的費用，但可以幫助我們持續提供免費學習內容，感謝支持！*
+
 ## 現在就開始背你的第一組單字
 
 不要等到考前才臨時抱佛腳！打開 **[英檢初級練習專區](/elementary)**，今天就開始你的單字累積計畫。每天 30 個，一個月後你會驚訝自己的進步。

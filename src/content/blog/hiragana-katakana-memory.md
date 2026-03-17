@@ -71,4 +71,13 @@ faq:
 - **[JLPT N4 備考攻略](/blog/jlpt-n4-guide)**：N5 之後怎麼準備 N4
 - **[N4 日文自學經驗分享](/blog/n4-japanese-self-study)**：媽媽陪孩子自學的真實經驗
 
+### 推薦五十音學習書籍
+
+搭配紙本教材，記憶效果更好：
+
+- [世界最強日語50音記憶口訣+日文文法](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011028916?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 口訣記憶法，搭配文法入門，親子一起學超適合
+- [從零開始，用 YouTube 影片學日文（4冊套書）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011032099?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 從五十音到日常會話，邊看影片邊學更有趣
+
+> *以上連結為博客來聯盟行銷連結，透過連結購買不會增加費用，能幫助我們持續提供免費學習資源！*
+
 學語言最重要的不是天分，是堅持。每天一點點，幾個月後回頭看，你會發現孩子已經走了好遠。一起加油吧！

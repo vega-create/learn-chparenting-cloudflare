@@ -166,6 +166,17 @@ N5 需要掌握約 **800 個基礎單字**，分類學習更有效率。
 - **[打字練習](/typing-game)** — 在練打字的同時熟悉日文假名
 - **[教育桌遊](/board-games)** — 用遊戲的方式輕鬆學習
 
+### 推薦日文學習書籍
+
+📖 **零基礎入門：**
+- [世界最強日語50音記憶口訣+日文文法](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011028916?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 用口訣記五十音，搭配文法入門，零基礎最推
+- [從零開始，用 YouTube 影片學日文（4冊套書）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011032099?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 基礎到旅遊會話，搭配影片邊看邊學
+
+📖 **系統自學：**
+- [日文自學 ALL IN ONE 全攻略（初級+中級+高級）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011033446?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 從 N5 到 N1 一套搞定，適合長期學習規劃
+
+> *以上連結為博客來聯盟行銷連結，透過連結購買不會增加費用，能幫助我們持續提供免費學習資源！*
+
 ## 現在就開始你的日語學習之旅
 
 準備好了嗎？前往 **[JLPT N5 練習專區](/jlpt-n5)**，從五十音開始，一步一步建立你的日語能力。每天 30 分鐘，半年後你就能通過 N5 檢定！

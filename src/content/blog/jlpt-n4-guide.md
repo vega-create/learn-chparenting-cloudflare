@@ -105,4 +105,13 @@ N4 的學習重點可以分成三大塊：單字、文法、聽力。以下簡�
 - [平假名片假名記憶法](/blog/hiragana-katakana-memory)——五十音總是記不住？這篇有實用的記憶技巧
 - [N4 日文自學攻略](/blog/n4-japanese-self-study)——更詳細的 N4 自學方法和讀書計畫
 
+### 推薦 N4 備考書籍
+
+📖 **文法與單字：**
+- [日文自學 ALL IN ONE 全攻略（初級+中級+高級）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011033446?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 從 N5 延伸到 N4、N3，一套書搞定長期學習
+- [從零開始，用 YouTube 影片學日文（4冊套書）](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0011032099?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — 基礎到對話的完整學習路線
+- [王可樂日語中高級直達車](https://www.books.com.tw/exep/assp.php/vegalin1029/products/0010886867?utm_source=vegalin1029&utm_medium=ap-books&utm_content=recommend&utm_campaign=ap-202603) — N4 過後想繼續衝 N3、N2，這本必備
+
+> *以上連結為博客來聯盟行銷連結，透過連結購買不會增加費用，能幫助我們持續提供免費學習資源！*
+
 不管你是自己在學日文，還是陪孩子一起準備日檢，最重要的就是**每天堅持、不要中斷**。打開 [JLPT N4 練習](/jlpt-n4)，今天就開始你的第一步吧！
