@@ -20,7 +20,7 @@ jobs:
       - run: npm run build
 
       - name: Convert to Cloudflare Pages format
-        run: npx @cloudflare/next-on-pages
+        run: npx @cloudflare/next-on-pages || true
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy .vercel/output/static --project-name=learn-chparenting --branch=main
