@@ -11,8 +11,8 @@ export async function GET(request: NextRequest) {
   if (code) {
     const cookieStore = await cookies();
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
+      process.env.NEXT_PUBLIC_SUPABASE_URL || "https://lexcvcinmphkmavgswgn.supabase.co",
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxleGN2Y2lubXBoa21hdmdzd2duIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMDEwODksImV4cCI6MjA4MjY3NzA4OX0.Ur2XPKbWU0Bfm87otq4uM_33cyWRi267nBbAEZtjcis",
       {
         cookies: {
           get(name: string) {
