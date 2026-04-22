@@ -32,3 +32,18 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PAGES_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Verify GA4 is live
+        run: |
+          sleep 30
+          for i in 1 2 3; do
+            html=$(curl -sL "https://learn.chparenting.com/?cb=$(date +%s)")
+            if echo "$html" | grep -q "$NEXT_PUBLIC_GA_ID"; then
+              echo "✅ GA4 tag $NEXT_PUBLIC_GA_ID found in deployed HTML"
+              exit 0
+            fi
+            echo "Attempt $i: GA4 not yet visible, retrying in 20s..."
+            sleep 20
+          done
+          echo "❌ GA4 tag $NEXT_PUBLIC_GA_ID missing from deployed HTML after 3 attempts"
+          exit 1
