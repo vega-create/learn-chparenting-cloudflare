@@ -7,6 +7,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
+      NEXT_PUBLIC_GSC_CODE: ${{ secrets.NEXT_PUBLIC_GSC_CODE }}
     steps:
       - uses: actions/checkout@v4
 
@@ -18,11 +23,6 @@ jobs:
       - run: npm ci
 
       - run: npm run build
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
-          NEXT_PUBLIC_GSC_CODE: ${{ secrets.NEXT_PUBLIC_GSC_CODE }}
 
       - name: Convert to Cloudflare Pages format
         run: npx @cloudflare/next-on-pages || true
