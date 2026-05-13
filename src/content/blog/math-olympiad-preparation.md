@@ -158,7 +158,7 @@ faq:
 
 ### 國內資源
 
-- **TRML 台灣中小學數學能力檢測**：[官方網站](https://www.trml.tw/) 有歷屆題目
+- **TRML 台灣中小學數學能力檢測**：[TRML 歷屆試題與報名資訊](https://www.trml.tw/) 有完整歷屆題目
 - **教育部 [均一教育平台](https://www.junyiacademy.org)**：數學進階單元
 - **PaGamO**：遊戲化的數學競賽練習
 
