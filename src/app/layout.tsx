@@ -45,7 +45,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  // Hardcoded to prevent disappearing when env vars/secrets are accidentally cleared.
+  // GA4 measurement IDs are public information anyway (visible in any deployed HTML).
+  const gaId = "G-RK197FZYN8";
   const gscCode = process.env.NEXT_PUBLIC_GSC_CODE;
 
   return (

@@ -10,8 +10,9 @@ jobs:
     env:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-      NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
       NEXT_PUBLIC_GSC_CODE: ${{ secrets.NEXT_PUBLIC_GSC_CODE }}
+      # GA4 ID is hardcoded in src/app/layout.tsx (public info, env var was unreliable)
+      GA4_ID: G-RK197FZYN8
     steps:
       - uses: actions/checkout@v4
 
@@ -35,15 +36,21 @@ jobs:
 
       - name: Verify GA4 is live
         run: |
+          # Guard against empty/missing GA4_ID (prevents false positives from grep "")
+          if [ -z "$GA4_ID" ] || [ ${#GA4_ID} -lt 10 ]; then
+            echo "❌ GA4_ID is empty or too short ('$GA4_ID') — refusing to smoke test"
+            exit 1
+          fi
           sleep 30
           for i in 1 2 3; do
             html=$(curl -sL "https://learn.chparenting.com/?cb=$(date +%s)")
-            if echo "$html" | grep -q "$NEXT_PUBLIC_GA_ID"; then
-              echo "✅ GA4 tag $NEXT_PUBLIC_GA_ID found in deployed HTML"
+            # Use fixed-string grep with explicit non-empty pattern
+            if printf '%s' "$html" | grep -qF "$GA4_ID"; then
+              echo "✅ GA4 tag $GA4_ID found in deployed HTML"
               exit 0
             fi
             echo "Attempt $i: GA4 not yet visible, retrying in 20s..."
             sleep 20
           done
-          echo "❌ GA4 tag $NEXT_PUBLIC_GA_ID missing from deployed HTML after 3 attempts"
+          echo "❌ GA4 tag $GA4_ID missing from deployed HTML after 3 attempts"
           exit 1
