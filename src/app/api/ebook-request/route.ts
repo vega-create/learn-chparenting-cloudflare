@@ -139,7 +139,9 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("ebook-request error:", msg, err);
+    return NextResponse.json({ error: "Server error", detail: msg }, { status: 500 });
   }
 }
