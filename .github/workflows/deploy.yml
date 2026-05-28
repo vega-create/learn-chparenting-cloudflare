@@ -29,7 +29,10 @@ jobs:
         run: npx @cloudflare/next-on-pages || true
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy .vercel/output/static --project-name=learn-chparenting --branch=main
+        # nodejs_compat is required for Node built-ins (async_hooks, etc.)
+        # that Next.js + supabase-js rely on. Without this flag, all /api/*
+        # routes 500 with "No such module 'async_hooks'".
+        run: npx wrangler pages deploy .vercel/output/static --project-name=learn-chparenting --branch=main --compatibility-flags=nodejs_compat --compatibility-date=2024-09-23
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PAGES_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
