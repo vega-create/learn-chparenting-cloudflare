@@ -1,7 +1,34 @@
 export const runtime = "edge";
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
-import { Resend } from "resend";
+
+// Use Resend REST API directly via fetch instead of the SDK.
+// The Resend npm package depends on Node APIs and fails to load in
+// Cloudflare's Edge runtime, which causes the route to 500 before
+// our try/catch can run.
+async function sendResendEmail(opts: {
+  apiKey: string;
+  from: string;
+  to: string;
+  subject: string;
+  html: string;
+}): Promise<{ ok: boolean; status: number; body: string }> {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${opts.apiKey}`,
+    },
+    body: JSON.stringify({
+      from: opts.from,
+      to: opts.to,
+      subject: opts.subject,
+      html: opts.html,
+    }),
+  });
+  const body = await res.text();
+  return { ok: res.ok, status: res.status, body };
+}
 
 const BOOK_NAMES: Record<string, string> = {
   "gept-elementary": "GEPT 初級家長陪伴指南",
@@ -121,19 +148,22 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2. Send email via Resend
+    // 2. Send email via Resend REST API (edge-compatible)
     const resendKey = process.env.RESEND_API_KEY;
     if (resendKey && guideUrl) {
       try {
-        const resend = new Resend(resendKey);
-        await resend.emails.send({
+        const result = await sendResendEmail({
+          apiKey: resendKey,
           from: "親子學習平台 <no-reply@chparenting.com>",
           to: cleanEmail,
           subject: `你的《${bookName}》來囉！`,
           html: buildEmailHtml(bookName, ebookSlug, guideUrl),
         });
+        if (!result.ok) {
+          console.error("Resend API error:", result.status, result.body);
+        }
       } catch (emailErr) {
-        console.error("Resend error:", emailErr);
+        console.error("Resend fetch error:", emailErr);
         // Don't fail the request — email is stored, user sees success
       }
     }
