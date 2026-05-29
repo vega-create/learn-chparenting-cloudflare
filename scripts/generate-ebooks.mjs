@@ -141,18 +141,30 @@ function drawUnitGuide(doc, unit) {
   doc.text(unit.title, MARGIN, y);
   y = doc.y + 12;
 
+  // 小工具：畫一個彩色圓點當 emoji 替代（NotoSansSC 不含 emoji 字形）
+  const dot = (cx, cy, color, r = 4) => {
+    doc.save().circle(cx, cy, r).fill(color).restore();
+  };
+  // 小工具：畫一個 section 標題（左側色塊 + 文字）
+  const sectionTitle = (label, color, yPos) => {
+    doc.save().rect(MARGIN, yPos + 2, 4, 16).fill(color).restore();
+    doc.font(FONT).fontSize(13).fillColor(DARK);
+    doc.text(label, MARGIN + 12, yPos);
+  };
+
   // ── 主題 + 時間 + 目標 ──
   roundedRect(doc, MARGIN, y, CW, 65, 8, LIGHT_BG);
+  dot(MARGIN + 18, y + 18, INDIGO, 3.5);
   doc.fontSize(11).fillColor(INDIGO);
-  doc.text(`📌 今日主題：${g.todayTopic}`, MARGIN + 12, y + 10, { width: CW - 24 });
+  doc.text(`今日主題：${g.todayTopic}`, MARGIN + 26, y + 10, { width: CW - 38 });
+  dot(MARGIN + 18, doc.y + 12, GRAY, 3);
   doc.fontSize(10).fillColor(GRAY);
-  doc.text(`⏱️ 預估時間：${g.estimatedTime}          🎯 目標：${g.learningGoal}`, MARGIN + 12, doc.y + 4, { width: CW - 24 });
+  doc.text(`預估時間：${g.estimatedTime}       目標：${g.learningGoal}`, MARGIN + 26, doc.y + 4, { width: CW - 38 });
   y = y + 65 + 14;
 
   // ── 陪伴方法 ──
   ensureSpace(doc, 100);
-  doc.fontSize(13).fillColor(DARK);
-  doc.text('💡 陪伴方法', MARGIN, y);
+  sectionTitle('陪伴方法', INDIGO, y);
   y = doc.y + 8;
 
   const lines = g.guidanceText.split('\n');
@@ -165,25 +177,32 @@ function drawUnitGuide(doc, unit) {
 
   // ── 過關清單 ──
   ensureSpace(doc, 90);
-  doc.fontSize(13).fillColor(DARK);
-  doc.text('✅ 過關清單', MARGIN, y);
+  sectionTitle('過關清單', GREEN, y);
   y = doc.y + 8;
 
   roundedRect(doc, MARGIN, y, CW, g.passChecklist.length * 22 + 16, 8, '#f0fdf4');
-  doc.fontSize(10.5).fillColor(GREEN);
   for (let i = 0; i < g.passChecklist.length; i++) {
-    doc.text(`☑ ${g.passChecklist[i]}`, MARGIN + 12, y + 10 + i * 22, { width: CW - 24 });
+    const itemY = y + 10 + i * 22;
+    // 綠色勾勾（用兩條短線畫成 V）
+    doc.save()
+      .strokeColor(GREEN).lineWidth(2)
+      .moveTo(MARGIN + 12, itemY + 7)
+      .lineTo(MARGIN + 16, itemY + 11)
+      .lineTo(MARGIN + 22, itemY + 4)
+      .stroke()
+      .restore();
+    doc.font(FONT).fontSize(10.5).fillColor(GREEN);
+    doc.text(g.passChecklist[i], MARGIN + 28, itemY, { width: CW - 40 });
   }
   y = y + g.passChecklist.length * 22 + 16 + 14;
 
   // ── 常見問題 ──
   ensureSpace(doc, 70);
-  doc.fontSize(13).fillColor(DARK);
-  doc.text('⚠️ 常見問題', MARGIN, y);
+  sectionTitle('常見問題', AMBER, y);
   y = doc.y + 8;
 
   roundedRect(doc, MARGIN, y, CW, 50, 8, '#fffbeb');
-  doc.fontSize(10.5).fillColor(AMBER);
+  doc.font(FONT).fontSize(10.5).fillColor(AMBER);
   doc.text(g.commonIssues, MARGIN + 12, y + 10, { width: CW - 24, lineGap: 3 });
 }
 
