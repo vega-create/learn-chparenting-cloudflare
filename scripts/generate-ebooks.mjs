@@ -100,13 +100,13 @@ function drawCover(doc, bookName) {
   doc.fontSize(14).fillColor(GRAY);
   doc.text('30 秒看完就知道今天陪什麼、怎麼陪、要多久', MARGIN + 20, doc.y + 16, { align: 'center', width: CW - 40 });
 
-  // 品牌
-  doc.fontSize(12).fillColor(GRAY);
-  doc.text('learn.chparenting.com', MARGIN, PAGE_H - MARGIN - 60, { align: 'center', width: CW });
+  // 品牌（往上移 + 縮小行距，確保 3 行都留在第 1 頁、不溢出到第 2 頁）
+  doc.font(FONT).fontSize(12).fillColor(GRAY);
+  doc.text('learn.chparenting.com', MARGIN, PAGE_H - MARGIN - 110, { align: 'center', width: CW });
 
-  doc.fontSize(11).fillColor(INDIGO);
-  doc.text('AI 是大人的翅膀，卻只是孩子的起點', MARGIN, doc.y + 8, { align: 'center', width: CW });
-  doc.text('孩子才是最強 AI', MARGIN, doc.y + 4, { align: 'center', width: CW });
+  doc.font(FONT).fontSize(11).fillColor(INDIGO);
+  doc.text('AI 是大人的翅膀，卻只是孩子的起點', MARGIN, doc.y + 6, { align: 'center', width: CW });
+  doc.text('孩子才是最強 AI', MARGIN, doc.y + 2, { align: 'center', width: CW });
 }
 
 // ─── 產生目錄頁 ───
