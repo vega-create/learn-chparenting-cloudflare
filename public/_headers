@@ -1,0 +1,4 @@
+# PDFs are regenerated when content updates — keep cache short so users
+# see new versions within minutes, not 4 hours.
+/ebooks/*
+  cache-control: public, max-age=300, must-revalidate
