@@ -37,3 +37,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# PDF generation artifacts (local only — download font, run extract-guides + generate-ebooks)
+scripts/NotoSansSC.ttf
+scripts/guides-data.json

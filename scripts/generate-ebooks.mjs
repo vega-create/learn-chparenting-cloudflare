@@ -77,9 +77,20 @@ function drawCover(doc, bookName) {
   roundedRect(doc, 0, 0, PAGE_W, PAGE_H, 0, '#eef2ff');
   roundedRect(doc, 0, PAGE_H * 0.7, PAGE_W, PAGE_H * 0.3, 0, '#e0e7ff');
 
-  // 圖示
-  doc.font(FONT).fontSize(64).fillColor(DARK);
-  doc.text('👩‍👧‍👦', 0, PAGE_H * 0.2, { align: 'center', width: PAGE_W });
+  // 裝飾圖示：用 PDFKit 繪圖原語畫三個漸層圓點（取代 emoji，因為 NotoSansSC
+  // 字體不包含 ZWJ 組合 emoji 如 👩‍👧‍👦，會顯示成 5 個方框）
+  const centerY = PAGE_H * 0.25;
+  const centerX = PAGE_W / 2;
+  const dotR = 22;
+  const gap = 14;
+  // 大圓（媽媽）
+  doc.save();
+  doc.circle(centerX - dotR - gap, centerY, dotR).fill('#6366f1');
+  // 中圓（孩子 1）
+  doc.circle(centerX, centerY + 4, dotR - 4).fill('#a78bfa');
+  // 小圓（孩子 2）
+  doc.circle(centerX + dotR + gap, centerY + 8, dotR - 8).fill('#c4b5fd');
+  doc.restore();
 
   // 書名
   doc.fontSize(28).fillColor(INDIGO);
@@ -181,11 +192,24 @@ function drawEnding(doc) {
   doc.addPage();
   roundedRect(doc, 0, 0, PAGE_W, PAGE_H, 0, '#eef2ff');
 
-  doc.font(FONT).fontSize(36).fillColor(DARK);
-  doc.text('🎉', 0, PAGE_H * 0.25, { align: 'center', width: PAGE_W });
+  // 結尾頁裝飾：畫一個五角星（取代 🎉 emoji）
+  doc.save();
+  const sx = PAGE_W / 2;
+  const sy = PAGE_H * 0.3;
+  const sr = 32;
+  const points = [];
+  for (let i = 0; i < 10; i++) {
+    const angle = (Math.PI / 5) * i - Math.PI / 2;
+    const r = i % 2 === 0 ? sr : sr * 0.42;
+    points.push([sx + r * Math.cos(angle), sy + r * Math.sin(angle)]);
+  }
+  doc.moveTo(points[0][0], points[0][1]);
+  for (let i = 1; i < points.length; i++) doc.lineTo(points[i][0], points[i][1]);
+  doc.closePath().fill('#f59e0b');
+  doc.restore();
 
-  doc.fontSize(20).fillColor(INDIGO);
-  doc.text('指南到這裡結束了！', MARGIN, doc.y + 12, { align: 'center', width: CW });
+  doc.font(FONT).fontSize(20).fillColor(INDIGO);
+  doc.text('指南到這裡結束了！', MARGIN, sy + sr + 24, { align: 'center', width: CW });
 
   doc.fontSize(13).fillColor(GRAY);
   doc.text('現在就去網站上陪孩子練習吧', MARGIN, doc.y + 16, { align: 'center', width: CW });
