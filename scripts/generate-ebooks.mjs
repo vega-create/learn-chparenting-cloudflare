@@ -92,8 +92,8 @@ function drawCover(doc, bookName) {
   doc.circle(centerX + dotR + gap, centerY + 8, dotR - 8).fill('#c4b5fd');
   doc.restore();
 
-  // 書名
-  doc.fontSize(28).fillColor(INDIGO);
+  // 書名（必須明確設定 font，否則 PDFKit 預設用 Helvetica，無法渲染中文）
+  doc.font(FONT).fontSize(28).fillColor(INDIGO);
   doc.text(bookName, MARGIN + 20, PAGE_H * 0.35, { align: 'center', width: CW - 40 });
 
   // 副標題
