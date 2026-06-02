@@ -2,332 +2,128 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "使用說明 | learn.chparenting.com 免費親子學習平台",
-  description: "了解如何使用親子多元學習平台的各項功能：電子書教學、練習題、遊戲、模擬測驗、口說練習和寫作練習的完整教學。",
+  description: "3 步驟快速上手親子多元學習平台：選擇級別、進入單元、開始學習。包含口說錄音、聽力測驗、模擬考試完整教學。",
   alternates: { canonical: "https://learn.chparenting.com/how-to-use" },
 };
 
-const FEATURES = [
-  {
-    icon: "📖",
-    title: "電子書教學",
-    color: "bg-blue-50 border-blue-100",
-    steps: [
-      "選擇你的級別（初級 / 中級 / 中高級）",
-      "進入任一單元，上方有 6 個 Tab 可以切換",
-      "從「單字」開始看，點擊單字可以聽發音",
-      "接著看「文法」→「聽力」→「閱讀」依序學習",
-    ],
-  },
-  {
-    icon: "📝",
-    title: "練習題",
-    color: "bg-purple-50 border-purple-100",
-    steps: [
-      "在每個單元裡，切換到「練習」Tab",
-      "題目會根據該單元的單字和文法出題",
-      "答完立即看結果，答錯會顯示正確答案",
-      "可以反覆練習，題目每次隨機排列",
-    ],
-  },
-  {
-    icon: "🎮",
-    title: "遊戲練習",
-    color: "bg-emerald-50 border-emerald-100",
-    steps: [
-      "在級別首頁點擊「遊戲」卡片",
-      "共有 7 種遊戲：配對、拼字、聽寫等",
-      "每種遊戲都能選擇要練習哪些單元的字",
-      "有音效和計分，讓學習更像在玩遊戲！",
-    ],
-  },
-  {
-    icon: "📋",
-    title: "模擬測驗",
-    color: "bg-amber-50 border-amber-100",
-    steps: [
-      "在級別首頁點擊「模擬測驗」卡片",
-      "測驗包含聽力、文法和閱讀三大部分",
-      "比照正式英檢格式，全程計時",
-      "考完才看答案，可以檢討每一題",
-    ],
-  },
-  {
-    icon: "🎙️",
-    title: "口說練習",
-    color: "bg-pink-50 border-pink-100",
-    steps: [
-      "在級別首頁點擊「口說」卡片",
-      "系統會播放一段英文，你跟著唸",
-      "使用語音辨識技術偵測你的發音",
-      "可以調整速度，反覆練習到滿意",
-    ],
-  },
-  {
-    icon: "✍️",
-    title: "寫作練習",
-    color: "bg-violet-50 border-violet-100",
-    steps: [
-      "在級別首頁點擊「寫作練習」卡片",
-      "有 4 種練習：句子重組、中翻英、段落排序、引導式寫作",
-      "句子重組：點擊單字排出正確順序",
-      "引導式寫作：看提示自由寫作，提交後可對照範文",
-    ],
-  },
-  {
-    icon: "👨‍👩‍👧‍👦",
-    title: "家長陪伴指南",
-    color: "bg-amber-50 border-amber-100",
-    steps: [
-      "上方選單「更多 → 陪伴指南」查看全部 8 個等級",
-      "每個單元都有學習目標、陪伴方式、過關清單",
-      "可以輸入 email 索取整本 ebook PDF",
-      "跟孩子一起學習，效果更好！",
-    ],
-  },
-  {
-    icon: "🏆",
-    title: "學習成就",
-    color: "bg-yellow-50 border-yellow-100",
-    steps: [
-      "上方選單「更多 → 學習成就」查看 18 個徽章",
-      "完成學習目標自動解鎖徽章和動畫",
-      "涵蓋新手里程碑、學科精通、桌遊等類別",
-      "可以分享你的成就給朋友！",
-    ],
-  },
-];
-
 export default function HowToUsePage() {
-  const howToJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "如何使用親子多元學習平台",
-    description: "學習如何使用本平台的各項功能",
-    step: FEATURES.map((f, i) => ({
-      "@type": "HowToStep",
-      position: i + 1,
-      name: f.title,
-      text: f.steps.join("。"),
-    })),
-  };
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
-
-      <div className="text-center mb-10">
-        <div className="text-5xl mb-3">📋</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">使用說明</h1>
-        <p className="text-slate-500">快速了解平台的各項功能</p>
+      {/* Hero */}
+      <div className="text-center mb-12">
+        <div className="text-5xl mb-3">🚀</div>
+        <h1 className="text-3xl md:text-4xl font-black text-slate-800 mb-3">3 步驟開始學習</h1>
+        <p className="text-slate-500">免費、不用註冊、任何裝置都能用</p>
       </div>
 
-      {/* Feature Cards */}
-      <div className="grid sm:grid-cols-2 gap-6 mb-12">
-        {FEATURES.map((f) => (
-          <div key={f.title} className={`rounded-2xl p-6 border ${f.color}`}>
-            <div className="text-3xl mb-3">{f.icon}</div>
-            <h3 className="text-lg font-bold text-slate-800 mb-3">{f.title}</h3>
-            <ol className="space-y-2">
-              {f.steps.map((s, i) => (
-                <li key={i} className="flex gap-3 text-sm text-slate-600">
-                  <span className="shrink-0 w-5 h-5 bg-white rounded-full flex items-center justify-center text-xs font-bold text-slate-500 border border-slate-200 mt-0.5">
-                    {i + 1}
-                  </span>
-                  <span>{s}</span>
-                </li>
-              ))}
-            </ol>
+      {/* 3 Quick Steps */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+        {[
+          { n: "1", icon: "📚", title: "選擇級別", desc: "在首頁選「英檢初級 / 中級 / 中高級」或「日文 N1~N5」", color: "bg-blue-50 border-blue-200" },
+          { n: "2", icon: "🎯", title: "點任一單元", desc: "進入後上方有 6 個分頁：單字→文法→聽力→閱讀→練習→測驗", color: "bg-emerald-50 border-emerald-200" },
+          { n: "3", icon: "▶️", title: "開始學習", desc: "點 🔊 聽發音、點麥克風跟讀、做題目，依自己節奏進行", color: "bg-pink-50 border-pink-200" },
+        ].map(s => (
+          <div key={s.n} className={`rounded-2xl p-6 border-2 ${s.color} text-center`}>
+            <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-lg font-black text-slate-700 border-2 border-slate-300 mb-3">
+              {s.n}
+            </div>
+            <div className="text-4xl mb-2">{s.icon}</div>
+            <h3 className="text-lg font-bold text-slate-800 mb-2">{s.title}</h3>
+            <p className="text-sm text-slate-600 leading-6">{s.desc}</p>
           </div>
         ))}
       </div>
 
-      {/* Learning Path */}
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-8">
-        <h2 className="text-xl font-bold text-slate-800 mb-6 text-center">🗺️ 建議學習路徑</h2>
-        <div className="flex flex-wrap items-center justify-center gap-2 text-sm">
+      {/* 6 Tabs in Unit */}
+      <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mb-8">
+        <h2 className="text-xl font-bold text-slate-800 mb-2">📖 每個單元裡有什麼？</h2>
+        <p className="text-slate-500 text-sm mb-6">進入單元後，上方分頁切換不同學習內容</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {[
-            { icon: "📖", label: "單字" },
-            { icon: "📐", label: "文法" },
-            { icon: "🎧", label: "聽力" },
-            { icon: "📄", label: "閱讀" },
-            { icon: "📝", label: "練習" },
-            { icon: "🎮", label: "遊戲" },
-            { icon: "📋", label: "測驗" },
-          ].map((step, i, arr) => (
-            <div key={step.label} className="flex items-center gap-2">
-              <div className="flex flex-col items-center bg-blue-50 rounded-xl px-4 py-3 border border-blue-100">
-                <span className="text-xl mb-1">{step.icon}</span>
-                <span className="font-medium text-slate-700">{step.label}</span>
-              </div>
-              {i < arr.length - 1 && <span className="text-blue-300 text-lg">→</span>}
-            </div>
-          ))}
-        </div>
-        <p className="text-center text-sm text-slate-500 mt-4">
-          按照這個順序學習效果最好，每天自由安排時間，不趕進度！
-        </p>
-      </div>
-
-      {/* Answer Access for Parents */}
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-8">
-        <h2 className="text-xl font-bold text-slate-800 mb-5">🔑 答案查看說明</h2>
-        <p className="text-slate-600 leading-7 mb-4">
-          為了讓孩子能夠獨立完成練習，我們將答案設計為<strong>「家長專區」</strong>：
-        </p>
-        <div className="space-y-3 text-sm">
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
-            <span className="text-lg">📝</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">練習單（PDF）不含答案</p>
-              <p className="text-slate-500">下載的練習單只有題目，可以放心讓孩子自己寫。答案需要在網站上由家長查看。</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
-            <span className="text-lg">👩‍👦</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">線上答案需要家長確認</p>
-              <p className="text-slate-500">點「🔑 查看答案」後，會先看到提示畫面。確認是家長後才會顯示答案。第一次確認後，同一裝置不需要再次確認。</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
-            <span className="text-lg">💡</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">建議的對答案方式</p>
-              <p className="text-slate-500">孩子寫完練習單後，家長用手機開啟答案頁面對照，跟孩子一起討論做錯的題目。也可以搭配「家長陪伴指南」了解每單元的重點。</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Tips for Parents */}
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-8 border border-amber-200">
-        <h2 className="text-xl font-bold text-slate-800 mb-4 text-center">👨‍👩‍👧‍👦 給家長的小提示</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {[
-            { icon: "⏰", tip: "每天自由安排時間，少量多次比一次塞很久效果好" },
-            { icon: "🎯", tip: "先設定小目標：每天 1 個單元或 10 個單字" },
-            { icon: "👏", tip: "多鼓勵，少批評 — 讓孩子喜歡學習最重要" },
-            { icon: "🤝", tip: "可以跟孩子一起玩遊戲區的小遊戲" },
-            { icon: "📊", tip: "定期做模擬測驗，了解學習進度" },
-            { icon: "🔄", tip: "反覆練習不丟臉，學語言本來就需要重複" },
+            { icon: "📖", title: "單字", desc: "點 🔊 聽真人發音，點卡片看例句" },
+            { icon: "📝", title: "文法", desc: "重點文法+例句解說" },
+            { icon: "🎙️", title: "口說", desc: "跟讀練習，麥克風錄音AI評分" },
+            { icon: "🎧", title: "聽力", desc: "聽真人發音回答題目，可重複播" },
+            { icon: "📗", title: "閱讀", desc: "文章+理解題，有「🔊 聽文章」功能" },
+            { icon: "✏️", title: "測驗", desc: "綜合測驗題，答完立刻看結果" },
           ].map(t => (
-            <div key={t.tip} className="flex items-start gap-3 p-3 bg-white/60 rounded-xl">
-              <span className="text-xl shrink-0">{t.icon}</span>
-              <span className="text-sm text-slate-700">{t.tip}</span>
+            <div key={t.title} className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+              <div className="text-2xl mb-1">{t.icon}</div>
+              <p className="font-bold text-slate-800 text-sm mb-1">{t.title}</p>
+              <p className="text-xs text-slate-500 leading-5">{t.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Voice Playback Notice */}
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-8">
-        <h2 className="text-xl font-bold text-slate-800 mb-5">🔊 語音播放說明</h2>
-        <p className="text-slate-600 leading-7 mb-4">
-          本平台的英文與日文發音功能，使用瀏覽器內建的語音引擎。
-          不同瀏覽器的語音品質會有所差異，建議參考以下說明：
-        </p>
-        <div className="space-y-3 text-sm">
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
-            <span className="text-lg">🏆</span>
-            <div>
-              <p className="font-bold text-emerald-700 mb-1">Google Chrome（電腦版）— 最推薦</p>
-              <p className="text-slate-500">使用 Google 自然語音引擎，英文與日文發音最自然、最接近真人。</p>
+      {/* Speaking Practice Guide */}
+      <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-6 md:p-8 border border-rose-200 mb-8">
+        <h2 className="text-xl font-bold text-slate-800 mb-2">🎙️ 口說錄音怎麼用？</h2>
+        <p className="text-slate-500 text-sm mb-6">使用瀏覽器麥克風錄音，AI 比對發音給分</p>
+        <div className="space-y-3">
+          {[
+            { n: "1", text: "點 🔊 聽標準發音，注意語調節奏" },
+            { n: "2", text: "點麥克風 🎤 開始錄音，跟著大聲念出來" },
+            { n: "3", text: "唸完後系統自動停止，給你分數（綠色=念對，紅色=要再加強）" },
+            { n: "4", text: "可以反覆練習，目標是 90% 以上！" },
+          ].map(s => (
+            <div key={s.n} className="flex gap-3 items-start bg-white/70 rounded-xl p-3">
+              <span className="shrink-0 w-7 h-7 rounded-full bg-rose-400 text-white font-bold flex items-center justify-center text-sm">{s.n}</span>
+              <span className="text-sm text-slate-700 pt-1">{s.text}</span>
             </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-50 border border-blue-100">
-            <span className="text-lg">👍</span>
-            <div>
-              <p className="font-bold text-blue-700 mb-1">Safari（Mac / iPhone / iPad）</p>
-              <p className="text-slate-500">使用 Apple 內建語音（Samantha / Kyoko），品質不錯。iOS 裝置建議開啟「設定 → 輔助使用 → 語音內容」下載高品質語音。</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 border border-slate-100">
-            <span className="text-lg">👌</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">Microsoft Edge</p>
-              <p className="text-slate-500">使用 Microsoft Natural 語音，品質也不錯。</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-50 border border-amber-100">
-            <span className="text-lg">⚠️</span>
-            <div>
-              <p className="font-bold text-amber-700 mb-1">Firefox / 其他瀏覽器</p>
-              <p className="text-slate-500">語音品質較差，可能聽起來較機械。建議改用 Chrome 以獲得最佳體驗。</p>
-            </div>
-          </div>
+          ))}
+        </div>
+        <div className="mt-4 p-3 bg-amber-100 rounded-xl border border-amber-200 text-xs text-amber-800">
+          💡 <strong>小技巧：</strong>在安靜環境練習、嘴巴離麥克風 20-30 公分、一口氣念完整句不要停頓太久。
         </div>
       </div>
 
-      {/* Pronunciation Tips */}
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-8">
-        <h2 className="text-xl font-bold text-slate-800 mb-5">🎙️ 口說練習小技巧</h2>
-        <p className="text-slate-600 leading-7 mb-4">
-          口說練習使用瀏覽器的語音辨識功能，以下方法可以幫助你獲得更高的分數：
-        </p>
-        <div className="space-y-3 text-sm">
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
-            <span className="text-lg">🎧</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">先聽再唸</p>
-              <p className="text-slate-500">點「🔊 聽」按鈕聽標準發音，注意語調和節奏，再按麥克風錄音跟著唸。可以用「🐢 慢」按鈕放慢速度仔細聽。</p>
+      {/* 4 Extra Features */}
+      <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mb-8">
+        <h2 className="text-xl font-bold text-slate-800 mb-6">🎮 額外練習功能</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { icon: "🎙️", title: "口說訓練", color: "bg-pink-50 border-pink-200", desc: "全部單元的綜合口說練習，含發音、跟讀、朗讀、AI 對話問答" },
+            { icon: "✍️", title: "寫作練習", color: "bg-violet-50 border-violet-200", desc: "4 種題型：句子重組、中翻英、段落排序、引導式寫作" },
+            { icon: "🎮", title: "綜合遊戲", color: "bg-amber-50 border-amber-200", desc: "用遊戲方式複習所有單元，含拼字、聽力、配對等" },
+            { icon: "📋", title: "模擬測驗", color: "bg-blue-50 border-blue-200", desc: "比照英檢正式格式，含聽力、閱讀，完整計分對答" },
+          ].map(f => (
+            <div key={f.title} className={`rounded-xl p-4 border-2 ${f.color}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl">{f.icon}</span>
+                <span className="font-bold text-slate-800">{f.title}</span>
+              </div>
+              <p className="text-sm text-slate-600 leading-6">{f.desc}</p>
             </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
-            <span className="text-lg">🔇</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">安靜環境 + 靠近麥克風</p>
-              <p className="text-slate-500">背景噪音會嚴重影響辨識。建議在安靜環境練習，嘴巴距離麥克風 20-30 公分，聲音清晰、不需大喊。</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
-            <span className="text-lg">🗣️</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">完整唸完整句</p>
-              <p className="text-slate-500">不要中途停頓太久，盡量一口氣完整唸完。如果中間停太久，語音辨識會以為你講完了。</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
-            <span className="text-lg">📱</span>
-            <div>
-              <p className="font-bold text-slate-700 mb-1">推薦使用 Chrome 瀏覽器</p>
-              <p className="text-slate-500">Google Chrome 的語音辨識最準確（使用 Google 語音引擎）。Safari 和 Firefox 的辨識率較低，分數可能偏低。</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Usage Tips */}
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mb-8">
-        <h2 className="text-xl font-bold text-slate-800 mb-4">💡 使用小提示</h2>
-        <div className="space-y-3 text-sm">
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100">
-            <span className="text-lg">👧</span>
-            <div>
-              <p className="font-medium text-slate-700 mb-1">每位小朋友請用自己的 Google 帳號登入</p>
-              <p className="text-slate-500">這樣每個孩子都有專屬的學習紀錄、進度追蹤和連續學習天數</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-50 border border-amber-100">
-            <span className="text-lg">📊</span>
-            <div>
-              <p className="font-medium text-slate-700 mb-1">登入後可以追蹤學習進度</p>
-              <p className="text-slate-500">設定每週學習計畫、查看歷史紀錄、累積連續學習天數</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
-            <span className="text-lg">🎉</span>
-            <div>
-              <p className="font-medium text-slate-700 mb-1">不登入也能使用所有功能</p>
-              <p className="text-slate-500">登入只是多了進度追蹤，所有學習工具都是完全免費、隨時可用</p>
-            </div>
-          </div>
+      {/* Voice Quality Notice */}
+      <div className="bg-emerald-50 rounded-2xl p-6 md:p-8 border border-emerald-200 mb-8">
+        <h2 className="text-xl font-bold text-slate-800 mb-2">🎤 真人配音</h2>
+        <p className="text-slate-600 leading-7 text-sm">
+          英檢的所有單字、例句、聽力、閱讀都使用 <strong>ElevenLabs AI 真人配音</strong>（女聲、教育風格）。
+          發音清晰自然，比一般電子音標準。任何瀏覽器都能正常播放。
+        </p>
+      </div>
+
+      {/* Parents Notes */}
+      <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-6 md:p-8 border border-amber-200 mb-8">
+        <h2 className="text-xl font-bold text-slate-800 mb-4">👨‍👩‍👧 給家長</h2>
+        <div className="space-y-3 text-sm text-slate-700">
+          <div className="flex gap-2"><span>🔑</span><span><strong>答案是家長專區：</strong>練習題答案要點「🔑 查看答案」並確認是家長，孩子才不會直接看到。</span></div>
+          <div className="flex gap-2"><span>📥</span><span><strong>練習單 PDF：</strong>下載的 PDF 只有題目，可以放心讓孩子寫。</span></div>
+          <div className="flex gap-2"><span>📚</span><span><strong>陪伴指南：</strong>每個單元都有「家長陪伴指南」，告訴你重點和怎麼陪孩子學。</span></div>
+          <div className="flex gap-2"><span>🔄</span><span><strong>反覆練習：</strong>學語言本來就需要重複，多鼓勵少批評。</span></div>
         </div>
       </div>
 
       {/* CTA */}
-      <div className="text-center mt-10">
-        <a href="/elementary" className="inline-block px-8 py-3 bg-rose-300 text-white rounded-xl font-bold text-lg hover:bg-rose-400 transition no-underline">
-          開始學習 →
+      <div className="text-center">
+        <p className="text-slate-500 mb-4">不需要註冊、不用付費，現在就開始！</p>
+        <a href="/elementary" className="inline-block px-8 py-4 bg-gradient-to-r from-rose-400 to-pink-400 text-white rounded-2xl font-bold text-lg hover:from-rose-500 hover:to-pink-500 transition no-underline shadow-lg">
+          🚀 開始學習 →
         </a>
       </div>
     </div>

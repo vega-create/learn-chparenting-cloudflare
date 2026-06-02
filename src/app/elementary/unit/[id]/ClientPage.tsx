@@ -7,6 +7,46 @@ import { speak, stopSpeaking, pauseSpeaking, resumeSpeaking } from "@/lib/speech
 import WorksheetActions from "@/components/WorksheetActions";
 import EbookModal from "@/components/EbookModal";
 
+// ElevenLabs mp3 lookup (elementary, R2)
+const vocabAudioMap = new Map<string, string>();
+const exAudioMap = new Map<string, string>();
+const listenAudioMap = new Map<string, string>();
+const passageAudioMap = new Map<string, string>();
+UNITS.forEach((u: any, ui: number) => {
+  u.vocab.forEach((v: any, vi: number) => {
+    vocabAudioMap.set(v.en, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/elementary/unit${ui + 1}/word-${vi + 1}-normal.mp3?v2`);
+    if (v.ex) exAudioMap.set(v.ex, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/elementary/unit${ui + 1}/ex-${vi + 1}-normal.mp3?v2`);
+  });
+  u.listening.forEach((l: any, li: number) => {
+    listenAudioMap.set(l.text, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/elementary/unit${ui + 1}/listen-${li + 1}.mp3?v2`);
+  });
+  const readings = Array.isArray(u.reading) ? u.reading : (u.reading ? [u.reading] : []);
+  readings.forEach((r: any, ri: number) => {
+    if (r && r.passage) passageAudioMap.set(r.passage, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/elementary/unit${ui + 1}/passage-${ri + 1}.mp3?v2`);
+  });
+});
+let activeAudio: HTMLAudioElement | null = null;
+function speakWithAudio(text: string, rate: number = 1.0, onEnd?: () => void) {
+  stopSpeaking();
+  if (activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; activeAudio = null; }
+  const src = vocabAudioMap.get(text) || exAudioMap.get(text) || listenAudioMap.get(text) || passageAudioMap.get(text);
+  if (src) {
+    const audio = new Audio(src);
+    audio.playbackRate = rate;
+    activeAudio = audio;
+    if (onEnd) audio.onended = onEnd;
+    audio.onerror = () => speak(text, rate * 0.85, onEnd);
+    audio.play().catch(() => speak(text, rate * 0.85, onEnd));
+  } else {
+    speak(text, rate * 0.85, onEnd);
+  }
+}
+
+function stopAllAudio() {
+  stopSpeaking();
+  if (activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; activeAudio = null; }
+}
+
 const TABS = [
   { id: "vocab", label: "📖 單字" },
   { id: "grammar", label: "📝 文法" },
@@ -34,12 +74,12 @@ export default function UnitPage() {
 
   // Scroll to top when switching tabs + stop any speech
   useEffect(() => {
-    stopSpeaking();
+    stopAllAudio();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [tab]);
 
   // Stop speech when leaving this page entirely
-  useEffect(() => { return () => { stopSpeaking(); }; }, []);
+  useEffect(() => { return () => { stopAllAudio(); }; }, []);
 
   if (!unit) return <div className="text-center py-20">找不到此單元</div>;
 
@@ -128,13 +168,13 @@ function VocabTab({ unit }: { unit: any }) {
                 <span className="text-xs text-slate-400 ml-2 italic">{w.pos}</span>
                 <div className="text-sm font-semibold mt-0.5" style={{ color: unit.color }}>{w.zh}</div>
               </div>
-              <button onClick={e => { e.stopPropagation(); speak(w.en); }}
+              <button onClick={e => { e.stopPropagation(); speakWithAudio(w.en); }}
                 className="text-xl bg-transparent border-none cursor-pointer p-2 -mr-1 -mt-1 active:scale-90 transition">🔊</button>
             </div>
             {flipped[i] && (
               <div className="mt-2.5 pt-2.5 border-t border-dashed border-slate-200 animate-fadeIn">
                 <p className="text-sm text-slate-500 italic">{w.ex}</p>
-                <button onClick={e => { e.stopPropagation(); speak(w.ex, 0.8); }}
+                <button onClick={e => { e.stopPropagation(); speakWithAudio(w.ex, 1.0); }}
                   className="mt-2 text-xs border border-slate-200 rounded-lg px-3 py-1.5 bg-transparent cursor-pointer text-slate-500 active:bg-slate-100 transition">🔊 聽例句</button>
               </div>
             )}
@@ -164,7 +204,7 @@ function GrammarTab({ unit }: { unit: any }) {
                 <div className="text-xs font-semibold mb-2" style={{ color: unit.color }}>📌 例句</div>
                 {g.examples.map((ex: string, j: number) => (
                   <div key={j} className="flex items-center gap-2 mb-2">
-                    <button onClick={() => speak(ex.split("(")[0].trim(), 0.8)}
+                    <button onClick={() => speakWithAudio(ex.split("(")[0].trim(), 1.0)}
                       className="bg-transparent border-none cursor-pointer text-base p-1 active:scale-90 transition flex-shrink-0">🔊</button>
                     <span className="text-sm text-slate-700">{ex}</span>
                   </div>
@@ -184,7 +224,7 @@ function GrammarTab({ unit }: { unit: any }) {
 
 /* ─── Speaking Tab (with Speech Recognition) ─── */
 function SpeakingTab({ unit }: { unit: any }) {
-  useEffect(() => { return () => { stopSpeaking(); }; }, []);
+  useEffect(() => { return () => { stopAllAudio(); }; }, []);
   const [subMode, setSubMode] = useState<"word" | "sentence">("word");
   const [wordIdx, setWordIdx] = useState(0);
   const [sentIdx, setSentIdx] = useState(0);
@@ -250,7 +290,7 @@ function SpeakingTab({ unit }: { unit: any }) {
       let stopTimer: ReturnType<typeof setTimeout>;
       // 根據句子字數計算錄音時間：每個字約 0.6 秒，最少 5 秒，最多 15 秒
       const wordCount = targetText.split(/\s+/).length;
-      const duration = Math.min(15000, Math.max(5000, wordCount * 600));
+      const duration = Math.min(30000, Math.max(8000, wordCount * 700));
 
       recog.onresult = (e: any) => {
         // 收集所有結果
@@ -265,7 +305,7 @@ function SpeakingTab({ unit }: { unit: any }) {
         }
         // 每次收到結果，重設停止計時器（靜默 2 秒後自動結束）
         clearTimeout(stopTimer);
-        stopTimer = setTimeout(() => { try { recog.stop(); } catch {} }, 2000);
+        stopTimer = setTimeout(() => { try { recog.stop(); } catch {} }, 3000);
       };
 
       recog.onend = () => {
@@ -346,7 +386,7 @@ function SpeakingTab({ unit }: { unit: any }) {
             <div className="text-xs text-slate-400 italic mb-6">{words[wordIdx].pos}</div>
 
             {/* Listen button */}
-            <button onClick={() => speak(words[wordIdx].en, 0.75)}
+            <button onClick={() => speakWithAudio(words[wordIdx].en, 1.0)}
               className="px-5 py-2.5 rounded-xl text-sm font-medium border mb-4 cursor-pointer transition active:scale-95"
               style={{ borderColor: unit.color + "60", color: unit.color }}>
               🔊 先聽一次
@@ -409,13 +449,13 @@ function SpeakingTab({ unit }: { unit: any }) {
 
             {/* Play at different speeds */}
             <div className="flex justify-center gap-3 mb-5">
-              <button onClick={() => speak(sentences[sentIdx].text, 0.55)}
+              <button onClick={() => speakWithAudio(sentences[sentIdx].text, 0.7)}
                 className="px-4 py-2.5 rounded-xl text-sm font-medium border cursor-pointer transition active:scale-95"
                 style={{ borderColor: unit.color + "60", color: unit.color }}>🐢 慢速</button>
-              <button onClick={() => speak(sentences[sentIdx].text, 0.8)}
+              <button onClick={() => speakWithAudio(sentences[sentIdx].text, 1.0)}
                 className="px-5 py-2.5 rounded-xl text-sm font-medium text-white border-none cursor-pointer transition active:scale-95"
                 style={{ background: unit.color }}>🔊 播放</button>
-              <button onClick={() => speak(sentences[sentIdx].text, 1.0)}
+              <button onClick={() => speakWithAudio(sentences[sentIdx].text, 1.3)}
                 className="px-4 py-2.5 rounded-xl text-sm font-medium border cursor-pointer transition active:scale-95"
                 style={{ borderColor: unit.color + "60", color: unit.color }}>🐇 快速</button>
             </div>
@@ -505,7 +545,7 @@ function ListeningTab({ unit }: { unit: any }) {
 
   useEffect(() => { setShuffledQs([...unit.listening].sort(() => Math.random() - 0.5)); }, [unit.listening]);
   // Cleanup: stop speech when leaving tab or unmounting
-  useEffect(() => { return () => { stopSpeaking(); setIsSpeaking(false); setIsPaused(false); }; }, []);
+  useEffect(() => { return () => { stopAllAudio(); setIsSpeaking(false); setIsPaused(false); }; }, []);
   // Track speaking state
   useEffect(() => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -519,12 +559,12 @@ function ListeningTab({ unit }: { unit: any }) {
 
   const playQuestion = () => {
     stopSpeaking(); setIsPaused(false);
-    speak(qs[qi].text, 0.8);
+    speakWithAudio(qs[qi].text, 1.0);
     setIsSpeaking(true);
   };
-  const handlePause = () => { pauseSpeaking(); setIsPaused(true); };
-  const handleResume = () => { resumeSpeaking(); setIsPaused(false); };
-  const handleStop = () => { stopSpeaking(); setIsSpeaking(false); setIsPaused(false); };
+  const handlePause = () => { pauseSpeaking(); if (activeAudio) activeAudio.pause(); setIsPaused(true); };
+  const handleResume = () => { resumeSpeaking(); if (activeAudio) activeAudio.play().catch(() => {}); setIsPaused(false); };
+  const handleStop = () => { stopAllAudio(); setIsSpeaking(false); setIsPaused(false); };
 
   const handle = (idx: number) => { if (show) return; setSel(idx); setShow(true); if (idx === qs[qi].ans) { setScore(s => s + 1); playCorrect(); } else { playWrong(); } };
   const next = () => { stopSpeaking(); setIsSpeaking(false); setIsPaused(false); setQi(q => q + 1); setSel(null); setShow(false); };
@@ -624,8 +664,12 @@ function ReadingTab({ unit }: { unit: any }) {
       <div className="bg-white rounded-xl p-4 md:p-6 border border-slate-200 shadow-sm mb-3">
         <div className="flex justify-between items-center mb-3">
           <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: unit.color + "15", color: unit.color }}>文章{readings.length > 1 ? ` ${pIdx + 1}` : ""}</span>
-          <button onClick={() => speak(rd.passage, 0.8)}
-            className="text-xs border border-slate-200 rounded-lg px-3 py-1.5 bg-transparent cursor-pointer text-slate-500 active:bg-slate-100 transition">🔊 聽文章</button>
+          <div className="flex gap-1.5">
+            <button onClick={() => speakWithAudio(rd.passage, 1.0)}
+              className="text-xs border border-slate-200 rounded-lg px-3 py-1.5 bg-transparent cursor-pointer text-slate-500 active:bg-slate-100 transition">🔊 聽文章</button>
+            <button onClick={() => stopAllAudio()}
+              className="text-xs border border-red-200 rounded-lg px-3 py-1.5 bg-red-50 cursor-pointer text-red-500 active:bg-red-100 transition">⏹ 停止</button>
+          </div>
         </div>
         <p className="text-sm md:text-base leading-7 md:leading-8 text-slate-700">{rd.passage}</p>
       </div>

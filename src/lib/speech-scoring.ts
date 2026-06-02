@@ -51,15 +51,84 @@ for (const [k, v] of Object.entries(NUM_TO_WORD)) WORD_TO_NUM[v] = k;
  *  - single numbers "7" → "seven"
  *  - "o'clock" → "oclock" (strip apostrophe for matching)
  */
+function digitsToWords(n: number): string {
+  if (n === 0) return "zero";
+  const ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+                "seventeen", "eighteen", "nineteen"];
+  const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+  function below1000(x: number): string {
+    if (x < 20) return ones[x];
+    if (x < 100) return tens[Math.floor(x / 10)] + (x % 10 ? " " + ones[x % 10] : "");
+    return ones[Math.floor(x / 100)] + " hundred" + (x % 100 ? " " + below1000(x % 100) : "");
+  }
+  if (n < 1000) return below1000(n);
+  if (n < 1000000) {
+    const t = Math.floor(n / 1000), r = n % 1000;
+    return below1000(t) + " thousand" + (r ? " " + below1000(r) : "");
+  }
+  return String(n);
+}
+
+/* ─── Contractions expansion ─── */
+const CONTRACTIONS: Record<string, string> = {
+  "i'm": "i am", "i've": "i have", "i'd": "i would", "i'll": "i will",
+  "you're": "you are", "you've": "you have", "you'd": "you would", "you'll": "you will",
+  "he's": "he is", "she's": "she is", "it's": "it is",
+  "he'd": "he would", "she'd": "she would", "it'd": "it would",
+  "he'll": "he will", "she'll": "she will", "it'll": "it will",
+  "we're": "we are", "we've": "we have", "we'd": "we would", "we'll": "we will",
+  "they're": "they are", "they've": "they have", "they'd": "they would", "they'll": "they will",
+  "don't": "do not", "doesn't": "does not", "didn't": "did not",
+  "isn't": "is not", "aren't": "are not", "wasn't": "was not", "weren't": "were not",
+  "haven't": "have not", "hasn't": "has not", "hadn't": "had not",
+  "won't": "will not", "wouldn't": "would not", "can't": "cannot", "couldn't": "could not",
+  "shouldn't": "should not", "mustn't": "must not", "needn't": "need not",
+  "let's": "let us", "that's": "that is", "what's": "what is", "where's": "where is",
+  "who's": "who is", "how's": "how is", "there's": "there is", "here's": "here is",
+};
+
+const TITLE_EXPANSIONS: Record<string, string> = {
+  "mr": "mister", "mrs": "missus", "ms": "miss", "dr": "doctor", "prof": "professor",
+  "st": "street", "ave": "avenue", "blvd": "boulevard", "ft": "feet",
+  "usa": "united states", "uk": "united kingdom", "vs": "versus", "etc": "etcetera",
+};
+
 function normalizeEnglish(s: string): string[] {
   let t = s.toLowerCase();
-  // Expand time patterns: "700" → "7 oclock", "7:00" → "7 oclock"
-  t = t.replace(/\b(\d{1,2}):?00\b/g, "$1 oclock");
-  // Convert digit numbers to words: "7" → "seven"
-  t = t.replace(/\b(\d{1,2})\b/g, (_, n) => NUM_TO_WORD[n] || n);
-  // Normalize o'clock → oclock
+  // Expand contractions: "I'm" → "I am"
+  for (const [c, full] of Object.entries(CONTRACTIONS)) {
+    t = t.replace(new RegExp(`\\b${c}\\b`, "g"), full);
+  }
+  // Expand titles: "Mr." → "mister"
+  t = t.replace(/\b([a-z]+)\./g, (m, w) => TITLE_EXPANSIONS[w] || m);
+  // Percentages: "50%" → "fifty percent"
+  t = t.replace(/(\d+)\s*%/g, (_, n) => digitsToWords(Number(n)) + " percent");
+  // Money: "$2000" → "two thousand dollars"
+  t = t.replace(/\$(\d+(?:,\d{3})*(?:\.\d+)?)/g, (_, n) => {
+    const num = Number(n.replace(/,/g, ""));
+    if (Number.isFinite(num)) return digitsToWords(Math.floor(num)) + " dollars";
+    return n;
+  });
+  // Remove commas in numbers: "2,000" → "2000"
+  t = t.replace(/(\d),(\d{3})/g, "$1$2");
+  // Decimals: "3.5" → "three point five"
+  t = t.replace(/(\d+)\.(\d+)/g, (_, a, b) => {
+    return digitsToWords(Number(a)) + " point " + b.split("").map((d: string) => NUM_TO_WORD[d] || d).join(" ");
+  });
+  // Time patterns: "700" or "7:00" → "seven oclock"
+  t = t.replace(/\b(\d{1,2}):?00\b/g, (_, n) => (NUM_TO_WORD[n] || n) + " oclock");
+  // Hyphenated compound words: "ice-cream" → "ice cream"
+  t = t.replace(/-/g, " ");
+  // Larger numbers (100+)
+  t = t.replace(/\b(\d{3,})\b/g, (_, n) => digitsToWords(Number(n)));
+  // Smaller numbers (1-99)
+  t = t.replace(/\b(\d{1,2})\b/g, (_, n) => NUM_TO_WORD[n] || digitsToWords(Number(n)));
+  // o'clock → oclock
   t = t.replace(/o'clock/g, "oclock");
-  return t.replace(/[^\w\s]/g, "").split(/\s+/).filter(Boolean);
+  // Remaining apostrophes (e.g., possessives) - keep word together
+  t = t.replace(/'/g, "");
+  return t.replace(/[^\w\s]/g, " ").split(/\s+/).filter(Boolean);
 }
 
 /* ─── English: word-level comparison (stricter) ─── */

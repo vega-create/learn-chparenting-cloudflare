@@ -44,6 +44,47 @@ export const metadata: Metadata = {
   },
 };
 
+// Organization Schema — appears on every page, tells Google + AI crawlers that
+// a real company (not a personal blog) operates this site. Boosts E-E-A-T and
+// makes the site network (5 sister domains) recognizable as a single authority.
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://learn.chparenting.com#organization",
+  name: "親子多元學習平台",
+  legalName: "Mommy Wisdom International LTD. 智慧媽咪國際有限公司",
+  url: "https://learn.chparenting.com",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://learn.chparenting.com/icon-512.png",
+    width: 512,
+    height: 512,
+  },
+  founder: {
+    "@type": "Person",
+    name: "Vega Lin",
+    jobTitle: "Founder",
+    alumniOf: { "@type": "EducationalOrganization", name: "Tunghai University" },
+  },
+  sameAs: [
+    "https://chparenting.com",
+    "https://baby.chparenting.com",
+    "https://pregnancy.chparenting.com",
+    "https://english.chparenting.com",
+    "https://mommystartup.com",
+  ],
+  knowsAbout: [
+    "全民英檢 GEPT",
+    "日文檢定 JLPT",
+    "國小數學練習",
+    "兒童理財教育",
+    "親子學習工具",
+    "AI 親子教育",
+    "free GEPT practice",
+    "free JLPT practice",
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Hardcoded to prevent disappearing when env vars/secrets are accidentally cleared.
   // GA4 measurement IDs are public information anyway (visible in any deployed HTML).
@@ -69,6 +110,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         )}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3493526929407874" crossOrigin="anonymous" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         {/* Meta Pixel */}
         <script dangerouslySetInnerHTML={{ __html: `
           !function(f,b,e,v,n,t,s)

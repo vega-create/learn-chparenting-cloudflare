@@ -4,6 +4,36 @@ import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { speak, stopSpeaking } from "@/lib/speech";
 
+// ElevenLabs mp3 lookup (intermediate)
+const vocabAudioMap = new Map<string, string>();
+const sentenceAudioMap = new Map<string, string>();
+UNITS.forEach((u: any, ui: number) => {
+  u.vocab.forEach((v: any, vi: number) => {
+    vocabAudioMap.set(v.en, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/intermediate/unit${ui + 1}/word-${vi + 1}-normal.mp3?v1`);
+    if (v.ex) sentenceAudioMap.set(v.ex, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/intermediate/unit${ui + 1}/ex-${vi + 1}-normal.mp3?v1`);
+  });
+  u.listening.forEach((l: any, li: number) => {
+    sentenceAudioMap.set(l.text, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/intermediate/unit${ui + 1}/listen-${li + 1}.mp3?v1`);
+  });
+});
+let activeAudio: HTMLAudioElement | null = null;
+function speakWithAudio(text: string, rate: number = 1.0, onEnd?: () => void) {
+  stopSpeaking();
+  if (activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; activeAudio = null; }
+  const src = vocabAudioMap.get(text) || sentenceAudioMap.get(text);
+  if (src) {
+    const audio = new Audio(src);
+    audio.playbackRate = rate;
+    activeAudio = audio;
+    if (onEnd) audio.onended = onEnd;
+    audio.onerror = () => speak(text, rate * 0.85, onEnd);
+    audio.play().catch(() => speak(text, rate * 0.85, onEnd));
+  } else {
+    speak(text, rate * 0.85, onEnd);
+  }
+}
+
+
 /* ─── Utils ─── */
 const shuffle = <T,>(a: T[]): T[] => [...a].sort(() => Math.random() - 0.5);
 const pick = <T,>(a: T[], n: number): T[] => shuffle(a).slice(0, n);
@@ -165,7 +195,7 @@ export default function GamePage() {
 
   // Auto-play listening audio
   useEffect(() => {
-    if (mode === "listening" && questions[qi]) setTimeout(() => speak(questions[qi].text, 0.8), 300);
+    if (mode === "listening" && questions[qi]) setTimeout(() => speakWithAudio(questions[qi].text, 1.0), 300);
   }, [qi, mode, questions]);
 
   // Victory sound on game complete
@@ -323,7 +353,7 @@ export default function GamePage() {
         {mode === "vocab" && (
           <>
             <div className="text-center mb-6">
-              <button onClick={() => speak(q.audio)} className="text-lg bg-transparent border-none cursor-pointer">🔊</button>
+              <button onClick={() => speakWithAudio(q.audio)} className="text-lg bg-transparent border-none cursor-pointer">🔊</button>
               <div className="text-3xl font-black text-slate-800 mt-2">{q.q}</div>
               <div className="text-sm text-slate-400 mt-1">這個單字的中文意思是？</div>
             </div>
@@ -363,7 +393,7 @@ export default function GamePage() {
             {show && (
               <div className={`text-center mt-4 font-semibold ${input.trim().toLowerCase() === q.en.toLowerCase() ? "text-emerald-600" : "text-red-500"}`}>
                 {input.trim().toLowerCase() === q.en.toLowerCase() ? `✅ 正確！${q.en}` : `❌ 答案是 "${q.en}"`}
-                <button onClick={() => speak(q.en)} className="ml-2 bg-transparent border-none cursor-pointer text-base">🔊</button>
+                <button onClick={() => speakWithAudio(q.en)} className="ml-2 bg-transparent border-none cursor-pointer text-base">🔊</button>
               </div>
             )}
           </>
@@ -373,7 +403,7 @@ export default function GamePage() {
         {mode === "listening" && (
           <>
             <div className="text-center mb-6">
-              <button onClick={() => speak(q.text, 0.8)}
+              <button onClick={() => speakWithAudio(q.text, 1.0)}
                 className="w-20 h-20 rounded-full text-3xl cursor-pointer transition hover:scale-105 border-2"
                 style={{ borderColor: gameInfo?.color, background: gameInfo?.color + "12" }}>🔊</button>
               <div className="text-sm text-slate-400 mt-2">點擊聽題目</div>
@@ -405,7 +435,7 @@ export default function GamePage() {
               <div className="text-sm text-slate-400 mt-2">{q.zh}</div>
             </div>
             <div className="flex gap-3 justify-center mb-5">
-              <button onClick={() => speak(q.text, 0.8)} className="px-4 py-2 rounded-lg border border-blue-200 bg-blue-50 text-blue-600 text-sm cursor-pointer">🔊 先聽一次</button>
+              <button onClick={() => speakWithAudio(q.text, 1.0)} className="px-4 py-2 rounded-lg border border-blue-200 bg-blue-50 text-blue-600 text-sm cursor-pointer">🔊 先聽一次</button>
             </div>
             {!supported ? (
               <div className="text-center text-slate-400 text-sm">😢 請使用 Chrome 瀏覽器以支援語音辨識</div>

@@ -1,5 +1,37 @@
 "use client";
 import { INTER_UNITS as UNITS } from "@/data/intermediate";
+// ElevenLabs mp3 lookup (intermediate, R2)
+const listenAudioMap = new Map<string, string>();
+const passageAudioMap = new Map<string, string>();
+UNITS.forEach((u: any, ui: number) => {
+  (u.listening || []).forEach((l: any, li: number) => {
+    listenAudioMap.set(l.text, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/intermediate/unit${ui + 1}/listen-${li + 1}.mp3?v1`);
+  });
+  const readings = Array.isArray(u.reading) ? u.reading : (u.reading ? [u.reading] : []);
+  readings.forEach((r: any, ri: number) => {
+    if (r && r.passage) passageAudioMap.set(r.passage, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/intermediate/unit${ui + 1}/passage-${ri + 1}.mp3?v1`);
+  });
+});
+let activeAudio: HTMLAudioElement | null = null;
+function speakWithAudio(text: string, rate: number = 1.0) {
+  stopSpeaking();
+  if (activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; activeAudio = null; }
+  const src = listenAudioMap.get(text) || passageAudioMap.get(text);
+  if (src) {
+    const audio = new Audio(src);
+    audio.playbackRate = rate;
+    activeAudio = audio;
+    audio.onerror = () => speak(text, rate * 0.85);
+    audio.play().catch(() => speak(text, rate * 0.85));
+  } else {
+    speak(text, rate * 0.85);
+  }
+}
+function stopAllAudio() {
+  stopSpeaking();
+  if (activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; activeAudio = null; }
+}
+
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
@@ -15,6 +47,8 @@ const allReading = UNITS.flatMap(u => Array.isArray(u.reading) ? u.reading : [u.
 type Phase = "intro" | "listening" | "reading" | "result" | "review";
 
 export default function MockTestPage() {
+  // Stop audio when leaving page
+  useEffect(() => { return () => { stopAllAudio(); }; }, []);
   const [phase, setPhase] = useState<Phase>("intro");
   const [listenQs, setListenQs] = useState<any[]>([]);
   const [vocabQs, setVocabQs] = useState<any[]>([]);
@@ -50,7 +84,7 @@ export default function MockTestPage() {
 
   const playListen = (idx: number, text: string) => {
     const plays = listenPlays[idx] || 0;
-    if (plays < 3) { speak(text, 0.8); setListenPlays(p => ({ ...p, [idx]: plays + 1 })); }
+    if (plays < 3) { speakWithAudio(text, 1.0); setListenPlays(p => ({ ...p, [idx]: plays + 1 })); }
   };
 
   const calcScore = useCallback(() => {

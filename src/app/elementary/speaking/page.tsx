@@ -3,7 +3,37 @@ import { UNITS } from "@/data/elementary";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { compareTextEn, scoreSpeechResult, getPronunciationTip, charLevelDiff } from "@/lib/speech-scoring";
-import { speak } from "@/lib/speech";
+import { speak, stopSpeaking } from "@/lib/speech";
+
+// ElevenLabs mp3 lookup (elementary, R2)
+const vocabAudioMap = new Map<string, string>();
+const sentenceAudioMap = new Map<string, string>();
+UNITS.forEach((u: any, ui: number) => {
+  u.vocab.forEach((v: any, vi: number) => {
+    vocabAudioMap.set(v.en, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/elementary/unit${ui + 1}/word-${vi + 1}-normal.mp3?v2`);
+    if (v.ex) sentenceAudioMap.set(v.ex, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/elementary/unit${ui + 1}/ex-${vi + 1}-normal.mp3?v2`);
+  });
+  u.listening.forEach((l: any, li: number) => {
+    sentenceAudioMap.set(l.text, `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/elementary/unit${ui + 1}/listen-${li + 1}.mp3?v2`);
+  });
+});
+let activeAudio: HTMLAudioElement | null = null;
+function speakWithAudio(text: string, rate: number = 1.0, onEnd?: () => void) {
+  stopSpeaking();
+  if (activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; activeAudio = null; }
+  const src = vocabAudioMap.get(text) || sentenceAudioMap.get(text);
+  if (src) {
+    const audio = new Audio(src);
+    audio.playbackRate = rate;
+    activeAudio = audio;
+    if (onEnd) audio.onended = onEnd;
+    audio.onerror = () => speak(text, rate * 0.85, onEnd);
+    audio.play().catch(() => speak(text, rate * 0.85, onEnd));
+  } else {
+    speak(text, rate * 0.85, onEnd);
+  }
+}
+
 import ShareButtons from "@/components/ShareButtons";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
@@ -89,7 +119,61 @@ export default function SpeakingPage() {
     recog.lang = "en-US";
     recog.interimResults = false;
     recog.maxAlternatives = 3;
-    recog.continuous = false;
+
+    // For long sentences/passages: use continuous mode + extend timeout
+    const wordCount = targetText.split(/\s+/).length;
+    const isLong = wordCount > 6;
+    recog.continuous = isLong;
+
+    if (isLong) {
+      // 每字 700ms，最少 8 秒，最多 30 秒
+      const duration = Math.min(30000, Math.max(8000, wordCount * 700));
+      const collected: { transcript: string; confidence: number }[][] = [];
+      let stopTimer: ReturnType<typeof setTimeout>;
+
+      recog.onresult = (e: any) => {
+        for (let r = 0; r < e.results.length; r++) {
+          if (e.results[r].isFinal && !collected[r]) {
+            const alts: { transcript: string; confidence: number }[] = [];
+            for (let a = 0; a < e.results[r].length; a++) {
+              alts.push({
+                transcript: e.results[r][a].transcript,
+                confidence: e.results[r][a].confidence ?? 0,
+              });
+            }
+            collected[r] = alts;
+          }
+        }
+        clearTimeout(stopTimer);
+        stopTimer = setTimeout(() => { try { recog.stop(); } catch {} }, 3000);
+      };
+
+      recog.onend = () => {
+        clearTimeout(stopTimer);
+        if (collected.length === 0) { setRecording(false); return; }
+        // 合併所有片段
+        const merged: { transcript: string; confidence: number }[] = [
+          { transcript: collected.map(c => c[0]?.transcript || "").join(" ").trim(), confidence: collected[0]?.[0]?.confidence ?? 0.85 }
+        ];
+        for (const alts of collected) for (const a of alts) merged.push(a);
+        const scored = scoreSpeechResult(merged, targetText, compareTextEn);
+        setResult({ transcript: scored.transcript, pct: scored.pct, matched: scored.matched, rawPct: scored.rawPct, confidence: scored.confidence });
+        setRecording(false);
+        setAttempts(a => a + 1);
+        if (scored.pct >= 90) playPerfect();
+        else if (scored.pct >= 50) playCorrect();
+        else playWrong();
+        setBestScores(prev => ({ ...prev, [idx]: Math.max(prev[idx] ?? 0, scored.pct) }));
+        setTotalScore(s => s + scored.pct);
+        setCompleted(c => c + 1);
+      };
+      recog.onerror = () => { clearTimeout(stopTimer); setRecording(false); };
+      recog.start();
+      setRecording(true);
+      setResult(null);
+      setTimeout(() => { try { recog.stop(); } catch {} }, duration);
+      return;
+    }
 
     recog.onresult = (e: any) => {
       const alts: { transcript: string; confidence: number }[] = [];
@@ -408,7 +492,7 @@ export default function SpeakingPage() {
             <div className="text-4xl md:text-5xl font-black text-blue-600 mb-2">{item.en}</div>
             <div className="text-sm text-slate-400">{item.pos}</div>
             <div className="text-lg font-semibold text-slate-600 mt-1">{item.zh}</div>
-            <button onClick={() => { setIsPlaying(true); speak(item.en, 0.8, () => setIsPlaying(false)); }}
+            <button onClick={() => { setIsPlaying(true); speakWithAudio(item.en, 1.0, () => setIsPlaying(false)); }}
               className="mt-3 px-4 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 text-sm cursor-pointer hover:bg-blue-100 transition">
               {isPlaying ? "🔊 播放中..." : "🔊 先聽發音"}
             </button>
@@ -429,15 +513,15 @@ export default function SpeakingPage() {
           <div className="text-center mb-4">
             <div className="text-sm text-slate-400 mb-3">先聽英文句子，再跟著唸</div>
             <div className="flex justify-center gap-3 mb-4">
-              <button onClick={() => { setIsPlaying(true); speak(item.text, 0.6, () => setIsPlaying(false)); }}
+              <button onClick={() => { setIsPlaying(true); speakWithAudio(item.text, 0.7, () => setIsPlaying(false)); }}
                 className="px-4 py-2.5 rounded-lg border border-purple-200 bg-purple-50 text-purple-600 text-sm cursor-pointer hover:bg-purple-100 transition">
                 🐢 慢速
               </button>
-              <button onClick={() => { setIsPlaying(true); speak(item.text, 0.8, () => setIsPlaying(false)); }}
+              <button onClick={() => { setIsPlaying(true); speakWithAudio(item.text, 1.0, () => setIsPlaying(false)); }}
                 className="px-5 py-2.5 rounded-lg border border-purple-300 bg-purple-100 text-purple-700 text-sm font-bold cursor-pointer hover:bg-purple-200 transition">
                 {isPlaying ? "🔊 播放中" : "🔊 正常速"}
               </button>
-              <button onClick={() => { setIsPlaying(true); speak(item.text, 1.0, () => setIsPlaying(false)); }}
+              <button onClick={() => { setIsPlaying(true); speakWithAudio(item.text, 1.3, () => setIsPlaying(false)); }}
                 className="px-4 py-2.5 rounded-lg border border-purple-200 bg-purple-50 text-purple-600 text-sm cursor-pointer hover:bg-purple-100 transition">
                 🐇 快速
               </button>
@@ -501,11 +585,11 @@ export default function SpeakingPage() {
                   <div className="text-lg font-semibold text-slate-800 leading-7">{currentSentence}</div>
                 </div>
                 <div className="flex justify-center gap-3 mb-4">
-                  <button onClick={() => speak(currentSentence, 0.6)}
+                  <button onClick={() => speakWithAudio(currentSentence, 0.7)}
                     className="px-3 py-2 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-600 text-sm cursor-pointer">🐢 慢</button>
-                  <button onClick={() => speak(currentSentence, 0.8)}
+                  <button onClick={() => speakWithAudio(currentSentence, 1.0)}
                     className="px-4 py-2 rounded-lg border border-emerald-300 bg-emerald-100 text-emerald-700 text-sm font-bold cursor-pointer">🔊 聽</button>
-                  <button onClick={() => speak(currentSentence, 1.0)}
+                  <button onClick={() => speakWithAudio(currentSentence, 1.3)}
                     className="px-3 py-2 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-600 text-sm cursor-pointer">🐇 快</button>
                 </div>
                 <RecordButton target={currentSentence} />
@@ -545,7 +629,7 @@ export default function SpeakingPage() {
               <div className="text-lg font-bold text-slate-800">{item.q}</div>
               <div className="text-sm text-slate-400 mt-1">{item.hint}</div>
             </div>
-            <button onClick={() => { setIsPlaying(true); speak(item.q, 0.8, () => setIsPlaying(false)); }}
+            <button onClick={() => { setIsPlaying(true); speakWithAudio(item.q, 1.0, () => setIsPlaying(false)); }}
               className="px-4 py-2 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm cursor-pointer hover:bg-red-100 transition mb-2">
               {isPlaying ? "🔊 播放中..." : "🔊 聽問題"}
             </button>
@@ -602,7 +686,7 @@ export default function SpeakingPage() {
                 <div className="bg-amber-50 rounded-xl p-4 mb-3 animate-fadeIn">
                   <div className="text-xs text-amber-500 mb-1">參考答案（不一定要一樣）：</div>
                   <div className="text-sm text-slate-700">{item.sample}</div>
-                  <button onClick={() => speak(item.sample, 0.8)} className="mt-2 text-xs text-amber-600 bg-transparent border border-amber-200 rounded-lg px-2 py-1 cursor-pointer">🔊 聽參考答案</button>
+                  <button onClick={() => speakWithAudio(item.sample, 1.0)} className="mt-2 text-xs text-amber-600 bg-transparent border border-amber-200 rounded-lg px-2 py-1 cursor-pointer">🔊 聽參考答案</button>
                 </div>
               )}
 
