@@ -41,3 +41,7 @@ next-env.d.ts
 # PDF generation artifacts (local only — download font, run extract-guides + generate-ebooks)
 scripts/NotoSansSC.ttf
 scripts/guides-data.json
+
+# Audio files are hosted on Cloudflare R2 (pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev)
+# Local copies are backup-only — exceed Cloudflare Pages 20K file limit if committed
+/public/audio/
