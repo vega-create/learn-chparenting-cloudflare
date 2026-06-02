@@ -4,8 +4,8 @@ import DailyChallenge from "@/components/DailyChallenge";
 import PracticeCounter from "@/components/PracticeCounter";
 
 export const metadata: Metadata = {
-  title: "免費親子學習平台 | 全民英檢・日文檢定・數學・打字 | learn.chparenting.com",
-  description: "完全免費的親子學習平台，提供全民英檢 GEPT 初級到中高級、日文檢定 JLPT N5-N1、數學練習、打字練習、18 款教育桌遊、兒童理財。減輕家長負擔，讓孩子快樂學習。",
+  title: "Learn.chparenting.com 親子多元學習平台 | 華人家庭免費英文・數學・閱讀・注音・AI 工具",
+  description: "Learn.chparenting.com 是專為華人家庭打造的免費親子多元學習平台，整合英文（全民英檢 GEPT 初級到中高級）、日文（JLPT N5-N1）、數學、閱讀、注音、AI 工具與親子共學資源，協助家長陪伴孩子自主學習。",
   alternates: { canonical: "https://learn.chparenting.com" },
 };
 
@@ -15,7 +15,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "親子多元學習平台",
-  description: "免費親子多元學習平台，提供全民英檢、日文、數學等互動學習資源",
+  description: "Learn.chparenting.com 是專為華人家庭打造的免費親子多元學習平台，整合英文、數學、閱讀、注音、AI 工具與親子共學資源，協助家長陪伴孩子自主學習。",
   url: SITE_URL,
   publisher: {
     "@type": "Organization",

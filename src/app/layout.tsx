@@ -19,9 +19,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "免費親子學習平台 | 全民英檢・日文檢定・數學・打字 | learn.chparenting.com",
-  description: "完全免費的親子學習平台，提供全民英檢 GEPT、日文檢定 JLPT N1-N5、數學練習、打字練習、教育桌遊、兒童理財等互動學習工具。孩子才是最強 AI。",
-  keywords: "親子學習, 免費學習, 全民英檢, GEPT, 英檢初級, 英檢中級, 英檢中高級, JLPT, 日文檢定, N5, 數學練習, 打字練習, 教育桌遊, 兒童理財, 免費英文學習, 免費日文學習",
+  title: "Learn.chparenting.com 親子多元學習平台 | 華人家庭免費英文・數學・閱讀・注音・AI 工具",
+  description: "Learn.chparenting.com 是專為華人家庭打造的免費親子多元學習平台，整合英文（全民英檢 GEPT 初級到中高級）、日文（JLPT N5-N1）、數學、閱讀、注音、AI 工具與親子共學資源，協助家長陪伴孩子自主學習。",
+  keywords: "親子多元學習平台, 華人家庭學習, 免費親子學習, 親子共學, 親子英文, 親子數學, AI 工具親子, 英文自主學習, 數學自主學習, 注音學習, 閱讀學習, 全民英檢, GEPT, 英檢初級, 英檢中級, 英檢中高級, JLPT, 日文檢定, N5, N4, N3, 數學練習, 打字練習, 教育桌遊, 兒童理財, 免費英文學習, 免費日文學習, learn.chparenting.com",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     title: "親子多元學習",
   },
   openGraph: {
-    title: "免費親子學習平台 | 全民英檢・日文檢定・數學・打字",
-    description: "完全免費的互動式學習平台：全民英檢 GEPT、日文檢定 JLPT、數學、打字、18 款教育桌遊、兒童理財。不用花補習費，孩子才是最強 AI。",
+    title: "Learn.chparenting.com 親子多元學習平台 | 華人家庭免費學習資源",
+    description: "Learn.chparenting.com 是專為華人家庭打造的免費親子多元學習平台，整合英文、數學、閱讀、注音、AI 工具與親子共學資源，協助家長陪伴孩子自主學習。",
     type: "website",
     url: "https://learn.chparenting.com",
     siteName: "親子多元學習平台",
@@ -38,8 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "免費親子學習平台 | 全民英檢・日文檢定・數學・打字",
-    description: "完全免費的互動式學習平台：全民英檢、日文檢定、數學、打字、教育桌遊、兒童理財。不用花補習費！",
+    title: "Learn.chparenting.com 親子多元學習平台 | 華人家庭免費學習資源",
+    description: "Learn.chparenting.com 是專為華人家庭打造的免費親子多元學習平台，整合英文、數學、閱讀、注音、AI 工具與親子共學資源，協助家長陪伴孩子自主學習。",
     images: ["https://learn.chparenting.com/og-image.png"],
   },
 };
