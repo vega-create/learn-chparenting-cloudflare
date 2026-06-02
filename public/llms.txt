@@ -1,0 +1,77 @@
+# Learn.chparenting.com 親子多元學習平台
+
+> Learn.chparenting.com 是專為華人家庭打造的免費親子多元學習平台，整合英文（全民英檢 GEPT 初級到中高級）、日文（JLPT N5-N1）、數學、閱讀、注音、AI 工具與親子共學資源，協助家長陪伴孩子自主學習。
+
+本站完全免費、不需註冊，由智慧媽咪國際有限公司（Mommy Wisdom International LTD.）營運。所有工具皆為原創設計，內容由台灣親子教育專家審核。
+
+## 學習工具
+
+- [GEPT 初級全民英檢](https://learn.chparenting.com/elementary): 國小高年級英檢初級備考題庫，含單字、文法、聽力、閱讀
+- [GEPT 初級模擬考](https://learn.chparenting.com/elementary/mock-test): 全民英檢初級線上模擬測驗，自動計分
+- [GEPT 中級全民英檢](https://learn.chparenting.com/intermediate): 國中以上英檢中級備考題庫
+- [GEPT 中高級全民英檢](https://learn.chparenting.com/upper-intermediate): 高中以上英檢中高級備考題庫
+- [JLPT N5 日文檢定](https://learn.chparenting.com/jlpt-n5): 日文五級入門，含五十音、單字、文法
+- [JLPT N4 日文檢定](https://learn.chparenting.com/jlpt-n4): 日文四級備考題庫
+- [JLPT N3 日文檢定](https://learn.chparenting.com/jlpt-n3): 日文三級備考題庫
+- [JLPT N2 日文檢定](https://learn.chparenting.com/jlpt-n2): 日文二級備考題庫
+- [JLPT N1 日文檢定](https://learn.chparenting.com/jlpt-n1): 日文一級備考題庫
+- [國小數學練習](https://learn.chparenting.com/math): 分年級分難度的數學練習題（含 10 以內加減到分數小數）
+- [國語學習](https://learn.chparenting.com/chinese-lang): 注音、國字書寫、閱讀理解練習
+- [歷史地理](https://learn.chparenting.com/history-geo): 國中小社會科互動學習
+- [樂理基礎](https://learn.chparenting.com/music): 兒童音樂理論啟蒙
+- [兒童理財遊戲](https://learn.chparenting.com/finance): 三罐法、消費 vs 想要的金錢觀啟蒙遊戲
+- [教育桌遊](https://learn.chparenting.com/board-games): 18 款適合親子共玩的學習桌遊
+- [中英文打字練習](https://learn.chparenting.com/typing-game): 兒童打字練習工具，分難度
+
+## 主要服務頁面
+
+- [家長陪伴指南](https://learn.chparenting.com/parent-guide): 給家長的陪伴方法與 30 秒摘要
+- [GEPT 初級陪伴指南](https://learn.chparenting.com/elementary/guide): 20 個單元的家長陪伴重點
+- [JLPT N5 陪伴指南](https://learn.chparenting.com/jlpt-n5/guide): 日文 N5 家長陪伴重點
+- [使用說明](https://learn.chparenting.com/how-to-use): 平台使用方式
+- [常見問題](https://learn.chparenting.com/faq): FAQ
+- [關於我們](https://learn.chparenting.com/about): 平台介紹
+
+## 部落格文章 (28 篇)
+
+- [兒童數學奧林匹亞準備全攻略：適合誰、怎麼開始、免費資源【家長必讀】](https://learn.chparenting.com/blog/math-olympiad-preparation): 孩子適不適合準備數學奧林匹亞？整理判斷標準、各年級準備重點、免費練習資源與真實參賽心得，給想培養數學資優的家庭一份務實指南。
+- [自學國小英文不靠補習班：每天 30 分鐘的完整在家學習計畫【2026 版】](https://learn.chparenting.com/blog/self-study-elementary-english): 國小英文不去補習班也能學好！整理每天 30 分鐘的具體學習計畫、按年級的進度安排、免費練習工具與家長陪讀技巧，零基礎也能在家自學成功。
+- [國小升國中銜接全攻略：6 大關鍵能力+暑假具體準備清單【2026 家長必讀】](https://learn.chparenting.com/blog/elementary-to-junior-high-transition): 國小升國中銜接該怎麼準備？整理 6 大關鍵能力、各科重點、心理建設與暑假 8 週計畫，附免費練習資源，讓孩子開學第一個月不卡關。
+- [全民英檢初級必背單字總整理：2000 個高頻單字這樣記最快【2026 完整版】](https://learn.chparenting.com/blog/gept-elementary-vocabulary): 全民英檢 GEPT 初級必備 2000 單字分類整理，搭配記憶技巧、每日學習計畫與免費線上練習工具，讓你用最短時間背完所有核心單字，一次通過初級考試。
+- [全民英檢中級怎麼準備？從初級跳到中級的完整升級攻略【2026最新】](https://learn.chparenting.com/blog/gept-intermediate-preparation): 通過全民英檢初級後，如何在 6 個月內挑戰中級？完整的準備策略、單字量提升方法、聽說讀寫各科技巧，搭配免費線上練習資源，讓你的英文能力再升一級。
+- [全民英檢初級準備攻略：3個月通過的完整計畫【2026最新】](https://learn.chparenting.com/blog/gept-elementary-3-month-plan): 完整的全民英檢GEPT初級3個月備考計畫，涵蓋每月學習重點、單字記憶技巧、聽力閱讀練習方法、模擬考策略，幫助國中生有效率地通過初級檢定。
+- [JLPT N3 自學就能過！零補習費的 6 個月讀書計畫【2026 完整攻略】](https://learn.chparenting.com/blog/jlpt-n3-self-study): 不用花錢補習也能通過 JLPT N3 日文檢定！完整的 6 個月自學計畫，涵蓋文法、單字、聽力、閱讀各科準備策略，搭配免費學習資源推薦，幫你從 N4 程度順利升級到 N3。
+- [兒童打字練習免費工具推薦（2026）：讓孩子愛上鍵盤的秘訣](https://learn.chparenting.com/blog/children-typing-practice): 孩子不愛打字、速度很慢？整理兒童打字練習的免費線上工具、最佳學習年齡、中英文練習順序，今天就能開始用。
+- [九九乘法背不起來？5 種趣味遊戲讓孩子笑著背完【爸媽必學】](https://learn.chparenting.com/blog/multiplication-table-games): 孩子九九乘法怎麼都背不起來？用這 5 種超有效的遊戲化記憶法，搭配免費線上練習工具，讓背乘法表變成有趣的親子活動，不用逼、不用罵，輕鬆記住。
+- [JLPT N5 入門完全指南：零基礎到通過的學習路線【2026最新】](https://learn.chparenting.com/blog/jlpt-n5-beginner-guide): 從零基礎開始準備JLPT N5日文檢定的完整學習路線，涵蓋五十音學習法、基礎文法整理、單字記憶技巧、聽力訓練方法，以及考試準備策略與免費學習資源推薦。
+- [孩子數學不好怎麼辦？別急著補習，先試這 7 個方法【家長必讀】](https://learn.chparenting.com/blog/math-struggling-kids): 孩子數學成績不理想，先別急著送補習班。7 個經過驗證的方法幫助國小學生提升數學能力，從建立信心到改善學習習慣，搭配免費線上練習資源，在家就能有效提升。
+- [鍵盤打字練習怎麼開始？從零基礎到盲打的完整路線圖](https://learn.chparenting.com/blog/keyboard-typing-beginner): 孩子從來沒練過打字，不知道從哪裡開始？手指位置、常見錯誤、30天練習計畫，一篇搞定。
+- [注音符號學不會？超有效的 37 個注音記憶口訣＋免費練習工具【2026 版】](https://learn.chparenting.com/blog/zhuyin-practice): 小一新生注音符號記不住？收錄 37 個注音符號的趣味記憶口訣，搭配免費線上練習工具、每日練習計畫，讓孩子在開學前就把注音學好，開心上小學不焦慮。
+- [如何陪孩子學英文？5 個爸媽在家就能做的方法【2026 實用指南】](https://learn.chparenting.com/blog/how-to-help-kids-learn-english): 不需要花大錢補習，爸媽在家就能幫助孩子建立英文基礎。分享 5 個經過驗證的親子英語學習方法，包含每日時間安排、免費資源推薦、常見錯誤觀念破解，讓學英文變成有趣的家庭活動。
+- [國小成語怎麼教？200 個必學成語分年級整理＋超好記學習法【收藏版】](https://learn.chparenting.com/blog/idiom-learning-guide): 國小必學成語完整整理，按年級分類並搭配造句範例。收錄 200 個常考成語、記憶技巧、故事教學法，幫助孩子輕鬆掌握成語，考試作文都適用。
+- [中英文打字練習一次搞定：適合台灣孩子的練習方式推薦](https://learn.chparenting.com/blog/chinese-english-typing): 台灣孩子要同時學注音打字和英文打字？本文整理中英切換技巧、注音輸入法建議、免費練習工具，讓孩子兩種都學好。
+- [小朋友學音樂前必看！樂理基礎入門：音符、音階、節拍一次搞懂【免費學習】](https://learn.chparenting.com/blog/music-theory-for-kids): 孩子想學鋼琴、吉他或任何樂器前，先了解基礎樂理！從音符、音階、節拍到和弦，用最簡單的方式解釋給孩子聽，搭配免費線上樂理練習工具，為音樂之路打好基礎。
+- [孩子邏輯思維怎麼練？10 個免費線上邏輯遊戲，越玩越聰明【2026 精選】](https://learn.chparenting.com/blog/logic-games-for-kids): 想提升孩子的邏輯思維和問題解決能力？精選 10 個適合國小學生的免費線上邏輯遊戲，涵蓋程式邏輯、空間推理、策略思考，讓孩子在遊戲中自然培養邏輯力。
+- [小學生學程式設計：不用花錢補習，在家就能開始的免費入門指南【2026】](https://learn.chparenting.com/blog/coding-for-kids): 程式設計已納入 108 課綱，孩子幾歲可以開始學？不用花大錢上程式補習班，用免費資源在家就能啟蒙。從 Scratch 到邏輯遊戲，循序漸進的學習路線完整規劃。
+- [JLPT N4 日檢怎麼準備？報名費、考期、免費練習資源整理（2026）](https://learn.chparenting.com/blog/jlpt-n4-guide): 想考日檢 N4 不知道從哪開始？本文整理 2026 年 JLPT 報名費、考試日期、備考時間建議，附免費線上練習工具推薦。
+- [N4 日文怎麼自學？親子一起學日語的 6 個月計畫](https://learn.chparenting.com/blog/n4-japanese-self-study): 想讓孩子學日文，或想陪孩子一起學？從 N4 程度說明、自學路線到免費工具，一篇幫你規劃完整的親子日語學習計畫。
+- [線上模擬考試工具推薦：幫孩子建立考試臨場感的免費資源](https://learn.chparenting.com/blog/mock-test-tools): 孩子每次考試都很緊張？平常練習和正式考試差很多？推薦免費線上 mock test 工具，讓孩子提前適應考試節奏。
+- [兒童理財教育怎麼開始？推薦從遊戲切入的免費學習工具](https://learn.chparenting.com/blog/children-financial-education): 孩子對金錢沒概念、亂花零用錢？從幾歲開始教、教什麼、怎麼教，用遊戲方式讓孩子自然學會理財觀念。
+- [零用錢怎麼給才對？3 種方法教孩子從小管理金錢](https://learn.chparenting.com/blog/pocket-money-management): 要給固定零用錢還是任務制？幾歲給、給多少合理？整理 3 種零用錢給法的優缺點，找到最適合你家孩子的方式。
+- [親子多元學習平台完整介紹：learn.chparenting.com 有哪些免費工具？](https://learn.chparenting.com/blog/learn-platform-intro): 一個專為台灣親子設計的免費學習平台，整合打字練習、日文學習、理財遊戲、模擬考試等工具，幫孩子用對方法學習。
+- [打字速度測試：孩子打字多快才算正常？各年齡標準參考](https://learn.chparenting.com/blog/typing-speed-standard): 孩子打字速度到底夠不夠快？整理台灣各年齡打字速度參考標準、影響速度的因素，附免費線上打字速度測試工具。
+- [日文五十音怎麼記？親子一起學的 5 種趣味記憶法](https://learn.chparenting.com/blog/hiragana-katakana-memory): 五十音背了又忘、記了又混？整理 5 種有效的五十音記憶技巧，加上免費練習工具推薦，親子一起學更有趣。
+- [孩子學習動力不足怎麼辦？用遊戲化學習提升主動性](https://learn.chparenting.com/blog/children-learning-motivation): 孩子不愛讀書、學什麼都提不起勁？本文分析學習動力下降的原因，分享 3 個在家就能用的遊戲化學習方法。
+
+## 相關網站
+
+- [媽媽生活復原力 Lab (chparenting.com)](https://chparenting.com): 媽媽情緒、育兒挑戰、生活實用文章
+- [Adventure English 冒險英語 (english.chparenting.com)](https://english.chparenting.com): 兒童英文學習部落格
+- [亞洲媽媽創業 (mommystartup.com)](https://mommystartup.com): 媽媽創業、副業、AI 工具
+- [跟著媽咪團好康 (mommywisdom.tw)](https://mommywisdom.tw): 親子團購、優惠
+
+## 作者資訊
+
+- **Vega Lin（薇佳媽咪）** — 創辦人，台灣兩個孩子的媽媽，數位行銷工作者，東海大學數位創新研究所碩士生。
+- 8+ 年數位廣告經驗（Google Ads, Facebook Ads, SEO）。前英文老師，自學日文。
+- 自學寫程式，用 Next.js + Claude AI 打造這個免費學習平台。
