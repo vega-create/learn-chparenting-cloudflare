@@ -1,0 +1,13 @@
+# robots.txt for learn.chparenting.com
+# 親子多元學習 — 啟蒙至中高級英文閱讀、單字、文法、發音
+# Policy: allow all well-behaved crawlers (search + AI) for discoverability.
+
+# Content Signals (contentsignals.org, RFC draft-romm-aipref-contentsignals)
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://learn.chparenting.com/sitemap.xml
