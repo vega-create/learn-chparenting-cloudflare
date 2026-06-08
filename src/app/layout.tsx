@@ -131,6 +131,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <img height="1" width="1" style={{ display: "none" }}
             src="https://www.facebook.com/tr?id=701206276303500&ev=PageView&noscript=1" />
         </noscript>
+        {/* Teleworker ad network */}
+        <script src="https://storage.googleapis.com/teleworker-public-storage/gad_js/net.min.js" async />
       </head>
       <body className="min-h-screen pb-16 md:pb-0">
         <SpeechCleanup />
