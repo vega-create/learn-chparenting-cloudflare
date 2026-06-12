@@ -1,4 +1,6 @@
 import ClientPage from "./ClientPage";
+import { getGradeById, getTopicByIds } from "@/data/chinese-lang";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return [
@@ -16,6 +18,24 @@ export function generateStaticParams() {
     { gradeId: "high", topicId: "reading" },
     { gradeId: "high", topicId: "grammar" },
   ];
+}
+
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ gradeId: string; topicId: string }>;
+}): Promise<Metadata> {
+  const { gradeId, topicId } = await params;
+  const parent = getGradeById(gradeId);
+  const found = getTopicByIds(gradeId, topicId);
+  if (!parent || !found) return {};
+  const topic = found.topic;
+  return {
+    title: `${topic.title}（${parent.title.replace(/（.*）/, "")}）｜國小國語練習 | learn.chparenting.com`,
+    description: `免費國小國語「${parent.title}」${topic.title}線上練習：${topic.description}。互動式題目即時回饋，適合國小學童，免費使用無需註冊。`,
+    alternates: { canonical: `https://learn.chparenting.com/chinese-lang/${gradeId}/${topicId}` },
+  };
 }
 
 export default function Page() {

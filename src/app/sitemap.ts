@@ -44,6 +44,23 @@ const FINANCE_MODULES = [
   "allowance-budget", "red-envelope", "expense-tracker",
 ];
 
+// 與各 section page.tsx 的 generateStaticParams 同步
+const CHINESE_TOPICS: [string, string[]][] = [
+  ["lower", ["zhuyin", "characters", "vocabulary", "reading"]],
+  ["middle", ["idioms", "reading", "writing"]],
+  ["high", ["idioms", "reading", "grammar"]],
+];
+const HISTGEO_TOPICS: [string, string[]][] = [
+  ["taiwan", ["taiwan-history", "taiwan-geography", "taiwan-culture"]],
+  ["asia", ["asia-history", "asia-geography"]],
+  ["world", ["world-history", "world-geography", "world-culture"]],
+];
+const MUSIC_TOPICS: [string, string[]][] = [
+  ["intro", ["notes", "rhythm", "pitch"]],
+  ["basic", ["scales", "intervals", "dynamics"]],
+  ["advanced", ["chords", "form", "knowledge"]],
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     // Platform pages
@@ -109,29 +126,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Chinese language section
     { url: `${BASE}/chinese-lang`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
-    ...["lower", "middle", "high"].map(id => ({
-      url: `${BASE}/chinese-lang/${id}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
+    ...CHINESE_TOPICS.flatMap(([grade, topics]) => [
+      { url: `${BASE}/chinese-lang/${grade}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 },
+      ...topics.map(t => ({
+        url: `${BASE}/chinese-lang/${grade}/${t}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      })),
+    ]),
 
     // History & geography section
     { url: `${BASE}/history-geo`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
-    ...["taiwan", "asia", "world"].map(id => ({
-      url: `${BASE}/history-geo/${id}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
+    ...HISTGEO_TOPICS.flatMap(([region, topics]) => [
+      { url: `${BASE}/history-geo/${region}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 },
+      ...topics.map(t => ({
+        url: `${BASE}/history-geo/${region}/${t}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      })),
+    ]),
 
     // Music section
     { url: `${BASE}/music`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
-    ...["intro", "basic", "advanced"].map(id => ({
-      url: `${BASE}/music/${id}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
+    ...MUSIC_TOPICS.flatMap(([level, topics]) => [
+      { url: `${BASE}/music/${level}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 },
+      ...topics.map(t => ({
+        url: `${BASE}/music/${level}/${t}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      })),
+    ]),
   ];
 }
