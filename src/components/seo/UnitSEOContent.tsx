@@ -41,6 +41,11 @@ export default function UnitSEOContent({ level, unit, vocabItems, grammarItems, 
           this long block. Google still indexes content inside <details> normally. */}
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
 
+        {/* 頁面唯一的 h1（互動區是 client component 沒有語意標題）；sr-only 不影響版面 */}
+        <h1 className="sr-only">
+          {level.displayName} Unit {unit.id}：{unit.title}{unit.titleJa ? `（${unit.titleJa}）` : ""}
+        </h1>
+
         <details className="group seo-details">
           <summary className="flex items-center justify-between gap-3 cursor-pointer list-none select-none rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 px-4 py-3 md:px-5 md:py-4 border border-blue-100 transition [&::-webkit-details-marker]:hidden [&::marker]:hidden">
             <span className="font-bold text-slate-800 text-[15px] md:text-base">

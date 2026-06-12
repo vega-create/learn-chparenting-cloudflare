@@ -51,7 +51,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE}/how-to-use`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
-    { url: `${BASE}/login`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
     { url: `${BASE}/achievements`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE}/exam-info`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/parent-guide`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
@@ -103,6 +102,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/finance`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
     ...FINANCE_MODULES.map(id => ({
       url: `${BASE}/finance/${id}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+
+    // Chinese language section
+    { url: `${BASE}/chinese-lang`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
+    ...["lower", "middle", "high"].map(id => ({
+      url: `${BASE}/chinese-lang/${id}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+
+    // History & geography section
+    { url: `${BASE}/history-geo`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
+    ...["taiwan", "asia", "world"].map(id => ({
+      url: `${BASE}/history-geo/${id}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+
+    // Music section
+    { url: `${BASE}/music`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
+    ...["intro", "basic", "advanced"].map(id => ({
+      url: `${BASE}/music/${id}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,

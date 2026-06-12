@@ -90,11 +90,13 @@ export function generateUnitMetadata(level: LevelInfo, unit: UnitSEOInput | unde
       siteName: "親子多元學習平台",
       type: "article",
       locale: level.language === "ja" ? "ja_JP" : "zh_TW",
+      images: [{ url: `${BASE}/og-image.png`, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [`${BASE}/og-image.png`],
     },
     robots: {
       index: true,
