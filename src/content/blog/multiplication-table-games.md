@@ -5,7 +5,7 @@ date: "2026-03-13"
 category: "數學學習"
 tags: ["九九乘法", "數學", "數學遊戲", "國小數學", "背誦技巧", "遊戲化學習", "親子學習"]
 author: "Mommy Wisdom"
-image: ""
+image: "/images/blog/multiplication-table-games.png"
 faq:
   - q: "孩子幾歲開始背九九乘法比較好？"
     a: "大部分學校在二年級下學期開始教九九乘法，但如果孩子在大班或一年級就對數字有興趣，可以用遊戲的方式先接觸 2、5、10 的倍數，不需要強迫背誦。"

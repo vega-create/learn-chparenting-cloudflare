@@ -5,7 +5,7 @@ date: "2026-03-13"
 category: "學習工具"
 tags: ["兒童打字練習", "打字練習", "鍵盤打字練習", "兒童學習", "免費學習工具"]
 author: "Vega"
-image: ""
+image: "/images/blog/children-typing-practice.png"
 faq:
   - q: "幾歲開始讓孩子練打字最合適？"
     a: "一般建議 6–8 歲，手指協調能力發展後開始練習效果最好。太早練習容易因為手小操作困難而產生挫折感。"

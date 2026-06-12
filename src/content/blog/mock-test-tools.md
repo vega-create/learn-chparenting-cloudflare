@@ -5,7 +5,7 @@ date: "2026-03-03"
 category: "學習工具"
 tags: ["mock test", "模擬考試", "線上測驗", "考試練習", "兒童學習"]
 author: "Vega"
-image: ""
+image: "/images/blog/mock-test-tools.png"
 faq:
   - q: "模擬考試工具和一般練習題有什麼差別？"
     a: "模擬考試工具通常有計時功能和完整的題目格式，更接近真實考試情境。這種臨場感練習可以降低正式考試時的焦慮。"

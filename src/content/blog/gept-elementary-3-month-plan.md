@@ -5,6 +5,7 @@ date: "2026-03-14"
 category: "英檢攻略"
 tags: ["全民英檢", "GEPT", "初級", "考試準備", "學習計畫", "英文學習", "國中英文"]
 author: "Mommy Wisdom"
+image: "/images/blog/gept-elementary-3-month-plan.png"
 faq:
   - q: "全民英檢初級難嗎？通過率大概多少？"
     a: "初級的難度大約等同國中畢業程度。根據歷年資料，初試通過率約 50～60%，只要有系統地準備 3 個月，通過的機率非常高。"

@@ -5,7 +5,7 @@ date: "2026-03-09"
 category: "學習工具"
 tags: ["中英打字練習", "打字練習中文", "注音打字", "英文打字練習", "兒童打字"]
 author: "Vega"
-image: ""
+image: "/images/blog/chinese-english-typing.png"
 faq:
   - q: "注音輸入法和拼音輸入法哪個比較好？"
     a: "在台灣建議學注音輸入法，因為學校和大部分工作環境都用注音。如果孩子有學普通話，可以兩種都學，未來彈性更大。"

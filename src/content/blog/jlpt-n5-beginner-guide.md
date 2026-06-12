@@ -5,6 +5,7 @@ date: "2026-03-12"
 category: "日檢攻略"
 tags: ["JLPT", "N5", "日文檢定", "日語學習", "五十音", "日文入門", "日檢準備"]
 author: "Mommy Wisdom"
+image: "/images/blog/jlpt-n5-beginner-guide.png"
 faq:
   - q: "完全零基礎要準備多久才能通過 N5？"
     a: "一般建議 3～6 個月，每天學習 30～60 分鐘。如果能持續不中斷地學習，3 個月也有機會通過。利用 JLPT N5 練習 系統化學習，效率會更高。"

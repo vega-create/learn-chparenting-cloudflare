@@ -5,7 +5,7 @@ date: "2026-03-07"
 category: "程式設計"
 tags: ["程式設計", "coding", "STEAM", "Scratch", "108課綱", "兒童程式", "邏輯思維"]
 author: "Mommy Wisdom"
-image: ""
+image: "/images/blog/coding-for-kids.png"
 faq:
   - q: "孩子幾歲可以開始學程式設計？"
     a: "不插電的邏輯活動 4 歲就能開始，Scratch Jr 適合 5–7 歲，正式的 Scratch 程式設計建議 8 歲以上。重點不是年齡，而是孩子的興趣和認知準備度。"

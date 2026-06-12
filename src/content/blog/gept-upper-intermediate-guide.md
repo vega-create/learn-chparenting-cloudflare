@@ -5,7 +5,7 @@ date: "2026-06-12"
 category: "英檢攻略"
 tags: ["GEPT中高級", "全民英檢", "英檢攻略", "英文檢定", "聽說讀寫", "備考計畫", "B2"]
 author: "Mommy Wisdom"
-image: ""
+image: "/images/blog/gept-upper-intermediate-guide.png"
 faq:
   - q: "GEPT 中高級相當於什麼程度？多益幾分？"
     a: "GEPT 中高級對應 CEFR B2 等級，大約等同多益 785 分以上、雅思 5.5-6.5 的程度。字彙量需求約 8000 字，是「能在工作與學術場合流暢使用英文」的指標，許多大學把它列為畢業門檻或研究所申請的加分條件。"

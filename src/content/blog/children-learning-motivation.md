@@ -5,7 +5,7 @@ date: "2026-02-19"
 category: "親子教育"
 tags: ["孩子學習動力", "遊戲化學習", "兒童學習方法", "提升學習興趣", "親子學習"]
 author: "Vega"
-image: ""
+image: "/images/blog/children-learning-motivation.png"
 faq:
   - q: "孩子學習動力不足，是因為懶惰嗎？"
     a: "通常不是懶惰的問題，而是學習方式和孩子的特質不匹配，或者孩子感受不到學習的成就感。找到對的切入點比罵孩子有效多了。"

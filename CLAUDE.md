@@ -9,7 +9,7 @@
 - **樣式**：Tailwind CSS 3.4.1
 - **認證**：Supabase Auth (Google OAuth)
 - **資料庫**：無傳統 DB — 全部用靜態 TS 資料檔 + localStorage
-- **部署**：Vercel
+- **部署**：Cloudflare Pages（@cloudflare/next-on-pages，push main 自動部署）
 - **組織**：智慧媽咪國際有限公司 (Mommy Wisdom International LTD)
 
 ## 核心功能

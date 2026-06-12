@@ -5,7 +5,7 @@ date: "2026-02-21"
 category: "語言學習"
 tags: ["日文五十音", "五十音表", "平假名", "片假名", "日文入門"]
 author: "Vega"
-image: ""
+image: "/images/blog/hiragana-katakana-memory.png"
 faq:
   - q: "平假名和片假名哪個先學？"
     a: "建議先學平假名，因為日文書籍和教材主要用平假名標注。學完平假名大約需要 1–2 週，熟練後再學片假名會快很多。"

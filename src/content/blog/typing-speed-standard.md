@@ -5,7 +5,7 @@ date: "2026-02-23"
 category: "學習工具"
 tags: ["打字速度測試", "打字速度", "兒童打字", "打字練習", "鍵盤練習"]
 author: "Vega"
-image: ""
+image: "/images/blog/typing-speed-standard.png"
 faq:
   - q: "台灣國小學生的平均打字速度是多少？"
     a: "沒有官方統計，但一般參考標準是國小高年級能達到注音每分鐘 20–30 字，國中生 30–50 字左右算基本流暢。"

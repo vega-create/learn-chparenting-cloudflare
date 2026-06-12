@@ -5,7 +5,7 @@ date: "2026-03-11"
 category: "學習工具"
 tags: ["鍵盤打字練習", "鍵盤練習", "打字入門", "盲打練習", "兒童學習"]
 author: "Vega"
-image: ""
+image: "/images/blog/keyboard-typing-beginner.png"
 faq:
   - q: "打字一定要學盲打嗎？"
     a: "盲打不是必須，但會讓打字速度快很多。建議從一開始就養成正確手指位置的習慣，比後來改姿勢容易很多。"

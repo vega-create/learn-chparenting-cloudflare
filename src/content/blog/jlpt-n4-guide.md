@@ -5,7 +5,7 @@ date: "2026-03-07"
 category: "語言學習"
 tags: ["日檢報名費", "JLPT N4", "日文檢定", "日語考試", "日文學習"]
 author: "Vega"
-image: ""
+image: "/images/blog/jlpt-n4-guide.png"
 faq:
   - q: "JLPT N4 報名費是多少？"
     a: "台灣的 JLPT 報名費依考試級數不同，N4/N5 約為 800–1000 元台幣，每年調整，建議至時報名官網確認最新費用。"

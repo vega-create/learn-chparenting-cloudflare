@@ -45,6 +45,7 @@ export default function BlogPage() {
         author: { '@type': 'Person', name: p.author },
         articleSection: p.category,
         keywords: p.tags.join(', '),
+        ...(p.image ? { image: `https://learn.chparenting.com${p.image}` } : {}),
       })),
     },
   };
@@ -67,6 +68,7 @@ export default function BlogPage() {
     tags: p.tags,
     readingTime: p.readingTime,
     author: p.author,
+    image: p.image,
   }));
 
   return (

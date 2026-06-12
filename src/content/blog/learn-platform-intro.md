@@ -5,7 +5,7 @@ date: "2026-02-25"
 category: "學習工具"
 tags: ["親子多元學習平台", "兒童學習平台", "免費學習工具", "親子學習", "線上學習"]
 author: "Vega"
-image: ""
+image: "/images/blog/learn-platform-intro.png"
 faq:
   - q: "這個平台適合幾歲的孩子？"
     a: "平台上的工具涵蓋不同年齡，從幼兒理財概念到國高中日文備考都有。每個工具頁面會說明適合的年齡範圍。"

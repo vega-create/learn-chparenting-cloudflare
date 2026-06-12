@@ -5,7 +5,7 @@ date: "2026-03-01"
 category: "親子教育"
 tags: ["兒童理財遊戲", "兒童理財教育", "兒童財商", "親子理財", "小孩學理財"]
 author: "Vega"
-image: ""
+image: "/images/blog/children-financial-education.png"
 faq:
   - q: "幾歲開始教孩子理財最合適？"
     a: "3–4 歲就可以開始用具體的硬幣讓孩子認識金錢，6 歲後開始給零用錢並教記帳，10 歲後可以開始談投資概念。"

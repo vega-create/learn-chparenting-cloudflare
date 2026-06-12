@@ -5,7 +5,7 @@ date: "2026-03-05"
 category: "語言學習"
 tags: ["n4 日文", "日文自學", "親子學日文", "日語入門", "語言學習"]
 author: "Vega"
-image: ""
+image: "/images/blog/n4-japanese-self-study.png"
 faq:
   - q: "親子一起學日文有什麼好處？"
     a: "爸媽和孩子一起學習，孩子的學習動力會明顯提高。而且日常生活中可以互相練習，比孩子單獨上課效果更好。"

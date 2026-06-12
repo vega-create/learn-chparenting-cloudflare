@@ -5,7 +5,7 @@ date: "2026-03-08"
 category: "邏輯思維"
 tags: ["邏輯", "邏輯遊戲", "桌遊", "程式邏輯", "問題解決", "STEAM", "兒童教育"]
 author: "Mommy Wisdom"
-image: ""
+image: "/images/blog/logic-games-for-kids.png"
 faq:
   - q: "孩子幾歲開始玩邏輯遊戲比較好？"
     a: "4 歲就可以開始玩簡單的配對和排序遊戲，正式的邏輯推理遊戲建議 6 歲以後，配合孩子的認知發展階段效果最好。"

@@ -5,7 +5,7 @@ date: "2026-02-27"
 category: "親子教育"
 tags: ["兒童理財教育", "零用錢", "孩子存錢", "兒童財商教育", "親子教育"]
 author: "Vega"
-image: ""
+image: "/images/blog/pocket-money-management.png"
 faq:
   - q: "給零用錢之前需要先設什麼規則嗎？"
     a: "建議先和孩子討論零用錢的用途，哪些東西爸媽會買、哪些要自己用零用錢買說清楚。規則訂清楚，孩子才知道怎麼分配。"

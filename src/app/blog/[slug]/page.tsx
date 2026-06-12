@@ -16,6 +16,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostWithHtml(slug);
   if (!post) return {};
 
+  const ogImage = post.image
+    ? `https://learn.chparenting.com${post.image}`
+    : 'https://learn.chparenting.com/og-image.png';
+
   return {
     title: `${post.title} | 親子多元學習平台`,
     description: post.description,
@@ -32,11 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: [post.author],
       tags: post.tags,
       locale: 'zh_TW',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
+      images: [ogImage],
     },
     robots: {
       index: true,
@@ -132,6 +138,7 @@ export default async function BlogPostPage({ params }: Props) {
     articleSection: post.category,
     inLanguage: 'zh-TW',
     wordCount: post.content.length,
+    ...(post.image ? { image: `https://learn.chparenting.com${post.image}` } : {}),
   };
 
   const breadcrumbJsonLd = {
@@ -199,6 +206,17 @@ export default async function BlogPostPage({ params }: Props) {
           ))}
         </div>
       </header>
+
+      {/* Hero Image */}
+      {post.image && (
+        <img
+          src={post.image}
+          alt={post.title}
+          width={1200}
+          height={630}
+          className="w-full rounded-2xl border border-slate-200 shadow-sm mb-8"
+        />
+      )}
 
       {/* Table of Contents */}
       {post.toc && <TableOfContents toc={post.toc} />}

@@ -11,6 +11,7 @@ interface Post {
   tags: string[];
   readingTime?: number;
   author: string;
+  image?: string;
 }
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
@@ -75,6 +76,16 @@ export default function BlogCategoryFilter({ posts, categories }: { posts: Post[
               href={`/blog/${post.slug}`}
               className="group bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-200 no-underline"
             >
+              {post.image && (
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  width={1200}
+                  height={630}
+                  loading="lazy"
+                  className="w-full aspect-[1200/630] object-cover"
+                />
+              )}
               <div className="p-6">
                 <div className="flex items-center gap-2 mb-3">
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${style.bg} ${style.text} ${style.border}`}>

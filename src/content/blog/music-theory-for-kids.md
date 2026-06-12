@@ -5,7 +5,7 @@ date: "2026-03-09"
 category: "音樂學習"
 tags: ["樂理", "音樂", "音符", "音階", "節拍", "兒童音樂", "學樂器"]
 author: "Mommy Wisdom"
-image: ""
+image: "/images/blog/music-theory-for-kids.png"
 faq:
   - q: "孩子幾歲可以開始學樂理？"
     a: "4 歲左右就可以從節拍感和音高辨別開始接觸，正式的樂理符號學習建議 6 歲以後，配合認字能力一起進行效果最好。"

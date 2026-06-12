@@ -5,6 +5,7 @@ date: "2026-03-14"
 category: "日文學習"
 tags: ["JLPT", "N3", "日文檢定", "日文自學", "學習計畫", "免費學習", "日語"]
 author: "Mommy Wisdom"
+image: "/images/blog/jlpt-n3-self-study.png"
 faq:
   - q: "N3 自學真的可以通過嗎？"
     a: "絕對可以！N3 的內容雖然比 N4/N5 多很多，但只要有系統地準備 6 個月，自學通過的人非常多。關鍵是每天堅持和做大量練習題。"
