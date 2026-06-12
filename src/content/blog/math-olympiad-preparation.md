@@ -174,6 +174,8 @@ faq:
 - 《**數學想想：透過故事學奧林匹亞**》
 - 《**AMC 8 完整題解》系列**
 
+課內基礎不穩的話，先用[應用題練習](/math/word-problems)和[代數入門](/math/intro-algebra)把觀念補齊；邏輯推理則可以拿[迷你數獨](/board-games/mini-sudoku)和[數列探險](/board-games/sequence-quest)當每日暖身。
+
 ## 不要犯這 5 個常見錯誤
 
 ### 錯誤 1：題目越難越好

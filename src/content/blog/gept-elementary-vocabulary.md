@@ -39,7 +39,7 @@ faq:
 
 ### 第一類：日常生活（最常考！）
 
-這是初級考試出題頻率最高的類別，幾乎每次考試都會出現。
+這是初級考試出題頻率最高的類別，幾乎每次考試都會出現。家庭成員相關的單字，可以直接用 [Unit 2 家人與人物描述](/elementary/unit/2) 搭配例句一起練，記得更牢。
 
 **家庭成員：**
 father, mother, brother, sister, grandfather, grandmother, uncle, aunt, cousin, daughter, son, parent, family, husband, wife
@@ -69,6 +69,8 @@ study, learn, read, write, listen, speak, practice, review, remember, forget, un
 **學用品：**
 book, notebook, pencil, pen, eraser, ruler, dictionary, backpack, textbook, homework, exam, grade, score
 
+這一整類單字在 [Unit 4 學校生活與科目](/elementary/unit/4) 都有互動練習，邊做題邊記，效果比抄寫好得多。
+
 ### 第三類：食物與購物
 
 **水果蔬菜：**
@@ -80,6 +82,8 @@ breakfast, lunch, dinner, snack, meal, rice, bread, noodle, soup, salad, sandwic
 **購物用語：**
 buy, sell, pay, cost, price, cheap, expensive, money, dollar, change, store, shop, market, size, color, try on, receipt
 
+想在情境中記熟這些字，可以到 [Unit 3 食物與飲料](/elementary/unit/3) 實際演練點餐和飲食的對話場景。
+
 ### 第四類：天氣與自然
 
 **天氣描述：**
@@ -88,6 +92,8 @@ sunny, cloudy, rainy, windy, snowy, hot, cold, warm, cool, wet, dry, foggy, stor
 **自然環境：**
 sun, moon, star, sky, cloud, rain, snow, wind, mountain, river, lake, ocean, sea, beach, forest, tree, flower, grass, rock, island
 
+天氣是聽力測驗的常客，建議搭配 [Unit 6 天氣與季節](/elementary/unit/6) 把單字和常考句型一次練齊。
+
 ### 第五類：交通與旅行
 
 **交通工具：**
@@ -95,6 +101,8 @@ car, bus, train, airplane, bicycle, motorcycle, taxi, subway, boat, ship
 
 **旅行用語：**
 travel, trip, visit, arrive, leave, depart, ticket, passport, hotel, airport, station, map, luggage, tour, foreign, country
+
+交通工具和問路的對話，在 [Unit 8 交通與問路](/elementary/unit/8) 有完整的情境練習，考前一定要走過一遍。
 
 ### 第六類：描述與感受
 
