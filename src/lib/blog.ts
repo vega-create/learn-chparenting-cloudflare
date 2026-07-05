@@ -3,7 +3,23 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkGfm from 'remark-gfm';
-import html from 'remark-html';
+import remarkRehype from 'remark-rehype';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
+import rehypeStringify from 'rehype-stringify';
+
+// Sanitize schema: block <script>/<iframe>/event handlers (XSS) while keeping
+// the raw HTML our posts legitimately use — tables, divs, inline styles.
+// (rehype-raw parses raw HTML into the tree so it can be sanitized instead of
+// dropped, which is what remark-html's sanitize option would do.)
+const sanitizeSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    '*': [...(defaultSchema.attributes?.['*'] ?? []), 'style', 'className', 'class'],
+  },
+  tagNames: [...(defaultSchema.tagNames ?? []), 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'details', 'summary'],
+};
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content/blog');
 
@@ -107,7 +123,10 @@ export async function getPostWithHtml(slug: string): Promise<BlogPost | null> {
 
   const processed = await remark()
     .use(remarkGfm)
-    .use(html, { sanitize: false })
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeSanitize, sanitizeSchema)
+    .use(rehypeStringify)
     .process(post.content);
   let htmlStr = processed.toString();
 

@@ -113,11 +113,15 @@ function buildEmailHtml(bookName: string, ebookSlug: string, guideUrl: string): 
 </html>`.trim();
 }
 
+// Practical email shape check: one @, no spaces/control chars, has a TLD.
+// RFC 5321 caps addresses at 254 chars.
+const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]+\.[^\s@]{2,}$/;
+
 export async function POST(request: Request) {
   try {
     const { email, ebookSlug } = await request.json();
 
-    if (!email || typeof email !== "string" || !email.includes("@")) {
+    if (typeof email !== "string" || email.length > 254 || !EMAIL_RE.test(email.trim())) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
 
@@ -129,21 +133,20 @@ export async function POST(request: Request) {
     const bookName = BOOK_NAMES[ebookSlug];
     const guideUrl = GUIDE_URLS[ebookSlug];
 
-    // 1. Store email in Supabase
+    // 1. Store email in Supabase.
+    // Plain INSERT (not upsert): the RLS policy only allows INSERT, and a
+    // duplicate email (23505) just means they're already subscribed — fine.
     const supabase = await createServerSupabaseClient();
     if (supabase) {
       const { error: dbError } = await supabase
         .from("newsletter_subscribers")
-        .upsert(
-          {
-            email: cleanEmail,
-            source: `ebook-${ebookSlug}`,
-            is_active: true,
-          },
-          { onConflict: "email" }
-        );
+        .insert({
+          email: cleanEmail,
+          source: `ebook-${ebookSlug}`,
+          is_active: true,
+        });
 
-      if (dbError) {
+      if (dbError && dbError.code !== "23505") {
         console.error("Supabase error:", dbError);
       }
     }

@@ -2,11 +2,15 @@ export const runtime = "edge";
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 
+// Practical email shape check: one @, no spaces/control chars, has a TLD.
+// RFC 5321 caps addresses at 254 chars.
+const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]+\.[^\s@]{2,}$/;
+
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();
 
-    if (!email || typeof email !== "string" || !email.includes("@")) {
+    if (typeof email !== "string" || email.length > 254 || !EMAIL_RE.test(email.trim())) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
 

@@ -30,6 +30,18 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { questionId, subject, isCorrect } = await request.json();
+
+    // Validate: reject junk before it reaches the database.
+    // subject is a human-readable category name (e.g. "英檢初級") — length-capped
+    // rather than whitelisted so new categories don't silently break tracking.
+    if (
+      typeof questionId !== "string" || questionId.length === 0 || questionId.length > 100 ||
+      typeof subject !== "string" || subject.length === 0 || subject.length > 30 ||
+      typeof isCorrect !== "boolean"
+    ) {
+      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    }
+
     const today = getToday();
 
     const supabase = await createServerSupabaseClient();
