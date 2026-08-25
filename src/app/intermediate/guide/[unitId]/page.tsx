@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 import { INTER_UNITS } from "@/data/intermediate";
 import { GEPT_INTERMEDIATE_GUIDES } from "@/data/guides/gept-intermediate-guides";
 import GuidePageClient from "./GuidePageClient";
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${title} | GEPT 中級 | learn.chparenting.com`,
     description: `不知道怎麼陪孩子學${unit?.title || "英文"}？30 秒看完就知道今天陪什麼、怎麼陪、要多久。`,
+    robots: NOINDEX_FOLLOW,
   };
 }
 

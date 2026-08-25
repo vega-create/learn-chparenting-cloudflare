@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 import { N1_UNITS } from "@/data/jlpt-n1";
 import AnswerPageClient from "./AnswerPageClient";
 
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${title} | 日文 N1 | learn.chparenting.com`,
     description: `日文 N1${unit?.title || ""}練習單答案與詳細解析，幫助孩子理解每一題的解題思路。`,
+    robots: NOINDEX_FOLLOW,
   };
 }
 

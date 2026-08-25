@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 import { N4_UNITS } from "@/data/jlpt-n4";
 import { JLPT_N4_GUIDES } from "@/data/guides/jlpt-n4-guides";
 import GuidePageClient from "./GuidePageClient";
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${title} | 日文 N4 | learn.chparenting.com`,
     description: `不知道怎麼陪孩子學${unit?.title || "日文"}？30 秒看完就知道今天陪什麼、怎麼陪、要多久。`,
+    robots: NOINDEX_FOLLOW,
   };
 }
 

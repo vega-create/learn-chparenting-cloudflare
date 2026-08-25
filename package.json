@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/generate-llms-txt.mjs",
+    "prebuild": "node scripts/generate-content-dates.mjs && node scripts/generate-llms-txt.mjs",
     "build": "next build",
     "pages:build": "npx @cloudflare/next-on-pages",
     "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-date=2024-01-01 --compatibility-flag=nodejs_compat",
