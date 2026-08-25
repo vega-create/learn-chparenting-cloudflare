@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LevelInfo, UnitSEOInput, unitLearningResourceJsonLd } from "@/lib/unit-seo";
+import { getUnitGuide } from "@/lib/unit-guides";
 
 /**
  * Server-rendered SEO content block that sits BELOW the interactive
@@ -32,6 +33,7 @@ interface Props {
 
 export default function UnitSEOContent({ level, unit, vocabItems, grammarItems, prevUnit, nextUnit }: Props) {
   const ld = unitLearningResourceJsonLd(level, unit);
+  const guide = getUnitGuide(level.slug, unit.id);
 
   return (
     <>
@@ -45,6 +47,36 @@ export default function UnitSEOContent({ level, unit, vocabItems, grammarItems, 
         <h1 className="sr-only">
           {level.displayName} Unit {unit.id}：{unit.title}{unit.titleJa ? `（${unit.titleJa}）` : ""}
         </h1>
+
+        {/* ─── TEACHING NOTES ───────────────────────────────────────
+            Deliberately NOT inside the <details> below. This is the only
+            per-unit prose actually written by a teacher rather than generated
+            from the unit's data, so it's the part worth showing a reader
+            straight away — and the part that shouldn't sit behind a click. */}
+        {guide && (
+          <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50/60 px-4 py-4 md:px-6 md:py-5">
+            <h2 className="text-lg md:text-xl font-bold text-slate-800 mb-1">
+              👩‍🏫 老師的話：{unit.title}怎麼陪孩子學
+            </h2>
+            <p className="text-[13px] text-slate-500 mb-3">
+              目標：{guide.learningGoal}．建議時間：{guide.estimatedTime}
+            </p>
+
+            {guide.guidanceText.split("\n").filter(Boolean).map((para, i) => (
+              <p key={i} className="mb-2 text-[15px]">{para}</p>
+            ))}
+
+            <h3 className="font-bold text-slate-800 mt-4 mb-2 text-[15px]">⚠️ 這個單元孩子最常卡在哪</h3>
+            <p className="mb-4 text-[15px]">{guide.commonIssues}</p>
+
+            <h3 className="font-bold text-slate-800 mb-2 text-[15px]">✅ 學會了沒？這樣檢查</h3>
+            <ul className="list-disc list-inside space-y-1 text-[14px]">
+              {guide.passChecklist.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <details className="group seo-details">
           <summary className="flex items-center justify-between gap-3 cursor-pointer list-none select-none rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 px-4 py-3 md:px-5 md:py-4 border border-blue-100 transition [&::-webkit-details-marker]:hidden [&::marker]:hidden">
@@ -67,7 +99,9 @@ export default function UnitSEOContent({ level, unit, vocabItems, grammarItems, 
               <strong>{unit.grammarCount} 個重點文法</strong>、
               <strong>{unit.listeningCount} 題聽力練習</strong>，搭配閱讀理解與測驗題組。
               {level.longSummary}，是準備 {level.displayName} 的核心練習單元。
-              建議每天投入 15-20 分鐘，三天內可掌握本單元所有單字與文法重點。
+              {guide
+                ? `練完之後，${guide.learningGoal}。單次建議投入 ${guide.estimatedTime}。`
+                : "建議每天投入 15-20 分鐘，三天內可掌握本單元所有單字與文法重點。"}
             </p>
 
             {/* ─── LEARNING OBJECTIVES ──────────────────────────────── */}
@@ -159,7 +193,9 @@ export default function UnitSEOContent({ level, unit, vocabItems, grammarItems, 
                   學完這個單元需要多久？
                 </summary>
                 <p className="mt-2 text-slate-600">
-                  如果每天投入 15-20 分鐘，大約 3-4 天可以完成單字、文法、聽力、閱讀與測驗五個區塊，並把錯題複習一輪。
+                  {guide
+                    ? `本單元建議單次投入 ${guide.estimatedTime}，目標是${guide.learningGoal}。分成單字、文法、聽力、閱讀與測驗五個區塊，加上錯題複習一輪，多數學習者 3-4 天可以完成。`
+                    : "如果每天投入 15-20 分鐘，大約 3-4 天可以完成單字、文法、聽力、閱讀與測驗五個區塊，並把錯題複習一輪。"}
                 </p>
               </details>
               <details className="bg-slate-50 rounded-lg p-3">
