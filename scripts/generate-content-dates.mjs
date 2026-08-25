@@ -35,13 +35,23 @@ function gitDate(relPath) {
   }
 }
 
-/** Newest date across the given repo-relative paths; skips ones that don't exist. */
+let gitDateCount = 0;
+
+/**
+ * Newest date across the given repo-relative paths; skips ones that don't exist.
+ *
+ * mtime is only a sane fallback on a working checkout. On a CI clone every file
+ * is written at checkout time, so mtime there would collapse all ~350 routes
+ * onto one timestamp — exactly the unusable lastmod this script exists to avoid.
+ * The caller guards against that by refusing to write when git gave us nothing.
+ */
 function newestDate(...relPaths) {
   const dates = [];
   for (const rel of relPaths) {
     const abs = path.join(ROOT, rel);
     if (!fs.existsSync(abs)) continue;
     const git = gitDate(rel);
+    if (git) gitDateCount++;
     dates.push(git ? new Date(git) : fs.statSync(abs).mtime);
   }
   if (!dates.length) return null;
@@ -163,8 +173,21 @@ for (const [section, groups] of NESTED) {
 }
 
 const sorted = Object.fromEntries(Object.entries(dates).sort(([a], [b]) => a.localeCompare(b)));
+const distinct = new Set(Object.values(sorted)).size;
+
+// Cloudflare Pages builds from a clone with no usable history, so `git log`
+// returns nothing and every date above is really just checkout time. Writing
+// that would clobber the committed dates with one uniform timestamp — worse
+// than the file we already have. Keep the committed copy instead.
+if (gitDateCount === 0 && fs.existsSync(OUT)) {
+  const existing = Object.keys(JSON.parse(fs.readFileSync(OUT, "utf8"))).length;
+  console.log(
+    `[content-dates] git history unavailable — keeping committed dates (${existing} routes). ` +
+    `Run this locally and commit the result to refresh them.`,
+  );
+  process.exit(0);
+}
+
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(sorted, null, 2) + "\n");
-
-const distinct = new Set(Object.values(sorted)).size;
 console.log(`[content-dates] wrote ${Object.keys(sorted).length} routes, ${distinct} distinct dates → ${path.relative(ROOT, OUT)}`);
