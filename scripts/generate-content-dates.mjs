@@ -35,7 +35,7 @@ function gitDate(relPath) {
   }
 }
 
-let gitDateCount = 0;
+const seenGitDates = new Set();
 
 /**
  * Newest date across the given repo-relative paths; skips ones that don't exist.
@@ -51,7 +51,7 @@ function newestDate(...relPaths) {
     const abs = path.join(ROOT, rel);
     if (!fs.existsSync(abs)) continue;
     const git = gitDate(rel);
-    if (git) gitDateCount++;
+    if (git) seenGitDates.add(git);
     dates.push(git ? new Date(git) : fs.statSync(abs).mtime);
   }
   if (!dates.length) return null;
@@ -175,17 +175,22 @@ for (const [section, groups] of NESTED) {
 const sorted = Object.fromEntries(Object.entries(dates).sort(([a], [b]) => a.localeCompare(b)));
 const distinct = new Set(Object.values(sorted)).size;
 
-// Cloudflare Pages builds from a clone with no usable history, so `git log`
-// returns nothing and every date above is really just checkout time. Writing
-// that would clobber the committed dates with one uniform timestamp — worse
-// than the file we already have. Keep the committed copy instead.
-if (gitDateCount === 0 && fs.existsSync(OUT)) {
-  const existing = Object.keys(JSON.parse(fs.readFileSync(OUT, "utf8"))).length;
-  console.log(
-    `[content-dates] git history unavailable — keeping committed dates (${existing} routes). ` +
-    `Run this locally and commit the result to refresh them.`,
-  );
-  process.exit(0);
+// Without real history there is nothing to derive dates from: a shallow clone
+// resolves every file to the HEAD commit, and with no git at all we fall back to
+// checkout mtime. Either way the result is one uniform timestamp — worse than
+// the dates already committed, so keep those instead of clobbering them.
+// The workflow checks out with fetch-depth: 0 so this should not trigger in CI.
+if (seenGitDates.size <= 1 && fs.existsSync(OUT)) {
+  const existing = JSON.parse(fs.readFileSync(OUT, "utf8"));
+  const existingDistinct = new Set(Object.values(existing)).size;
+  if (existingDistinct > seenGitDates.size) {
+    console.warn(
+      `[content-dates] only ${seenGitDates.size} distinct git date(s) available — ` +
+      `keeping the committed dates (${Object.keys(existing).length} routes, ` +
+      `${existingDistinct} distinct). Check that the checkout has full history.`,
+    );
+    process.exit(0);
+  }
 }
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
