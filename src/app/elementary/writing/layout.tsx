@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import WritingSEO from "@/components/seo/WritingSEO";
+import { ELEM_WRITING } from "@/data/writing/elementary-writing";
 
 export const metadata: Metadata = {
   title: "GEPT 初級寫作練習｜免費線上練習 | learn.chparenting.com",
@@ -7,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function ElementaryWritingLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <WritingSEO levelName="GEPT 初級" levelPath="elementary" language="en" data={ELEM_WRITING} />
+    </>
+  );
 }

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import WritingSEO from "@/components/seo/WritingSEO";
+import { UI_WRITING } from "@/data/writing/upper-intermediate-writing";
 
 export const metadata: Metadata = {
   title: "GEPT 中高級寫作練習｜免費線上練習 | learn.chparenting.com",
@@ -7,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function UpperIntermediateWritingLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <WritingSEO levelName="GEPT 中高級" levelPath="upper-intermediate" language="en" data={UI_WRITING} />
+    </>
+  );
 }

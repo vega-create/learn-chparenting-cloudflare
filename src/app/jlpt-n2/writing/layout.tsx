@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import WritingSEO from "@/components/seo/WritingSEO";
+import { N2_WRITING } from "@/data/writing/jlpt-n2-writing";
 
 export const metadata: Metadata = {
   title: "JLPT N2寫作練習｜免費線上練習 | learn.chparenting.com",
@@ -7,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function JlptN2WritingLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <WritingSEO levelName="JLPT N2" levelPath="jlpt-n2" language="ja" data={N2_WRITING} />
+    </>
+  );
 }
