@@ -243,4 +243,69 @@ export const GEPT_ELEMENTARY_GUIDES: Record<number, GuideContent> = {
     ],
     commonIssues: "總複習時如果很多都忘了，不要著急。語言學習本來就需要反覆練習，回去重聽一次效果更好！",
   },
+  // ── 為現行單元表補寫的內容 ────────────────────────────────────────────
+  // 鍵值 1-20 是照一套較舊的初級單元表寫的，其中「旅遊與住宿」「住家與居家
+  // 生活」「電話與網路通訊」「感覺與情緒表達」「社區環境與公共場所」這 5 個
+  // 現行單元在舊表裡沒有對應主題。以下 21-25 是為它們補寫的，內容取自各單元
+  // 實際的單字表與文法項目。對應關係在 src/lib/unit-guides.ts。
+  21: {
+    todayTopic: "旅遊與住宿",
+    estimatedTime: "15 分鐘",
+    learningGoal: "孩子能用英文辦理入住、說出自己去過哪些地方",
+    guidanceText: "在家玩角色扮演最有效：你當飯店櫃台，孩子練 I'd like to check in, please.\n出門旅行前一起打包時，指著 passport、luggage 這些東西問「這個英文怎麼說」，比坐在書桌前背有用。",
+    passChecklist: [
+      "能說出 passport, luggage, hotel, reservation 等旅遊常用字",
+      "能用 I'd like to ___ 禮貌地訂房或提出要求",
+      "能用 I have been to ___ 說出自己去過的地方",
+    ],
+    commonIssues: "have been to（去過，人已經回來了）和 have gone to（去了，人還在那裡）差一個字意思差很多。可以用「爸爸 has gone to Japan 代表他人還在日本」來記。",
+  },
+  22: {
+    todayTopic: "住家與居家生活",
+    estimatedTime: "15 分鐘",
+    learningGoal: "孩子能用英文介紹自己家、說出東西放在哪裡",
+    guidanceText: "帶孩子在家裡走一圈，每到一個房間就問 What's in the living room?，讓他用 There is a sofa. / There are two chairs. 回答。\n收玩具的時候順便練 Put it on the shelf / in the drawer，這些指令每天都用得到。",
+    passChecklist: [
+      "能說出 kitchen, bedroom, living room, bathroom 等房間名稱",
+      "能用 There is / There are 描述房間裡有什麼",
+      "能聽懂 Put it on the table / in the drawer 這類位置指令",
+    ],
+    commonIssues: "furniture 是不可數名詞，不能說 furnitures，要說 some furniture 或 a piece of furniture。There is 後面接單數、There are 後面接複數，一開始容易忘。",
+  },
+  23: {
+    todayTopic: "電話與網路通訊",
+    estimatedTime: "15 分鐘",
+    learningGoal: "孩子能用英文接打電話、談手機和網路的使用",
+    guidanceText: "拿一支關機的舊手機玩打電話遊戲：你打給孩子，讓他練 Hello, this is ___. 講完再練 I have to hang up now.\n平常在家連 Wi-Fi、輸入 password 的時候，順口問一句英文怎麼說，比背單字表自然。",
+    passChecklist: [
+      "能說出 call, text, message, password, download 等常用字",
+      "能用 hang up、log in、sign up 這類片語動詞",
+      "能用 too much / too many 說「用太多手機」",
+    ],
+    commonIssues: "「打電話給我」是 Call me，不要加 to——受中文的「給」影響很容易說成 call to me。另外 too much 後面接不可數（too much time），too many 接可數（too many apps）。",
+  },
+  24: {
+    todayTopic: "感覺與情緒表達",
+    estimatedTime: "15 分鐘",
+    learningGoal: "孩子能用英文說出自己的心情，並講出原因",
+    guidanceText: "這個單元最適合睡前聊天用。問孩子 How do you feel today? Why?，讓他用 I feel ___ because ___ 說完整一句。\n孩子講不出來的時候，先給兩個選項讓他選就好，重點是願意開口說感受。",
+    passChecklist: [
+      "能說出 happy, sad, angry, scared, excited 等基本情緒字",
+      "能用 I feel ___ because ___ 說出感受和原因",
+      "能用 It makes me happy 這類句型描述什麼讓自己有感覺",
+    ],
+    commonIssues: "because 後面接一個完整句子（because I'm tired），because of 後面只接名詞（because of the rain），兩個不能混用。這是這個單元最容易錯的地方。",
+  },
+  25: {
+    todayTopic: "社區環境與公共場所",
+    estimatedTime: "15 分鐘",
+    learningGoal: "孩子能用英文說出住家附近的公共場所、談社區環境",
+    guidanceText: "出門散步就是最好的練習場。經過什麼就問 What's that?，讓孩子答 It's a post office.\n等紅綠燈時練 Use the crosswalk、丟垃圾時練 Throw it in the trash can，這些是每天都會遇到的句子。",
+    passChecklist: [
+      "能說出 library, park, hospital, post office 等公共場所",
+      "能用 should 提出建議，例如 We should recycle",
+      "能聽懂 Use the crosswalk、Throw it in the trash can 這類生活指令",
+    ],
+    commonIssues: "公共場所前面通常要加 the：go to the library、go to the park。但 go to school 和 go home 反而不加 the，這組例外要分開記。",
+  },
 };
