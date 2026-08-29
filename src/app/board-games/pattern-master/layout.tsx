@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BoardGameSEO from "@/components/seo/BoardGameSEO";
 
 export const metadata: Metadata = {
   title: "圖案大師｜免費兒童益智桌遊線上玩 | learn.chparenting.com",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function PatternMasterLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <BoardGameSEO id="pattern-master" />
+    </>
+  );
 }
