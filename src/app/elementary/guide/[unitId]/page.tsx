@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { NOINDEX_FOLLOW } from "@/lib/seo";
 import { UNITS } from "@/data/elementary";
-import { GEPT_ELEMENTARY_GUIDES } from "@/data/guides/gept-elementary-guides";
+import { getUnitGuide } from "@/lib/unit-guides";
 import GuidePageClient from "./GuidePageClient";
 
 interface Props {
@@ -34,7 +34,7 @@ export default async function Page({ params }: Props) {
   const { unitId } = await params;
   const num = getUnitNum(unitId);
   const unit = UNITS.find((u) => u.id === num);
-  const guide = GEPT_ELEMENTARY_GUIDES[num];
+  const guide = getUnitGuide("elementary", num);
 
   if (!unit || !guide) {
     return (
@@ -48,7 +48,7 @@ export default async function Page({ params }: Props) {
   }
 
   const nextNum = num + 1;
-  const hasNext = UNITS.some((u) => u.id === nextNum) && !!GEPT_ELEMENTARY_GUIDES[nextNum];
+  const hasNext = UNITS.some((u) => u.id === nextNum) && !!getUnitGuide("elementary", nextNum);
   const nextGuideUrl = hasNext ? `/elementary/guide/unit-${String(nextNum).padStart(2, "0")}` : undefined;
   const pdfUrl = `/worksheets/gept/elementary/${unitId}.pdf`;
   const unitUrl = `/elementary/unit/${num}`;

@@ -22,8 +22,36 @@ import { JLPT_N1_GUIDES } from "@/data/guides/jlpt-n1-guides";
  * noindex (too thin to stand alone as a page). Surfacing it on the unit page
  * puts it where it has something to support.
  */
+/**
+ * GEPT 初級的 guide 資料是照一套較舊的單元表寫的，鍵值與現行 UNITS 對不起來：
+ * 例如 guide 3 的主題是「數字 1-100」，但 unit 3 是「食物與飲料」（其 guide 在
+ * 鍵值 6）。20 個單元中有 16 個錯位，會讓單元頁顯示別的單元的陪伴說明。
+ *
+ * 這不是單純的順序位移——兩份清單的主題本來就不同：舊表有「顏色」「總複習」
+ * 等現行單元表沒有的主題，現行單元表也有 5 個單元（15 旅遊住宿、16 居家生活、
+ * 18 電話網路、19 情緒表達、20 社區公共場所）在舊表裡沒有對應內容，因此無法
+ * 機械式重排。
+ *
+ * 下表是逐筆比對主題、並以「guide 文字提到的單字確實出現在該單元單字表中」
+ * 驗證過的 15 組對應（鍵＝現行 unit id，值＝guide 資料原本的鍵）。未列出的
+ * 5 個單元沒有可信的對應內容，寧可不顯示，也不顯示別的單元的說明。
+ *
+ * 未被使用的 guide 條目（原鍵 5 顏色、8 日常動作、9 身體部位、12 地點方位、
+ * 20 總複習）仍保留在資料檔中，等新單元內容補寫時可以取用。
+ */
+const ELEMENTARY_UNIT_TO_GUIDE_KEY: Record<number, number> = {
+  1: 1, 2: 2, 3: 6, 4: 18, 5: 4, 6: 11, 7: 15, 8: 14,
+  9: 3, 10: 19, 11: 16, 12: 7, 13: 10, 14: 17, 17: 13,
+};
+
+const ELEMENTARY_GUIDES_BY_UNIT: Record<number, GuideContent> = Object.fromEntries(
+  Object.entries(ELEMENTARY_UNIT_TO_GUIDE_KEY)
+    .map(([unitId, guideKey]) => [Number(unitId), GEPT_ELEMENTARY_GUIDES[guideKey]])
+    .filter(([, guide]) => guide),
+);
+
 const GUIDES_BY_LEVEL: Record<string, Record<number, GuideContent>> = {
-  "elementary": GEPT_ELEMENTARY_GUIDES,
+  "elementary": ELEMENTARY_GUIDES_BY_UNIT,
   "intermediate": GEPT_INTERMEDIATE_GUIDES,
   "upper-intermediate": GEPT_UPPER_INTERMEDIATE_GUIDES,
   "jlpt-n5": JLPT_N5_GUIDES,

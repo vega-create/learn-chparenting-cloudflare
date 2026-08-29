@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { UNITS } from "@/data/elementary";
-import { GEPT_ELEMENTARY_GUIDES } from "@/data/guides/gept-elementary-guides";
+import { getUnitGuide } from "@/lib/unit-guides";
 import GuideOverviewClient from "./GuideOverviewClient";
 
 export const metadata: Metadata = {
@@ -13,9 +13,9 @@ export default function Page() {
     id: u.id,
     title: u.title,
     icon: u.icon,
-    hasGuide: !!GEPT_ELEMENTARY_GUIDES[u.id],
-    estimatedTime: GEPT_ELEMENTARY_GUIDES[u.id]?.estimatedTime || "15 分鐘",
-    learningGoal: GEPT_ELEMENTARY_GUIDES[u.id]?.learningGoal || "",
+    hasGuide: !!getUnitGuide("elementary", u.id),
+    estimatedTime: getUnitGuide("elementary", u.id)?.estimatedTime || "15 分鐘",
+    learningGoal: getUnitGuide("elementary", u.id)?.learningGoal || "",
   }));
 
   return (
