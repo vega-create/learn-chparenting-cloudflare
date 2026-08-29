@@ -1,5 +1,6 @@
 import ClientPage from "./ClientPage";
 import { getLevelById, getTopicByIds } from "@/data/music";
+import MusicTopicSEO from "@/components/seo/MusicTopicSEO";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -37,6 +38,26 @@ export async function generateMetadata({
   };
 }
 
-export default function Page() {
-  return <ClientPage />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ levelId: string; topicId: string }>;
+}) {
+  const { levelId, topicId } = await params;
+  const found = getTopicByIds(levelId, topicId);
+
+  return (
+    <>
+      <ClientPage />
+      {found && (
+        <MusicTopicSEO
+          level={{ id: found.level.id, title: found.level.title }}
+          topic={found.topic}
+          siblings={found.level.topics
+            .filter((t) => t.id !== found.topic.id)
+            .map((t) => ({ id: t.id, title: t.title, icon: t.icon }))}
+        />
+      )}
+    </>
+  );
 }
