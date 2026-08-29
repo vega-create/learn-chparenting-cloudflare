@@ -25,7 +25,9 @@ function entry(
     url: routePath === "/" ? BASE : `${BASE}${routePath}`,
     lastModified: lm(routePath),
     changeFrequency,
-    priority,
+    // 0.8 - 0.1 在浮點數下是 0.7000000000000001，會原樣寫進 sitemap.xml。
+    // 四捨五入到小數一位，讓輸出維持乾淨的 0.1 級距。
+    priority: Math.round(priority * 10) / 10,
   };
 }
 
