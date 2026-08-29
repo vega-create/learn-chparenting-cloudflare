@@ -1,5 +1,6 @@
 import ClientPage from "./ClientPage";
 import { getRegionById, getTopicByIds } from "@/data/history-geo";
+import HistGeoSEOContent from "@/components/seo/HistGeoSEOContent";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -36,6 +37,26 @@ export async function generateMetadata({
   };
 }
 
-export default function Page() {
-  return <ClientPage />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ regionId: string; topicId: string }>;
+}) {
+  const { regionId, topicId } = await params;
+  const found = getTopicByIds(regionId, topicId);
+
+  return (
+    <>
+      <ClientPage />
+      {found && (
+        <HistGeoSEOContent
+          region={found.region}
+          topic={found.topic}
+          siblings={found.region.topics
+            .filter((t) => t.id !== found.topic.id)
+            .map((t) => ({ id: t.id, title: t.title, icon: t.icon }))}
+        />
+      )}
+    </>
+  );
 }
