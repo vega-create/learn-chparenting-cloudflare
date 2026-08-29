@@ -1,5 +1,6 @@
 import ClientPage from "./ClientPage";
 import { getTopicById } from "@/data/math/topics";
+import MathTopicSEO from "@/components/seo/MathTopicSEO";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -30,6 +31,18 @@ export async function generateMetadata({
   };
 }
 
-export default function Page() {
-  return <ClientPage />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ topic: string }>;
+}) {
+  const { topic } = await params;
+  const t = getTopicById(topic);
+
+  return (
+    <>
+      <ClientPage />
+      {t && <MathTopicSEO topic={t} />}
+    </>
+  );
 }

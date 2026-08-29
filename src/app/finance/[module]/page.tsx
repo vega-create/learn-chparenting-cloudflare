@@ -1,5 +1,6 @@
 import ClientPage from "./ClientPage";
 import { getModuleById } from "@/data/finance/modules";
+import FinanceModuleSEO from "@/components/seo/FinanceModuleSEO";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -28,6 +29,18 @@ export async function generateMetadata({
   };
 }
 
-export default function Page() {
-  return <ClientPage />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ module: string }>;
+}) {
+  const { module: moduleId } = await params;
+  const m = getModuleById(moduleId);
+
+  return (
+    <>
+      <ClientPage />
+      {m && <FinanceModuleSEO module={m} />}
+    </>
+  );
 }
