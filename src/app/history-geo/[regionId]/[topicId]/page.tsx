@@ -49,13 +49,7 @@ export default async function Page({
     <>
       <ClientPage />
       {found && (
-        <HistGeoSEOContent
-          region={found.region}
-          topic={found.topic}
-          siblings={found.region.topics
-            .filter((t) => t.id !== found.topic.id)
-            .map((t) => ({ id: t.id, title: t.title, icon: t.icon }))}
-        />
+        <HistGeoSEOContent region={found.region} topic={found.topic} />
       )}
     </>
   );

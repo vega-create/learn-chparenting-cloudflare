@@ -1,5 +1,6 @@
 import ClientPage from "./ClientPage";
 import { getGradeById, getTopicByIds } from "@/data/chinese-lang";
+import ChineseLangSEOContent from "@/components/seo/ChineseLangSEOContent";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -38,6 +39,18 @@ export async function generateMetadata({
   };
 }
 
-export default function Page() {
-  return <ClientPage />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ gradeId: string; topicId: string }>;
+}) {
+  const { gradeId, topicId } = await params;
+  const found = getTopicByIds(gradeId, topicId);
+
+  return (
+    <>
+      <ClientPage />
+      {found && <ChineseLangSEOContent grade={found.grade} topic={found.topic} />}
+    </>
+  );
 }
