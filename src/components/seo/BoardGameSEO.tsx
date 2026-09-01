@@ -37,9 +37,9 @@ export default function BoardGameSEO({ id }: { id: string }) {
   return (
     <>
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
-        <h1 className="sr-only">
+        <h2 className="sr-only">
           {g.name}｜免費線上{g.category}遊戲（{g.difficulty}）
-        </h1>
+        </h2>
 
         <p className="mb-6 text-[15px]">{g.intro}</p>
 

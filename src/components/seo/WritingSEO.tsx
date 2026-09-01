@@ -44,9 +44,9 @@ export default function WritingSEO({
   return (
     <>
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
-        <h1 className="sr-only">
+        <h2 className="sr-only">
           {levelName}寫作練習｜{total} 題免費線上{langName}寫作
-        </h1>
+        </h2>
 
         <p className="mb-6 text-[15px]">
           {levelName}的寫作練習共 <strong>{total} 題</strong>，分成四種題型：

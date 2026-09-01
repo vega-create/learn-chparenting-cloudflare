@@ -13,8 +13,10 @@ import SpeechCleanup from "@/components/SpeechCleanup";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  // 不鎖縮放：maximumScale / userScalable: false 會讓視力不佳的使用者無法放大，
+  // 是 WCAG 1.4.4 的失敗項，Lighthouse 無障礙也會扣分。
+  // 原本設這兩項多半是為了避免 iOS 表單聚焦時自動放大，那個問題用
+  // 輸入框 font-size >= 16px 就能解決，不需要犧牲縮放。
   themeColor: "#fda4af",
 };
 

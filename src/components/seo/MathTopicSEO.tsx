@@ -42,9 +42,9 @@ export default function MathTopicSEO({ topic }: { topic: MathTopic }) {
   return (
     <>
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
-        <h1 className="sr-only">
+        <h2 className="sr-only">
           {topic.title}線上練習｜{topic.grade}
-        </h1>
+        </h2>
 
         <p className="mb-6 text-[15px]">
           「{topic.title}」適合 <strong>{topic.grade}</strong>，內容分成 {concepts.length} 個觀念，

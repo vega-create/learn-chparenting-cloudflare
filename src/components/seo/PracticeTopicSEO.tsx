@@ -50,7 +50,7 @@ export default function PracticeTopicSEO(p: PracticeTopicSEOProps) {
   return (
     <>
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
-        <h1 className="sr-only">{p.h1}</h1>
+        <h2 className="sr-only">{p.h1}</h2>
 
         <p className="mb-6 text-[15px]">
           「{p.topicTitle}」收錄 <strong>{p.totalQuestions} 道練習題</strong>，主題涵蓋{p.description}。

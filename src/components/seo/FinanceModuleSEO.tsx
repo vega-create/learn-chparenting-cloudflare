@@ -20,7 +20,7 @@ export default function FinanceModuleSEO({ module }: { module: FinanceModule }) 
   return (
     <>
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
-        <h1 className="sr-only">{module.title}｜兒童理財免費線上練習</h1>
+        <h2 className="sr-only">{module.title}｜兒童理財免費線上練習</h2>
 
         <p className="mb-6 text-[15px]">{seo.intro}免費使用、不需註冊。</p>
 

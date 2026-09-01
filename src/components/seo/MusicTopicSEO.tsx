@@ -26,9 +26,9 @@ export default function MusicTopicSEO({
   return (
     <>
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
-        <h1 className="sr-only">
+        <h2 className="sr-only">
           {topic.title}（樂理{level.title}）｜{topic.questions.length} 題免費線上練習
-        </h1>
+        </h2>
 
         <p className="mb-6 text-[15px]">
           「{topic.title}」屬於樂理{level.title}，內容涵蓋{topic.description}。

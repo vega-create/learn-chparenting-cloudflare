@@ -58,9 +58,40 @@ function newestDate(...relPaths) {
   return new Date(Math.max(...dates.map((d) => d.getTime()))).toISOString();
 }
 
+/**
+ * 每個路由額外要納入的「渲染來源」。
+ *
+ * 原本 set() 只吃資料檔與 page.tsx，但 2026-08-29 那批伺服器端內容是加在
+ * src/components/seo/ 的元件與部分 layout.tsx 裡，資料檔完全沒動。結果 60 多頁
+ * 內容大幅改變，lastmod 卻仍停在 2-3 月——Google 收不到「這頁變了」的訊號，
+ * 正好是最需要被重新檢索的那批頁面。
+ *
+ * 因此把負責渲染該路由主要內容的元件也算進來：元件改了，日期就會動。
+ */
+const RENDER_SOURCES = [
+  [/^\/(elementary|intermediate|upper-intermediate|jlpt-n[1-5])\/unit\/\d+$/,
+    ["src/components/seo/UnitSEOContent.tsx", "src/lib/unit-guides.ts"]],
+  [/^\/(elementary|intermediate|upper-intermediate|jlpt-n[1-5])\/writing$/,
+    ["src/components/seo/WritingSEO.tsx"]],
+  [/^\/board-games\/[a-z-]+$/, ["src/components/seo/BoardGameSEO.tsx", "src/data/board-games.ts"]],
+  [/^\/math\/[a-z-]+$/, ["src/components/seo/MathTopicSEO.tsx"]],
+  [/^\/finance\/[a-z-]+$/, ["src/components/seo/FinanceModuleSEO.tsx", "src/data/finance/seo.ts"]],
+  [/^\/music\/[a-z]+\/[a-z-]+$/, ["src/components/seo/MusicTopicSEO.tsx"]],
+  [/^\/history-geo\/[a-z]+\/[a-z-]+$/,
+    ["src/components/seo/HistGeoSEOContent.tsx", "src/components/seo/PracticeTopicSEO.tsx"]],
+  [/^\/chinese-lang\/[a-z]+\/[a-z-]+$/,
+    ["src/components/seo/ChineseLangSEOContent.tsx", "src/components/seo/PracticeTopicSEO.tsx"]],
+];
+
+function renderSourcesFor(route) {
+  const extra = [];
+  for (const [re, files] of RENDER_SOURCES) if (re.test(route)) extra.push(...files);
+  return extra.filter((f) => fs.existsSync(path.join(ROOT, f)));
+}
+
 const dates = {};
 function set(route, ...sources) {
-  const d = newestDate(...sources);
+  const d = newestDate(...sources, ...renderSourcesFor(route));
   if (d) dates[route] = d;
 }
 
