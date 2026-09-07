@@ -12,7 +12,7 @@ const AUTHOR = {
 export const metadata: Metadata = {
   title: "Vega Lin（薇佳媽咪）｜平台創辦人與文章作者 | learn.chparenting.com",
   description:
-    "東吳大學日文系畢業、東海大學數位創新碩士，多年補教業教學經驗，智慧媽咪國際負責人，兩個孩子的媽媽。為了陪自己的孩子準備英檢，做了這個免費的親子學習平台。",
+    "兩個孩子的媽媽，東吳日文系、東海數位創新碩士，在補教業教了很多年。為了陪自己的孩子準備英檢做了這個平台，後來開放給所有家長——免費、不用註冊、練習單直接印。",
   alternates: { canonical: AUTHOR.url },
 };
 
@@ -63,19 +63,19 @@ export default function AuthorPage() {
           {AUTHOR.name}<span className="text-slate-400 font-normal text-2xl">（{AUTHOR.nameZh}）</span>
         </h1>
         <p className="text-slate-600 text-lg leading-relaxed">
-          兩個孩子的媽媽。為了陪自己的孩子準備英檢，動手做了這個免費、不用註冊、練習單可以列印的學習平台。
-          站上所有文章與各單元的「老師的話」都由我撰寫。
+          兩個孩子的媽媽。這個平台原本是為了陪自己的孩子準備英檢做的，後來想，既然做了，就開放給所有需要的家長——免費、不用註冊、練習單直接印。
+          站上的文章，還有每個單元裡的「老師的話」，都是我自己寫的。
         </p>
       </header>
 
       <section className="mb-10">
         <h2 className="text-xl font-bold text-slate-800 mb-4">背景</h2>
         <ul className="space-y-3 text-slate-700 leading-relaxed">
-          <li className="flex gap-3"><span className="shrink-0">🎓</span><span><strong>東吳大學日本語文學系</strong>畢業——站上 JLPT N5 到 N1 的單元與陪伴說明，是從這裡的底子來的。</span></li>
-          <li className="flex gap-3"><span className="shrink-0">🎓</span><span><strong>東海大學數位創新碩士</strong>——這個平台從題庫到互動練習都是自己開發的。</span></li>
-          <li className="flex gap-3"><span className="shrink-0">📚</span><span><strong>多年補教業教學經驗</strong>——各單元「孩子最常卡在哪」那些筆記，是實際教過才知道的。</span></li>
-          <li className="flex gap-3"><span className="shrink-0">💛</span><span><strong>心靈諮詢相關領域 7 年</strong>——所以陪讀建議裡常寫「先問孩子怎麼想的」，而不是先糾正。</span></li>
-          <li className="flex gap-3"><span className="shrink-0">🏢</span><span><strong>智慧媽咪國際有限公司負責人</strong>，本平台由公司營運，內容全部免費。</span></li>
+          <li className="flex gap-3"><span className="shrink-0">🎓</span><span><strong>東吳大學日本語文學系畢業。</strong>站上 JLPT N5 到 N1 的單元和陪伴說明，底子是從這裡來的。</span></li>
+          <li className="flex gap-3"><span className="shrink-0">🎓</span><span><strong>東海大學數位創新碩士。</strong>整個平台從題庫到互動練習，都是自己動手做的。</span></li>
+          <li className="flex gap-3"><span className="shrink-0">📚</span><span><strong>在補教業教了很多年。</strong>各單元「孩子最常卡在哪」那些筆記不是查來的，是一屆一屆學生教會我的。</span></li>
+          <li className="flex gap-3"><span className="shrink-0">💛</span><span><strong>心靈諮詢相關領域七年。</strong>所以陪讀建議裡常常寫「先問孩子怎麼想」，而不是急著糾正——那是在諮詢工作裡養成的習慣。</span></li>
+          <li className="flex gap-3"><span className="shrink-0">🏢</span><span><strong>智慧媽咪國際有限公司負責人。</strong>這個平台由公司營運，但內容全部免費。</span></li>
         </ul>
       </section>
 
@@ -83,12 +83,12 @@ export default function AuthorPage() {
         <h2 className="text-xl font-bold text-slate-800 mb-3">為什麼做這個平台</h2>
         <p className="text-slate-600 leading-relaxed mb-3">
           我自己的孩子要考英檢的時候，找不到一個中文介面、免費、又能讓國小生自己操作的練習工具。
-          官方題庫有權威但沒有陪讀的視角，補習班有進度但費用不低。
-          所以先做給自己的孩子用，後來開放給所有家長。
+          官方題庫夠權威，但沒有陪讀的視角；補習班有進度，但費用不低。
+          所以先做給自己的孩子用，做著做著，就開放了。
         </p>
         <p className="text-slate-600 leading-relaxed">
-          我重視的是親子之間的教育——不是把孩子交給工具，而是讓家長知道今天陪什麼、怎麼陪、要多久。
-          這也是為什麼每個單元都附「家長陪伴指南」，而不只是題目。
+          我在意的從來不是把孩子交給一個工具。我在意的是親子之間的教育——家長知道今天陪什麼、怎麼陪、要多久，孩子才不會是一個人在學。
+          這也是為什麼每個單元都有「家長陪伴指南」，而不只是題目。
         </p>
       </section>
 
