@@ -100,6 +100,7 @@ set("/", "src/app/page.tsx");
 for (const p of ["about", "how-to-use", "faq", "achievements", "exam-info", "parent-guide"]) {
   set(`/${p}`, `src/app/${p}/page.tsx`);
 }
+set("/author/vega-lin", "src/app/author/vega-lin/page.tsx");
 
 // ── Blog ──────────────────────────────────────────────────────────────────────
 const BLOG_DIR = path.join(ROOT, "src/content/blog");

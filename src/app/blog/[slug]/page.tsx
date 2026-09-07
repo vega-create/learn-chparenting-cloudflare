@@ -2,6 +2,20 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostWithHtml, getAllPosts, TocItem, FaqItem } from '@/lib/blog';
+import contentDates from '@/data/content-dates.json';
+
+const AUTHOR = {
+  id: 'https://learn.chparenting.com/author/vega-lin#person',
+  url: 'https://learn.chparenting.com/author/vega-lin',
+  name: 'Vega Lin',
+  nameZh: '薇佳媽咪',
+} as const;
+
+/** 真實的最後修改日期（來自 git，見 scripts/generate-content-dates.mjs）；沒有就退回發布日。 */
+function modifiedDateFor(slug: string, published: string): string {
+  const iso = (contentDates as Record<string, string>)[`/blog/${slug}`];
+  return iso ? iso.slice(0, 10) : published;
+}
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -24,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${post.title} | 親子多元學習平台`,
     description: post.description,
     keywords: post.tags,
-    authors: [{ name: post.author }],
+    authors: [{ name: AUTHOR.name, url: AUTHOR.url }],
     alternates: { canonical: `https://learn.chparenting.com/blog/${slug}` },
     openGraph: {
       title: post.title,
@@ -33,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: '親子多元學習平台',
       type: 'article',
       publishedTime: post.date,
-      authors: [post.author],
+      authors: [AUTHOR.url],
       tags: post.tags,
       locale: 'zh_TW',
       images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
@@ -123,15 +137,17 @@ export default async function BlogPostPage({ params }: Props) {
 
   const style = CATEGORY_COLORS[post.category] || { bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' };
 
+  const modified = modifiedDateFor(slug, post.date);
+
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    dateModified: post.date,
-    author: { '@type': 'Person', name: post.author, url: 'https://learn.chparenting.com/about' },
-    publisher: { '@type': 'Organization', name: 'Mommy Wisdom International', url: 'https://learn.chparenting.com' },
+    dateModified: modified,
+    author: { '@type': 'Person', '@id': AUTHOR.id, name: AUTHOR.name, alternateName: AUTHOR.nameZh, url: AUTHOR.url },
+    publisher: { '@id': 'https://learn.chparenting.com#organization' },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `https://learn.chparenting.com/blog/${slug}` },
     url: `https://learn.chparenting.com/blog/${slug}`,
     keywords: post.tags.join(', '),
@@ -190,8 +206,13 @@ export default async function BlogPostPage({ params }: Props) {
           {post.readingTime && (
             <span className="text-sm text-slate-400">· 閱讀 {post.readingTime} 分鐘</span>
           )}
-          <Link href="/about" className="text-sm text-slate-400 hover:text-rose-500 no-underline ml-auto">
-            ✍️ {post.author}
+          {modified !== post.date && (
+            <span className="text-sm text-slate-400">
+              · 更新於 <time dateTime={modified}>{new Date(modified).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+            </span>
+          )}
+          <Link href="/author/vega-lin" rel="author" className="text-sm text-slate-400 hover:text-rose-500 no-underline ml-auto">
+            ✍️ {AUTHOR.name}（{AUTHOR.nameZh}）
           </Link>
         </div>
         <h1 className="text-2xl md:text-3xl font-black text-slate-800 leading-tight mb-4">

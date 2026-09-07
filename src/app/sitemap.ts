@@ -94,6 +94,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/achievements", "monthly", 0.5),
     entry("/exam-info", "monthly", 0.7),
     entry("/parent-guide", "monthly", 0.6),
+    entry("/author/vega-lin", "monthly", 0.6),
 
     // Blog
     entry("/blog", "weekly", 0.7),

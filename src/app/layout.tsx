@@ -64,9 +64,15 @@ const organizationSchema = {
   },
   founder: {
     "@type": "Person",
+    "@id": "https://learn.chparenting.com/author/vega-lin#person",
     name: "Vega Lin",
+    alternateName: "薇佳媽咪",
+    url: "https://learn.chparenting.com/author/vega-lin",
     jobTitle: "Founder",
-    alumniOf: { "@type": "EducationalOrganization", name: "Tunghai University" },
+    alumniOf: [
+      { "@type": "CollegeOrUniversity", name: "東吳大學", alternateName: "Soochow University" },
+      { "@type": "CollegeOrUniversity", name: "東海大學", alternateName: "Tunghai University" },
+    ],
   },
   sameAs: [
     "https://chparenting.com",

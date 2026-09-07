@@ -82,6 +82,35 @@ function addHeadingIds(htmlStr: string): string {
   });
 }
 
+/**
+ * 站外商業連結一律加 rel="sponsored nofollow"。
+ *
+ * 目前 7 篇文章共 23 個博客來聯盟連結（books.com.tw/exep/assp.php/…）沒有任何
+ * rel 屬性。頁面本身有揭露文字，但 Google 的連結配置政策要求付費／聯盟連結
+ * 必須以 rel 標示，否則屬於規範問題而非優化問題。在這一層處理，而不是逐篇
+ * 改 markdown：新增的文章自動套用，也不怕漏。
+ *
+ * 只針對聯盟樣式的網址；一般外部引用（例如 LTTC 官方報名頁）維持可跟隨，
+ * 那些是應該傳遞信任的來源。
+ *
+ * 必須在 rehype-sanitize 之後執行——sanitize 會剝掉它不認識的屬性。
+ */
+const SPONSORED_PATTERNS = [
+  /books\.com\.tw\/exep\/assp\.php/i,   // 博客來 AP 聯盟
+  /[?&](amp;)?utm_medium=ap-/i,             // 博客來 AP 的 utm 標記（HTML 實體化後為 &amp;）
+];
+
+function markSponsoredLinks(html: string): string {
+  return html.replace(/<a\s+([^>]*?)href="([^"]+)"([^>]*)>/gi, (whole, pre, href, post) => {
+    if (!SPONSORED_PATTERNS.some((re) => re.test(href))) return whole;
+    const attrs = `${pre}href="${href}"${post}`
+      .replace(/\s+rel="[^"]*"/gi, '')
+      .replace(/\s+target="[^"]*"/gi, '')
+      .trim();
+    return `<a ${attrs} rel="sponsored nofollow" target="_blank">`;
+  });
+}
+
 export function getAllPosts(): BlogPost[] {
   if (!fs.existsSync(BLOG_DIR)) return [];
 
@@ -131,6 +160,7 @@ export async function getPostWithHtml(slug: string): Promise<BlogPost | null> {
   let htmlStr = processed.toString();
 
   htmlStr = addHeadingIds(htmlStr);
+  htmlStr = markSponsoredLinks(htmlStr);
 
   post.htmlContent = htmlStr;
   post.toc = extractToc(htmlStr);
