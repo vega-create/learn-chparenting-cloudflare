@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "關於全民英檢學習工具 | 親子多元學習平台",
-  description: "免費全民英檢學習工具，提供初級、中級、中高級共 94 單元電子書教學、8000+ 單字、7 種遊戲練習、模擬測驗、口說訓練和寫作練習。",
+  description: "免費全民英檢學習工具：初級、中級、中高級共 94 個主題單元，單字附發音、文法教學、聽力閱讀練習、7 種單字遊戲、口說錄音、寫作四種題型與計時模擬測驗，每單元附家長陪伴說明。不用註冊、不用付費，手機平板都能用。",
   alternates: { canonical: "https://learn.chparenting.com/gept/about" },
 };
 

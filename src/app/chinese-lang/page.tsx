@@ -6,7 +6,7 @@ import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 export const metadata: Metadata = {
   title: "免費國小國語練習 | 注音・生字・成語・閱讀 | learn.chparenting.com",
   description:
-    "免費國小國語線上練習，包含注音符號、生字筆畫、詞語造句、成語典故、閱讀理解、修辭文法。低中高年級完整涵蓋，互動式題目即時回饋。",
+    "免費國小國語線上練習：低年級注音符號、國字筆畫部首、詞語與短文閱讀；中年級成語、句子重組、閱讀理解；高年級成語辨析、修辭文法、長篇閱讀。每題附解說，答錯立刻看懂，不用註冊、手機平板都能用。",
   alternates: { canonical: "https://learn.chparenting.com/chinese-lang" },
 };
 

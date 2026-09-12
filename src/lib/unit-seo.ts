@@ -77,15 +77,19 @@ export function generateUnitMetadata(level: LevelInfo, unit: UnitSEOInput | unde
 
   const description = `${level.displayName} Unit ${unit.id}「${unit.title}」主題練習：${unit.vocabCount} 個重點單字（${vocabSnippet}…）、${unit.grammarCount} 個文法（${grammarSnippet}…）、${unit.listeningCount} 題聽力，含閱讀理解與測驗。免費線上練習，可下載練習單。`;
 
+  // Bing 建議 description 在 160 字元內；中高級單字片段較長會超過，超過就在最後一個頓號前收尾
+
+  const descriptionTrimmed = description.length > 155 ? description.slice(0, 152).replace(/[、，,（(][^、，,（(]*$/, "") + "…" : description;
+
   const canonical = `${BASE}${level.pathSegment}/${unit.id}`;
 
   return {
     title,
-    description,
+    descriptionTrimmed,
     alternates: { canonical },
     openGraph: {
       title,
-      description,
+      descriptionTrimmed,
       url: canonical,
       siteName: "親子多元學習平台",
       type: "article",
@@ -95,7 +99,7 @@ export function generateUnitMetadata(level: LevelInfo, unit: UnitSEOInput | unde
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      descriptionTrimmed,
       images: [`${BASE}/og-image.png`],
     },
     robots: {
@@ -117,7 +121,7 @@ export function unitLearningResourceJsonLd(level: LevelInfo, unit: UnitSEOInput)
     name: `${level.displayName} Unit ${unit.id}：${unit.title}`,
     url,
     inLanguage: level.language === "ja" ? "ja-JP" : "en",
-    description: `${level.displayName}「${unit.title}」主題單元，含 ${unit.vocabCount} 個單字、${unit.grammarCount} 個文法重點、${unit.listeningCount} 題聽力練習。`,
+    descriptionTrimmed: `${level.displayName}「${unit.title}」主題單元，含 ${unit.vocabCount} 個單字、${unit.grammarCount} 個文法重點、${unit.listeningCount} 題聽力練習。`,
     educationalLevel: level.educationalLevel,
     learningResourceType: "Lesson",
     teaches: unit.vocabPreview.slice(0, 6).join(", "),

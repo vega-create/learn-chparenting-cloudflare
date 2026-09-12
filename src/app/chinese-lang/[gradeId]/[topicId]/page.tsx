@@ -34,7 +34,7 @@ export async function generateMetadata({
   const topic = found.topic;
   return {
     title: `${topic.title}（${parent.title.replace(/（.*）/, "")}）｜國小國語練習 | learn.chparenting.com`,
-    description: `免費國小國語「${parent.title}」${topic.title}線上練習：${topic.description}。互動式題目即時回饋，適合國小學童，免費使用無需註冊。`,
+    description: `免費國小國語「${parent.title}」${topic.title}線上練習：${topic.description}。每題附解說，答錯可立刻看懂，不限次數反覆練習；適合國小學童，免費使用、不用註冊，手機平板都能用。`,
     alternates: { canonical: `https://learn.chparenting.com/chinese-lang/${gradeId}/${topicId}` },
   };
 }

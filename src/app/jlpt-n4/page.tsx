@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "JLPT N4 日文檢定免費練習 | 單字・文法・聽力・模擬考 | learn.chparenting.com",
-  description: "免費 JLPT N4 日文線上練習，進階單字與文法、聽力理解、閱讀測驗、模擬考。適合有 N5 基礎的日文學習者。",
+  description: "JLPT N4 免費線上題庫：20 個主題單元，て形、比較句型、敬語稱呼等 N4 關鍵文法，單字附發音，聽力、閱讀與計時模擬測驗，每單元附家長陪伴說明與常見卡點。適合已有 N5 基礎的學習者，不用註冊、手機平板都能用。",
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n4" },
 };
 

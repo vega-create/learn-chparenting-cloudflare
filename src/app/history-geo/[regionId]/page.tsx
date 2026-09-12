@@ -17,7 +17,7 @@ export async function generateMetadata({
   if (!region) return {};
   return {
     title: `歷史地理 ${region.title} | learn.chparenting.com`,
-    description: `免費 ${region.title} 歷史地理線上練習：${region.topics.map((t) => t.title).join("、")}。互動式題目，即時回饋。`,
+    description: `免費 ${region.title} 歷史地理線上練習：${region.topics.map((t) => t.title).join("、")}。每個主題先看重點再做題，每題附解說，把地名、年代和事件的關係講清楚；免費使用、不用註冊，適合國小高年級到國中複習。`,
     alternates: {
       canonical: `https://learn.chparenting.com/history-geo/${regionId}`,
     },

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "JLPT N1 日文檢定免費練習 | 高級單字・文法・聽力 | learn.chparenting.com",
-  description: "免費 JLPT N1 日文線上練習，高級單字與文法、學術聽力、進階閱讀。適合日文高級學習者和 N1 備考。",
+  description: "JLPT N1 免費線上題庫：20 個主題單元（媒體、全球化、比較文化等），高級單字附發音、文法、學術聽力與進階閱讀，另有計時模擬測驗與寫作練習，每單元附常見卡點說明。適合日文高級學習者備考 N1，不用註冊、手機平板都能用。",
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n1" },
 };
 

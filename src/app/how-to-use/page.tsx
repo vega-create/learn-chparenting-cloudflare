@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "使用說明 | learn.chparenting.com 免費親子學習平台",
-  description: "3 步驟快速上手親子多元學習平台：選擇級別、進入單元、開始學習。包含口說錄音、聽力測驗、模擬考試完整教學。",
+  description: "learn.chparenting.com 使用說明：三步驟開始（選級別、進單元、做練習），單字發音怎麼聽、口說怎麼錄音、聽力與模擬測驗怎麼作答、家長陪伴指南在哪裡、進度怎麼保存。全部免費，不用註冊也能用。",
   alternates: { canonical: "https://learn.chparenting.com/how-to-use" },
 };
 

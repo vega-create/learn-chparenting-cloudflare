@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "全民英檢中高級免費練習 | 8000+ 單字・進階文法・模擬考 | learn.chparenting.com",
-  description: "免費全民英檢中高級線上練習，8000+ 進階單字、複雜文法、長篇聽力、學術閱讀、寫作練習。適合高中生和進階英文學習者。",
+  description: "全民英檢中高級免費線上題庫：40 個主題單元，進階單字附發音、複雜句型與文法、長篇聽力、學術閱讀，另有單字遊戲、口說錄音、寫作練習與計時模擬測驗。適合高中生與進階英文學習者備考，不用註冊、手機平板都能用。",
   alternates: { canonical: "https://learn.chparenting.com/upper-intermediate" },
 };
 

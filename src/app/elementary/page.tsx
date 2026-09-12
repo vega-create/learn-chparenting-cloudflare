@@ -7,7 +7,7 @@ import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
   title: "全民英檢初級題庫｜GEPT 初級免費線上練習（單字・聽力・模擬測驗） - learn.chparenting.com",
-  description: "免費 GEPT 全民英檢初級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。適合國小 5-6 年級備考，每單元附練習單 PDF 可下載列印。",
+  description: "全民英檢初級免費線上題庫：20 個主題單元，單字附發音、文法重點、聽力與閱讀練習，另有單字遊戲、口說錄音、寫作四種題型與計時模擬測驗，每單元附家長陪伴說明與練習單 PDF。適合國小高年級到國中備考，不用註冊。",
   keywords: ["GEPT初級", "全民英檢初級", "英檢初級練習", "國小英檢", "GEPT初級題庫", "英檢免費練習"],
   openGraph: {
     title: "全民英檢初級題庫｜GEPT 初級免費線上練習",

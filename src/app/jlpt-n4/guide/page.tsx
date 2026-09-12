@@ -5,7 +5,7 @@ import GuideOverviewClient from "./GuideOverviewClient";
 
 export const metadata: Metadata = {
   title: "日文 N4 家長陪伴指南 | learn.chparenting.com",
-  description: "不知道怎麼陪孩子學日文？30 秒看完就知道今天陪什麼、怎麼陪、要多久。JLPT N4 每單元家長指南。",
+  description: "日檢 N4家長陪伴指南：每個單元 30 秒看完今天要陪什麼、怎麼陪、大約要多久，還有孩子最常卡住的地方和怎麼帶過。不用懂日文也能陪，免費使用。",
 };
 
 export default function Page() {

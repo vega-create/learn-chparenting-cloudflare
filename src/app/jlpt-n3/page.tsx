@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "JLPT N3 日文檢定免費練習 | 中級單字・文法・聽力 | learn.chparenting.com",
-  description: "免費 JLPT N3 日文線上練習，中級單字與文法、聽力理解、閱讀測驗。適合日文中級學習者。",
+  description: "JLPT N3 免費線上題庫：20 個主題單元的中級單字附發音、文法重點、聽力理解與閱讀測驗，另有單字遊戲、口說、寫作與計時模擬測驗，每單元附陪伴說明。適合從 N4 往上、準備 N3 的學習者，不用註冊、手機平板都能用。",
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n3" },
 };
 

@@ -6,7 +6,7 @@ import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 export const metadata: Metadata = {
   title: "免費樂理基礎練習 | 音符・音階・和弦・音樂常識 | learn.chparenting.com",
   description:
-    "免費樂理基礎線上練習，涵蓋音符休止符、節拍拍號、音高譜號、音階調性、音程和弦、曲式結構、音樂常識。互動式選擇題即時回饋。",
+    "免費樂理線上練習：入門的音符與休止符、節拍與拍號、音高與譜號，基礎的音階與調性、音程、力度與速度記號，進階的和弦、曲式、音樂常識。每題附解說，不需要會樂器，適合學樂器前後的孩子打基礎，不用註冊。",
   alternates: { canonical: "https://learn.chparenting.com/music" },
 };
 

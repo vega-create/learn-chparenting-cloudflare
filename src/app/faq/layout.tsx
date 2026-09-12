@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "常見問題 | learn.chparenting.com 免費親子學習平台",
-  description: "親子多元學習平台常見問題：免費使用、適合年齡、學習內容、手機支援等。所有功能完全免費，不需要花補習費。",
+  description: "learn.chparenting.com 常見問題：是不是真的免費、要不要註冊、適合幾歲、有哪些科目、手機平板能不能用、學習進度怎麼保存、和官方全民英檢有沒有關係。所有功能免費，沒有付費方案。",
   alternates: { canonical: "https://learn.chparenting.com/faq" },
 };
 

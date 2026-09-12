@@ -26,7 +26,7 @@ export async function generateMetadata({
   if (!t) return {};
   return {
     title: `${t.title}練習｜${t.grade}免費數學題庫 | learn.chparenting.com`,
-    description: `免費${t.title}線上練習，適合${t.grade}：觀念講解搭配互動題目，即時對答案，循序漸進打好數學基礎。`,
+    description: `免費${t.title}線上練習，適合${t.grade}：涵蓋${t.concepts.map((c) => c.title).join("、")}，每個觀念先講解再做題，附例題步驟與解說，答錯立刻看懂。免費、不用註冊，手機平板都能用。`,
     alternates: { canonical: `https://learn.chparenting.com/math/${t.id}` },
   };
 }

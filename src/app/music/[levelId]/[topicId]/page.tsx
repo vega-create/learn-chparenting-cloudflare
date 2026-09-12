@@ -33,7 +33,7 @@ export async function generateMetadata({
   const topic = found.topic;
   return {
     title: `${topic.title}（${parent.title}）｜音樂常識練習 | learn.chparenting.com`,
-    description: `免費樂理「${parent.title}」${topic.title}線上練習：${topic.description}。互動式題目即時回饋，適合國小學童，免費使用無需註冊。`,
+    description: `免費樂理「${parent.title}」${topic.title}線上練習：${topic.description}。每題附解說，答錯可立刻看懂；不需要會樂器，有鍵盤或手機就能對照練習，免費使用、不用註冊。`,
     alternates: { canonical: `https://learn.chparenting.com/music/${levelId}/${topicId}` },
   };
 }

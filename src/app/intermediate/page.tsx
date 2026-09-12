@@ -6,7 +6,7 @@ import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
   title: "全民英檢中級題庫｜GEPT 中級免費線上練習（單字・聽力・閱讀） - learn.chparenting.com",
-  description: "免費 GEPT 全民英檢中級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。適合國中生、高中生備考，每單元附練習單 PDF 可下載。",
+  description: "全民英檢中級免費線上題庫：34 個主題單元，單字附發音與重音提示、文法、聽力與閱讀練習，另有單字遊戲、口說錄音、寫作四種題型與計時模擬測驗，每單元附家長陪伴說明與練習單 PDF。適合國中生、高中生備考，不用註冊。",
   keywords: ["GEPT中級", "全民英檢中級", "英檢中級練習", "英檢中級題庫", "GEPT中級免費"],
   openGraph: {
     title: "全民英檢中級題庫｜GEPT 中級免費線上練習",

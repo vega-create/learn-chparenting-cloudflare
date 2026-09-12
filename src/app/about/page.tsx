@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "關於我們 | learn.chparenting.com 免費親子學習平台",
-  description: "一位媽媽因為想幫自己的孩子準備英檢，開始做了這個免費學習平台。希望每個孩子都能快樂學習，不用擔心補習費。",
+  description: "learn.chparenting.com 是一位媽媽為了陪自己的孩子準備英檢而做的免費學習平台，後來加上日檢、數學、國語、樂理、桌遊與理財。全部免費、不用註冊、沒有付費牆，希望每個孩子都能不靠補習費把基礎練好。",
   alternates: { canonical: "https://learn.chparenting.com/about" },
 };
 

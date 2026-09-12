@@ -5,7 +5,7 @@ import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "免費兒童理財遊戲 | 預算分配・存錢挑戰・記帳 | learn.chparenting.com",
-  description: "免費兒童理財互動遊戲，透過預算分配、存錢挑戰學習金錢觀念。讓孩子理解需要和想要的差別。",
+  description: "免費兒童理財互動教材：認識金錢 10 張字卡、需要 vs 想要分類、零用錢四份分配、儲蓄計算機、紅包分配情境、7 天記帳模擬。從「錢是什麼」到「錢去哪了」一路練，適合國小親子一起做，不用註冊。",
   alternates: { canonical: "https://learn.chparenting.com/finance" },
 };
 

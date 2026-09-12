@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "JLPT N3單字遊戲｜免費線上練習 | learn.chparenting.com",
-  description: "用互動遊戲記單字，配對、選擇、限時挑戰，邊玩邊複習日檢 N3核心字彙。免費使用，無需註冊。",
+  description: "日檢 N3單字遊戲：配對、選擇、限時挑戰三種玩法，出題來自日檢 N3各單元的核心字彙，邊玩邊複習。免費線上使用、不用註冊，手機平板都能玩，適合每天 10 分鐘。",
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n3/game" },
 };
 

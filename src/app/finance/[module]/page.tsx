@@ -24,7 +24,7 @@ export async function generateMetadata({
   if (!m) return {};
   return {
     title: `${m.title}｜兒童理財教育免費教材 | learn.chparenting.com`,
-    description: `兒童理財教育「${m.title}」：${m.description}。互動式學習，免費線上使用，幫孩子從小建立正確金錢觀。`,
+    description: `兒童理財教育「${m.title}」：${m.description}。互動式學習，做完立刻看到結果，適合國小親子一起討論；免費線上使用、不用註冊，手機平板都能用，幫孩子從小建立正確金錢觀。`,
     alternates: { canonical: `https://learn.chparenting.com/finance/${m.id}` },
   };
 }

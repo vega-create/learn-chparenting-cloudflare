@@ -4,7 +4,7 @@ import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
   title: "免費教育桌遊 | 18 款邏輯遊戲・記憶力・數學・程式概念 | learn.chparenting.com",
-  description: "18 款免費線上教育桌遊，包含邏輯推理、記憶力、數學、程式概念、圍棋、跳棋等。邊玩邊學，適合全家一起。",
+  description: "18 款免費線上教育桌遊：迷你數獨、圖案大師、數列探險練邏輯，記憶翻牌、記憶旋律練記憶，程式路徑、迴圈、邏輯閘練程式概念，還有圍棋、跳棋、數學衝刺、英文接龍。每款標明適合年齡與陪玩方式，不用下載、不用註冊。",
   alternates: { canonical: "https://learn.chparenting.com/board-games" },
 };
 

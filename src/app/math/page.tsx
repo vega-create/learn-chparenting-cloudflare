@@ -7,7 +7,7 @@ import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
   title: "國小數學免費練習｜四則運算線上練習題 - learn.chparenting.com",
-  description: "免費國小數學線上練習，涵蓋四則運算、應用題、闖關模式。適合國小 1-6 年級，遊戲化學習讓孩子愛上數學。",
+  description: "免費國小數學線上練習：基礎運算、分數、小數、百分比、幾何、代數入門、應用題、時間與計量八個主題，每個觀念先講解再做題、附例題步驟與解說。適合國小 1 到 6 年級在家每天練，不用註冊。",
   keywords: ["國小數學練習", "四則運算練習", "國小數學題庫", "數學免費練習", "小學數學"],
   openGraph: {
     title: "國小數學免費練習｜四則運算線上練習題",

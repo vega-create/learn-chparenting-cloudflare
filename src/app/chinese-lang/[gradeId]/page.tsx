@@ -17,7 +17,7 @@ export async function generateMetadata({
   if (!grade) return {};
   return {
     title: `國語 ${grade.title} | learn.chparenting.com`,
-    description: `免費國小國語 ${grade.title} 線上練習：${grade.topics.map((t) => t.title).join("、")}。互動式題目，即時回饋。`,
+    description: `免費國小國語 ${grade.title} 線上練習：${grade.topics.map((t) => t.title).join("、")}。每個主題先看觀念再做題，每題附解說，答錯立刻看懂；免費使用、不用註冊，手機平板都能用，適合在家每天練 10 分鐘。`,
     alternates: {
       canonical: `https://learn.chparenting.com/chinese-lang/${gradeId}`,
     },

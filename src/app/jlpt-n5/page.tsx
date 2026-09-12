@@ -7,7 +7,7 @@ import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
   title: "日文免費練習｜JLPT N5 線上題庫 - learn.chparenting.com",
-  description: "免費日文線上練習，從五十音到 JLPT N5 單字、文法完整題庫。適合兒童和初學者入門，邊玩邊學日文最有效。",
+  description: "JLPT N5 免費線上題庫：從五十音表開始，20 個主題單元的單字附發音、文法重點、聽力與練習題，每單元附給家長看的陪伴說明（今天練什麼、怎麼陪、常卡在哪）。適合兒童與零基礎初學者，不用註冊、手機就能練。",
   keywords: ["日文練習", "JLPT N5", "日文免費學習", "五十音練習", "兒童學日文", "N5題庫"],
   openGraph: {
     title: "日文免費練習｜JLPT N5 線上題庫",

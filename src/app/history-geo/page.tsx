@@ -6,7 +6,7 @@ import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 export const metadata: Metadata = {
   title: "免費歷史地理練習 | 台灣・亞洲・世界 | learn.chparenting.com",
   description:
-    "免費歷史地理線上練習，涵蓋台灣歷史地理文化、亞洲歷史地理、世界歷史地理文化。互動式選擇題即時回饋，適合國小高年級到國中。",
+    "免費歷史地理線上練習：台灣歷史、地理、文化，亞洲歷史與地理，世界歷史、地理與文化，共八個主題。每題附解說，把地名、年代、事件之間的關係講清楚，不是背答案。適合國小高年級到國中，不用註冊。",
   alternates: { canonical: "https://learn.chparenting.com/history-geo" },
 };
 

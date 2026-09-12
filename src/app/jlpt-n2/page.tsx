@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "JLPT N2 日文檢定免費練習 | 進階單字・文法・聽力 | learn.chparenting.com",
-  description: "免費 JLPT N2 日文線上練習，進階單字與文法、長篇聽力、閱讀理解。適合準備 N2 考試的學習者。",
+  description: "JLPT N2 免費線上題庫：20 個主題單元（商業、醫療、法律、環境等），進階單字附發音、文法重點、長篇聽力與閱讀理解，另有計時模擬測驗與寫作練習，每單元附常見卡點說明。適合準備 N2 的學習者，不用註冊、手機平板都能用。",
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n2" },
 };
 
