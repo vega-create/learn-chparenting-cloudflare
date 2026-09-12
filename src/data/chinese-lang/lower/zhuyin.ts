@@ -211,7 +211,7 @@ const listeningData: ChineseListening[] = [
 
 const topic: ChineseTopic = {
   id: "zhuyin",
-  title: "注音符號",
+  title: "注音符號練習",
   icon: "ㄅ",
   description: "聲母・韻母・聲調・拼讀練習",
   color: "from-orange-400 to-amber-400",

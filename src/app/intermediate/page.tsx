@@ -5,11 +5,11 @@ import { ToolIntroSection } from "@/components/ToolIntroSection";
 import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
-  title: "GEPT 中級免費練習題庫｜全民英檢中級線上測驗 - learn.chparenting.com",
+  title: "全民英檢中級題庫｜GEPT 中級免費線上練習（單字・聽力・閱讀） - learn.chparenting.com",
   description: "免費 GEPT 全民英檢中級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。適合國中生、高中生備考，每單元附練習單 PDF 可下載。",
   keywords: ["GEPT中級", "全民英檢中級", "英檢中級練習", "英檢中級題庫", "GEPT中級免費"],
   openGraph: {
-    title: "GEPT 中級免費練習題庫｜全民英檢中級線上測驗",
+    title: "全民英檢中級題庫｜GEPT 中級免費線上練習",
     description: "免費 GEPT 全民英檢中級線上練習，涵蓋單字、文法、聽力、閱讀完整題庫。",
     url: "https://learn.chparenting.com/intermediate/",
     siteName: "learn.chparenting.com",
@@ -23,7 +23,7 @@ export default function ElementaryPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <ToolStructuredData
-        name="GEPT 中級免費練習題庫"
+        name="全民英檢中級題庫｜GEPT 中級免費線上練習"
         description="專為備考 GEPT 全民英檢中級設計的免費線上練習平台，適合國中生、高中生"
         url="https://learn.chparenting.com/intermediate/"
         educationalLevel="國中"

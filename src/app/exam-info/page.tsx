@@ -3,7 +3,7 @@ import { SessionStatus } from "./SessionStatus";
 
 export const metadata: Metadata = {
   title:
-    "全民英檢 2026 測驗日期、報名時間與費用 + JLPT 日檢報名資訊 | learn.chparenting.com",
+    "全民英檢 2026 測驗日期、報名時間與費用（初級・中級・中高級）＋JLPT 日檢 | learn.chparenting.com",
   description:
     "2026 年全民英檢 GEPT 初級、中級、中高級每一場的測驗日期、報名期間、報名費（依 LTTC 官方日程整理，含 11/7 初級與 10/31 中級聽讀）。JLPT 日本語能力試驗報名資訊、測驗日期、N1–N5 各級費用。最完整的報考資訊整理。",
   keywords:
