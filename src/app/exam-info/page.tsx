@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { SessionStatus } from "./SessionStatus";
 
 export const metadata: Metadata = {
   title:
-    "全民英檢報名時間費用 + JLPT 日檢報名資訊 2025–2026 | learn.chparenting.com",
+    "全民英檢 2026 測驗日期、報名時間與費用 + JLPT 日檢報名資訊 | learn.chparenting.com",
   description:
-    "2025–2026 全民英檢 GEPT 報名時間、考試日期、報名費用一覽表。JLPT 日本語能力試驗報名資訊、測驗日期、N1–N5 各級費用。最完整的報考資訊整理。",
+    "2026 年全民英檢 GEPT 初級、中級、中高級每一場的測驗日期、報名期間、報名費（依 LTTC 官方日程整理，含 11/7 初級與 10/31 中級聽讀）。JLPT 日本語能力試驗報名資訊、測驗日期、N1–N5 各級費用。最完整的報考資訊整理。",
   keywords:
     "全民英檢報名, 全民英檢考試時間, 全民英檢報名費用, 全民英檢2026, GEPT報名, JLPT報名, 日檢報名, 日本語能力試驗, JLPT考試時間, JLPT報名費用, N1報名, N2報名",
   alternates: { canonical: "https://learn.chparenting.com/exam-info" },
@@ -19,7 +20,7 @@ const jsonLd = {
       name: "2026 年全民英檢什麼時候報名？",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "2026 年全民英檢分為三梯次：第一梯次約 1 月報名、4 月考試；第二梯次約 5 月報名、8 月考試；第三梯次約 9 月報名、12 月考試。詳情請參考 LTTC 官網公告。",
+        text: "2026 年全民英檢初級聽讀有三場（1/3、6/6、11/7），說寫兩場（3/14–15、9/12–13）；中級聽讀 5/9、10/31，另有 1/24、8/1 一日考。每場報名約在考前 2 到 3 個月開放，11/7 初級聽讀報名延長至 9/16，10/31 中級聽讀至 9/17。2027 年日程 LTTC 通常於 9 月底至 10 月公告，實際以官網為準。",
       },
     },
     {
@@ -35,7 +36,7 @@ const jsonLd = {
       name: "全民英檢初級報名費多少錢？",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "全民英檢初級聽力閱讀測驗報名費為 NT$530，口說寫作測驗報名費為 NT$660。",
+        text: "2026 年全民英檢初級聽讀（初試）報名費 NT$600，說寫（複試）兩項 NT$900，口說單項 NT$530、寫作單項 NT$370。中級聽讀 NT$850、說寫兩項 NT$1,550；中高級聽讀 NT$1,050、說寫兩項 NT$1,750。以報名系統為準。",
       },
     },
   ],
@@ -44,55 +45,76 @@ const jsonLd = {
 const GEPT_LEVELS = [
   {
     level: "初級",
-    eng: "Elementary",
+    eng: "Elementary（CEFR A2）",
     target: "國中程度",
-    listenRead: "NT$530",
-    speakWrite: "NT$660",
+    listenRead: "NT$600",
+    speakWrite: "NT$900（口說 530／寫作 370）",
     href: "/elementary",
   },
   {
     level: "中級",
-    eng: "Intermediate",
+    eng: "Intermediate（CEFR B1）",
     target: "高中程度",
-    listenRead: "NT$750",
-    speakWrite: "NT$890",
+    listenRead: "NT$850",
+    speakWrite: "NT$1,550（口說 920／寫作 630）",
     href: "/intermediate",
   },
   {
     level: "中高級",
-    eng: "Upper-Intermediate",
+    eng: "Upper-Intermediate（CEFR B2）",
     target: "大學程度",
-    listenRead: "NT$900",
-    speakWrite: "NT$1,100",
+    listenRead: "NT$1,050",
+    speakWrite: "NT$1,750（口說 1,020／寫作 730）",
     href: "/upper-intermediate",
   },
 ];
 
-const GEPT_SCHEDULE = [
+/**
+ * 2026 年 GEPT 各級每一場的日程，抄自 LTTC 官方「2026 年 GEPT 測驗日期」
+ * （gept.org.tw/info/GEPTschedule.pdf，2025-09-24 公告）。
+ * 報名期間若官網後來延長，以 note 標註延長後的截止日。
+ * 日期一律 ISO 字串，SessionStatus 會依瀏覽者當天日期顯示狀態。
+ */
+type GeptSession = {
+  type: string;
+  examLabel: string;
+  examDate: string; // 最後一天，YYYY-MM-DD
+  register: string;
+  registerEnd: string; // YYYY-MM-DD
+  note?: string;
+};
+
+const GEPT_SCHEDULE_2026: { level: string; sessions: GeptSession[] }[] = [
   {
-    year: "2025",
+    level: "初級",
     sessions: [
-      { session: "第一梯次", level: "初級", register: "1 月", exam: "4 月" },
-      { session: "第二梯次", level: "中級", register: "5 月", exam: "8 月" },
-      {
-        session: "第三梯次",
-        level: "中高級",
-        register: "9 月",
-        exam: "12 月",
-      },
+      { type: "聽讀（初試）", examLabel: "1/3（六）", examDate: "2026-01-03", register: "2025/10/1 – 11/10", registerEnd: "2025-11-10" },
+      { type: "說寫（複試）", examLabel: "3/14（六）、15（日）", examDate: "2026-03-15", register: "1/2 – 1/23", registerEnd: "2026-01-23" },
+      { type: "聽讀（初試）", examLabel: "6/6（六）", examDate: "2026-06-06", register: "3/9 – 4/13", registerEnd: "2026-04-13" },
+      { type: "說寫（複試）", examLabel: "9/12（六）、13（日）", examDate: "2026-09-13", register: "6/15 – 7/20", registerEnd: "2026-07-20" },
+      { type: "聽讀（初試）", examLabel: "11/7（六）", examDate: "2026-11-07", register: "7/29 – 9/16", registerEnd: "2026-09-16", note: "原訂 9/2 截止，官網延長至 9/16 下午 5:00；成績 11/18 公布" },
     ],
   },
   {
-    year: "2026",
+    level: "中級",
     sessions: [
-      { session: "第一梯次", level: "初級", register: "1 月", exam: "4 月" },
-      { session: "第二梯次", level: "中級", register: "5 月", exam: "8 月" },
-      {
-        session: "第三梯次",
-        level: "中高級",
-        register: "9 月",
-        exam: "12 月",
-      },
+      { type: "一日考（聽讀＋說寫）", examLabel: "1/24（六）", examDate: "2026-01-24", register: "2025/10/20 – 11/24", registerEnd: "2025-11-24" },
+      { type: "說寫（複試）", examLabel: "4/18（六）、19（日）", examDate: "2026-04-19", register: "2/9 – 3/2", registerEnd: "2026-03-02" },
+      { type: "聽讀（初試）", examLabel: "5/9（六）", examDate: "2026-05-09", register: "2/2 – 3/16", registerEnd: "2026-03-16" },
+      { type: "一日考（聽讀＋說寫）", examLabel: "8/1（六）", examDate: "2026-08-01", register: "6/8 – 6/26", registerEnd: "2026-06-26" },
+      { type: "電腦化測驗（聽讀／一日考）", examLabel: "8/15（六）", examDate: "2026-08-15", register: "5/18 – 6/15", registerEnd: "2026-06-15", note: "電腦化測驗費用不同：聽讀 1,250、一日考 3,150" },
+      { type: "聽讀（初試）", examLabel: "10/31（六）", examDate: "2026-10-31", register: "7/22 – 9/17", registerEnd: "2026-09-17", note: "原訂 9/2 截止，官網延長至 9/17 下午 5:00；成績 11/18 公布" },
+      { type: "說寫（複試）", examLabel: "11/14（六）、15（日）", examDate: "2026-11-15", register: "8/21 – 9/24", registerEnd: "2026-09-24", note: "成績 12/24 公布" },
+    ],
+  },
+  {
+    level: "中高級",
+    sessions: [
+      { type: "電腦化測驗（聽讀／一日考）", examLabel: "3/28（六）", examDate: "2026-03-28", register: "1/28 – 2/11", registerEnd: "2026-02-11" },
+      { type: "聽讀／一日考", examLabel: "5/24（日）", examDate: "2026-05-24", register: "2/23 – 3/30", registerEnd: "2026-03-30" },
+      { type: "說寫（複試）", examLabel: "7/25（六）", examDate: "2026-07-25", register: "6/1 – 6/15", registerEnd: "2026-06-15" },
+      { type: "電腦化測驗（聽讀／一日考）", examLabel: "10/31（六）", examDate: "2026-10-31", register: "7/3 – 9/4", registerEnd: "2026-09-04", note: "電腦化測驗費用不同：聽讀 1,540、一日考 3,650" },
+      { type: "說寫（複試）", examLabel: "12/19（六）", examDate: "2026-12-19", register: "10/19 – 11/16", registerEnd: "2026-11-16" },
     ],
   },
 ];
@@ -206,46 +228,41 @@ export default function ExamInfoPage() {
 
           {/* 考試時程 */}
           <div className="mb-6">
-            <h3 className="text-base font-bold text-slate-700 mb-3">
-              考試時程表
+            <h3 className="text-base font-bold text-slate-700 mb-1">
+              2026 年考試時程表（各級每一場）
             </h3>
-            {GEPT_SCHEDULE.map((y) => (
-              <div key={y.year} className="mb-4">
+            <p className="text-xs text-slate-500 mb-3">
+              依 LTTC 2025 年 9 月 24 日公告的官方日程整理；報名期間若官網延長，以備註為準。狀態欄依你今天的日期判斷。
+            </p>
+            {GEPT_SCHEDULE_2026.map((lv) => (
+              <div key={lv.level} className="mb-5">
                 <div className="text-sm font-bold text-rose-500 mb-2">
-                  {y.year} 年
+                  {lv.level}
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-rose-100/40">
-                        <th className="text-left p-2.5 font-bold text-slate-700">
-                          梯次
-                        </th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">
-                          級別
-                        </th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">
-                          報名期間
-                        </th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">
-                          考試月份
-                        </th>
+                        <th className="text-left p-2.5 font-bold text-slate-700">測驗項目</th>
+                        <th className="text-left p-2.5 font-bold text-slate-700">測驗日期</th>
+                        <th className="text-left p-2.5 font-bold text-slate-700">報名期間</th>
+                        <th className="text-left p-2.5 font-bold text-slate-700">狀態</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {y.sessions.map((s) => (
-                        <tr
-                          key={s.session}
-                          className="border-t border-rose-100"
-                        >
+                      {lv.sessions.map((x) => (
+                        <tr key={lv.level + x.examDate + x.type} className="border-t border-rose-100 align-top">
+                          <td className="p-2.5 text-slate-600">{x.type}</td>
+                          <td className="p-2.5 text-slate-600 whitespace-nowrap">{x.examLabel}</td>
                           <td className="p-2.5 text-slate-600">
-                            {s.session}
+                            {x.register}
+                            {x.note && (
+                              <div className="text-xs text-amber-700 mt-0.5">{x.note}</div>
+                            )}
                           </td>
-                          <td className="p-2.5 text-slate-600">{s.level}</td>
-                          <td className="p-2.5 text-slate-600">
-                            {s.register}
+                          <td className="p-2.5">
+                            <SessionStatus examDate={x.examDate} registerEnd={x.registerEnd} />
                           </td>
-                          <td className="p-2.5 text-slate-600">{s.exam}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -253,6 +270,10 @@ export default function ExamInfoPage() {
                 </div>
               </div>
             ))}
+            <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-sm text-slate-600">
+              <span className="font-bold text-slate-700">2027 年日程：</span>
+              LTTC 尚未公告（2026 年的日程是 2025 年 9 月 24 日公告的，往年多在 9 月底至 10 月）。公告後本頁會更新整年的初級、中級、中高級場次。
+            </div>
           </div>
 
           {/* 報名方式 */}
@@ -271,18 +292,26 @@ export default function ExamInfoPage() {
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-rose-400 mt-0.5">3.</span>
-                <p>繳費完成即報名成功，考前寄發准考證</p>
+                <p>繳費完成後三個工作天到報名系統確認「已入帳」才算完成；准考證以電子郵件寄發，沒有紙本</p>
               </div>
             </div>
           </div>
 
           <a
-            href="https://www.lttc.ntu.edu.tw/gept.htm"
+            href="https://www.gept.org.tw/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-500 font-semibold text-sm hover:bg-rose-100 transition no-underline"
           >
             🔗 LTTC 全民英檢官網
+          </a>
+          <a
+            href="https://reg6.lttc.org.tw/GEPT_Exam_New/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-500 font-semibold text-sm hover:bg-rose-100 transition no-underline ml-2"
+          >
+            🔗 全民英檢報名系統
           </a>
         </div>
       </section>
@@ -507,7 +536,7 @@ export default function ExamInfoPage() {
       {/* 最後更新時間 */}
       <div className="text-center mt-6">
         <p className="text-xs text-slate-400">
-          資料最後更新：2026 年 3 月 ｜ 實際資訊請以各主辦單位官方公告為準
+          資料最後更新：2026 年 9 月 12 日（英檢依 LTTC 2026 官方日程） ｜ 實際資訊請以各主辦單位官方公告為準
         </p>
       </div>
     </div>
