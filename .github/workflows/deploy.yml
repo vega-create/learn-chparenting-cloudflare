@@ -45,6 +45,11 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PAGES_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
+      - name: IndexNow submit (Bing / Yahoo)
+        # 把本次 push 改到的頁面即時送進 Bing 系索引；失敗不擋部署
+        run: node scripts/indexnow-submit.mjs
+        continue-on-error: true
+
       - name: Verify GA4 is live
         run: |
           # Guard against empty/missing GA4_ID (prevents false positives from grep "")
