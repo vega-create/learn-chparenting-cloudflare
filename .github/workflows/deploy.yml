@@ -3,6 +3,10 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [main]
+  schedule:
+    # 每天 00:10 台北（16:10 UTC）：有排程文章到期才部署
+    - cron: "10 16 * * *"
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -30,12 +34,20 @@ jobs:
 
       - run: npm ci
 
+      - name: Scheduled run — skip unless a post is due today
+        id: due
+        if: github.event_name == 'schedule'
+        run: node scripts/publish-scheduled.mjs --due-today && echo "go=1" >> "$GITHUB_OUTPUT" || echo "go=0" >> "$GITHUB_OUTPUT"
+
       - run: npm run build
+        if: github.event_name != 'schedule' || steps.due.outputs.go == '1'
 
       - name: Convert to Cloudflare Pages format
+        if: github.event_name != 'schedule' || steps.due.outputs.go == '1'
         run: npx @cloudflare/next-on-pages || true
 
       - name: Deploy to Cloudflare Pages
+        if: github.event_name != 'schedule' || steps.due.outputs.go == '1'
         # IMPORTANT: nodejs_compat compatibility flag must be enabled in the
         # Cloudflare Pages dashboard (Settings → Functions → Compatibility flags),
         # otherwise all /api/* routes 500 with "No such module 'async_hooks'".
@@ -46,11 +58,13 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: IndexNow submit (Bing / Yahoo)
+        if: github.event_name != 'schedule' || steps.due.outputs.go == '1'
         # 把本次 push 改到的頁面即時送進 Bing 系索引；失敗不擋部署
         run: node scripts/indexnow-submit.mjs
         continue-on-error: true
 
       - name: Verify GA4 is live
+        if: github.event_name != 'schedule' || steps.due.outputs.go == '1'
         run: |
           # Guard against empty/missing GA4_ID (prevents false positives from grep "")
           if [ -z "$GA4_ID" ] || [ ${#GA4_ID} -lt 10 ]; then
