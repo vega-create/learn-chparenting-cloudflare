@@ -74,6 +74,9 @@ const MORE_TOOLS = [
   { href: "/music", icon: "🎵", label: "樂理基礎" },
   { href: "/typing-game", icon: "⌨️", label: "打字練習" },
   { href: "/finance", icon: "💰", label: "兒童理財" },
+  { href: "/typing-game/keyboard", icon: "🖐️", label: "鍵盤位置" },
+  { href: "/math/times-table", icon: "✖️", label: "九九乘法" },
+  { href: "/chinese-lang/idiom-practice", icon: "🏮", label: "成語練習" },
 ];
 
 const MORE_INFO = [

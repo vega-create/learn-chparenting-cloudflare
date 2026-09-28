@@ -28,11 +28,14 @@ export default function Footer() {
             <h4 className="font-bold text-slate-700 mb-2">🎯 更多工具</h4>
             <div className="flex flex-col gap-1.5">
               <a href="/chinese-lang" className="text-slate-500 hover:text-orange-500 transition">📝 國語學習</a>
+              <a href="/chinese-lang/idiom-practice" className="text-slate-500 hover:text-red-500 transition">🏮 成語練習</a>
               <a href="/history-geo" className="text-slate-500 hover:text-emerald-500 transition">🌏 歷史地理</a>
               <a href="/music" className="text-slate-500 hover:text-pink-500 transition">🎵 樂理基礎</a>
               <a href="/board-games" className="text-slate-500 hover:text-orange-500 transition">🎲 教育桌遊</a>
               <a href="/math" className="text-slate-500 hover:text-amber-500 transition">🔢 數學練習</a>
+              <a href="/math/times-table" className="text-slate-500 hover:text-amber-500 transition">✖️ 九九乘法練習</a>
               <a href="/typing-game" className="text-slate-500 hover:text-emerald-500 transition">⌨️ 打字練習</a>
+              <a href="/typing-game/keyboard" className="text-slate-500 hover:text-sky-500 transition">🖐️ 鍵盤位置練習</a>
               <a href="/finance" className="text-slate-500 hover:text-purple-500 transition">💰 兒童理財</a>
             </div>
           </div>

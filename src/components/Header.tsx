@@ -21,9 +21,12 @@ const JLPT_LEVELS = [
 
 const TOOLS = [
   { icon: "📝", label: "國語學習", href: "/chinese-lang", prefix: "/chinese-lang" },
+  { icon: "🏮", label: "成語練習", href: "/chinese-lang/idiom-practice", prefix: "/chinese-lang/idiom-practice" },
   { icon: "🌏", label: "歷史地理", href: "/history-geo", prefix: "/history-geo" },
   { icon: "🔢", label: "數學練習", href: "/math", prefix: "/math" },
+  { icon: "✖️", label: "九九乘法練習", href: "/math/times-table", prefix: "/math/times-table" },
   { icon: "⌨️", label: "打字練習", href: "/typing-game", prefix: "/typing-game" },
+  { icon: "🖐️", label: "鍵盤位置練習", href: "/typing-game/keyboard", prefix: "/typing-game/keyboard" },
   { icon: "🎲", label: "教育桌遊", href: "/board-games", prefix: "/board-games" },
   { icon: "🎵", label: "樂理基礎", href: "/music", prefix: "/music" },
   { icon: "💰", label: "兒童理財", href: "/finance", prefix: "/finance" },
@@ -47,6 +50,8 @@ export default function Header() {
   const [infoOpen, setInfoOpen] = useState(false);
 
   const isToolsActive = TOOLS.some(t => pathname.startsWith(t.prefix));
+  // 同時符合「數學練習」和「九九乘法練習」時，只標示比較精確的那一個
+  const activeTool = TOOLS.filter(t => pathname.startsWith(t.prefix)).sort((a, b) => b.prefix.length - a.prefix.length)[0];
   const isInfoActive = INFO_LINKS.some(l => pathname === l.href);
 
   return (
@@ -133,11 +138,11 @@ export default function Header() {
               🎯 學習工具 <span className="text-xs">▾</span>
             </button>
             {toolsOpen && (
-              <div className="absolute left-0 top-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden min-w-[140px]">
+              <div className="absolute left-0 top-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden min-w-[170px] whitespace-nowrap">
                 {TOOLS.map(t => (
                   <a key={t.href} href={t.href}
                     className={`block px-4 py-2.5 text-sm font-medium no-underline transition ${
-                      pathname.startsWith(t.prefix) ? "text-orange-600 bg-orange-50" : "text-slate-600 hover:bg-slate-50"
+                      activeTool?.href === t.href ? "text-orange-600 bg-orange-50" : "text-slate-600 hover:bg-slate-50"
                     }`}>
                     {t.icon} {t.label}
                   </a>
