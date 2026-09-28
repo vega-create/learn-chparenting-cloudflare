@@ -82,6 +82,20 @@ const TOOLS = [
     features: ["6 個階段循序練習", "基準鍵・上排・下排・數字排", "畫面提示用哪根手指", "可切換注音鍵位"],
   },
   {
+    id: "times-table", title: "九九乘法練習", sub: "Times Table", icon: "✖️",
+    desc: "自己選要練幾的乘法",
+    color: "from-yellow-400 to-amber-500", border: "border-yellow-200",
+    active: true, href: "/math/times-table",
+    features: ["2 到 9 自由選、可混合", "照順序或打亂出題", "答錯的題目最後再練一次", "附九九乘法表對照"],
+  },
+  {
+    id: "idiom-practice", title: "成語練習", sub: "Chinese Idioms", icon: "🏮",
+    desc: "填空・配對・可列印學習單",
+    color: "from-red-400 to-orange-400", border: "border-red-200",
+    active: true, href: "/chinese-lang/idiom-practice",
+    features: ["成語填空：選出正確的字", "成語與意思配對", "基礎、進階兩種程度", "學習單可列印、附解答"],
+  },
+  {
     id: "music", title: "樂理基礎", sub: "Music Theory", icon: "🎵",
     desc: "音符・音階・和弦・音樂常識",
     color: "from-pink-400 to-pink-500", border: "border-pink-200",
@@ -160,6 +174,16 @@ export default function HomePage() {
                 <div className="text-2xl md:text-3xl mb-1">🖐️</div>
                 <div className="font-bold text-slate-800 text-xs md:text-sm">鍵盤位置</div>
                 <div className="text-[10px] md:text-xs text-slate-400">Keyboard</div>
+              </a>
+              <a href="/math/times-table" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-yellow-200 shadow-sm hover:shadow-lg hover:border-yellow-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">✖️</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">九九乘法</div>
+                <div className="text-[10px] md:text-xs text-slate-400">Times Table</div>
+              </a>
+              <a href="/chinese-lang/idiom-practice" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-red-200 shadow-sm hover:shadow-lg hover:border-red-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">🏮</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">成語練習</div>
+                <div className="text-[10px] md:text-xs text-slate-400">Idioms</div>
               </a>
               <a href="/finance" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-purple-200 shadow-sm hover:shadow-lg hover:border-purple-400 transition-all no-underline hover-lift">
                 <div className="text-2xl md:text-3xl mb-1">💰</div>

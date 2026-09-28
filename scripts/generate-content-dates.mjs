@@ -153,6 +153,10 @@ if (fs.existsSync(BG_DIR)) {
 set("/typing-game", "src/app/typing-game/page.tsx", "src/data/typing");
 set("/typing-game/keyboard", "src/app/typing-game/keyboard/page.tsx");
 
+// ── 獨立練習工具（不在下面的 SECTIONS／NESTED 清單裡）────────────────────────
+set("/math/times-table", "src/app/math/times-table/page.tsx");
+set("/chinese-lang/idiom-practice", "src/app/chinese-lang/idiom-practice/page.tsx", "src/data/idiom-practice.ts");
+
 // ── Topic sections (math / finance / chinese-lang / history-geo / music) ───────
 // Each is a hub plus one page per topic; topic content lives under src/data/<section>.
 const SECTIONS = [

@@ -64,6 +64,16 @@ export default function MathPage() {
         </div>
       </div>
 
+      {/* 九九乘法練習（獨立工具） */}
+      <a href="/math/times-table" className="flex items-center gap-4 p-5 mb-8 bg-white rounded-2xl border border-yellow-200 shadow-sm hover-lift no-underline">
+        <div className="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center text-2xl flex-shrink-0">✖️</div>
+        <div className="flex-1">
+          <div className="font-bold text-slate-800">九九乘法練習</div>
+          <div className="text-sm text-slate-500 mt-0.5">自己選要練幾的乘法，答錯的題目最後會再練一次</div>
+        </div>
+        <span className="text-xs px-2.5 py-1 rounded-full bg-yellow-50 text-yellow-700 flex-shrink-0">二年級起</span>
+      </a>
+
       {/* Topics by grade */}
       <div className="space-y-8">
         {GRADE_GROUPS.map((group) => (

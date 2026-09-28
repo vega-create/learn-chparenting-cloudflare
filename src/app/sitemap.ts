@@ -124,6 +124,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Math section
     entry("/math", "weekly", 0.8),
     ...MATH_TOPICS.map(id => entry(`/math/${id}`, "monthly", 0.7)),
+    entry("/math/times-table", "monthly", 0.7),
 
     // Finance section
     entry("/finance", "weekly", 0.8),
@@ -135,6 +136,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       entry(`/chinese-lang/${grade}`, "monthly", 0.7),
       ...topics.map(t => entry(`/chinese-lang/${grade}/${t}`, "monthly", 0.6)),
     ]),
+
+    entry("/chinese-lang/idiom-practice", "monthly", 0.7),
 
     // History & geography section
     entry("/history-geo", "weekly", 0.8),

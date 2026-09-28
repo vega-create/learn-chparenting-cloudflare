@@ -89,6 +89,16 @@ export default function ChineseLangPage() {
         })}
       </div>
 
+      {/* 成語練習（獨立工具） */}
+      <a href="/chinese-lang/idiom-practice" className="flex items-center gap-4 p-5 mt-6 bg-white rounded-2xl border border-red-200 shadow-sm hover-lift no-underline">
+        <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-2xl flex-shrink-0">🏮</div>
+        <div className="flex-1">
+          <div className="font-bold text-slate-800">成語練習：填空、配對、學習單</div>
+          <div className="text-sm text-slate-500 mt-0.5">選字填空、成語配意思，還可以印成學習單用手寫</div>
+        </div>
+        <span className="text-xs px-2.5 py-1 rounded-full bg-red-50 text-red-600 flex-shrink-0">中高年級</span>
+      </a>
+
       <div className="text-center mt-10">
         <a
           href="/"
