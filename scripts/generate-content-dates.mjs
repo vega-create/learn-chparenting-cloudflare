@@ -151,6 +151,7 @@ if (fs.existsSync(BG_DIR)) {
   set("/board-games", "src/app/board-games/page.tsx", ...games.map((g) => `src/app/board-games/${g}/page.tsx`));
 }
 set("/typing-game", "src/app/typing-game/page.tsx", "src/data/typing");
+set("/typing-game/keyboard", "src/app/typing-game/keyboard/page.tsx");
 
 // ── Topic sections (math / finance / chinese-lang / history-geo / music) ───────
 // Each is a hub plus one page per topic; topic content lives under src/data/<section>.

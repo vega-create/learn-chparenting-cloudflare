@@ -75,6 +75,13 @@ const TOOLS = [
     features: ["英文打字練習", "注音輸入練習", "落下文字遊戲", "打字速度測試"],
   },
   {
+    id: "keyboard", title: "鍵盤位置練習", sub: "Keyboard Positions", icon: "🖐️",
+    desc: "分階段記住每個鍵的位置",
+    color: "from-sky-400 to-sky-500", border: "border-sky-200",
+    active: true, href: "/typing-game/keyboard",
+    features: ["6 個階段循序練習", "基準鍵・上排・下排・數字排", "畫面提示用哪根手指", "可切換注音鍵位"],
+  },
+  {
     id: "music", title: "樂理基礎", sub: "Music Theory", icon: "🎵",
     desc: "音符・音階・和弦・音樂常識",
     color: "from-pink-400 to-pink-500", border: "border-pink-200",
@@ -148,6 +155,11 @@ export default function HomePage() {
                 <div className="text-2xl md:text-3xl mb-1">⌨️</div>
                 <div className="font-bold text-slate-800 text-xs md:text-sm">打字練習</div>
                 <div className="text-[10px] md:text-xs text-slate-400">Typing</div>
+              </a>
+              <a href="/typing-game/keyboard" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-sky-200 shadow-sm hover:shadow-lg hover:border-sky-400 transition-all no-underline hover-lift">
+                <div className="text-2xl md:text-3xl mb-1">🖐️</div>
+                <div className="font-bold text-slate-800 text-xs md:text-sm">鍵盤位置</div>
+                <div className="text-[10px] md:text-xs text-slate-400">Keyboard</div>
               </a>
               <a href="/finance" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-purple-200 shadow-sm hover:shadow-lg hover:border-purple-400 transition-all no-underline hover-lift">
                 <div className="text-2xl md:text-3xl mb-1">💰</div>

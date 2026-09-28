@@ -319,6 +319,17 @@ export default function TypingGamePage() {
         ))}
       </div>
 
+      {/* 第一次學打字的人先去記位置（獨立頁面，不影響上面四種玩法） */}
+      <a href="/typing-game/keyboard"
+        className="mt-3 flex items-center gap-4 p-5 bg-blue-50 rounded-2xl border border-blue-100 hover:shadow-md text-left transition no-underline">
+        <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-2xl flex-shrink-0">🖐️</div>
+        <div className="flex-1">
+          <div className="font-bold text-slate-800 text-base">鍵盤位置練習</div>
+          <div className="text-sm text-slate-500 mt-0.5">第一次學打字？先從基準鍵開始，畫面會告訴你用哪根手指</div>
+        </div>
+        <span className="px-2 py-0.5 rounded text-xs font-semibold bg-white text-blue-600">入門</span>
+      </a>
+
       <div className="mt-6 text-center">
         <a href="/" className="text-sm text-slate-400 hover:text-blue-500 transition no-underline">← 回到首頁</a>
       </div>

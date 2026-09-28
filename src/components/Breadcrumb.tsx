@@ -28,6 +28,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "jlpt-n1": "JLPT N1",
   "gojuon": "五十音",
   "typing-game": "打字練習",
+  keyboard: "鍵盤位置練習",
   "board-games": "教育桌遊",
   "go-game": "圍棋",
   "chinese-checkers": "跳棋",

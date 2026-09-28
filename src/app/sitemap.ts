@@ -119,6 +119,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Typing game
     entry("/typing-game", "monthly", 0.7),
+    entry("/typing-game/keyboard", "monthly", 0.7),
 
     // Math section
     entry("/math", "weekly", 0.8),
