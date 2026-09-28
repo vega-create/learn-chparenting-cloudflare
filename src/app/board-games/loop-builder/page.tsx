@@ -49,9 +49,9 @@ const DIFFICULTY_TIERS: DifficultyTier[] = [
   // Level 2: L-shape
   { repeatRange: [2, 2], forwardRange: [2, 4], turnOptions: ["left", "right"],
     shapeNames: ["L 形", "轉角", "拐彎"] },
-  // Level 3: Triangle
+  // Level 3: 三段（這個遊戲只能轉 90 度，畫出來是ㄇ字形，不是三角形）
   { repeatRange: [3, 3], forwardRange: [2, 3], turnOptions: ["right", "left"],
-    shapeNames: ["三角形", "V 字形", "折線"] },
+    shapeNames: ["ㄇ 字形", "門框", "三段折線"] },
   // Level 4: Square
   { repeatRange: [4, 4], forwardRange: [2, 4], turnOptions: ["right"],
     shapeNames: ["正方形", "方框", "田字格"] },
@@ -60,13 +60,13 @@ const DIFFICULTY_TIERS: DifficultyTier[] = [
     shapeNames: ["長方形", "大方框", "城牆"] },
   // Level 6: Z-shape / zigzag
   { repeatRange: [3, 4], forwardRange: [2, 4], turnOptions: ["left"],
-    shapeNames: ["Z 字形", "閃電", "鋸齒"] },
+    shapeNames: ["左轉方框", "逆時針方框", "左轉折線"] },
   // Level 7: Large shape
   { repeatRange: [4, 5], forwardRange: [4, 5], turnOptions: ["right"],
     shapeNames: ["大正方形", "城堡", "巨框"] },
   // Level 8: Spiral / complex
   { repeatRange: [5, 7], forwardRange: [2, 3], turnOptions: ["right", "left"],
-    shapeNames: ["螺旋線", "漩渦", "蝸牛殼"] },
+    shapeNames: ["繞圈方框", "多繞幾圈", "重複方框"] },
 ];
 
 function generateLoopLevels(): Level[] {

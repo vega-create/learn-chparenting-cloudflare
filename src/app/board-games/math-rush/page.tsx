@@ -18,9 +18,9 @@ interface Problem {
 const GAME_DURATION = 60;
 
 const DIFF_OPTIONS: { key: Difficulty; label: string; desc: string }[] = [
-  { key: "easy", label: "初級", desc: "加減法（1-20）" },
-  { key: "medium", label: "中級", desc: "加減乘（1-50）" },
-  { key: "hard", label: "高級", desc: "四則運算（1-99）" },
+  { key: "easy", label: "初級", desc: "加減法，從 10 以內開始" },
+  { key: "medium", label: "中級", desc: "加減到 50、九九乘法" },
+  { key: "hard", label: "高級", desc: "加減到 99、乘除到 12×12" },
 ];
 
 function generateProblem(diff: Difficulty, streak: number): Problem {
@@ -33,8 +33,9 @@ function generateProblem(diff: Difficulty, streak: number): Problem {
 
   // Increase range slightly with streak
   const boost = Math.min(Math.floor(streak / 5), 3);
+  // 初級從 10 以內開始（原本是 20 以內，一開始就要進位，低年級會卡住）
   const maxVal =
-    diff === "easy" ? 20 + boost * 5 :
+    diff === "easy" ? 10 + boost * 3 :
     diff === "medium" ? 50 + boost * 10 :
     99;
 
@@ -52,8 +53,9 @@ function generateProblem(diff: Difficulty, streak: number): Problem {
       answer = a - b;
       break;
     case "×":
-      a = Math.floor(Math.random() * (diff === "hard" ? 15 : 12)) + 1;
-      b = Math.floor(Math.random() * (diff === "hard" ? 15 : 12)) + 1;
+      // 中級只考九九乘法表的範圍；高級到 12×12
+      a = Math.floor(Math.random() * (diff === "hard" ? 12 : 9)) + 1;
+      b = Math.floor(Math.random() * (diff === "hard" ? 12 : 9)) + 1;
       answer = a * b;
       break;
     case "÷":
@@ -82,6 +84,10 @@ export default function MathRushPage() {
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [isNewHigh, setIsNewHigh] = useState(false);
   const { highScore, updateHighScore } = useHighScore("math-rush");
+  // 只有用滑鼠的裝置才自動把游標放進輸入框；手機平板一聚焦就會跳出系統鍵盤，蓋住下面的數字鍵
+  const focusInput = () => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches) inputRef.current?.focus();
+  };
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const streakRef = useRef(0);
@@ -119,7 +125,7 @@ export default function MathRushPage() {
       setTimeLeft(t);
     }, 1000);
 
-    setTimeout(() => inputRef.current?.focus(), 100);
+    setTimeout(focusInput, 100);
   }, []);
 
   // Watch for timer hitting 0
@@ -160,7 +166,7 @@ export default function MathRushPage() {
     setProblem(generateProblem(diff, streakRef.current));
     setTimeout(() => {
       setFeedback(null);
-      inputRef.current?.focus();
+      focusInput();
     }, 300);
   }, [problem, input, mode, diff]);
 
@@ -261,7 +267,6 @@ export default function MathRushPage() {
           onKeyDown={handleKeyDown}
           placeholder="輸入答案..."
           className="flex-1 px-4 py-4 text-2xl font-bold text-center rounded-xl border-2 border-blue-200 focus:border-blue-500 focus:outline-none transition"
-          autoFocus
         />
         <button onClick={handleSubmit}
           className="px-6 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition active:scale-95">
@@ -272,20 +277,20 @@ export default function MathRushPage() {
       {/* Numpad for mobile */}
       <div className="grid grid-cols-3 gap-2 max-w-[280px] mx-auto sm:hidden">
         {[1,2,3,4,5,6,7,8,9].map(n => (
-          <button key={n} onClick={() => { setInput(prev => prev + n); inputRef.current?.focus(); }}
+          <button key={n} onClick={() => { setInput(prev => prev + n); }}
             className="py-3 rounded-xl bg-slate-100 text-slate-800 font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-200 transition">
             {n}
           </button>
         ))}
-        <button onClick={() => { setInput(prev => "-" + prev.replace("-", "")); inputRef.current?.focus(); }}
+        <button onClick={() => { setInput(prev => "-" + prev.replace("-", "")); }}
           className="py-3 rounded-xl bg-slate-100 text-slate-800 font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-200 transition">
           ±
         </button>
-        <button onClick={() => { setInput(prev => prev + "0"); inputRef.current?.focus(); }}
+        <button onClick={() => { setInput(prev => prev + "0"); }}
           className="py-3 rounded-xl bg-slate-100 text-slate-800 font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-200 transition">
           0
         </button>
-        <button onClick={() => { setInput(prev => prev.slice(0, -1)); inputRef.current?.focus(); }}
+        <button onClick={() => { setInput(prev => prev.slice(0, -1)); }}
           className="py-3 rounded-xl bg-red-100 text-red-600 font-bold text-xl cursor-pointer border border-red-200 active:bg-red-200 transition">
           ⌫
         </button>

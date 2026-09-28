@@ -59,6 +59,9 @@ export default function WhackAMolePage() {
     setMode("done");
   }, [cleanUp, updateHighScore]);
 
+  const spawnTokenRef = useRef(0);
+  const holeTokenRef = useRef<Record<number, number>>({});
+
   const spawnMole = useCallback(() => {
     if (!gameActiveRef.current) return;
 
@@ -75,9 +78,13 @@ export default function WhackAMolePage() {
       );
 
       // Auto-hide after random time
+      // 每次出現給一個編號：地鼠被打掉後同一個洞又冒出新的，舊的計時器不能把新的地鼠藏起來
+      const token = ++spawnTokenRef.current;
+      holeTokenRef.current[idx] = token;
       const hideDelay = 800 + Math.random() * 1200;
       setTimeout(() => {
         if (!gameActiveRef.current) return;
+        if (holeTokenRef.current[idx] !== token) return;
         setMoles(p => p.map(m =>
           m.id === idx && m.active && !m.hit ? { ...m, active: false } : m
         ));

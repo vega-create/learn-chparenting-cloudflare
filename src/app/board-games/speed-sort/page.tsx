@@ -12,8 +12,8 @@ interface Round {
 const TOTAL_ROUNDS = 8;
 
 function generateRound(roundIndex: number): Round {
-  // Start with 4 numbers, increase to 8
-  const count = Math.min(4 + Math.floor(roundIndex / 2), 8);
+  // 4 個數字開始，最後一回合 8 個
+  const count = Math.min(4 + Math.ceil(roundIndex / 2), 8);
   // Increase range with rounds
   const maxVal = 20 + roundIndex * 10;
   const numSet = new Set<number>();
@@ -31,6 +31,7 @@ export default function SpeedSortPage() {
   const [round, setRound] = useState<Round | null>(null);
   const [selected, setSelected] = useState<number[]>([]);
   const [score, setScore] = useState(0);
+  const scoreRef = useRef(0);
   const [totalTime, setTotalTime] = useState(0);
   const [roundTime, setRoundTime] = useState(0);
   const [feedback, setFeedback] = useState<{ type: "correct" | "wrong"; msg: string } | null>(null);
@@ -60,6 +61,7 @@ export default function SpeedSortPage() {
     setRound(generateRound(0));
     setSelected([]);
     setScore(0);
+    scoreRef.current = 0;
     setTotalTime(0);
     setRoundTime(0);
     setFeedback(null);
@@ -80,7 +82,8 @@ export default function SpeedSortPage() {
     const next = roundIndex + 1;
     if (next >= TOTAL_ROUNDS) {
       stopTimer();
-      const finalScore = score;
+      // 用 ref 取最新的總分；直接讀 score 會少算最後一回合，最高紀錄就記錯了
+      const finalScore = scoreRef.current;
       const newHigh = updateHighScore(finalScore);
       setIsNewHigh(newHigh);
       if (finalScore >= TOTAL_ROUNDS * 15) playPerfect();
@@ -112,10 +115,13 @@ export default function SpeedSortPage() {
       if (newSelected.length === round.sorted.length) {
         // Round complete!
         stopTimer();
-        const timeBonus = Math.max(20 - roundTime, 0);
+        // 數字越多給的時間越寬：每個數字 2 秒內點完就拿滿 20 分的時間加分
+        const allowance = round.sorted.length * 2;
+        const timeBonus = Math.max(20 - Math.max(roundTime - allowance, 0), 0);
         const wrongPenalty = wrongPicks * 3;
         const roundScore = Math.max(10 + timeBonus - wrongPenalty, 5);
-        setScore(s => s + roundScore);
+        scoreRef.current += roundScore;
+        setScore(scoreRef.current);
         setFeedback({ type: "correct", msg: `+${roundScore} 分（用時 ${roundTime}s）` });
         setRoundComplete(true);
 

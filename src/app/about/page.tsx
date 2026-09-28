@@ -108,7 +108,7 @@ export default function AboutPage() {
             <span className="text-3xl">🎲</span>
             <div>
               <div className="font-bold text-slate-800">教育桌遊</div>
-              <div className="text-sm text-slate-500">18 款遊戲 · 邏輯推理 · 程式概念 · 記憶力 · 數學 · 圍棋 · 跳棋</div>
+              <div className="text-sm text-slate-500">20 款遊戲 · 邏輯推理 · 程式概念 · 記憶力 · 數學 · 圍棋 · 跳棋</div>
             </div>
             <span className="ml-auto text-orange-400">→</span>
           </a>

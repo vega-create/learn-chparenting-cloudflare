@@ -113,6 +113,9 @@ export default function MemorySequencePage() {
       setRound(newRound);
       setBestRound(newRound);
       setFeedback(`✅ 第 ${newRound} 輪成功！`);
+      // 馬上鎖住輸入。原本這一秒內還能按，多按一下會被當成答錯，
+      // 接著下一輪又照常開始，結束畫面閃一下就不見。
+      setPhase("showing");
       setTimeout(() => {
         setFeedback(null);
         nextSequence(sequence);
@@ -150,7 +153,7 @@ export default function MemorySequencePage() {
 
   /* ─── Done ─── */
   if (phase === "done") {
-    const maxScore = 150; // ~15 rounds is amazing
+    const maxScore = 100; // 記住 9 個以上就是三顆星；原本要 14 個，國小孩子幾乎拿不到
     const stars = getStars(score, maxScore);
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">

@@ -35,8 +35,9 @@ const GATE_DESC: Record<GateType, string> = {
   XOR: "兩個不同 → 輸出 1",
 };
 
+// 顯示在題目和閘門圖上的中文名稱（原本用 &&、||、!&、^ 這些程式符號，孩子看不懂）
 const GATE_SYMBOL: Record<GateType, string> = {
-  AND: "&&", OR: "||", NOT: "!", NAND: "!&", NOR: "!|", XOR: "^",
+  AND: "而且", OR: "或者", NOT: "相反", NAND: "AND 反轉", NOR: "OR 反轉", XOR: "不一樣",
 };
 
 function generatePuzzle(round: number): Puzzle {
@@ -53,17 +54,21 @@ function generatePuzzle(round: number): Puzzle {
     : [Math.random() > 0.5 ? 1 : 0, Math.random() > 0.5 ? 1 : 0];
   const output = evalGate(gate, inputs);
 
-  const mode: PuzzleMode = round > 3 && Math.random() > 0.6 ? "input" : "output";
+  // 反推題（給輸出，問第一個輸入）只在答案唯一時才出。
+  // 例如「? AND 0 = 0」填 0 或 1 都對，原本只認其中一個，孩子答對也會被判錯。
+  const flipped = inputs.map((v, i) => (i === 0 ? (v === 0 ? 1 : 0) : v)) as (0 | 1)[];
+  const unique = evalGate(gate, flipped) !== output;
+  const mode: PuzzleMode = round > 3 && unique && Math.random() > 0.5 ? "input" : "output";
 
   let question: string;
   if (mode === "output") {
     question = isNot
       ? `NOT(${inputs[0]}) = ?`
-      : `${inputs[0]} ${GATE_SYMBOL[gate]} ${inputs[1]} = ?`;
+      : `${inputs[0]} ${gate} ${inputs[1]} = ?`;
   } else {
     question = isNot
       ? `NOT(?) = ${output}`
-      : `? ${GATE_SYMBOL[gate]} ${inputs[1]} = ${output}`;
+      : `? ${gate} ${inputs[1]} = ${output}`;
   }
 
   return { gate, inputs, output, mode, question };
@@ -227,7 +232,7 @@ export default function LogicGatesPage() {
               <div className="text-slate-400">→</div>
               <div className="w-16 h-16 rounded-xl bg-cyan-100 border-2 border-cyan-300 flex flex-col items-center justify-center">
                 <span className="font-mono font-bold text-cyan-700 text-sm">{puzzle.gate}</span>
-                <span className="text-xs text-cyan-500">{GATE_SYMBOL[puzzle.gate]}</span>
+                <span className="text-[10px] leading-tight text-cyan-500">{GATE_SYMBOL[puzzle.gate]}</span>
               </div>
               <div className="text-slate-400">→</div>
 

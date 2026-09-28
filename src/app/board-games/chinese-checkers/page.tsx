@@ -131,10 +131,13 @@ function findAllMoves(r: number, c: number, board: Cell[][]): Pos[] {
 }
 
 /* ─── Win check ─── */
+// 終點區 10 格都有棋子、而且其中至少 7 顆是自己的，就算贏。
+// 原本要求 10 格全部是自己的棋子，只要對方有一顆棋子留在家裡沒出來，就永遠贏不了。
 function checkWin(board: Cell[][], who: "player" | "ai"): boolean {
   const goalRegion = who === "player" ? "top" : "bot";
   const goals = getGoalPositions(goalRegion);
-  return goals.every(g => board[g.r][g.c] === who);
+  const mine = goals.filter(g => board[g.r][g.c] === who).length;
+  return mine >= 7 && goals.every(g => board[g.r][g.c] !== "empty");
 }
 
 /* ─── Piece positions ─── */
@@ -147,33 +150,53 @@ function getPieces(board: Cell[][], who: "player" | "ai"): Pos[] {
 }
 
 /* ─── AI Logic ─── */
+/*
+ * 舊版的問題：
+ * - 已經在終點區裡的棋子，左右移動也能拿到「進終點」的加分，所以電腦會一直在終點區裡晃，
+ *   後面的棋子反而不動，整盤下不完。
+ * - 初級是完全隨機，會往回走。
+ * 新版：只有「從外面走進終點區」才加分；越後面的棋子越優先；
+ * 高級會多看一步（自己下一步能跳多遠、會不會幫對手搭橋）。
+ */
+function moveScore(board: Cell[][], p: Pos, m: Pos): number {
+  const advance = m.r - p.r;               // 電腦往下走，r 變大是前進
+  const inGoal = isAIGoal(p.r);
+  if (inGoal && advance <= 0) return -100; // 已經到家的棋子不要橫著走或往回走
+  let score = advance * 10;
+  if (advance < 0) score -= 20;
+  if (!inGoal && isAIGoal(m.r)) score += 30;
+  score += (TOTAL_ROWS - 1 - p.r) * 1.5;   // 落在後面的棋子優先
+  if (isPlayerGoal(p.r) && !isPlayerGoal(m.r)) score += 15; // 先離開自己的家，不要擋住對手
+  score -= Math.abs(m.c - 6) * 1.5;        // 靠中間比較容易連跳
+  return score;
+}
+
+function bestAdvance(board: Cell[][], who: "player" | "ai"): number {
+  let best = 0;
+  for (const p of getPieces(board, who)) {
+    for (const m of findAllMoves(p.r, p.c, board)) {
+      const adv = who === "ai" ? m.r - p.r : p.r - m.r;
+      if (adv > best) best = adv;
+    }
+  }
+  return best;
+}
+
 function aiMove(board: Cell[][], diff: Difficulty): { from: Pos; to: Pos } | null {
   const pieces = getPieces(board, "ai");
   const allMoves: { from: Pos; to: Pos; score: number }[] = [];
 
   for (const p of pieces) {
-    const moves = findAllMoves(p.r, p.c, board);
-    for (const m of moves) {
-      let score = 0;
-      if (diff === "easy") {
-        score = Math.random() * 100;
-      } else if (diff === "medium") {
-        // Prefer moves that go down (toward player's home = AI goal)
-        score = (m.r - p.r) * 10 + Math.random() * 5;
-        if (isAIGoal(m.r)) score += 50;
-      } else {
-        // Hard: evaluate position advancement + jump bonus
-        score = (m.r - p.r) * 15;
-        if (isAIGoal(m.r)) score += 80;
-        // Bonus for longer jumps
-        const dist = Math.abs(m.r - p.r) + Math.abs(m.c - p.c);
-        if (dist > 2) score += dist * 5;
-        // Penalize staying in own home when not needed
-        if (isPlayerGoal(p.r) && !isPlayerGoal(m.r)) score += 20;
-        // Prefer centering toward column 6
-        score -= Math.abs(m.c - 6) * 2;
-        score += Math.random() * 3;
+    for (const m of findAllMoves(p.r, p.c, board)) {
+      let score = moveScore(board, p, m);
+      if (diff === "hard" && score > -50) {
+        // 多看一步：這樣走完之後，自己下一步最多能前進幾排、對手最多能前進幾排
+        const nb = board.map(row => [...row]);
+        nb[p.r][p.c] = "empty";
+        nb[m.r][m.c] = "ai";
+        score += bestAdvance(nb, "ai") * 2 - bestAdvance(nb, "player") * 3;
       }
+      score += Math.random() * (diff === "hard" ? 1 : 4);
       allMoves.push({ from: p, to: m, score });
     }
   }
@@ -181,17 +204,10 @@ function aiMove(board: Cell[][], diff: Difficulty): { from: Pos; to: Pos } | nul
   if (allMoves.length === 0) return null;
   allMoves.sort((a, b) => b.score - a.score);
 
-  if (diff === "hard") {
-    // Pick from top 3
-    const top = allMoves.slice(0, Math.min(3, allMoves.length));
-    return top[Math.floor(Math.random() * top.length)];
-  }
-  if (diff === "medium") {
-    const top = allMoves.slice(0, Math.min(5, allMoves.length));
-    return top[Math.floor(Math.random() * top.length)];
-  }
-  // Easy: random
-  return allMoves[Math.floor(Math.random() * allMoves.length)];
+  // 高級下最好的一步；中級從前 3 名挑；初級從前 5 名挑（常常不是最好的，但不會亂走）
+  const pool = diff === "hard" ? 1 : diff === "medium" ? 3 : 5;
+  const top = allMoves.slice(0, Math.min(pool, allMoves.length));
+  return top[Math.floor(Math.random() * top.length)];
 }
 
 /* ─── Scoring ─── */
@@ -202,7 +218,7 @@ function calcScore(moves: number, board: Cell[][]): number {
   const goalScore = inGoal * 10;
   // Efficiency bonus: fewer moves = higher bonus (max ~50)
   const efficiencyBonus = Math.max(0, 50 - Math.floor(moves / 2));
-  return goalScore + efficiencyBonus;
+  return Math.min(100, goalScore + efficiencyBonus);   // 滿分是 100，不要超過
 }
 
 /* ─── Position to pixel (for rendering) ─── */
@@ -224,9 +240,9 @@ function cellPosition(r: number, c: number): { x: number; y: number } {
 
 /* ─── Difficulty options ─── */
 const DIFF_OPTIONS: { key: Difficulty; label: string; desc: string }[] = [
-  { key: "easy", label: "初級", desc: "AI 隨機移動" },
-  { key: "medium", label: "中級", desc: "AI 優先前進" },
-  { key: "hard", label: "高級", desc: "AI 策略思考" },
+  { key: "easy", label: "初級", desc: "電腦會前進，但常常不是走最好的一步" },
+  { key: "medium", label: "中級", desc: "電腦會找連跳、先動後面的棋子" },
+  { key: "hard", label: "高級", desc: "電腦會多看一步，還會避免幫你搭橋" },
 ];
 
 /* ─── Main Component ─── */
@@ -351,6 +367,14 @@ export default function ChineseCheckersPage() {
 
   const boardWidth = MAX_COLS * (CELL_SIZE + CELL_GAP);
   const boardHeight = TOTAL_ROWS * (CELL_SIZE + CELL_GAP);
+  // 棋盤固定 390px 寬，手機放不下會被切掉，依螢幕寬度等比例縮小
+  const [fitScale, setFitScale] = useState(1);
+  useEffect(() => {
+    const fit = () => setFitScale(Math.min(1, (window.innerWidth - 24) / boardWidth));
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, [boardWidth]);
   const validSet = new Set(validMoves.map(m => posKey(m.r, m.c)));
 
   /* ─── Menu ─── */
@@ -444,10 +468,11 @@ export default function ChineseCheckersPage() {
       </div>
 
       {/* Board */}
-      <div className="bg-white rounded-2xl p-3 border border-indigo-200 shadow-sm mb-4 overflow-x-auto">
+      <div className="bg-white rounded-2xl p-1 sm:p-3 -mx-2 sm:mx-0 border border-indigo-200 shadow-sm mb-4 overflow-hidden">
+        <div className="mx-auto" style={{ width: boardWidth * fitScale, height: boardHeight * fitScale }}>
         <div
-          className="relative mx-auto"
-          style={{ width: boardWidth, height: boardHeight }}
+          className="relative"
+          style={{ width: boardWidth, height: boardHeight, transform: `scale(${fitScale})`, transformOrigin: "top left" }}
         >
           {board.map((row, r) =>
             row.map((cell, c) => {
@@ -517,6 +542,7 @@ export default function ChineseCheckersPage() {
               );
             })
           )}
+        </div>
         </div>
       </div>
 

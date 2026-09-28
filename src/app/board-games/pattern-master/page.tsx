@@ -22,9 +22,11 @@ const EMOJI_SETS: Record<Difficulty, string[][]> = {
   ],
   hard: [
     ["♠️", "♥️", "♦️", "♣️", "🃏", "👑"],
-    ["🔺", "🔻", "🔸", "🔹", "💠", "🔶"],
-    ["🌍", "🌎", "🌏", "🌕", "🌖", "🌗"],
-    ["🎵", "🎶", "🎼", "🎹", "🎸", "🎺"],
+    // 原本這幾組有長得幾乎一樣的圖（三個地球、三個月亮、兩個音符），
+    // 難的是「看不清楚」而不是「找規律」，換成一眼分得出來的圖。
+    ["🔺", "🟦", "🟢", "⭐", "💠", "🔶"],
+    ["🌍", "🌙", "☀️", "⭐", "🌈", "☁️"],
+    ["🎵", "🥁", "🎻", "🎹", "🎸", "🎺"],
   ],
 };
 
@@ -68,9 +70,9 @@ function generatePattern(diff: Difficulty): { grid: string[]; missing: number; a
 
 const TOTAL_ROUNDS = 10;
 const DIFF_OPTIONS: { key: Difficulty; label: string; desc: string }[] = [
-  { key: "easy", label: "初級", desc: "簡單色彩重複" },
-  { key: "medium", label: "中級", desc: "行列交替規律" },
-  { key: "hard", label: "高級", desc: "複雜多維規律" },
+  { key: "easy", label: "初級", desc: "兩到三個圖案照順序重複" },
+  { key: "medium", label: "中級", desc: "三個圖案，每一排往後移一格" },
+  { key: "hard", label: "高級", desc: "四個圖案輪流，每一排都不一樣" },
 ];
 
 export default function PatternMasterPage() {

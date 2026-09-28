@@ -2,71 +2,22 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { WORD_CHAIN_WORDS } from "@/data/word-chain-words";
 
-/* ─── Built-in word list (200+ common English words) ─── */
-const WORD_LIST = new Set([
-  "apple","area","art","back","bag","ball","band","bank","base","bat","bear","bed","bell","best",
-  "bird","bit","black","block","blue","board","boat","body","bone","book","box","boy","brain",
-  "bread","bridge","brown","bus","butter","cake","call","camp","can","cap","car","card","care",
-  "case","cat","cell","chair","chance","change","check","child","city","class","clean","clear",
-  "clock","close","cloud","club","coat","cold","color","come","control","cook","cool","corner",
-  "count","country","cover","cross","crowd","cup","cut","dance","dark","day","dead","deal",
-  "deep","desk","dinner","doctor","dog","door","double","down","draw","dream","dress","drink",
-  "drive","drop","dry","dust","ear","earth","east","eat","edge","egg","end","engine","enough",
-  "enter","even","evening","event","ever","every","eye","face","fact","fall","family","fan",
-  "farm","fast","fat","father","fear","feel","field","fight","fill","film","find","fine",
-  "finger","fire","fish","flag","flat","floor","flower","fly","food","foot","force","forest",
-  "form","forward","four","free","fresh","friend","front","fruit","full","fun","game","garden",
-  "gate","girl","give","glass","go","gold","good","grass","green","ground","group","grow",
-  "guard","gun","hair","half","hall","hand","hang","happy","hard","hat","have","head","heart",
-  "heat","heavy","help","hide","high","hill","hit","hold","hole","home","hope","horse","hot",
-  "hotel","house","human","hundred","hunt","hurry","ice","idea","image","inside","iron","island",
-  "join","jump","just","keep","key","kid","kill","kind","king","kitchen","knee","knife","knock",
-  "lake","land","large","last","late","laugh","law","lead","leaf","learn","leave","left","leg",
-  "let","letter","level","library","life","lift","light","like","line","lion","list","listen",
-  "little","live","long","look","lose","lot","love","low","luck","lunch","machine","main",
-  "make","man","many","map","mark","market","master","match","matter","mean","meet","member",
-  "memory","message","metal","middle","might","mile","milk","mind","minute","miss","model",
-  "modern","moment","money","month","moon","morning","mother","mountain","mouth","move","much",
-  "music","name","nation","nature","near","neck","need","ネ","net","never","new","news","next",
-  "nice","night","noise","none","north","nose","note","nothing","notice","now","number","nurse",
-  "ocean","offer","office","oil","old","one","only","open","orange","order","other","outside",
-  "own","page","paint","pair","paper","parent","park","part","party","pass","past","path",
-  "pay","peace","people","person","pick","picture","piece","place","plan","plant","play",
-  "please","point","pool","poor","popular","position","possible","post","power","present",
-  "press","pretty","price","print","private","problem","produce","program","protect","public",
-  "pull","push","put","quarter","queen","question","quick","quiet","quite","race","rain",
-  "raise","range","reach","read","ready","real","reason","record","red","remember","report",
-  "rest","result","return","rich","ride","right","ring","rise","river","road","rock","role",
-  "roll","roof","room","root","rope","round","rule","run","safe","salt","same","sand","save",
-  "say","school","sea","seat","second","see","sell","send","serve","set","seven","shake",
-  "shape","share","she","ship","shirt","shoe","shoot","shop","short","shot","should","show",
-  "shut","side","sign","silver","simple","since","sing","sister","sit","size","skill","skin",
-  "sky","sleep","slip","slow","small","smell","smile","smoke","snow","soft","soil","some",
-  "son","song","soon","sort","sound","south","space","speak","speed","spend","sport","spot",
-  "spring","square","stage","stand","star","start","state","station","stay","step","stick",
-  "still","stone","stop","store","storm","story","strange","street","strong","student","study",
-  "style","sugar","summer","sun","support","sure","sweet","swim","table","tail","take","talk",
-  "tall","taste","teach","team","tell","ten","test","than","thank","thick","thin","thing",
-  "think","through","throw","tie","time","tiny","today","together","top","total","touch",
-  "town","trade","train","travel","tree","trip","trouble","true","trust","try","turn","type",
-  "uncle","under","unit","until","use","usual","valley","value","very","view","visit","voice",
-  "wait","walk","wall","want","war","warm","wash","watch","water","wave","way","wear","weather",
-  "week","weight","well","west","wet","what","wheel","white","whole","wide","wife","wild","will",
-  "win","wind","window","winter","wish","with","woman","wonder","wood","word","work","world",
-  "worry","write","wrong","yard","year","yellow","young","youth","zero","zone"
-]);
+const WORD_LIST = new Set(WORD_CHAIN_WORDS);
+const WORD_ARRAY = WORD_CHAIN_WORDS;
 
-const WORD_ARRAY = Array.from(WORD_LIST).filter(w => /^[a-z]+$/.test(w));
-
-const TURN_TIME = 15;
+// 15 秒要想出單字再用手機打完，對國小孩子太趕
+const TURN_TIME = 30;
 
 function getWordsStartingWith(letter: string): string[] {
   return WORD_ARRAY.filter(w => w.startsWith(letter.toLowerCase()));
 }
 
-function getRandomStarter(): string {
-  const starters = WORD_ARRAY.filter(w => w.length >= 3 && w.length <= 6);
+function getRandomStarter(used?: Set<string>): string {
+  // 起始字的最後一個字母要有夠多字可以接（不然像 box 一開始就接不下去）
+  const starters = WORD_ARRAY.filter(w => w.length >= 3 && w.length <= 6 && !used?.has(w)
+    && getWordsStartingWith(w.slice(-1)).length >= 20);
   return starters[Math.floor(Math.random() * starters.length)];
 }
 
@@ -85,7 +36,9 @@ export default function WordChainPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const chainEndRef = useRef<HTMLDivElement>(null);
 
-  const lastLetter = chain.length > 0 ? chain[chain.length - 1].slice(-1) : "";
+  // 提示的字在畫面上會加括號顯示，取最後一個字母時要先把括號拿掉
+  // （原本會取到「)」，之後任何字都接不上）
+  const lastLetter = chain.length > 0 ? chain[chain.length - 1].replace(/[^a-z]/g, "").slice(-1) : "";
 
   const endGame = useCallback((finalScore: number) => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -184,22 +137,17 @@ export default function WordChainPage() {
     }
 
     if (!WORD_LIST.has(word)) {
+      // 字典收的字有限，孩子打的可能是真的單字，所以不扣生命，只請他換一個
       playWrong();
-      const newLives = lives - 1;
-      setLives(newLives);
-      setFeedback({ type: "wrong", msg: "不在字典中，-1 生命" });
-      setTimeout(() => setFeedback(null), 1500);
-      if (newLives <= 0) {
-        endGame(score);
-        return;
-      }
+      setFeedback({ type: "wrong", msg: "字典裡沒有這個字，換一個試試（不扣生命）" });
+      setTimeout(() => setFeedback(null), 2000);
       inputRef.current?.focus();
       return;
     }
 
     // Valid word!
     playCorrect();
-    const wordScore = word.length * 2 + (turnTime > 10 ? 5 : turnTime > 5 ? 3 : 1);
+    const wordScore = word.length * 2 + (turnTime > 20 ? 5 : turnTime > 10 ? 3 : 1);
     const newScore = score + wordScore;
     setScore(newScore);
     setChain(prev => [...prev, word]);
@@ -213,10 +161,17 @@ export default function WordChainPage() {
     const nextLetter = word.slice(-1);
     const available = getWordsStartingWith(nextLetter).filter(w => !usedWords.has(w) && w !== word);
     if (available.length === 0) {
-      // No more words possible - player wins!
-      setTimeout(() => endGame(newScore + 50), 500);
+      // 這個字母開頭的字用完了（例如 x）：加分，換一個新的字繼續接
+      const used = new Set(Array.from(usedWords)); used.add(word);
+      const fresh = getRandomStarter(used);
+      if (!fresh) { setTimeout(() => endGame(newScore + 50), 500); return; }
+      setScore(newScore + 10);
+      setChain(prev => [...prev, `(${fresh})`]);
+      setUsedWords(prev => { const s = new Set(Array.from(prev)); s.add(fresh); return s; });
+      setFeedback({ type: "correct", msg: `沒有 ${nextLetter.toUpperCase()} 開頭的字了，+10 分，換新的字繼續` });
+      setTimeout(() => setFeedback(null), 2000);
     }
-  }, [mode, input, chain, lastLetter, usedWords, lives, score, turnTime, endGame, resetTurnTimer]);
+  }, [mode, input, chain, lastLetter, usedWords, score, turnTime, endGame, resetTurnTimer]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "Enter") handleSubmit();
@@ -239,7 +194,8 @@ export default function WordChainPage() {
             <li>你要輸入一個以<span className="font-bold text-emerald-600">前一個字的最後字母</span>開頭的單字</li>
             <li>每個單字只能用一次</li>
             <li>每回合限時 {TURN_TIME} 秒</li>
-            <li>共 3 條命，單字不在字典或超時會扣命</li>
+            <li>共 3 條命，超過時間會扣一條命</li>
+            <li>字典裡沒有的字不扣命，換一個字就好</li>
             <li>字越長、速度越快，得分越高</li>
             <li>最高紀錄：{highScore} 分</li>
           </ul>

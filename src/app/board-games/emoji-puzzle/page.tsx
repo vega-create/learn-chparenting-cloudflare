@@ -52,7 +52,7 @@ function generatePuzzle(puzzleIndex: number): Puzzle {
   const numVars = puzzleIndex < 4 ? 2 : (Math.random() > 0.4 ? 3 : 2);
   const usedEmojis = emojiSet.slice(0, numVars);
 
-  // Generate values (1-12)
+  // Generate values (1-10)
   const values = usedEmojis.map(() => Math.floor(Math.random() * 10) + 1);
   const emojiVars: EmojiVar[] = usedEmojis.map((e, i) => ({ emoji: e, value: values[i] }));
 
@@ -72,8 +72,8 @@ function generatePuzzle(puzzleIndex: number): Puzzle {
     return { emojis: emojiVars, equations, questionEmoji: b.emoji, answer: b.value, options: opts };
   } else {
     const [a, b, c] = emojiVars;
-    // Pick puzzle pattern randomly
-    const pattern = Math.floor(Math.random() * 3);
+    // 題型 0 要同時比較三個算式（三元聯立），只放在最後三題；前面用有「單一符號」線索的題型
+    const pattern = puzzleIndex >= 7 ? Math.floor(Math.random() * 3) : 1 + Math.floor(Math.random() * 2);
 
     if (pattern === 0) {
       equations.push({ display: `${a.emoji} + ${b.emoji} = ${a.value + b.value}`, isQuestion: false });
@@ -94,7 +94,10 @@ function generatePuzzle(puzzleIndex: number): Puzzle {
     } else {
       equations.push({ display: `${a.emoji} + ${a.emoji} + ${a.emoji} = ${a.value * 3}`, isQuestion: false });
       equations.push({ display: `${a.emoji} + ${b.emoji} = ${a.value + b.value}`, isQuestion: false });
-      equations.push({ display: `${b.emoji} − ${c.emoji} = ${b.value - c.value}`, isQuestion: false });
+      // 大的減小的，答案才不會是負數（負數國中才教）
+      equations.push(b.value >= c.value
+        ? { display: `${b.emoji} − ${c.emoji} = ${b.value - c.value}`, isQuestion: false }
+        : { display: `${c.emoji} − ${b.emoji} = ${c.value - b.value}`, isQuestion: false });
       const wrongAnswers = generateWrongAnswers(c.value, 3);
       const opts = shuffle([c.value, ...wrongAnswers]);
       equations.push({ display: `${c.emoji} = ?`, isQuestion: true, answer: c.value, options: opts });

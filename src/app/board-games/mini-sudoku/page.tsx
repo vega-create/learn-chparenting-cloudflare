@@ -1,68 +1,30 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, shuffle } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
 import { useTimer } from "@/lib/game-utils";
+import { generateSudoku as generate, SPEC_4 } from "@/lib/sudoku";
 
 /* ─── Sudoku Generator ─── */
 const EMOJIS = ["🍎", "🍊", "🍇", "🍓"];
 type Difficulty = "easy" | "medium" | "hard";
 
 function generateSudoku(diff: Difficulty): { solution: number[][]; puzzle: (number | null)[][]; } {
-  // Generate a valid 4x4 Sudoku
-  const base = [
-    [0, 1, 2, 3],
-    [2, 3, 0, 1],
-    [1, 0, 3, 2],
-    [3, 2, 1, 0],
-  ];
-
-  // Shuffle rows within bands and columns within stacks
-  const rowPerm = shuffle([0, 1, 2, 3]);
-  const colPerm = shuffle([0, 1, 2, 3]);
-  const valPerm = shuffle([0, 1, 2, 3]);
-
-  const solution: number[][] = Array.from({ length: 4 }, () => Array(4).fill(0));
-  for (let r = 0; r < 4; r++) {
-    for (let c = 0; c < 4; c++) {
-      solution[r][c] = valPerm[base[rowPerm[r]][colPerm[c]]];
-    }
-  }
-
-  // Determine how many cells to reveal per row
-  const givensPerRow = diff === "easy" ? 3 : diff === "medium" ? 2 : 2;
-  const totalGivens = diff === "easy" ? 10 : diff === "medium" ? 8 : 6;
-
-  const puzzle: (number | null)[][] = solution.map(row => row.map(() => null));
-  let revealed = 0;
-
-  for (let r = 0; r < 4; r++) {
-    const cols = shuffle([0, 1, 2, 3]).slice(0, givensPerRow);
-    cols.forEach(c => {
-      if (revealed < totalGivens) {
-        puzzle[r][c] = solution[r][c];
-        revealed++;
-      }
-    });
-  }
-
-  // Fill remaining if needed
-  while (revealed < totalGivens) {
-    const r = Math.floor(Math.random() * 4);
-    const c = Math.floor(Math.random() * 4);
-    if (puzzle[r][c] === null) {
-      puzzle[r][c] = solution[r][c];
-      revealed++;
-    }
-  }
-
-  return { solution, puzzle };
+  // 共用產生器保證：解答符合列、行、2×2 宮格三個規則，而且題目只有一個解、不用猜。
+  // （舊版把整列隨機對調，會產生違反宮格規則的「解答」，孩子照規則填反而被判錯。）
+  const givens = diff === "easy" ? 10 : diff === "medium" ? 8 : 6;
+  const p = generate(SPEC_4, givens);
+  const rows = (g: number[]) => Array.from({ length: 4 }, (_, r) => g.slice(r * 4, r * 4 + 4));
+  return {
+    solution: rows(p.solution).map(row => row.map(v => v - 1)),
+    puzzle: rows(p.puzzle).map(row => row.map(v => (v === 0 ? null : v - 1))),
+  };
 }
 
 const DIFF_OPTIONS: { key: Difficulty; label: string; desc: string }[] = [
-  { key: "easy", label: "初級", desc: "每行 3 個已知" },
-  { key: "medium", label: "中級", desc: "每行 2 個已知" },
-  { key: "hard", label: "高級", desc: "只有 6 個已知" },
+  { key: "easy", label: "初級", desc: "16 格裡已經填好 10 格" },
+  { key: "medium", label: "中級", desc: "16 格裡已經填好 8 格" },
+  { key: "hard", label: "高級", desc: "16 格裡只填好 6 格" },
 ];
 
 export default function MiniSudokuPage() {
@@ -122,13 +84,13 @@ export default function MiniSudokuPage() {
 
       if (checkComplete(newBoard)) {
         // Calculate score: base 100 - time penalty - error penalty
-        const timePenalty = Math.min(time, 50);
+        const timePenalty = Math.min(Math.floor(time / 6), 40); // 每 6 秒扣 1 分，最多扣 40
         const errorPenalty = errors.size * 5;
         const finalScore = Math.max(100 - timePenalty - errorPenalty, 10);
         setScore(finalScore);
         const newHigh = updateHighScore(finalScore);
         setIsNewHigh(newHigh);
-        if (errors.size === 0 && time < 60) playPerfect();
+        if (errors.size === 0 && time < 120) playPerfect();
         else playVictory();
         setMode("done");
       }
@@ -150,7 +112,7 @@ export default function MiniSudokuPage() {
           setHints(h => h - 1);
           playCorrect();
           if (checkComplete(newBoard)) {
-            const finalScore = Math.max(50 - Math.min(time, 30), 10);
+            const finalScore = Math.max(60 - Math.min(Math.floor(time / 6), 30) - errors.size * 5, 10);
             setScore(finalScore);
             const newHigh = updateHighScore(finalScore);
             setIsNewHigh(newHigh);
@@ -182,16 +144,17 @@ export default function MiniSudokuPage() {
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">🔢</div>
           <h1 className="text-2xl font-black text-slate-800 mb-2">迷你數獨</h1>
-          <p className="text-slate-500 text-sm">4x4 水果數獨，每行每列每宮不重複</p>
+          <p className="text-slate-500 text-sm">4×4 水果數獨，每一橫排、直排、宮格都不重複</p>
         </div>
         <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
           <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
           <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
-            <li>每行 4 種水果各出現一次</li>
-            <li>每列 4 種水果各出現一次</li>
+            <li>每一橫排 4 種水果各出現一次</li>
+            <li>每一直排 4 種水果各出現一次</li>
             <li>每個 2x2 宮格 4 種水果各一次</li>
             <li>水果：{EMOJIS.join(" ")}</li>
-            <li>完成越快、錯誤越少，分數越高</li>
+            <li>每一題都只有一個答案，不用猜</li>
+            <li>錯誤越少、完成越快，分數越高</li>
           </ul>
         </div>
         <div className="space-y-3">
@@ -278,7 +241,7 @@ export default function MiniSudokuPage() {
 
       {selected && (
         <div className="text-center text-xs text-slate-400">
-          已選取第 {selected[0] + 1} 行第 {selected[1] + 1} 列
+          已選取第 {selected[0] + 1} 橫排、第 {selected[1] + 1} 直排
         </div>
       )}
     </div>

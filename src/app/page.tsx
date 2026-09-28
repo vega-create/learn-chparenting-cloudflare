@@ -44,7 +44,7 @@ const TOOLS = [
     desc: "邏輯・程式・記憶・反應・數學・語言",
     color: "from-orange-400 to-orange-500", border: "border-orange-200",
     active: true, href: "/board-games",
-    features: ["18 款教育遊戲", "邏輯推理 + 程式概念", "數學衝刺 + 單字搜尋", "記憶力 + 圍棋 + 跳棋"],
+    features: ["20 款教育遊戲", "數獨 + 踩地雷 + 程式概念", "數學衝刺 + 單字搜尋", "記憶力 + 圍棋 + 跳棋"],
   },
   {
     id: "chinese-lang", title: "國語學習", sub: "Chinese Language", icon: "📝",
@@ -163,7 +163,7 @@ export default function HomePage() {
               <a href="/board-games" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-orange-200 shadow-sm hover:shadow-lg hover:border-orange-400 transition-all no-underline hover-lift">
                 <div className="text-2xl md:text-3xl mb-1">🎲</div>
                 <div className="font-bold text-slate-800 text-xs md:text-sm">教育桌遊</div>
-                <div className="text-[10px] md:text-xs text-slate-400">18 款遊戲</div>
+                <div className="text-[10px] md:text-xs text-slate-400">20 款遊戲</div>
               </a>
               <a href="/typing-game" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-emerald-200 shadow-sm hover:shadow-lg hover:border-emerald-400 transition-all no-underline hover-lift">
                 <div className="text-2xl md:text-3xl mb-1">⌨️</div>

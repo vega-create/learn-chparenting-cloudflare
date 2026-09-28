@@ -77,25 +77,61 @@ function genAlternating(): Question {
   return { sequence: seq, answer, hint: `交替 +${d1} / +${d2}`, type: "alternating" };
 }
 
-function generateQuestion(round: number): Question {
-  const difficulty = round + 1;
-  if (difficulty <= 2) return genArithmetic(difficulty);
-  if (difficulty <= 4) {
-    const gen = [genArithmetic, genGeometric, genFibonacci];
-    return gen[Math.floor(Math.random() * gen.length)](difficulty);
-  }
-  if (difficulty <= 7) {
-    const gen = [genArithmetic, genGeometric, genFibonacci, genSquares, genAlternating];
-    return gen[Math.floor(Math.random() * gen.length)](difficulty);
-  }
-  const gen = [genGeometric, genFibonacci, genSquares, genCubes, genTriangular, genPower2, genAlternating];
-  return gen[Math.floor(Math.random() * gen.length)](difficulty);
+/* 遞減的等差數列：起點夠大，整串都不會出現負數（負數是國中才教的） */
+function genArithmeticDown(): Question {
+  const diff = Math.floor(Math.random() * 5) + 1;
+  const start = diff * 5 + Math.floor(Math.random() * 10) + 1;
+  const seq = Array.from({ length: 6 }, (_, i) => start - diff * i);
+  const answer = seq.pop()!;
+  return { sequence: seq, answer, hint: `每次 -${diff}`, type: "arithmetic" };
 }
+
+/* 只用 ×2、×3 的等比數列，不出現負數 */
+function genGeometricUp(): Question {
+  const ratio = Math.random() > 0.5 ? 2 : 3;
+  const start = Math.floor(Math.random() * (ratio === 2 ? 3 : 2)) + 1;
+  const seq = Array.from({ length: 6 }, (_, i) => start * Math.pow(ratio, i));
+  const answer = seq.pop()!;
+  return { sequence: seq, answer, hint: `每次 ×${ratio}`, type: "geometric" };
+}
+
+type Level = "easy" | "medium" | "hard";
+const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+
+/**
+ * 原本只有一種玩法，第 6 題起就會出現負數、立方數、×(-2)，國小孩子一定會卡住。
+ * 改成三種程度：初級、中級都不會出現負數。
+ */
+function generateQuestion(round: number, level: Level): Question {
+  if (level === "easy") {
+    // 1-5 題遞增、6-8 題遞減、9-10 題每次 ×2
+    if (round < 5) return genArithmetic(1);
+    if (round < 8) return genArithmeticDown();
+    return genGeometric(1);
+  }
+  if (level === "medium") {
+    if (round < 3) return pick([() => genArithmetic(1), genArithmeticDown])();
+    if (round < 7) return pick([genArithmeticDown, genGeometricUp, genAlternating, genFibonacci])();
+    return pick([genGeometricUp, genAlternating, genFibonacci, genSquares])();
+  }
+  // 高級：維持原本的題型（含負數、立方數、三角數）
+  const difficulty = round + 1;
+  if (difficulty <= 2) return genArithmetic(6);
+  if (difficulty <= 5) return pick([() => genArithmetic(6), () => genGeometric(6), genFibonacci, genSquares, genAlternating])();
+  return pick([() => genGeometric(6), genFibonacci, genSquares, genCubes, genTriangular, genPower2, genAlternating])();
+}
+
+const LEVEL_OPTIONS: { key: Level; label: string; desc: string }[] = [
+  { key: "easy", label: "初級", desc: "每次加或減同一個數、每次 ×2（國小中年級）" },
+  { key: "medium", label: "中級", desc: "交替規律、前兩數相加、平方數（國小高年級）" },
+  { key: "hard", label: "高級", desc: "會出現負數、立方數、三角數（國中以上）" },
+];
 
 const TOTAL_ROUNDS = 10;
 
 export default function SequenceQuestPage() {
   const [mode, setMode] = useState<"menu" | "playing" | "done">("menu");
+  const [level, setLevel] = useState<Level>("easy");
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
   const [question, setQuestion] = useState<Question | null>(null);
@@ -106,13 +142,14 @@ export default function SequenceQuestPage() {
   const { highScore, updateHighScore } = useHighScore("sequence-quest");
   const { fmt: timerFmt, reset: resetTimer } = useTimer(mode === "playing");
 
-  const startGame = useCallback(() => {
+  const startGame = useCallback((lv: Level) => {
+    setLevel(lv);
     setRound(0);
     setScore(0);
     setFeedback(null);
     setInput("");
     setShowHint(false);
-    setQuestion(generateQuestion(0));
+    setQuestion(generateQuestion(0, lv));
     setMode("playing");
     resetTimer();
     setIsNewHigh(false);
@@ -129,14 +166,15 @@ export default function SequenceQuestPage() {
     }
     const nextR = round + 1;
     setRound(nextR);
-    setQuestion(generateQuestion(nextR));
+    setQuestion(generateQuestion(nextR, level));
     setFeedback(null);
     setInput("");
     setShowHint(false);
-  }, [round, score, updateHighScore]);
+  }, [round, score, level, updateHighScore]);
 
   const handleSubmit = useCallback(() => {
     if (!question || feedback) return;
+    if (input.trim() === "") return;   // 空白會被 Number() 當成 0，直接按確定不該算作答
     const userAnswer = Number(input.trim());
     if (isNaN(userAnswer)) return;
 
@@ -171,17 +209,22 @@ export default function SequenceQuestPage() {
         <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
           <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
           <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
-            <li>共 {TOTAL_ROUNDS} 題，難度逐漸提升</li>
+            <li>共 {TOTAL_ROUNDS} 題，先選適合的程度</li>
             <li>觀察數列規律，填入下一個數字</li>
             <li>每題答對得 10 分（用提示得 5 分）</li>
-            <li>包含：等差、等比、費式、平方……</li>
+            <li>初級、中級不會出現負數</li>
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
-        <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
-          🚀 開始挑戰
-        </button>
+        <div className="space-y-3">
+          {LEVEL_OPTIONS.map(d => (
+            <button key={d.key} onClick={() => startGame(d.key)}
+              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
+              <div className="text-lg">{d.label}</div>
+              <div className="text-xs opacity-80">{d.desc}</div>
+            </button>
+          ))}
+        </div>
       </div>
     );
   }
@@ -196,7 +239,7 @@ export default function SequenceQuestPage() {
         <GameOverScreen
           score={score} maxScore={maxScore} gameName="數列探險" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
-          onRestart={startGame} onBack={() => setMode("menu")}
+          onRestart={() => startGame(level)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "sequence-quest", activityName: "數列探險" }}
         />
       </div>

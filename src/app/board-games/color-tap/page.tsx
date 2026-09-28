@@ -30,7 +30,16 @@ interface Challenge {
   inkTw: string;      // Tailwind class for the ink
 }
 
-function generateChallenge(): Challenge {
+function generateChallenge(prev?: Challenge | null): Challenge {
+  // 不要連續出一模一樣的題目，畫面沒變孩子會以為剛剛沒按到
+  for (let i = 0; i < 10; i++) {
+    const next = randomChallenge();
+    if (!prev || next.word !== prev.word || next.inkColor !== prev.inkColor) return next;
+  }
+  return randomChallenge();
+}
+
+function randomChallenge(): Challenge {
   const wordColor = COLOR_DEFS[Math.floor(Math.random() * COLOR_DEFS.length)];
   let inkColor = COLOR_DEFS[Math.floor(Math.random() * COLOR_DEFS.length)];
   // Ensure word and ink are different for Stroop effect (80% of the time)
@@ -136,7 +145,7 @@ export default function ColorTapPage() {
     }
 
     setTimeout(() => setFeedback(null), 200);
-    setChallenge(generateChallenge());
+    setChallenge(generateChallenge(challenge));
   }, [challenge, mode]);
 
   /* ─── Menu ─── */

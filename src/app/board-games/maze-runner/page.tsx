@@ -10,7 +10,7 @@ type Cell = { top: boolean; right: boolean; bottom: boolean; left: boolean; visi
 const DIFF_CONFIG: Record<Difficulty, { rows: number; cols: number; cellSize: number }> = {
   easy: { rows: 7, cols: 7, cellSize: 40 },
   medium: { rows: 10, cols: 10, cellSize: 32 },
-  hard: { rows: 14, cols: 14, cellSize: 24 },
+  hard: { rows: 14, cols: 14, cellSize: 22 },
 };
 
 const DIFF_OPTIONS: { key: Difficulty; label: string; desc: string }[] = [
@@ -59,10 +59,32 @@ function generateMaze(rows: number, cols: number): Cell[][] {
   return grid;
 }
 
+/** 從起點到終點最少要走幾步（廣度優先搜尋） */
+function shortestPath(maze: Cell[][], goal: [number, number]): number {
+  const rows = maze.length, cols = maze[0].length;
+  const dist = Array.from({ length: rows }, () => Array(cols).fill(-1));
+  dist[0][0] = 0;
+  const queue: [number, number][] = [[0, 0]];
+  while (queue.length) {
+    const [r, c] = queue.shift()!;
+    if (r === goal[0] && c === goal[1]) return dist[r][c];
+    const cell = maze[r][c];
+    const steps: [boolean, number, number][] = [[cell.top, -1, 0], [cell.bottom, 1, 0], [cell.left, 0, -1], [cell.right, 0, 1]];
+    for (const [wall, dr, dc] of steps) {
+      const nr = r + dr, nc = c + dc;
+      if (wall || nr < 0 || nr >= rows || nc < 0 || nc >= cols || dist[nr][nc] >= 0) continue;
+      dist[nr][nc] = dist[r][c] + 1;
+      queue.push([nr, nc]);
+    }
+  }
+  return rows + cols;
+}
+
 export default function MazeRunnerPage() {
   const [mode, setMode] = useState<"menu" | "playing" | "done">("menu");
   const [diff, setDiff] = useState<Difficulty>("easy");
   const [maze, setMaze] = useState<Cell[][]>([]);
+  const shortestRef = useRef(1);
   const [playerPos, setPlayerPos] = useState<[number, number]>([0, 0]);
   const [moves, setMoves] = useState(0);
   const [time, setTime] = useState(0);
@@ -85,10 +107,12 @@ export default function MazeRunnerPage() {
   const finishGame = useCallback((finalMoves: number, finalTime: number) => {
     if (timerRef.current) clearInterval(timerRef.current);
     playVictory();
-    const maxMoves = config.rows * config.cols * 2;
-    const moveScore = Math.max(100 - Math.floor((finalMoves / maxMoves) * 80), 10);
-    const maxTime = config.rows * config.cols * 3;
-    const timeScore = Math.max(50 - Math.floor((finalTime / maxTime) * 50), 0);
+    // 跟「這一座迷宮的最短路線」比，而不是跟迷宮大小比。
+    // 原本就算每一步都走對，多數迷宮也拿不到三顆星。
+    const best = shortestRef.current;
+    const moveScore = Math.max(Math.min(100, Math.round((100 * best) / Math.max(finalMoves, 1))), 10);
+    const parTime = best * 2;   // 最短路線每一步給 2 秒
+    const timeScore = finalTime <= parTime ? 50 : Math.max(Math.round((50 * parTime) / finalTime), 0);
     const finalScore = moveScore + timeScore;
     setScore(finalScore);
     const newHigh = updateHighScore(finalScore);
@@ -101,6 +125,7 @@ export default function MazeRunnerPage() {
     setDiff(d);
     const c = DIFF_CONFIG[d];
     const newMaze = generateMaze(c.rows, c.cols);
+    shortestRef.current = shortestPath(newMaze, [c.rows - 1, c.cols - 1]);
     setMaze(newMaze);
     setPlayerPos([0, 0]);
     setMoves(0);
@@ -226,7 +251,7 @@ export default function MazeRunnerPage() {
       </div>
 
       {/* Maze Grid */}
-      <div className="bg-white rounded-2xl p-3 border border-violet-200 shadow-sm mb-4 overflow-auto">
+      <div className="bg-white rounded-2xl p-1.5 sm:p-3 -mx-2 sm:mx-0 border border-violet-200 shadow-sm mb-4 overflow-auto">
         <div className="mx-auto" style={{ width: config.cols * config.cellSize + 2, height: config.rows * config.cellSize + 2 }}>
           <div className="relative border border-slate-800" style={{ width: config.cols * config.cellSize, height: config.rows * config.cellSize }}>
             {maze.map((row, r) =>

@@ -3,8 +3,8 @@ import Link from "next/link";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
-  title: "免費教育桌遊 | 18 款邏輯遊戲・記憶力・數學・程式概念 | learn.chparenting.com",
-  description: "18 款免費線上教育桌遊：迷你數獨、圖案大師、數列探險練邏輯，記憶翻牌、記憶旋律練記憶，程式路徑、迴圈、邏輯閘練程式概念，還有圍棋、跳棋、數學衝刺、英文接龍。每款標明適合年齡與陪玩方式，不用下載、不用註冊。",
+  title: "免費教育桌遊 | 20 款邏輯遊戲・記憶力・數學・程式概念 | learn.chparenting.com",
+  description: "20 款免費線上教育桌遊：迷你數獨、數獨、圖案大師、數列探險練邏輯，踩地雷練推理，記憶翻牌、記憶旋律練記憶，程式路徑、迴圈、邏輯閘練程式概念，還有圍棋、跳棋、數學衝刺、英文接龍。每款標明適合年齡與陪玩方式，不用下載、不用註冊。",
   alternates: { canonical: "https://learn.chparenting.com/board-games" },
 };
 
@@ -13,8 +13,9 @@ const CATEGORIES = [
     title: "🧩 邏輯開發", color: "from-purple-500 to-indigo-600", border: "border-purple-200",
     games: [
       { id: "pattern-master", icon: "🧩", name: "圖案大師", desc: "找出缺失的圖案規律", difficulty: "初級～高級" },
-      { id: "mini-sudoku", icon: "🔢", name: "迷你數獨", desc: "4x4 / 6x6 數獨挑戰", difficulty: "初級～中級" },
-      { id: "sequence-quest", icon: "🔍", name: "數列探險", desc: "找出數列規律", difficulty: "初級～高級" },
+      { id: "mini-sudoku", icon: "🔢", name: "迷你數獨", desc: "4×4 水果數獨，低年級入門", difficulty: "初級～高級" },
+      { id: "sudoku", icon: "9️⃣", name: "數獨", desc: "6×6、9×9 數字數獨", difficulty: "入門～高級" },
+      { id: "sequence-quest", icon: "🔍", name: "數列探險", desc: "找出數列規律，三種程度", difficulty: "初級～高級" },
     ],
   },
   {
@@ -58,6 +59,7 @@ const CATEGORIES = [
     games: [
       { id: "maze-runner", icon: "🏃", name: "迷宮探險", desc: "找出迷宮的出路", difficulty: "初級～高級" },
       { id: "emoji-puzzle", icon: "😀", name: "表情密碼", desc: "破解表情符號方程式", difficulty: "初級～中級" },
+      { id: "minesweeper", icon: "💣", name: "踩地雷", desc: "看數字推理，每一盤都不用猜", difficulty: "初級～高級" },
     ],
   },
   {

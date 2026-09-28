@@ -2,6 +2,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { chooseMove, estimateScore, GO_LEVELS, KOMI } from "@/lib/go-ai";
 
 /* ─── Types ─── */
 type Difficulty = "easy" | "medium" | "hard";
@@ -10,9 +11,9 @@ type Board = Cell[][];
 
 const SIZE = 9;
 const DIFF_OPTIONS: { key: Difficulty; label: string; desc: string }[] = [
-  { key: "easy", label: "初級", desc: "AI 隨機落子，適合初學" },
-  { key: "medium", label: "中級", desc: "AI 偏好吃子與中央" },
-  { key: "hard", label: "高級", desc: "AI 使用勢力圖評估" },
+  { key: "easy", label: "初級", desc: "會吃子、會逃跑，但常常下錯，適合剛學會規則" },
+  { key: "medium", label: "中級", desc: "每一步先模擬幾百盤再下，會圍地" },
+  { key: "hard", label: "高級", desc: "每一步模擬幾千盤，要想清楚才贏得了" },
 ];
 
 /* ─── Board Helpers ─── */
@@ -111,115 +112,10 @@ function applyMove(b: Board, r: number, c: number, color: Cell): [Board, number]
   return [nb, captured];
 }
 
-/* Chinese scoring: territory + stones on board */
-function scoreBoard(b: Board): { black: number; white: number } {
-  const owned = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
-  const visited = new Set<string>();
-
-  for (let r = 0; r < SIZE; r++) {
-    for (let c = 0; c < SIZE; c++) {
-      if (b[r][c] !== 0 || visited.has(`${r},${c}`)) continue;
-      // BFS empty region
-      const region: [number, number][] = [];
-      const stack: [number, number][] = [[r, c]];
-      let touchesBlack = false, touchesWhite = false;
-      const regionVisited = new Set<string>();
-      while (stack.length) {
-        const [cr, cc] = stack.pop()!;
-        const key = `${cr},${cc}`;
-        if (regionVisited.has(key)) continue;
-        regionVisited.add(key);
-        visited.add(key);
-        region.push([cr, cc]);
-        for (const [dr, dc] of DIRS) {
-          const nr = cr + dr, nc = cc + dc;
-          if (!inBounds(nr, nc)) continue;
-          if (b[nr][nc] === 1) touchesBlack = true;
-          else if (b[nr][nc] === 2) touchesWhite = true;
-          else if (!regionVisited.has(`${nr},${nc}`)) stack.push([nr, nc]);
-        }
-      }
-      if (touchesBlack && !touchesWhite) region.forEach(([rr, rc]) => { owned[rr][rc] = 1; });
-      else if (touchesWhite && !touchesBlack) region.forEach(([rr, rc]) => { owned[rr][rc] = 2; });
-    }
-  }
-
-  let black = 0, white = 0;
-  for (let r = 0; r < SIZE; r++) {
-    for (let c = 0; c < SIZE; c++) {
-      if (b[r][c] === 1 || owned[r][c] === 1) black++;
-      else if (b[r][c] === 2 || owned[r][c] === 2) white++;
-    }
-  }
-  return { black, white };
-}
-
-/* ─── AI ─── */
-function aiMove(b: Board, diff: Difficulty, prevKey: string | null): [number, number] | null {
-  const legal: [number, number][] = [];
-  for (let r = 0; r < SIZE; r++)
-    for (let c = 0; c < SIZE; c++)
-      if (isLegal(b, r, c, 2, prevKey)) legal.push([r, c]);
-
-  if (legal.length === 0) return null;
-
-  if (diff === "easy") {
-    // 30% chance to pass
-    if (Math.random() < 0.3) return null;
-    return legal[Math.floor(Math.random() * legal.length)];
-  }
-
-  if (diff === "medium") {
-    // Prefer captures, then center proximity
-    const capturing: [number, number][] = [];
-    for (const [r, c] of legal) {
-      const [, cap] = applyMove(b, r, c, 2);
-      if (cap > 0) capturing.push([r, c]);
-    }
-    if (capturing.length > 0 && Math.random() < 0.8) {
-      return capturing[Math.floor(Math.random() * capturing.length)];
-    }
-    // Score by center distance
-    const center = (SIZE - 1) / 2;
-    const scored = legal.map(([r, c]) => ({
-      pos: [r, c] as [number, number],
-      score: -(Math.abs(r - center) + Math.abs(c - center)) + Math.random() * 3,
-    }));
-    scored.sort((a, b) => b.score - a.score);
-    return scored[0].pos;
-  }
-
-  /* Hard: influence map */
-  let bestScore = -Infinity;
-  let bestMove = legal[0];
-  for (const [r, c] of legal) {
-    const [nb, cap] = applyMove(b, r, c, 2);
-    let score = cap * 15;
-    // Influence: count friendly neighbors and liberties
-    const group = getGroup(nb, r, c);
-    score += groupLiberties(nb, group) * 2;
-    score += group.length;
-    // Penalize edges
-    const center = (SIZE - 1) / 2;
-    const edgeDist = Math.min(r, c, SIZE - 1 - r, SIZE - 1 - c);
-    if (edgeDist === 0) score -= 3;
-    // Slight center preference
-    score -= (Math.abs(r - center) + Math.abs(c - center)) * 0.5;
-    // Threaten opponent groups
-    for (const [dr, dc] of DIRS) {
-      const nr = r + dr, nc = c + dc;
-      if (inBounds(nr, nc) && nb[nr][nc] === 1) {
-        const oppGroup = getGroup(nb, nr, nc);
-        const oppLib = groupLiberties(nb, oppGroup);
-        if (oppLib === 1) score += 10;
-        else if (oppLib === 2) score += 4;
-      }
-    }
-    score += Math.random() * 2;
-    if (score > bestScore) { bestScore = score; bestMove = [r, c]; }
-  }
-  return bestMove;
-}
+/*
+ * 電腦的下法和終局計分都在 @/lib/go-ai。
+ * 舊版只看眼前一步、不會救自己的棋、還會填自己的眼，三種難度都太容易贏。
+ */
 
 /* ─── Component ─── */
 export default function GoGamePage() {
@@ -236,8 +132,11 @@ export default function GoGamePage() {
   const [isNewHigh, setIsNewHigh] = useState(false);
   const [finalScores, setFinalScores] = useState<{ black: number; white: number } | null>(null);
   const [aiThinking, setAiThinking] = useState(false);
+  const [aiPassed, setAiPassed] = useState(false);   // 白棋剛剛虛手，提醒孩子可以跟著虛手結束
   const [isBlackTurn, setIsBlackTurn] = useState(true);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const gameIdRef = useRef(0);          // 換局或結束後，還在想的那一步就不算了
+  const [aiResigned, setAiResigned] = useState(false);
   const { highScore, updateHighScore } = useHighScore("go-game");
 
   /* Timer */
@@ -252,17 +151,23 @@ export default function GoGamePage() {
   const fmtTime = `${Math.floor(elapsed / 60).toString().padStart(2, "0")}:${(elapsed % 60).toString().padStart(2, "0")}`;
 
   /* End game */
-  const endGame = useCallback((b: Board, bCap: number, wCap: number, resigned: boolean) => {
+  const endGame = useCallback((b: Board, bCap: number, wCap: number, resigned: boolean, whiteResigned = false) => {
     if (timerRef.current) clearInterval(timerRef.current);
-    const scores = scoreBoard(b);
-    // White gets 6.5 komi (simplified)
-    const whiteTotal = scores.white + 6.5;
+    gameIdRef.current++;
+    // 用模擬判斷每一格歸誰，被圍死的棋子會算給對方，不用一顆一顆提掉
+    const est = estimateScore(b.flat(), 400);
+    const scores = { black: est.black, white: est.white };
+    const whiteTotal = scores.white + KOMI;
     const blackTotal = scores.black;
     setFinalScores(scores);
+    setAiResigned(whiteResigned);
 
     let pts: number;
     if (resigned) {
       pts = 0;
+    } else if (whiteResigned) {
+      pts = Math.round(100 + bCap * 2);
+      playVictory();
     } else if (blackTotal > whiteTotal) {
       const margin = blackTotal - whiteTotal;
       pts = Math.round(50 + margin * 5 + bCap * 2);
@@ -280,20 +185,41 @@ export default function GoGamePage() {
   /* AI turn */
   const doAiTurn = useCallback((b: Board, pk: string | null, passes: number, bCap: number, wCap: number) => {
     setAiThinking(true);
-    setTimeout(() => {
-      const move = aiMove(b, diff, pk);
-      if (move === null) {
+    const gameId = gameIdRef.current;
+    const started = Date.now();
+    const stones = b.flat().filter(v => v !== 0).length;
+
+    chooseMove(b.flat(), 2, {
+      ...GO_LEVELS[diff],
+      // 棋盤還很空的時候孩子按到虛手，電腦不會跟著虛手結束，會繼續下
+      opponentPassed: passes > 0 && stones >= 30,
+      moveNumber: stones,
+      // 同形再現（打劫）沿用原本的檢查
+      isAllowed: pos => isLegal(b, Math.floor(pos / SIZE), pos % SIZE, 2, pk),
+    }).then(async res => {
+      // 下太快孩子會看不清楚白棋下在哪，至少停 400 毫秒
+      const wait = 400 - (Date.now() - started);
+      if (wait > 0) await new Promise(r => setTimeout(r, wait));
+      if (gameId !== gameIdRef.current) return;
+
+      if (res.resign) {
+        setAiThinking(false);
+        endGame(b, bCap, wCap, false, true);
+        return;
+      }
+      if (res.move === null) {
         // AI passes
         const newPasses = passes + 1;
         setConsecutivePasses(newPasses);
         setIsBlackTurn(true);
         setAiThinking(false);
+        setAiPassed(true);
         if (newPasses >= 2) {
           endGame(b, bCap, wCap, false);
         }
         return;
       }
-      const [r, c] = move;
+      const r = Math.floor(res.move / SIZE), c = res.move % SIZE;
       const prevKey = boardKey(b);
       const [nb, cap] = applyMove(b, r, c, 2);
       const newWCap = wCap + cap;
@@ -305,7 +231,8 @@ export default function GoGamePage() {
       setConsecutivePasses(0);
       setIsBlackTurn(true);
       setAiThinking(false);
-    }, 400);
+      setAiPassed(false);
+    });
   }, [diff, endGame]);
 
   /* Player move */
@@ -350,6 +277,9 @@ export default function GoGamePage() {
 
   /* Start game */
   const startGame = useCallback((d: Difficulty) => {
+    gameIdRef.current++;
+    setAiResigned(false);
+    setAiPassed(false);
     setDiff(d);
     setBoard(emptyBoard());
     setPrevBoardKey(null);
@@ -384,8 +314,9 @@ export default function GoGamePage() {
             <li>你執黑先行，與 AI 白棋輪流落子</li>
             <li>圍住對方棋子（無氣）即可提子</li>
             <li>不可自殺、不可打劫（Ko）</li>
-            <li>雙方連續虛手（PASS）則結束</li>
-            <li>中國規則計分：地盤 + 棋子數</li>
+            <li>覺得沒有地方可以下了，就按「虛手」；雙方都虛手就結束</li>
+            <li>計分：自己的棋子＋圍住的空地，白棋另外加 6.5 目</li>
+            <li>被圍死的棋子，結束時會自動算給對方</li>
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
@@ -417,8 +348,12 @@ export default function GoGamePage() {
         <div className="text-center text-sm text-slate-500 mt-4 mb-2">
           {finalScores && (
             <>
-              黑 {finalScores.black} 目 vs 白 {whiteTotal} 目（含貼 6.5 目）
-              {finalScores.black > whiteTotal ? " ── 黑勝！" : " ── 白勝"}
+              {aiResigned ? "白棋認輸 ── 黑勝！" : (
+                <>
+                  黑 {finalScores.black} 目 vs 白 {whiteTotal} 目（含貼 6.5 目）
+                  {finalScores.black > whiteTotal ? " ── 黑勝！" : " ── 白勝"}
+                </>
+              )}
             </>
           )}
         </div>
@@ -453,7 +388,7 @@ export default function GoGamePage() {
       <div className="flex justify-between items-center mt-3 mb-3 text-sm">
         <span className="text-slate-500">&#9200; {fmtTime}</span>
         <span className={`font-bold ${isBlackTurn && !aiThinking ? "text-slate-800" : "text-slate-400"}`}>
-          {aiThinking ? "白棋思考中..." : isBlackTurn ? "輪到你（黑）" : ""}
+          {aiThinking ? "白棋思考中..." : isBlackTurn ? (aiPassed ? "白棋虛手，輪到你（黑）" : "輪到你（黑）") : ""}
         </span>
       </div>
 
