@@ -129,6 +129,8 @@ Scratch Jr 是 MIT 專門為幼兒設計的程式工具，介面超級簡單，�
 - 避免睡前一小時使用螢幕。
 - 寫程式跟看影片不一樣，是主動的腦力活動，但眼睛一樣需要休息。
 
+時間到了孩子還想「再玩五分鐘就好」是很常見的事。想用故事陪他練習自己停下來，可以看這幾本[自律主題的品格繪本](https://character.chparenting.com/virtues/self-control/)。
+
 時間到了孩子卻停不下來，是很多家庭都會遇到的事。這篇[孩子平板關不掉怎麼辦](https://character.chparenting.com/blog/child-tablet-cant-stop/)整理了幾個可以先試的做法。
 
 ## 現在就開始孩子的程式之旅
