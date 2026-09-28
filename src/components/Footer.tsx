@@ -49,6 +49,15 @@ export default function Footer() {
             </div>
           </div>
         </div>
+        {/* 關聯網站：同一位作者經營的其他站 */}
+        <div className="border-t border-slate-200 pt-4 mb-4 text-sm">
+          <h4 className="font-bold text-slate-700 mb-2">🔗 關聯網站</h4>
+          <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+            <a href="https://chparenting.com/" className="text-slate-500 hover:text-rose-400 transition">媽媽生活復原力 Lab chparenting.com</a>
+            <a href="https://english.chparenting.com/" className="text-slate-500 hover:text-rose-400 transition">冒險英語 english.chparenting.com</a>
+            <a href="https://character.chparenting.com/" className="text-slate-500 hover:text-rose-400 transition">原來會這樣！品格互動繪本 character.chparenting.com</a>
+          </div>
+        </div>
         <div className="border-t border-slate-200 pt-4 text-center">
           <p className="text-sm text-slate-400">
             © 2026 親子多元學習平台 — 由{" "}

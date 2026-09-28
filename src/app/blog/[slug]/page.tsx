@@ -7,8 +7,8 @@ import contentDates from '@/data/content-dates.json';
 const AUTHOR = {
   id: 'https://learn.chparenting.com/author/vega-lin#person',
   url: 'https://learn.chparenting.com/author/vega-lin',
-  name: 'Vega Lin',
-  nameZh: '薇佳媽咪',
+  name: '薇佳媽媽',
+  nameZh: 'Vega',
 } as const;
 
 /** 真實的最後修改日期（來自 git，見 scripts/generate-content-dates.mjs）；沒有就退回發布日。 */

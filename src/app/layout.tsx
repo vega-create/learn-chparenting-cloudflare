@@ -65,8 +65,8 @@ const organizationSchema = {
   founder: {
     "@type": "Person",
     "@id": "https://learn.chparenting.com/author/vega-lin#person",
-    name: "Vega Lin",
-    alternateName: "薇佳媽咪",
+    name: "薇佳媽媽",
+    alternateName: "Vega",
     url: "https://learn.chparenting.com/author/vega-lin",
     jobTitle: "Founder",
     alumniOf: [
@@ -79,6 +79,7 @@ const organizationSchema = {
     "https://baby.chparenting.com",
     "https://pregnancy.chparenting.com",
     "https://english.chparenting.com",
+    "https://character.chparenting.com",
     "https://mommystartup.com",
   ],
   knowsAbout: [
