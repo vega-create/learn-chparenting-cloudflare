@@ -117,6 +117,53 @@ function applyMove(b: Board, r: number, c: number, color: Cell): [Board, number]
  * 舊版只看眼前一步、不會救自己的棋、還會填自己的眼，三種難度都太容易贏。
  */
 
+/* ─── 圖解 ─── */
+// 小棋盤示意圖：B 黑棋、W 白棋、o 空位上的綠點（氣）、x 紅色叉（下這裡就吃掉）
+function GoDiagram({ rows }: { rows: string[] }) {
+  const n = rows.length;
+  return (
+    <svg viewBox={`0 0 ${n} ${n}`} className="w-24 h-24 shrink-0 rounded-md" style={{ backgroundColor: "#DEB887" }} aria-hidden="true">
+      {Array.from({ length: n }).map((_, i) => (
+        <g key={i}>
+          <line x1={0.5} y1={i + 0.5} x2={n - 0.5} y2={i + 0.5} stroke="#8B6914" strokeWidth={0.03} />
+          <line x1={i + 0.5} y1={0.5} x2={i + 0.5} y2={n - 0.5} stroke="#8B6914" strokeWidth={0.03} />
+        </g>
+      ))}
+      {rows.flatMap((row, r) => row.split("").map((ch, c) => {
+        const cx = c + 0.5, cy = r + 0.5, key = `${r}-${c}`;
+        if (ch === "B") return <circle key={key} cx={cx} cy={cy} r={0.42} fill="#111" />;
+        if (ch === "W") return <circle key={key} cx={cx} cy={cy} r={0.42} fill="#fff" stroke="#999" strokeWidth={0.04} />;
+        if (ch === "o") return <circle key={key} cx={cx} cy={cy} r={0.17} fill="#16a34a" />;
+        if (ch === "x") return (
+          <g key={key} stroke="#dc2626" strokeWidth={0.1} strokeLinecap="round">
+            <line x1={cx - 0.2} y1={cy - 0.2} x2={cx + 0.2} y2={cy + 0.2} />
+            <line x1={cx - 0.2} y1={cy + 0.2} x2={cx + 0.2} y2={cy - 0.2} />
+          </g>
+        );
+        return null;
+      }))}
+    </svg>
+  );
+}
+
+const GO_DEMOS: { title: string; rows: string[]; text: string }[] = [
+  {
+    title: "1. 什麼是「氣」",
+    rows: [".....", "..o..", ".oBo.", "..o..", "....."],
+    text: "棋子上下左右相連的空位叫做「氣」（綠點）。這顆黑棋有 4 口氣。斜的不算。",
+  },
+  {
+    title: "2. 怎麼吃掉對方的棋",
+    rows: [".....", "..B..", ".BWx.", "..B..", "....."],
+    text: "白棋已經被黑棋圍住三邊，只剩紅叉那一口氣。黑棋下在紅叉，白棋就沒有氣，會從棋盤上拿掉。",
+  },
+  {
+    title: "3. 連在一起的棋一起算",
+    rows: [".....", ".oo..", "oBBo.", ".oo..", "....."],
+    text: "上下左右連在一起的棋是同一塊，氣也一起算。這兩顆黑棋共有 6 口氣，要全部堵住才吃得掉。",
+  },
+];
+
 /* ─── Component ─── */
 export default function GoGamePage() {
   const [mode, setMode] = useState<"menu" | "playing" | "done">("menu");
@@ -311,14 +358,33 @@ export default function GoGamePage() {
         <div className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm mb-6">
           <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
           <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
-            <li>你執黑先行，與 AI 白棋輪流落子</li>
-            <li>圍住對方棋子（無氣）即可提子</li>
-            <li>不可自殺、不可打劫（Ko）</li>
+            <li>你是黑棋先下，和電腦（白棋）輪流下</li>
+            <li>把對方的棋上下左右都圍住，就可以吃掉</li>
+            <li>不能下在「一放上去就被圍死」的地方，除非那一步可以吃掉對方</li>
+            <li>剛被吃掉一顆棋的地方，不能馬上吃回去，要先下別的地方</li>
             <li>覺得沒有地方可以下了，就按「虛手」；雙方都虛手就結束</li>
             <li>計分：自己的棋子＋圍住的空地，白棋另外加 6.5 目</li>
             <li>被圍死的棋子，結束時會自動算給對方</li>
             <li>最高紀錄：{highScore} 分</li>
           </ul>
+        </div>
+        <div className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm mb-6">
+          <h3 className="font-bold text-slate-700 mb-3">第一次玩？先看這三張圖</h3>
+          <div className="space-y-4">
+            {GO_DEMOS.map(d => (
+              <div key={d.title} className="flex gap-4 items-center">
+                <GoDiagram rows={d.rows} />
+                <div>
+                  <div className="font-bold text-slate-700 text-sm mb-0.5">{d.title}</div>
+                  <p className="text-sm text-slate-500 m-0 leading-relaxed">{d.text}</p>
+                </div>
+              </div>
+            ))}
+            <p className="text-sm text-slate-500 m-0 leading-relaxed">
+              <strong className="text-slate-700">怎麼算贏：</strong>
+              結束時比誰的「棋子＋圍起來的空地」比較多。所以除了吃子，也要把空地圍起來。
+            </p>
+          </div>
         </div>
         <div className="space-y-3">
           {DIFF_OPTIONS.map(d => (

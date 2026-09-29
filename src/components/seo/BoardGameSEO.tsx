@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getBoardGame, BOARD_GAMES } from "@/data/board-games";
+import GameHelpButton from "@/components/GameHelpButton";
 
 const BASE = "https://learn.chparenting.com";
 
@@ -36,6 +37,7 @@ export default function BoardGameSEO({ id }: { id: string }) {
 
   return (
     <>
+      <GameHelpButton name={g.name} icon={g.icon} howTo={g.howTo} rules={g.rules} tips={g.tips} />
       <section className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-12 text-slate-700 leading-relaxed border-t border-slate-200 mt-6">
         <h2 className="sr-only">
           {g.name}｜免費線上{g.category}遊戲（{g.difficulty}）
@@ -43,7 +45,14 @@ export default function BoardGameSEO({ id }: { id: string }) {
 
         <p className="mb-6 text-[15px]">{g.intro}</p>
 
-        <h2 className="text-lg md:text-xl font-bold text-slate-800 mb-2">🎮 怎麼玩</h2>
+        <h2 className="text-lg md:text-xl font-bold text-slate-800 mb-2">🖐️ 操作步驟</h2>
+        <ol className="list-decimal list-inside mb-6 space-y-1 text-[14px]">
+          {g.howTo.map((s, i) => (
+            <li key={i}>{s}</li>
+          ))}
+        </ol>
+
+        <h2 className="text-lg md:text-xl font-bold text-slate-800 mb-2">🎮 遊戲規則</h2>
         <ul className="list-disc list-inside mb-6 space-y-1 text-[14px]">
           {g.rules.map((r, i) => (
             <li key={i}>{r}</li>

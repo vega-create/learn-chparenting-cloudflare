@@ -25,6 +25,63 @@ const LEVELS: LevelDef[] = [
 const NUM_COLOR = ["", "text-blue-600", "text-emerald-600", "text-red-500", "text-indigo-700", "text-amber-700", "text-cyan-700", "text-slate-800", "text-slate-500"];
 const LONG_PRESS_MS = 450;
 
+/* ─── 圖解玩法 ─── */
+// 每一格：數字 = 已翻開的數字；"." = 已翻開的空格；"u" = 還沒翻開；
+// "m" = 還沒翻開、答案是地雷（紅框）；"s" = 還沒翻開、答案是安全（綠框）；
+// "f" = 插了旗；"c" = 要看的那個數字（黃底）後面接數字，例如 "c1"
+type Demo = { title: string; grid: string[][]; text: string };
+const DEMOS: Demo[] = [
+  {
+    title: "1. 數字是什麼意思",
+    grid: [["u", "u", "u"], ["u", "c2", "u"], ["u", "u", "u"]],
+    text: "中間的 2 表示：圍著它的這 8 格裡面，藏了 2 顆地雷。數字不會告訴你是哪兩格，要靠其他數字一起推。",
+  },
+  {
+    title: "2. 找出地雷",
+    grid: [[".", "c1", "m"], [".", "1", "1"], [".", ".", "."]],
+    text: "黃色的 1 旁邊只剩一格還沒翻開，所以那一格一定是地雷。切到「插旗」把它標起來，不要挖。",
+  },
+  {
+    title: "3. 找出安全的格子",
+    grid: [["f", "c1", "s"], ["1", "1", "s"]],
+    text: "黃色的 1 旁邊已經有一支旗子，它的地雷找到了。所以旁邊其他沒翻開的格子都安全，可以放心挖開。",
+  },
+];
+
+function DemoCell({ v }: { v: string }) {
+  const base = "w-9 h-9 flex items-center justify-center font-black text-base rounded-sm";
+  if (v === "u") return <div className={`${base} bg-sky-200`} />;
+  if (v === "m") return <div className={`${base} bg-sky-200 ring-2 ring-inset ring-red-500`}>💣</div>;
+  if (v === "s") return <div className={`${base} bg-sky-200 ring-2 ring-inset ring-emerald-500 text-emerald-700 text-xs`}>安全</div>;
+  if (v === "f") return <div className={`${base} bg-sky-200`}>🚩</div>;
+  if (v === ".") return <div className={`${base} bg-slate-50`} />;
+  if (v.startsWith("c")) return <div className={`${base} bg-amber-200 ${NUM_COLOR[Number(v.slice(1))]}`}>{v.slice(1)}</div>;
+  return <div className={`${base} bg-slate-50 ${NUM_COLOR[Number(v)]}`}>{v}</div>;
+}
+
+function HowToPlay() {
+  return (
+    <div className="space-y-4">
+      {DEMOS.map(d => (
+        <div key={d.title} className="flex gap-4 items-center">
+          <div className="shrink-0 inline-grid gap-0.5 bg-slate-300 border-2 border-slate-400 rounded-md overflow-hidden"
+            style={{ gridTemplateColumns: `repeat(${d.grid[0].length}, auto)` }} aria-hidden="true">
+            {d.grid.flat().map((v, i) => <DemoCell key={i} v={v} />)}
+          </div>
+          <div>
+            <div className="font-bold text-slate-700 text-sm mb-0.5">{d.title}</div>
+            <p className="text-sm text-slate-500 m-0 leading-relaxed">{d.text}</p>
+          </div>
+        </div>
+      ))}
+      <p className="text-sm text-slate-500 m-0 leading-relaxed">
+        <strong className="text-slate-700">卡住的時候：</strong>
+        換一個數字看。通常從角落和邊上的 1 開始最容易，因為它們旁邊的格子比較少。
+      </p>
+    </div>
+  );
+}
+
 export default function MinesweeperPage() {
   const [mode, setMode] = useState<"menu" | "playing" | "done">("menu");
   const [level, setLevel] = useState<LevelDef>(LEVELS[0]);
@@ -36,6 +93,7 @@ export default function MinesweeperPage() {
   const [boom, setBoom] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [isNewHigh, setIsNewHigh] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const { highScore, updateHighScore } = useHighScore(`minesweeper-${level.key}`);
   const { time, fmt: timerFmt, reset: resetTimer } = useTimer(mode === "playing" && board !== null && outcome === null);
   const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -94,20 +152,24 @@ export default function MinesweeperPage() {
   }, [revealed, flagged, total, level, win, lose]);
 
   const toggleFlag = useCallback((i: number) => {
-    if (outcome || revealed[i] || !board) return;
+    // 還沒點第一下也可以先插旗（跟一般的踩地雷一樣）
+    if (outcome || revealed[i]) return;
     setFlagged(f => f.map((v, k) => (k === i ? !v : v)));
-  }, [outcome, revealed, board]);
+  }, [outcome, revealed]);
 
   const tap = useCallback((i: number) => {
     if (outcome) return;
     if (longPressed.current) { longPressed.current = false; return; }
     if (!board) {
+      if (flagMode) { toggleFlag(i); return; }
+      if (flagged[i]) return;   // 插了旗的格子要先拔旗才能挖
       // 第一下：現在才埋雷
       const b = generateBoard(level.rows, level.cols, level.mines, i);
       setBoard(b);
       const rev = new Array(total).fill(false);
       floodReveal(b, rev, i);
       setRevealed(rev);
+      setFlagged(f => f.map((v, k) => v && !rev[k]));   // 被翻開的格子上如果先插了旗，拿掉
       playCorrect();
       return;
     }
@@ -126,7 +188,7 @@ export default function MinesweeperPage() {
 
   const pressStart = (i: number) => {
     longPressed.current = false;
-    if (!board || outcome) return;   // 還沒開始或已經結束就不處理長按，免得下一次點擊被吃掉
+    if (outcome) return;   // 已經結束就不處理長按，免得下一次點擊被吃掉
     if (pressTimer.current) clearTimeout(pressTimer.current);
     pressTimer.current = setTimeout(() => { longPressed.current = true; toggleFlag(i); }, LONG_PRESS_MS);
   };
@@ -148,10 +210,14 @@ export default function MinesweeperPage() {
             <li>數字代表「周圍一圈 8 格裡有幾顆地雷」</li>
             <li>第一下一定安全，每一盤都不用猜</li>
             <li>確定是地雷的格子可以插旗 🚩 做記號</li>
-            <li>手機：切到「插旗」再點，或是長按格子</li>
-            <li>電腦：按滑鼠右鍵插旗</li>
+            <li><strong>電腦：按滑鼠右鍵插旗</strong>，再按一次右鍵拔旗；左鍵是挖開</li>
+            <li>手機、平板：切到「插旗」再點，或是長按格子</li>
             <li>把沒有地雷的格子全部翻開就過關</li>
           </ul>
+        </div>
+        <div className="bg-white rounded-2xl p-6 border border-red-200 shadow-sm mb-6">
+          <h3 className="font-bold text-slate-700 mb-3">怎麼推理？看圖學三招</h3>
+          <HowToPlay />
         </div>
         <div className="space-y-3">
           {LEVELS.map(lv => (
@@ -244,10 +310,24 @@ export default function MinesweeperPage() {
               🚩 插旗
             </button>
           </div>
-          <p className="text-xs text-slate-400 text-center mt-3">
+          <p className="text-xs text-slate-500 text-center mt-3">
+            用電腦：<strong>左鍵挖開、右鍵插旗</strong>，不用切換模式。
+          </p>
+          <p className="text-xs text-slate-400 text-center mt-1">
             點已經翻開的數字：如果周圍的旗子數量剛好等於那個數字，會把其他格一次翻開。
           </p>
-          <div className="text-center mt-2">
+          <div className="text-center mt-3">
+            <button onClick={() => setShowHelp(v => !v)} aria-expanded={showHelp}
+              className="px-4 py-2 rounded-xl bg-amber-50 border-2 border-amber-200 text-amber-700 font-bold text-sm cursor-pointer">
+              ❓ {showHelp ? "收起玩法說明" : "怎麼玩？看圖解"}
+            </button>
+          </div>
+          {showHelp && (
+            <div className="bg-white rounded-2xl p-5 border border-amber-200 shadow-sm mt-3 mx-auto" style={{ width: "min(100vw - 32px, 440px)" }}>
+              <HowToPlay />
+            </div>
+          )}
+          <div className="text-center mt-3">
             <button onClick={() => setMode("menu")} className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0 underline">放棄這一盤，回選單</button>
           </div>
         </>

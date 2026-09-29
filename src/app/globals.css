@@ -20,6 +20,20 @@ body {
 .animate-slideUp { animation: slideUp 0.5s ease-out; }
 .animate-float { animation: float 3s ease-in-out infinite; }
 
+/* 首頁「最新消息」跑馬燈：內容複製兩份，往左移一半就剛好接回開頭 */
+@keyframes updateTicker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.update-ticker-track { animation: updateTicker 50s linear infinite; }
+.update-ticker:hover .update-ticker-track,
+.update-ticker:focus-within .update-ticker-track,
+.update-ticker-track.is-paused { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  /* 系統設定「減少動態效果」：不跑，改成可以左右滑的清單，也不需要第二份和暫停鈕 */
+  .update-ticker { overflow-x: auto; }
+  .update-ticker-track { animation: none; }
+  .update-ticker-track > ul[aria-hidden] { display: none; }
+  .update-ticker-toggle { display: none; }
+}
+
 @keyframes badgeUnlock {
   0% { transform: scale(0.3) rotate(-15deg); opacity: 0; }
   50% { transform: scale(1.2) rotate(5deg); opacity: 1; }

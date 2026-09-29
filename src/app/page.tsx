@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import NewsletterCTA from "@/components/NewsletterCTA";
 import DailyChallenge from "@/components/DailyChallenge";
 import PracticeCounter from "@/components/PracticeCounter";
+import UpdateTicker from "@/components/UpdateTicker";
 
 export const metadata: Metadata = {
   title: "Learn.chparenting.com 親子多元學習平台 | 華人家庭免費英文・數學・閱讀・注音・AI 工具",
@@ -115,6 +116,9 @@ export default function HomePage() {
   return (
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {/* 最新消息跑馬燈（內容在 src/data/site-updates.ts） */}
+      <UpdateTicker />
 
       {/* Hero — compact, CTA-first */}
       <section className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-orange-50 to-amber-50">

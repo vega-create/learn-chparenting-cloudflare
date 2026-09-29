@@ -24,6 +24,23 @@ const LEVELS: LevelDef[] = [
 
 const MAX_HINTS = 3;
 
+/* ─── 圖解 ─── */
+// 0 = 空格；負數 = 要找的那一格（顯示 ?）
+function DemoGrid({ cells, cols }: { cells: number[]; cols: number }) {
+  return (
+    <div className="shrink-0 inline-grid border-2 border-slate-800 rounded-md overflow-hidden bg-white" aria-hidden="true"
+      style={{ gridTemplateColumns: `repeat(${cols}, 1.75rem)` }}>
+      {cells.map((v, i) => (
+        <div key={i} className={`h-7 flex items-center justify-center text-sm font-bold border-slate-300
+          ${i % cols < cols - 1 ? "border-r" : ""} ${i < cells.length - cols ? "border-b" : ""}
+          ${v < 0 ? "bg-amber-200 text-amber-800" : "text-slate-800"}`}>
+          {v < 0 ? "?" : v || ""}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function SudokuPage() {
   const [mode, setMode] = useState<"menu" | "playing" | "done">("menu");
   const [level, setLevel] = useState<LevelDef>(LEVELS[0]);
@@ -169,6 +186,33 @@ export default function SudokuPage() {
             <li>填錯會變紅色並扣分；有 {MAX_HINTS} 次提示</li>
             <li>可以開「筆記」先記下可能的數字</li>
           </ul>
+        </div>
+        <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
+          <h3 className="font-bold text-slate-700 mb-3">卡住的時候，用這兩種找法</h3>
+          <div className="space-y-4">
+            <div className="flex gap-4 items-center flex-wrap sm:flex-nowrap">
+              <DemoGrid cols={6} cells={[3, 1, -1, 6, 2, 5]} />
+              <div>
+                <div className="font-bold text-slate-700 text-sm mb-0.5">1. 這一排還缺誰？</div>
+                <p className="text-sm text-slate-500 m-0 leading-relaxed">這一橫排已經有 1、2、3、5、6，只缺 4，所以黃色那格是 4。直排和宮格也是一樣的找法。</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-center flex-wrap sm:flex-nowrap">
+              <DemoGrid cols={3} cells={[1, 6, 2, 4, -1, 3]} />
+              <div>
+                <div className="font-bold text-slate-700 text-sm mb-0.5">2. 這一宮還缺誰？</div>
+                <p className="text-sm text-slate-500 m-0 leading-relaxed">粗線框起來的這一宮已經有 1、2、3、4、6，只缺 5，所以黃色那格是 5。</p>
+              </div>
+            </div>
+            <p className="text-sm text-slate-500 m-0 leading-relaxed">
+              <strong className="text-slate-700">缺的不只一個怎麼辦：</strong>
+              看那一格的橫排、直排、宮格，出現過的數字都不能填。把不能填的刪掉，只剩一個就是答案。
+            </p>
+            <p className="text-sm text-slate-500 m-0 leading-relaxed">
+              <strong className="text-slate-700">小提醒：</strong>
+              先從已經填最多的那一排或那一宮開始找，通常最快。
+            </p>
+          </div>
         </div>
         <div className="space-y-3">
           {LEVELS.map(lv => (
