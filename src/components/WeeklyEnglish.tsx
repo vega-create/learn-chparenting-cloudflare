@@ -1,7 +1,22 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getWeeklyEnglish, weekIndexOf } from "@/data/weekly-english";
-import { speakEn } from "@/lib/speech";
+import { getWeeklyEnglish, weekIndexOf, WEEKLY_ENGLISH } from "@/data/weekly-english";
+import { speakEn, stopSpeaking } from "@/lib/speech";
+
+// ElevenLabs mp3（R2），檔名是第幾句：01.mp3、02.mp3…
+// 由 scripts/generate-weekly-english-audio.py 產生；還沒有音檔的新句子會退回瀏覽器語音。
+const audioSrc = (index: number) =>
+  `https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/weekly-english/${String(index + 1).padStart(2, "0")}.mp3?v1`;
+let activeAudio: HTMLAudioElement | null = null;
+function playSentence(index: number, text: string) {
+  stopSpeaking();
+  if (activeAudio) { activeAudio.pause(); activeAudio = null; }
+  const audio = new Audio(audioSrc(index));
+  activeAudio = audio;
+  const fallback = () => { if (activeAudio === audio) { activeAudio = null; speakEn(text, 0.8); } };
+  audio.onerror = fallback;
+  audio.play().catch(fallback);
+}
 
 /**
  * 首頁的「每週一句英文」。
@@ -34,7 +49,7 @@ export default function WeeklyEnglishCard() {
 
         <div className="flex items-start gap-3 mb-2">
           <p className="text-2xl md:text-3xl font-black text-slate-800 leading-snug m-0 flex-1" lang="en">{item.en}</p>
-          <button onClick={() => speakEn(item.en, 0.8)} aria-label="聽這句英文怎麼唸"
+          <button onClick={() => playSentence(week % WEEKLY_ENGLISH.length, item.en)} aria-label="聽這句英文怎麼唸"
             className="shrink-0 w-11 h-11 rounded-full bg-white border-2 border-sky-300 text-xl cursor-pointer hover:bg-sky-100 active:scale-95">🔊</button>
         </div>
         <p className="text-lg text-slate-600 mb-4">{item.zh}</p>
