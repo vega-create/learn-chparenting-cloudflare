@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getWeeklyEnglish } from "@/data/weekly-english";
 import { SITE_UPDATES, MAX_TICKER_ITEMS, type SiteUpdate } from "@/data/site-updates";
 
 /**
@@ -11,7 +12,10 @@ import { SITE_UPDATES, MAX_TICKER_ITEMS, type SiteUpdate } from "@/data/site-upd
  * - 內容複製一份接在後面做無縫循環，第二份對螢幕報讀器隱藏。
  */
 
-const KIND_STYLE: Record<SiteUpdate["kind"], string> = {
+type TickerItem = Omit<SiteUpdate, "kind"> & { kind: SiteUpdate["kind"] | "本週一句" };
+
+const KIND_STYLE: Record<TickerItem["kind"], string> = {
+  "本週一句": "bg-emerald-500 text-white",
   "新增": "bg-rose-500 text-white",
   "更新": "bg-sky-500 text-white",
   "新文章": "bg-amber-500 text-white",
@@ -22,16 +26,16 @@ const shortDate = (iso: string) => {
   return `${Number(m)}/${Number(d)}`;
 };
 
-function Items({ items, hidden }: { items: SiteUpdate[]; hidden?: boolean }) {
+function Items({ items, hidden }: { items: TickerItem[]; hidden?: boolean }) {
   return (
     <ul className="flex shrink-0 items-center gap-6 pr-6 m-0 p-0 list-none" aria-hidden={hidden || undefined}>
       {items.map(u => (
-        <li key={u.href} className="shrink-0">
+        <li key={`${u.kind}-${u.href}`} className="shrink-0">
           <a href={u.href} tabIndex={hidden ? -1 : undefined}
             className="flex items-center gap-1.5 text-[15px] font-semibold text-slate-800 no-underline hover:text-rose-600 whitespace-nowrap">
             <span className={`text-xs font-bold px-1.5 py-0.5 rounded ${KIND_STYLE[u.kind]}`}>{u.kind}</span>
             <span>{u.text}</span>
-            <span className="text-xs font-normal text-slate-500">{shortDate(u.date)}</span>
+            {u.date && <span className="text-xs font-normal text-slate-500">{shortDate(u.date)}</span>}
           </a>
         </li>
       ))}
@@ -41,7 +45,14 @@ function Items({ items, hidden }: { items: SiteUpdate[]; hidden?: boolean }) {
 
 export default function UpdateTicker() {
   const [paused, setPaused] = useState(false);
-  const items = SITE_UPDATES.slice(0, MAX_TICKER_ITEMS);
+  // 本週一句要用瀏覽器的日期算，所以載入後才加到最前面
+  const [weekly, setWeekly] = useState<TickerItem | null>(null);
+  useEffect(() => {
+    const { item } = getWeeklyEnglish();
+    setWeekly({ date: "", kind: "本週一句", text: `${item.en}　${item.zh}`, href: "/#weekly-english" });
+  }, []);
+
+  const items: TickerItem[] = [...(weekly ? [weekly] : []), ...SITE_UPDATES.slice(0, MAX_TICKER_ITEMS)];
   if (items.length === 0) return null;
 
   return (

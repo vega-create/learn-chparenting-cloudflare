@@ -3,6 +3,7 @@ import NewsletterCTA from "@/components/NewsletterCTA";
 import DailyChallenge from "@/components/DailyChallenge";
 import PracticeCounter from "@/components/PracticeCounter";
 import UpdateTicker from "@/components/UpdateTicker";
+import WeeklyEnglishCard from "@/components/WeeklyEnglish";
 
 export const metadata: Metadata = {
   title: "Learn.chparenting.com 親子多元學習平台 | 華人家庭免費英文・數學・閱讀・注音・AI 工具",
@@ -200,6 +201,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 每週一句英文（內容在 src/data/weekly-english.ts，每週一自動換） */}
+      <WeeklyEnglishCard />
 
       {/* Daily Challenge */}
       <DailyChallenge />
