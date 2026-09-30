@@ -55,7 +55,7 @@ export default function Header() {
   const isInfoActive = INFO_LINKS.some(l => pathname === l.href);
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <header className="google-anno-skip bg-white border-b border-slate-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Brand */}
         <a href="/" className="flex items-center gap-2 no-underline shrink-0">

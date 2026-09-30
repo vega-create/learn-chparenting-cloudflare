@@ -167,7 +167,7 @@ export default function Breadcrumb() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <nav aria-label="breadcrumb" className="max-w-6xl mx-auto px-4 py-3">
+      <nav aria-label="breadcrumb" className="google-anno-skip max-w-6xl mx-auto px-4 py-3">
         <ol className="flex items-center gap-1 text-sm text-slate-400 flex-wrap">
           <li>
             <a href="/" className="hover:text-rose-400 transition no-underline">首頁</a>

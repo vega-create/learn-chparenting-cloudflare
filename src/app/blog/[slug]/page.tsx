@@ -82,7 +82,7 @@ function TableOfContents({ toc }: { toc: TocItem[] }) {
   if (toc.length < 3) return null;
   let h2Index = 0;
   return (
-    <nav className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8" aria-label="目錄">
+    <nav className="google-anno-skip bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8" aria-label="目錄">
       <h2 className="text-base font-bold text-slate-700 mb-3 flex items-center gap-2">
         📑 本文目錄
       </h2>
@@ -184,7 +184,7 @@ export default async function BlogPostPage({ params }: Props) {
       {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
 
       {/* Breadcrumb */}
-      <nav className="text-sm text-slate-400 mb-8" aria-label="breadcrumb">
+      <nav className="google-anno-skip text-sm text-slate-400 mb-8" aria-label="breadcrumb">
         <ol className="flex items-center gap-0 list-none p-0 m-0">
           <li><Link href="/" className="hover:text-slate-600 no-underline">首頁</Link></li>
           <li><span className="mx-2">›</span></li>
@@ -194,8 +194,8 @@ export default async function BlogPostPage({ params }: Props) {
         </ol>
       </nav>
 
-      {/* Article Header */}
-      <header className="mb-8">
+      {/* Article Header（google-anno-skip：標題、標籤不要被 Google 廣告意圖插入連結） */}
+      <header className="google-anno-skip mb-8">
         <div className="flex items-center gap-3 mb-4 flex-wrap">
           <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${style.bg} ${style.text} ${style.border}`}>
             {post.category}

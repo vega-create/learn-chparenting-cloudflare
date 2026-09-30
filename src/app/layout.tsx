@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
+import MainArea from "@/components/MainArea";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AchievementProvider } from "@/contexts/AchievementContext";
@@ -147,9 +148,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AchievementProvider>
             <Header />
             <Breadcrumb />
-            <main className="min-h-[calc(100vh-140px)]">{children}</main>
+            <MainArea>{children}</MainArea>
             <Footer />
-            <MobileBottomNav />
+            {/* google-anno-skip：不讓 Google 廣告意圖把選單上的字變成廣告連結 */}
+            <div className="google-anno-skip"><MobileBottomNav /></div>
             <OnboardingTutorial />
             <AchievementNotification />
           </AchievementProvider>

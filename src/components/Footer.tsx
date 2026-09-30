@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-slate-50 border-t border-slate-200 py-8 mt-12 hidden md:block">
+    <footer className="google-anno-skip bg-slate-50 border-t border-slate-200 py-8 mt-12 hidden md:block">
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-sm">
           {/* 英檢 */}
