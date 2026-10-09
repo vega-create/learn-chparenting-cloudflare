@@ -13,6 +13,40 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 interface Fact { a: number; b: number }
 type Order = "seq" | "random";
+// 基礎＝九九乘法；進階、高階＝多位數乘法（三、四年級的範圍），用直式算
+type Level = "basic" | "adv" | "high";
+type Kind = "2x1" | "3x1" | "2x2" | "3x2";
+const LEVELS: { id: Level; label: string; desc: string }[] = [
+  { id: "basic", label: "基礎", desc: "九九乘法 2 到 9" },
+  { id: "adv", label: "進階", desc: "兩位數、三位數 × 一位數" },
+  { id: "high", label: "高階", desc: "兩位數、三位數 × 兩位數" },
+];
+const KINDS: Record<Exclude<Level, "basic">, { id: Kind; label: string; example: string }[]> = {
+  adv: [
+    { id: "2x1", label: "兩位數 × 一位數", example: "例：47 × 6" },
+    { id: "3x1", label: "三位數 × 一位數", example: "例：256 × 7" },
+  ],
+  high: [
+    { id: "2x2", label: "兩位數 × 兩位數", example: "例：38 × 27" },
+    { id: "3x2", label: "三位數 × 兩位數", example: "例：415 × 36" },
+  ],
+};
+const MULTI_LENGTH = 10;   // 多位數一輪 10 題，要用直式算，題數少一點
+
+const randInt = (lo: number, hi: number) => lo + Math.floor(Math.random() * (hi - lo + 1));
+/** 多位數乘法題：避開 ×1、×10 這種太簡單的，也不重複 */
+function makeMultiRound(kind: Kind): Fact[] {
+  const out: Fact[] = [];
+  const seen = new Set<string>();
+  while (out.length < MULTI_LENGTH) {
+    const a = kind.startsWith("2") ? randInt(12, 99) : randInt(102, 999);
+    const b = kind.endsWith("1") ? randInt(2, 9) : randInt(12, 99);
+    if (b % 10 === 0 || seen.has(`${a}x${b}`)) continue;
+    seen.add(`${a}x${b}`);
+    out.push({ a, b });
+  }
+  return out;
+}
 type Best = Record<string, { correct: number; total: number; seconds: number }>;
 
 const TABLES = [2, 3, 4, 5, 6, 7, 8, 9];
@@ -42,6 +76,8 @@ function makeRound(tables: number[], order: Order): Fact[] {
 const bestKeyOf = (tables: number[]) => (tables.length === 1 ? String(tables[0]) : tables.length === TABLES.length ? "all" : "");
 
 export default function TimesTablePage() {
+  const [level, setLevel] = useState<Level>("basic");
+  const [kind, setKind] = useState<Kind>("2x1");
   const [selected, setSelected] = useState<number[]>([2]);
   const [order, setOrder] = useState<Order>("seq");
   const [queue, setQueue] = useState<Fact[] | null>(null);   // null = 還沒開始
@@ -61,12 +97,12 @@ export default function TimesTablePage() {
     setSelected(s => (s.includes(n) ? s.filter(x => x !== n) : [...s, n].sort((x, y) => x - y)));
 
   const start = useCallback(() => {
-    if (selected.length === 0) return;
-    const round = makeRound(selected, order);
+    if (level === "basic" && selected.length === 0) return;
+    const round = level === "basic" ? makeRound(selected, order) : makeMultiRound(kind);
     setQueue(round); setPos(0); setInput(""); setFeedback(null);
     setFirstTotal(round.length); setMissed([]); setDone(null); setPeek(false);
     startRef.current = Date.now();
-  }, [selected, order]);
+  }, [level, kind, selected, order]);
 
   const current = queue && !done ? queue[pos] : null;
   const retrying = pos >= firstTotal;
@@ -75,7 +111,7 @@ export default function TimesTablePage() {
     const seconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
     const total = firstTotal;
     const correct = total - missedNow.length;
-    const key = bestKeyOf(selected);
+    const key = level === "basic" ? bestKeyOf(selected) : `${level}-${kind}`;
     let isBest = false;
     if (key) {
       const prev = best[key];
@@ -83,7 +119,7 @@ export default function TimesTablePage() {
       if (isBest) { const nb = { ...best, [key]: { correct, total, seconds } }; setBest(nb); saveBest(nb); }
     }
     setDone({ correct, total, seconds, isBest });
-  }, [firstTotal, selected, best]);
+  }, [firstTotal, selected, best, level, kind]);
 
   const submit = useCallback(() => {
     if (!current || !queue || feedback || input === "") return;
@@ -101,12 +137,13 @@ export default function TimesTablePage() {
     else { setPos(p => p + 1); setInput(""); setFeedback(null); }
   }, [queue, pos, finish, missed]);
 
+  const maxDigits = level === "basic" ? 2 : 5;
   const press = useCallback((key: string) => {
     if (feedback) { if (key === "enter") next(); return; }
     if (key === "enter") submit();
     else if (key === "back") setInput(s => s.slice(0, -1));
-    else setInput(s => (s.length >= 2 ? s : s === "0" ? key : s + key));
-  }, [feedback, next, submit]);
+    else setInput(s => (s.length >= maxDigits ? s : s === "0" ? key : s + key));
+  }, [feedback, next, submit, maxDigits]);
 
   useEffect(() => {
     if (!current) return;
@@ -143,7 +180,10 @@ export default function TimesTablePage() {
     </div>
   );
 
-  const label = selected.length === TABLES.length ? "2 到 9 全部" : `${selected.join("、")} 的乘法`;
+  const label = level !== "basic"
+    ? (KINDS[level].find(k => k.id === kind) ?? KINDS[level][0]).label
+    : selected.length === TABLES.length ? "2 到 9 全部" : `${selected.join("、")} 的乘法`;
+  const multiBest = (lv: Exclude<Level, "basic">, k: Kind) => best[`${lv}-${k}`];
   const pct = done ? Math.round((done.correct / done.total) * 100) : 0;
 
   return (
@@ -154,12 +194,48 @@ export default function TimesTablePage() {
 
       <div className="text-center mb-6">
         <h1 className="text-3xl font-black text-slate-800 mb-2">九九乘法練習</h1>
-        <p className="text-slate-500">選要練的乘法，答錯的題目最後會再練一次。</p>
+        <p className="text-slate-500">從九九乘法到多位數乘法，答錯的題目最後會再練一次。</p>
       </div>
 
       {/* 選擇 */}
       {!queue && (
         <>
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            {LEVELS.map(lv => (
+              <button key={lv.id} onClick={() => { setLevel(lv.id); if (lv.id !== "basic") setKind(KINDS[lv.id][0].id); }} aria-pressed={level === lv.id}
+                className={`py-3 rounded-xl border-2 cursor-pointer transition ${level === lv.id ? "bg-amber-50 border-amber-400 text-slate-800" : "bg-white border-slate-200 text-slate-500"}`}>
+                <span className="block font-bold">{lv.label}</span>
+                <span className="block text-xs text-slate-400">{lv.desc}</span>
+              </button>
+            ))}
+          </div>
+
+          {level !== "basic" && (
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
+              <h2 className="font-bold text-slate-800 mb-3">要練哪一種？</h2>
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                {KINDS[level].map(k => {
+                  const on = kind === k.id;
+                  const b = multiBest(level, k.id);
+                  return (
+                    <button key={k.id} onClick={() => setKind(k.id)} aria-pressed={on}
+                      className={`py-3 px-2 rounded-xl border-2 cursor-pointer transition ${on ? "bg-amber-400 border-amber-500 text-white" : "bg-white border-slate-200 text-slate-600 hover:border-amber-300"}`}>
+                      <span className="block font-bold">{k.label}</span>
+                      <span className={`block text-xs ${on ? "text-amber-50" : "text-slate-400"}`}>{k.example}</span>
+                      <span className={`block text-[10px] font-medium ${on ? "text-amber-50" : "text-emerald-600"}`}>{b ? `最佳 ${b.correct}/${b.total}` : "\u00a0"}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="text-xs text-slate-400 mb-6">一輪 {MULTI_LENGTH} 題，題目隨機出。準備紙筆用直式算，答案算好再輸入。</p>
+              <button onClick={start}
+                className="w-full py-3.5 rounded-xl font-bold text-lg border-0 bg-gradient-to-r from-amber-400 to-amber-500 text-white cursor-pointer hover:opacity-90">
+                開始練習：{label}
+              </button>
+            </div>
+          )}
+
+          {level === "basic" && (
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
             <h2 className="font-bold text-slate-800 mb-3">1. 要練幾的乘法？（可以選不只一個）</h2>
             <div className="grid grid-cols-4 gap-2 mb-3">
@@ -199,12 +275,15 @@ export default function TimesTablePage() {
               {selected.length === 0 ? "請先選要練的乘法" : `開始練習：${label}`}
             </button>
           </div>
+          )}
 
+          {level === "basic" && (
           <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
             <h2 className="text-lg font-bold text-slate-800 mb-4 text-center">九九乘法表</h2>
             {table(selected.length === 1 ? selected[0] : undefined)}
             <p className="text-xs text-slate-400 text-center mt-4">左邊的數字乘以上面的數字，答案在交叉的格子裡。</p>
           </div>
+          )}
         </>
       )}
 
@@ -220,7 +299,7 @@ export default function TimesTablePage() {
           </div>
 
           <div className="text-center mb-5" aria-live="polite">
-            <div className="text-5xl sm:text-6xl font-black text-slate-800 mb-3">
+            <div className={`font-black text-slate-800 mb-3 ${level === "basic" ? "text-5xl sm:text-6xl" : "text-3xl sm:text-5xl"}`}>
               {current.a} × {current.b} ={" "}
               <span className={`inline-block min-w-[2.2ch] border-b-4 ${feedback === "right" ? "text-emerald-600 border-emerald-400" : feedback === "wrong" ? "text-red-500 border-red-400" : "text-amber-600 border-amber-300"}`}>
                 {input || " "}
@@ -249,10 +328,10 @@ export default function TimesTablePage() {
           <p className="text-xs text-slate-400 text-center mb-4">用電腦的話，可以直接按鍵盤的數字和 Enter。</p>
 
           <div className="flex justify-center gap-5 text-sm">
-            <button onClick={() => setPeek(v => !v)} className="text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0">{peek ? "收起乘法表" : "看乘法表"}</button>
+            {level === "basic" && <button onClick={() => setPeek(v => !v)} className="text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0">{peek ? "收起乘法表" : "看乘法表"}</button>}
             <button onClick={() => setQueue(null)} className="text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0">結束這一輪</button>
           </div>
-          {peek && <div className="mt-5">{table(current.a)}</div>}
+          {peek && level === "basic" && <div className="mt-5">{table(current.a)}</div>}
         </div>
       )}
 
@@ -280,7 +359,7 @@ export default function TimesTablePage() {
           )}
           <div className="flex flex-wrap justify-center gap-3">
             <button onClick={start} className="px-5 py-2.5 rounded-xl bg-amber-500 text-white font-semibold cursor-pointer border-0 hover:bg-amber-600">再練一次</button>
-            <button onClick={() => { setQueue(null); setDone(null); }} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">選其他乘法</button>
+            <button onClick={() => { setQueue(null); setDone(null); }} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">選其他練習</button>
           </div>
         </div>
       )}
@@ -294,6 +373,11 @@ export default function TimesTablePage() {
           <li>學過兩個以上的乘法，就一起選起來混合練，一輪 {MIXED_LENGTH} 題。</li>
           <li>答錯的題目會排到最後再出一次，結束時會列出第一次答錯的題目。</li>
         </ol>
+        <h2 className="text-xl font-bold text-slate-800 mb-3">進階、高階是什麼</h2>
+        <p className="mb-6">
+          九九乘法熟了之後，三年級會學兩位數、三位數乘一位數，四年級會學乘兩位數。
+          「進階」和「高階」就是這兩個範圍，題目隨機出，一輪 {MULTI_LENGTH} 題。這種題目要用直式計算，請準備紙筆，算好再把答案輸入。
+        </p>
         <h2 className="text-xl font-bold text-slate-800 mb-3">建議的練習順序</h2>
         <p className="mb-6">
           不一定要從 2 背到 9。可以先練 2 和 5，再練 3、4，最後才是 6、7、8、9。

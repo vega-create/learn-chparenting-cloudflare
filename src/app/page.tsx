@@ -46,7 +46,7 @@ const TOOLS = [
     desc: "邏輯・程式・記憶・反應・數學・語言",
     color: "from-orange-400 to-orange-500", border: "border-orange-200",
     active: true, href: "/board-games",
-    features: ["20 款教育遊戲", "數獨 + 踩地雷 + 程式概念", "數學衝刺 + 單字搜尋", "記憶力 + 圍棋 + 跳棋"],
+    features: ["21 款教育遊戲", "數獨 + 踩地雷 + 程式概念", "心算氣球 + 數學衝刺", "記憶力 + 圍棋 + 跳棋"],
   },
   {
     id: "chinese-lang", title: "國語學習", sub: "Chinese Language", icon: "📝",
@@ -88,7 +88,7 @@ const TOOLS = [
     desc: "自己選要練幾的乘法",
     color: "from-yellow-400 to-amber-500", border: "border-yellow-200",
     active: true, href: "/math/times-table",
-    features: ["2 到 9 自由選、可混合", "照順序或打亂出題", "答錯的題目最後再練一次", "附九九乘法表對照"],
+    features: ["基礎：2 到 9 自由選、可混合", "進階：兩位數、三位數 × 一位數", "高階：兩位數、三位數 × 兩位數", "答錯的題目最後再練一次"],
   },
   {
     id: "idiom-practice", title: "成語練習", sub: "Chinese Idioms", icon: "🏮",
@@ -168,7 +168,7 @@ export default function HomePage() {
               <a href="/board-games" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-orange-200 shadow-sm hover:shadow-lg hover:border-orange-400 transition-all no-underline hover-lift">
                 <div className="text-2xl md:text-3xl mb-1">🎲</div>
                 <div className="font-bold text-slate-800 text-xs md:text-sm">教育桌遊</div>
-                <div className="text-[10px] md:text-xs text-slate-400">20 款遊戲</div>
+                <div className="text-[10px] md:text-xs text-slate-400">21 款遊戲</div>
               </a>
               <a href="/typing-game" className="group bg-white rounded-2xl p-3 md:p-4 border-2 border-emerald-200 shadow-sm hover:shadow-lg hover:border-emerald-400 transition-all no-underline hover-lift">
                 <div className="text-2xl md:text-3xl mb-1">⌨️</div>

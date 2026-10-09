@@ -3,8 +3,8 @@ import Link from "next/link";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 
 export const metadata: Metadata = {
-  title: "免費教育桌遊 | 20 款邏輯遊戲・記憶力・數學・程式概念 | learn.chparenting.com",
-  description: "20 款免費線上教育桌遊：迷你數獨、數獨、圖案大師、數列探險練邏輯，踩地雷練推理，記憶翻牌、記憶旋律練記憶，程式路徑、迴圈、邏輯閘練程式概念，還有圍棋、跳棋、數學衝刺、英文接龍。每款標明適合年齡與陪玩方式，不用下載、不用註冊。",
+  title: "免費教育桌遊 | 21 款邏輯遊戲・記憶力・數學・程式概念 | learn.chparenting.com",
+  description: "21 款免費線上教育桌遊：迷你數獨、數獨、圖案大師、數列探險練邏輯，踩地雷練推理，記憶翻牌、記憶旋律練記憶，程式路徑、迴圈、邏輯閘練程式概念，還有圍棋、跳棋、數學衝刺、英文接龍。每款標明適合年齡與陪玩方式，不用下載、不用註冊。",
   alternates: { canonical: "https://learn.chparenting.com/board-games" },
 };
 
@@ -44,6 +44,7 @@ const CATEGORIES = [
     title: "🔢 數學挑戰", color: "from-emerald-500 to-teal-600", border: "border-emerald-200",
     games: [
       { id: "math-rush", icon: "🧮", name: "數學衝刺", desc: "限時數學計算挑戰", difficulty: "初級～高級" },
+      { id: "balloon-math", icon: "🎈", name: "心算氣球", desc: "算式氣球掉下來，算對就打破；速度可選", difficulty: "初級～高級" },
       { id: "speed-sort", icon: "📊", name: "快速排序", desc: "最快速度排好數字", difficulty: "初級～中級" },
     ],
   },

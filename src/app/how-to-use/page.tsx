@@ -106,12 +106,12 @@ export default function HowToUsePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { icon: "✖️", title: "九九乘法練習", href: "/math/times-table", color: "bg-amber-50 border-amber-200",
-              steps: ["選要練幾的乘法（可以選不只一個）", "選「照順序」或「打亂」", "輸入答案按確認；答錯的題目最後會再出一次"] },
+              steps: ["基礎：選要練幾的乘法，照順序或打亂；進階、高階是多位數乘法，要用紙筆直式算", "輸入答案按確認；答錯的題目最後會再出一次"] },
             { icon: "🏮", title: "成語練習", href: "/chinese-lang/idiom-practice", color: "bg-red-50 border-red-200",
               steps: ["先選「基礎」或「進階」", "選玩法：成語填空、意思配對", "想用手寫：選「列印學習單」，按列印，解答在第二頁"] },
             { icon: "🖐️", title: "鍵盤位置練習", href: "/typing-game/keyboard", color: "bg-sky-50 border-sky-200",
               steps: ["需要實體鍵盤（電腦，或接了鍵盤的平板）", "從第 1 階段「基準鍵」開始，畫面會告訴你用哪根手指", "正確率到 95% 再進下一個階段；可以切換成注音位置"] },
-            { icon: "🎲", title: "教育桌遊（20 款）", href: "/board-games", color: "bg-orange-50 border-orange-200",
+            { icon: "🎲", title: "教育桌遊（21 款）", href: "/board-games", color: "bg-orange-50 border-orange-200",
               steps: ["選一款遊戲，先看開始前的「遊戲規則」", "玩到一半忘記怎麼玩：按右下角的「❓ 怎麼玩」", "圍棋、數獨、踩地雷在開始前有圖解"] },
           ].map(f => (
             <a key={f.title} href={f.href} className={`block rounded-xl p-4 border-2 no-underline ${f.color}`}>

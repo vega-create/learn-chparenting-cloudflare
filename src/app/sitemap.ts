@@ -55,7 +55,7 @@ const BOARD_GAMES = [
   "word-chain", "word-search",
   "maze-runner", "emoji-puzzle",
   "go-game", "chinese-checkers",
-  "sudoku", "minesweeper",
+  "sudoku", "minesweeper", "balloon-math",
 ];
 
 const MATH_TOPICS = [

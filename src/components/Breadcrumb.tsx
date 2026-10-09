@@ -49,6 +49,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "go-game": "圍棋",
   "sudoku": "數獨",
   "minesweeper": "踩地雷",
+  "balloon-math": "心算氣球",
   "chinese-checkers": "跳棋",
   "math": "數學練習",
   "times-table": "九九乘法練習",

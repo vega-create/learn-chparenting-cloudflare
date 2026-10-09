@@ -14,6 +14,8 @@ export interface SiteUpdate {
 export const MAX_TICKER_ITEMS = 10;
 
 export const SITE_UPDATES: SiteUpdate[] = [
+  { date: "2026-10-09", kind: "新增", text: "心算氣球：算式氣球掉下來，算對就打破，速度可選", href: "/board-games/balloon-math" },
+  { date: "2026-10-09", kind: "更新", text: "乘法練習多了進階、高階：兩位數、三位數的乘法", href: "/math/times-table" },
   { date: "2026-09-30", kind: "新增", text: "每週一句英文：句型和諺語輪流，每週一換新的", href: "/#weekly-english" },
   { date: "2026-09-29", kind: "更新", text: "每款遊戲右下角都有「怎麼玩」，圍棋、數獨、踩地雷加了圖解", href: "/board-games" },
   { date: "2026-09-28", kind: "新增", text: "數獨：6×6 和 9×9，每一題都不用猜", href: "/board-games/sudoku" },
