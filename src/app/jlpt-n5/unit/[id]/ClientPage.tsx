@@ -4,9 +4,46 @@ import type { JlptUnit, JlptVocabItem, JlptGrammarPoint, JlptListenQ, JlptReadin
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
-import { speakJa as speak, stopSpeaking, pauseSpeaking, resumeSpeaking } from "@/lib/speech";
+import { speakJa, stopSpeaking as stopSynth, pauseSpeaking as pauseSynth, resumeSpeaking as resumeSynth } from "@/lib/speech";
 import WorksheetActions from "@/components/WorksheetActions";
 import EbookModal from "@/components/EbookModal";
+
+// ElevenLabs mp3 lookup (JLPT N5, R2)；檔名規則見 scripts/generate-jlpt-audio.py
+// 只有已經做好音檔的單元才列進來，其他單元照舊用瀏覽器語音
+const AUDIO_UNITS = new Set(N5_UNITS.map((u) => u.id));
+const AUDIO_BASE = "https://pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev/jlpt-n5";
+const audioMap = new Map<string, string>();
+N5_UNITS.forEach((u) => {
+  if (!AUDIO_UNITS.has(u.id)) return;
+  const base = `${AUDIO_BASE}/unit${u.id}`;
+  u.vocab.forEach((v, vi) => {
+    audioMap.set(v.reading, `${base}/word-${vi + 1}.mp3`);
+    audioMap.set(v.ex, `${base}/ex-${vi + 1}.mp3`);
+  });
+  u.grammar.forEach((g, gi) => g.examples.forEach((ex, ei) => audioMap.set(ex, `${base}/grammar-${gi + 1}-${ei + 1}.mp3`)));
+  u.listening.forEach((l, li) => audioMap.set(l.text, `${base}/listen-${li + 1}.mp3`));
+  const readings = Array.isArray(u.reading) ? u.reading : [u.reading];
+  readings.forEach((r, ri) => audioMap.set(r.passage, `${base}/passage-${ri + 1}.mp3`));
+});
+let activeAudio: HTMLAudioElement | null = null;
+// 介面各處傳的 rate 是給瀏覽器語音用的（0.8 = 正常）；mp3 本身已是正常語速，所以換算成 playbackRate
+function speak(text: string, rate: number = 0.8, onEnd?: () => void) {
+  stopSpeaking();
+  const src = audioMap.get(text);
+  if (!src) { speakJa(text, rate, onEnd); return; }
+  const audio = new Audio(src);
+  audio.playbackRate = Math.min(1.25, rate / 0.8);
+  activeAudio = audio;
+  if (onEnd) audio.onended = onEnd;
+  audio.onerror = () => speakJa(text, rate, onEnd);
+  audio.play().catch(() => speakJa(text, rate, onEnd));
+}
+function stopSpeaking() {
+  stopSynth();
+  if (activeAudio) { activeAudio.pause(); activeAudio.currentTime = 0; activeAudio = null; }
+}
+function pauseSpeaking() { pauseSynth(); if (activeAudio) activeAudio.pause(); }
+function resumeSpeaking() { resumeSynth(); if (activeAudio) activeAudio.play().catch(() => {}); }
 
 /* Speech Recognition types (not natively typed in TS) */
 interface SRResult { transcript: string; confidence: number }
@@ -519,6 +556,7 @@ function ListeningTab({ unit }: { unit: JlptUnit }) {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
     const interval = setInterval(() => {
       const s = window.speechSynthesis;
+      if (activeAudio && !activeAudio.ended) { setIsPaused(activeAudio.paused); return; }
       if (!s.speaking && !s.pending) { setIsSpeaking(false); setIsPaused(false); }
       else if (s.paused) { setIsPaused(true); }
     }, 200);
