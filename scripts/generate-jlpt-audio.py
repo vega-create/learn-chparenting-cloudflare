@@ -15,7 +15,7 @@ public/audio 不進 git，做完要上傳 R2：
   rclone copy public/audio/jlpt-n5/unit1 r2:learn-audio/jlpt-n5/unit1 --progress
 每支做完會用語音辨識聽一次並印出來；辨識結果跟原文差太多的會標 ??，要自己再聽過。
 """
-import json, os, re, sys, urllib.request
+import json, os, re, sys, time, urllib.error, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEY = os.environ["ELEVENLABS_API_KEY"]
@@ -38,6 +38,17 @@ def items(level, unit):
     return out
 
 
+def _open(req, timeout=120):
+    """429（同時請求太多）或 5xx 就等一下再試，最多 8 次。"""
+    for i in range(8):
+        try:
+            return urllib.request.urlopen(req, timeout=timeout)
+        except urllib.error.HTTPError as e:
+            if (e.code != 429 and e.code < 500) or i == 7:
+                raise
+            time.sleep(3 * (i + 1))
+
+
 def tts(text, path):
     body = json.dumps({
         "text": text,
@@ -48,8 +59,10 @@ def tts(text, path):
     req = urllib.request.Request(
         f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE}?output_format=mp3_44100_128",
         data=body, headers={"xi-api-key": KEY, "Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=120) as r, open(path, "wb") as f:
-        f.write(r.read())
+    with _open(req) as r:
+        data = r.read()
+    with open(path, "wb") as f:
+        f.write(data)
 
 
 def stt(path):
@@ -64,7 +77,7 @@ def stt(path):
     req = urllib.request.Request(
         "https://api.elevenlabs.io/v1/speech-to-text", data=b"".join(parts),
         headers={"xi-api-key": KEY, "Content-Type": f"multipart/form-data; boundary={boundary}"})
-    with urllib.request.urlopen(req, timeout=120) as r:
+    with _open(req) as r:
         return json.load(r).get("text", "")
 
 

@@ -14,6 +14,7 @@ export interface SiteUpdate {
 export const MAX_TICKER_ITEMS = 10;
 
 export const SITE_UPDATES: SiteUpdate[] = [
+  { date: "2026-10-18", kind: "更新", text: "日檢 N4 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n4" },
   { date: "2026-10-18", kind: "更新", text: "日檢 N5 全部 18 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n5" },
   { date: "2026-10-09", kind: "新增", text: "心算氣球：算式氣球掉下來，算對就打破，速度可選", href: "/board-games/balloon-math" },
   { date: "2026-10-09", kind: "更新", text: "乘法練習多了進階、高階：兩位數、三位數的乘法", href: "/math/times-table" },
