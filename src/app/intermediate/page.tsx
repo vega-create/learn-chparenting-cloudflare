@@ -2,6 +2,7 @@ import { INTER_UNITS as UNITS } from "@/data/intermediate";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ToolIntroSection } from "@/components/ToolIntroSection";
+import { GeptExamBanner } from "@/components/GeptExamBanner";
 import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
@@ -45,6 +46,8 @@ export default function ElementaryPage() {
         <h2 className="text-3xl font-black text-slate-800 mb-2">GEPT 中級</h2>
         <p className="text-slate-500">高中畢業程度 · 5000 單字 · 聽說讀寫 + 文法</p>
       </div>
+
+      <GeptExamBanner level="intermediate" />
 
       <div className="grid gap-4 mb-8">
         {UNITS.map((u) => (

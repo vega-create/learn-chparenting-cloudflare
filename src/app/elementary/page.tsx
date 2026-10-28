@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 import { ToolIntroSection } from "@/components/ToolIntroSection";
+import { GeptExamBanner } from "@/components/GeptExamBanner";
 import { ToolStructuredData } from "@/components/ToolStructuredData";
 
 export const metadata: Metadata = {
@@ -47,6 +48,8 @@ export default function ElementaryPage() {
         <h2 className="text-3xl font-black text-slate-800 mb-2">GEPT 初級</h2>
         <p className="text-slate-500">國中畢業程度 · 2000 單字 · 聽說讀寫 + 文法</p>
       </div>
+
+      <GeptExamBanner level="elementary" />
 
       <div className="grid gap-4 mb-8">
         {UNITS.map((u) => (
