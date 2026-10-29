@@ -72,29 +72,31 @@ export default function BlogPage() {
   }));
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
+    <div className="max-w-6xl mx-auto px-4 pt-4 pb-14 md:pt-6">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <div className="text-center mb-8">
-        <div className="text-5xl mb-3">📝</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">學習部落格</h1>
-        <p className="text-slate-500">英檢日檢攻略、打字練習、兒童理財、親子教養心得</p>
-      </div>
+      <header className="mb-6 md:mb-8">
+        <div className="text-sm font-bold text-[#E65E83] mb-1">學習文章</div>
+        <h1 className="text-[28px] md:text-[40px] font-black text-[#263238] leading-tight m-0">
+          一起學，也讓自己更有方向
+        </h1>
+        <p className="mt-3 mb-0 text-[15px] md:text-lg text-[#52616B] leading-relaxed max-w-3xl">
+          英檢、日檢的準備攻略，國語、數學、打字的練習方法，還有陪孩子學習的心得——給想自學的大人，也給陪著孩子一起學的家長。
+        </p>
+      </header>
 
       {posts.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="text-6xl mb-4">📚</div>
-          <p className="text-slate-500 text-lg">文章準備中，敬請期待！</p>
+        <div className="text-center py-20 bg-slate-50 border border-slate-200 rounded-2xl">
+          <p className="text-[#52616B] text-lg m-0">文章準備中，敬請期待！</p>
         </div>
       ) : (
         <BlogCategoryFilter posts={serializedPosts} categories={categories} />
       )}
 
-      <div className="mt-12 text-center">
-        <Link href="/"
-          className="inline-block px-6 py-2.5 bg-rose-100 border border-rose-300 text-rose-500 rounded-xl font-semibold text-sm hover:bg-rose-200 transition no-underline">
-          ← 回到首頁
+      <div className="mt-10">
+        <Link href="/" className="text-sm font-semibold text-[#2457A7] no-underline hover:underline">
+          ← 返回首頁
         </Link>
       </div>
     </div>
