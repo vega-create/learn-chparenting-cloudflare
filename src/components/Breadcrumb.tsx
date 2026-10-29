@@ -97,6 +97,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "finance": "兒童理財",
   "achievements": "學習成就",
   "exam-info": "報考資訊",
+  "updates": "全部公告",
   "parent-guide": "陪伴指南",
   "money-basics": "認識金錢",
   "needs-vs-wants": "需要 vs 想要",

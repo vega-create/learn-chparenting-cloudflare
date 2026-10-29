@@ -60,7 +60,7 @@ export default function ElementaryPage() {
 
       <section className="mt-10 p-6 bg-white rounded-2xl border border-slate-200">
         <h2 className="text-lg font-bold text-slate-800 mb-2">關於這個題庫</h2>
-        <p className="text-slate-600 leading-relaxed mb-3">專為國小 5-6 年級備考 GEPT 全民英檢初級設計的免費線上練習平台。題庫涵蓋單字、文法、聽力、閱讀四大題型，完整對應英檢初級考試範圍。每個單元練習完成後，可下載練習單 PDF 讓孩子在紙上再練一次，線上線下搭配，學習效果更好。不需要帳號，免費直接開始練習。</p>
+        <p className="text-slate-600 leading-relaxed mb-3">給準備 GEPT 全民英檢初級的人免費練習：國小高年級、國中生，或想重新打好英文基礎的大人都適用。題庫涵蓋單字、文法、聽力、閱讀四大題型，完整對應英檢初級考試範圍。每個單元練習完成後，可下載練習單 PDF 在紙上再練一次，線上線下搭配，學習效果更好。不需要帳號，免費直接開始練習。</p>
         <ul className="space-y-1 text-sm text-slate-700 list-none p-0 m-0">
           <li>✓ 單字、文法、聽力、閱讀完整題型</li>
           <li>✓ 每單元附練習單 PDF 免費下載</li>

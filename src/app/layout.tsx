@@ -8,7 +8,6 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AchievementProvider } from "@/contexts/AchievementContext";
 import AchievementNotification from "@/components/AchievementNotification";
-import OnboardingTutorial from "@/components/OnboardingTutorial";
 import SpeechCleanup from "@/components/SpeechCleanup";
 
 export const viewport: Viewport = {
@@ -148,7 +147,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AchievementProvider>
             <Header />
             <Breadcrumb />
-            <OnboardingTutorial />
             <MainArea>{children}</MainArea>
             <Footer />
             {/* google-anno-skip：不讓 Google 廣告意圖把選單上的字變成廣告連結 */}

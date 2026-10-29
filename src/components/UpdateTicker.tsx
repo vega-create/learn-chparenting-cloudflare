@@ -72,9 +72,9 @@ export default function UpdateTicker() {
   if (items.length === 0) return null;
 
   return (
-    <section aria-label="最新消息" className="bg-gradient-to-r from-amber-100 via-rose-100 to-amber-100 border-b-2 border-rose-200">
+    <section aria-label="最新消息" className="bg-[#FDECF1] border-b border-rose-100">
       <div className="max-w-6xl mx-auto px-4 flex items-center gap-3 h-12">
-        <span className="shrink-0 text-sm font-bold text-white bg-rose-500 rounded-full px-3 py-1 shadow-sm">📢 最新消息</span>
+        <span className="shrink-0 text-sm font-bold text-[#C2416A]">📢 最新消息</span>
         <div className="update-ticker relative flex-1 overflow-hidden">
           <div className={`update-ticker-track flex w-max ${paused ? "is-paused" : ""}`}
             style={{ animationDuration: `${items.length * 6}s` }}>
@@ -87,6 +87,7 @@ export default function UpdateTicker() {
           className="update-ticker-toggle shrink-0 w-7 h-7 rounded-full border border-slate-200 bg-white text-slate-500 text-xs cursor-pointer hover:bg-slate-50">
           {paused ? "▶" : "⏸"}
         </button>
+        <a href="/updates" className="hidden md:inline shrink-0 text-sm font-semibold text-[#C2416A] no-underline hover:underline">全部公告 ›</a>
       </div>
     </section>
   );

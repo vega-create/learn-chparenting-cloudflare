@@ -58,7 +58,7 @@ export default function ElementaryPage() {
 
       <section className="mt-10 p-6 bg-white rounded-2xl border border-slate-200">
         <h2 className="text-lg font-bold text-slate-800 mb-2">關於這個題庫</h2>
-        <p className="text-slate-600 leading-relaxed mb-3">專為備考 GEPT 全民英檢中級設計的免費線上練習平台，適合國中生、高中生使用。題庫涵蓋中級程度的單字、文法、聽力、閱讀，完整對應英檢中級考試範圍。每個單元可下載練習單 PDF，搭配線上練習反覆熟悉題型。不需要帳號，免費直接開始。</p>
+        <p className="text-slate-600 leading-relaxed mb-3">給準備 GEPT 全民英檢中級的人免費練習：國高中生，或想考證照、進修英文的大人都適用。題庫涵蓋中級程度的單字、文法、聽力、閱讀，完整對應英檢中級考試範圍。每個單元可下載練習單 PDF，搭配線上練習反覆熟悉題型。不需要帳號，免費直接開始。</p>
         <ul className="space-y-1 text-sm text-slate-700 list-none p-0 m-0">
           <li>✓ 中級程度單字、文法、聽力、閱讀</li>
           <li>✓ 每單元附練習單 PDF 免費下載</li>
