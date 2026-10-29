@@ -5,7 +5,7 @@ date: "2026-03-15"
 category: "英檢攻略"
 tags: ["全民英檢", "GEPT", "中級", "考試準備", "英文學習", "高中英文", "學習計畫"]
 author: "Mommy Wisdom"
-image: "/images/blog/gept-intermediate-preparation.png"
+image: "/images/blog/gept-intermediate-preparation-cover.jpg"
 faq:
   - q: "通過初級後多久可以考中級？"
     a: "建議至少準備 6 個月。如果每天只能花 30 分鐘，則建議拉長到 9-12 個月。重點不是多快，而是準備充分。可以先到英檢中級練習做幾回題目，評估自己目前的程度。"
@@ -63,6 +63,8 @@ faq:
 ## 6 個月完整準備計畫
 
 ### 第 1-2 個月：大量累積單字
+
+![6 個月完整準備計畫](/images/blog/gept-intermediate-preparation-1.jpg)
 
 中級比初級多了約 **3,000 個單字**，這是最需要時間投資的部分。
 

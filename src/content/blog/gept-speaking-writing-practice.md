@@ -5,7 +5,7 @@ date: "2026-06-12"
 category: "英檢攻略"
 tags: ["全民英檢", "GEPT初級", "GEPT中級", "英檢口說", "英檢寫作", "英檢複試", "親子共學"]
 author: "Mommy Wisdom"
-image: "/images/blog/gept-speaking-writing-practice.png"
+image: "/images/blog/gept-speaking-writing-practice-cover.jpg"
 faq:
   - q: "GEPT 初級複試的口說和寫作會很難嗎？通過率高嗎？"
     a: "初級複試的難度大約是國中畢業程度，口說包含複誦、朗讀句子與短文、回答問題三個部分；寫作則是單句寫作和段落寫作。對有規律練習的孩子來說並不難，難的是「平常沒開口習慣」的孩子容易在口說臨場卡住。建議至少提前八週開始每天 10-15 分鐘的口說練習，通過機會就會大大提高。"
@@ -82,6 +82,8 @@ faq:
 ## 寫作在家怎麼練？從抄寫到自己寫
 
 寫作的練習順序，我建議是：**抄寫 → 改寫 → 看圖寫 → 計時寫**。
+
+![寫作在家怎麼練？從抄寫到自己寫](/images/blog/gept-speaking-writing-practice-1.jpg)
 
 **抄寫期（1-2 週）**：每天抄三到五個好句子，邊抄邊唸。聽起來很笨，但對建立句感非常有效，尤其是還不熟悉英文句子結構的小學生。
 

@@ -5,7 +5,7 @@ date: "2026-03-09"
 category: "學習工具"
 tags: ["中英打字練習", "打字練習中文", "注音打字", "英文打字練習", "兒童打字"]
 author: "Vega"
-image: "/images/blog/chinese-english-typing.png"
+image: "/images/blog/chinese-english-typing-cover.jpg"
 faq:
   - q: "注音輸入法和拼音輸入法哪個比較好？"
     a: "在台灣建議學注音輸入法，因為學校和大部分工作環境都用注音。如果孩子有學普通話，可以兩種都學，未來彈性更大。"
@@ -40,6 +40,8 @@ faq:
 ## 中英切換練習技巧
 
 中英切換聽起來簡單，但對小朋友來說其實是一個需要練習的動作。以下是我整理出來的練習步驟：
+
+![中英切換練習技巧](/images/blog/chinese-english-typing-1.jpg)
 
 **Step 1：先確認切換按鍵。** Windows 系統通常是按 Shift 鍵或 Ctrl + Space 來切換中英文，Mac 則是按 Caps Lock 或 Control + Space。讓孩子先記住自己電腦的切換方式。
 

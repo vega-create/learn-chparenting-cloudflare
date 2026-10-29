@@ -5,7 +5,7 @@ date: "2026-03-01"
 category: "親子教育"
 tags: ["兒童理財遊戲", "兒童理財教育", "兒童財商", "親子理財", "小孩學理財"]
 author: "Vega"
-image: "/images/blog/children-financial-education.png"
+image: "/images/blog/children-financial-education-cover.jpg"
 faq:
   - q: "幾歲開始教孩子理財最合適？"
     a: "3–4 歲就可以開始用具體的硬幣讓孩子認識金錢，6 歲後開始給零用錢並教記帳，10 歲後可以開始談投資概念。"
@@ -32,6 +32,8 @@ faq:
 ## 理財教育的 3 個核心觀念
 
 不管孩子幾歲，理財教育的核心永遠是三件事：花用、儲蓄、分享。把這三個觀念從小建立起來，孩子長大後面對金錢的態度會穩很多。
+
+![理財教育的 3 個核心觀念](/images/blog/children-financial-education-1.jpg)
 
 **花用：** 教孩子學會「有計畫地花錢」。不是說不能花，而是花之前要先想一想。帶孩子去超市的時候，可以給他一個預算，讓他自己決定要買什麼。當預算不夠時，他自然就會開始學習取捨，也可以用[需要 vs 想要判斷練習](/finance/needs-vs-wants)幫他建立取捨的標準。
 

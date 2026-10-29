@@ -5,7 +5,7 @@ date: "2026-06-12"
 category: "英檢攻略"
 tags: ["GEPT中高級", "全民英檢", "英檢攻略", "英文檢定", "聽說讀寫", "備考計畫", "B2"]
 author: "Mommy Wisdom"
-image: "/images/blog/gept-upper-intermediate-guide.png"
+image: "/images/blog/gept-upper-intermediate-guide-cover.jpg"
 faq:
   - q: "GEPT 中高級相當於什麼程度？多益幾分？"
     a: "GEPT 中高級對應 CEFR B2 等級，大約等同多益 785 分以上、雅思 5.5-6.5 的程度。字彙量需求約 8000 字，是「能在工作與學術場合流暢使用英文」的指標，許多大學把它列為畢業門檻或研究所申請的加分條件。"
@@ -56,6 +56,8 @@ GEPT 全民英檢中高級（High-Intermediate）對應 CEFR 的 **B2 等級**�
 ## 閱讀攻略：速度決定一切
 
 閱讀測驗同樣 45 題，限時 50 分鐘——平均一題只有 66 秒，包含讀文章的時間。很多實力不錯的考生敗在「寫不完」，所以閱讀的核心戰略是**速度**。
+
+![閱讀攻略：速度決定一切](/images/blog/gept-upper-intermediate-guide-1.jpg)
 
 三個具體做法:
 

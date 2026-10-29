@@ -5,7 +5,7 @@ date: "2026-03-08"
 category: "邏輯思維"
 tags: ["邏輯", "邏輯遊戲", "桌遊", "程式邏輯", "問題解決", "STEAM", "兒童教育"]
 author: "Mommy Wisdom"
-image: "/images/blog/logic-games-for-kids.png"
+image: "/images/blog/logic-games-for-kids-cover.jpg"
 faq:
   - q: "孩子幾歲開始玩邏輯遊戲比較好？"
     a: "4 歲就可以開始玩簡單的配對和排序遊戲，正式的邏輯推理遊戲建議 6 歲以後，配合孩子的認知發展階段效果最好。"
@@ -32,6 +32,8 @@ faq:
 ## 10 種邏輯遊戲類型，全面訓練思維能力
 
 ### 1. 規律辨識（Pattern Recognition）
+
+![10 種邏輯遊戲類型，全面訓練思維能力](/images/blog/logic-games-for-kids-1.jpg)
 
 找出顏色、形狀或數字的排列規律，然後預測下一個是什麼。這是最基礎的邏輯能力，也是數學和科學的根基。例如：紅藍紅藍紅＿，下一個是什麼？孩子需要觀察、歸納、推理，三種能力同時運作。
 

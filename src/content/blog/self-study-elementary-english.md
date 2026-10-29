@@ -5,7 +5,7 @@ date: "2026-05-07"
 category: "英文學習"
 tags: ["國小英文", "自學英文", "在家學英文", "英文不補習", "GEPT初級", "兒童英文", "免費英文資源"]
 author: "Mommy Wisdom"
-image: "/images/blog/self-study-elementary-english.png"
+image: "/images/blog/self-study-elementary-english-cover.jpg"
 faq:
   - q: "不去補習班，孩子英文真的能學好嗎？"
     a: "可以，但需要規律。研究顯示語言學習的關鍵是「頻率」而非「時數」。每天 30 分鐘規律自學的孩子，3 個月後的單字量和聽力表現，不會輸給每週上 2 次補習班的孩子。重點是有沒有結構、家長能不能堅持陪伴。"
@@ -160,6 +160,8 @@ faq:
 ## 家長陪讀的 5 個技巧
 
 ### 1. 固定時段，不要每天換
+
+![家長陪讀的 5 個技巧](/images/blog/self-study-elementary-english-1.jpg)
 
 孩子需要「**這個時間就是英文時間**」的儀式感。建議**每天放學後 30 分鐘**，或者**晚餐後 30 分鐘**，**選一個固定時段**就好。
 

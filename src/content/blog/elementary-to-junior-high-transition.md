@@ -5,7 +5,7 @@ date: "2026-05-01"
 category: "升學銜接"
 tags: ["升國中", "國小升國中", "六升七", "國中銜接", "暑假銜接", "國中數學", "國中英文"]
 author: "Mommy Wisdom"
-image: "/images/blog/elementary-to-junior-high-transition.png"
+image: "/images/blog/elementary-to-junior-high-transition-cover.jpg"
 faq:
   - q: "國小升國中最大的差別是什麼？"
     a: "從「老師帶著學」變成「自己負責學」。國中科目多、進度快、考試密集，孩子要學會時間管理、筆記方法、自主複習。學科上數學從具體運算進入代數抽象、英文從基礎單字進入文法句型、加入理化等新科目。心理層面則進入青春期，自我認同感強烈。"
@@ -80,6 +80,8 @@ faq:
 ## 暑假 8 週銜接計畫
 
 不是叫孩子每天讀 3 小時——**那會反效果**。**用 8 週的節奏，每天 60-90 分鐘漸進**。
+
+![暑假 8 週銜接計畫](/images/blog/elementary-to-junior-high-transition-1.jpg)
 
 ### 第 1 週（6/30-7/6）：心態建立 + 環境探勘
 

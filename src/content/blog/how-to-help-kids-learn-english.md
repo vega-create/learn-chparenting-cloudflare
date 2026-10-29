@@ -5,7 +5,7 @@ date: "2026-03-10"
 category: "親子教養"
 tags: ["親子教養", "英文學習", "陪伴學習", "家庭教育", "學習方法", "在家學英文", "親子共學"]
 author: "Mommy Wisdom"
-image: "/images/blog/how-to-help-kids-learn-english.png"
+image: "/images/blog/how-to-help-kids-learn-english-cover.jpg"
 faq:
   - q: "孩子排斥學英文怎麼辦？"
     a: "先暫停「正式學習」，改用遊戲和生活化的方式接觸英文。例如一起玩 教育桌遊 中的英文相關遊戲，或者只是在生活中偶爾說幾個英文單字。重點是不要強迫，讓孩子重新對英文產生好奇心。"
@@ -53,6 +53,8 @@ faq:
 ## 方法二：把英文融入日常生活
 
 不需要刻意「上課」，把英文**自然地融入**每天的生活場景。
+
+![方法二：把英文融入日常生活](/images/blog/how-to-help-kids-learn-english-1.jpg)
 
 **各場景的實用做法：**
 

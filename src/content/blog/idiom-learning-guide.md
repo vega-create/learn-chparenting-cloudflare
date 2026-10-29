@@ -5,7 +5,7 @@ date: "2026-03-10"
 category: "國語學習"
 tags: ["成語", "國語", "國小", "作文", "語文能力", "學習方法", "考試準備"]
 author: "Mommy Wisdom"
-image: "/images/blog/idiom-learning-guide.png"
+image: "/images/blog/idiom-learning-guide-cover.jpg"
 faq:
   - q: "國小學生需要學幾個成語才夠？"
     a: "課綱並沒有規定固定數量，但一般建議低年級先學 30-50 個常用成語，中年級累計到 100-120 個，高年級至少掌握 150-200 個。重點不在數量而在理解和應用，能正確使用 100 個成語比死背 300 個但用不出來更有價值。"
@@ -105,6 +105,8 @@ faq:
 ## 五種超好記的成語學習法
 
 ### 方法一：故事教學法
+
+![五種超好記的成語學習法](/images/blog/idiom-learning-guide-1.jpg)
 
 每個成語背後都有一個故事。當孩子知道了故事，成語就不再是死的四個字，而是一個活生生的畫面。
 

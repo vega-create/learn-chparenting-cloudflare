@@ -5,7 +5,7 @@ date: "2026-05-13"
 category: "數學學習"
 tags: ["數學奧林匹亞", "數學競賽", "AMC", "數學資優", "國小數學", "邏輯思維", "解題能力"]
 author: "Mommy Wisdom"
-image: "/images/blog/math-olympiad-preparation.png"
+image: "/images/blog/math-olympiad-preparation-cover.jpg"
 faq:
   - q: "什麼樣的孩子適合準備數學奧林匹亞？"
     a: "不是「數學成績好」就適合，而是「對數學有興趣、喜歡解謎、能忍受長時間思考」的孩子。數學奧林匹亞的題目和學校段考完全不同，重視創意解法和邏輯推理。如果孩子討厭做難題、看到不會的就放棄，硬要他準備會適得其反。"
@@ -129,6 +129,8 @@ faq:
 ## 在家準備奧林匹亞的具體計畫
 
 ### 每週的時間分配（建議）
+
+![在家準備奧林匹亞的具體計畫](/images/blog/math-olympiad-preparation-1.jpg)
 
 **週一、三、五：** 30 分鐘解 1-2 題奧林匹亞題
 

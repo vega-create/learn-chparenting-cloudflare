@@ -5,7 +5,7 @@ date: "2026-02-21"
 category: "語言學習"
 tags: ["日文五十音", "五十音表", "平假名", "片假名", "日文入門"]
 author: "Vega"
-image: "/images/blog/hiragana-katakana-memory.png"
+image: "/images/blog/hiragana-katakana-memory-cover.jpg"
 faq:
   - q: "平假名和片假名哪個先學？"
     a: "建議先學平假名，因為日文書籍和教材主要用平假名標注。學完平假名大約需要 1–2 週，熟練後再學片假名會快很多。"
@@ -39,6 +39,8 @@ faq:
 ## 5 個有效的五十音記憶技巧
 
 好了，重點來了。以下是我和孩子試過之後，真的覺得有效的五十音記憶方法：
+
+![5 個有效的五十音記憶技巧](/images/blog/hiragana-katakana-memory-1.jpg)
 
 **第一，諧音聯想法。** 幫每個假名找一個中文諧音，像是「あ」念起來像「阿」，「き」念起來像「ki」可以聯想到「key（鑰匙）」。不需要每個都找到完美的諧音，能幫助記住發音就好。這個方法特別適合初期快速建立印象。
 

@@ -5,7 +5,7 @@ date: "2026-02-25"
 category: "學習工具"
 tags: ["親子多元學習平台", "兒童學習平台", "免費學習工具", "親子學習", "線上學習"]
 author: "Vega"
-image: "/images/blog/learn-platform-intro.png"
+image: "/images/blog/learn-platform-intro-cover.jpg"
 faq:
   - q: "這個平台適合幾歲的孩子？"
     a: "平台上的工具涵蓋不同年齡，從幼兒理財概念到國高中日文備考都有。每個工具頁面會說明適合的年齡範圍。"
@@ -26,6 +26,8 @@ faq:
 ## 英檢學習工具：從初級到中高級一站搞定
 
 英文能力大概是台灣家長最在意的項目之一了。我們平台針對 GEPT 全民英檢，提供了完整的分級練習工具：
+
+![英檢學習工具：從初級到中高級一站搞定](/images/blog/learn-platform-intro-1.jpg)
 
 - **[英檢初級](/elementary)**：適合國小高年級到國中的孩子，涵蓋基礎單字、文法和聽力練習
 - **[英檢中級](/intermediate)**：適合國中到高中階段，難度對應校園英文課程進度

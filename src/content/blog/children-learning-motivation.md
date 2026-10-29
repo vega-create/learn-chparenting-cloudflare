@@ -5,7 +5,7 @@ date: "2026-02-19"
 category: "親子教育"
 tags: ["孩子學習動力", "遊戲化學習", "兒童學習方法", "提升學習興趣", "親子學習"]
 author: "Vega"
-image: "/images/blog/children-learning-motivation.png"
+image: "/images/blog/children-learning-motivation-cover.jpg"
 faq:
   - q: "孩子學習動力不足，是因為懶惰嗎？"
     a: "通常不是懶惰的問題，而是學習方式和孩子的特質不匹配，或者孩子感受不到學習的成就感。找到對的切入點比罵孩子有效多了。"
@@ -38,6 +38,8 @@ faq:
 ## 3 個在家就能用的遊戲化學習方法
 
 了解原理之後，來談談實際做法。以下三個方法不需要花錢買教材，在家就能馬上開始：
+
+![3 個在家就能用的遊戲化學習方法](/images/blog/children-learning-motivation-1.jpg)
 
 **方法一：用線上工具把練習變成闖關。** 這是最簡單也最有效的方法。舉個例子，與其叫孩子「去背 20 個英文單字」，不如讓他去 [英檢模擬測驗](/elementary/mock-test) 做一回測驗，看看能答對幾題。用測驗的方式練習，孩子會覺得自己在挑戰關卡而不是在苦讀。打字練習也一樣，用 [打字練習工具](/typing-game) 設定速度目標讓孩子挑戰，比盯著他練 10 分鐘有效得多。
 

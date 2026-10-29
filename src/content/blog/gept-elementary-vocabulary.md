@@ -5,7 +5,7 @@ date: "2026-03-16"
 category: "英檢攻略"
 tags: ["全民英檢", "GEPT", "初級", "單字", "英文學習", "背單字", "國中英文", "考試準備"]
 author: "Mommy Wisdom"
-image: "/images/blog/gept-elementary-vocabulary.png"
+image: "/images/blog/gept-elementary-vocabulary-cover.jpg"
 faq:
   - q: "英檢初級需要背多少單字才夠？"
     a: "官方建議的單字量約 2,000 個，相當於國中畢業程度。但實際考試中，最高頻的 800～1,000 個單字就涵蓋了大部分題目。所以先把最常考的核心單字記熟，就已經能應付大部分考題了。"
@@ -116,6 +116,8 @@ excited, nervous, surprised, worried, afraid, scared, proud, lonely, bored, conf
 ## 最有效的 5 個背單字方法
 
 ### 方法一：情境記憶法（效果最好）
+
+![最有效的 5 個背單字方法](/images/blog/gept-elementary-vocabulary-1.jpg)
 
 不要一個一個單獨背，而是把單字放在**句子和場景**裡記。
 

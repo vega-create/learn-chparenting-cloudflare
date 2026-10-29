@@ -5,7 +5,7 @@ date: "2026-03-11"
 category: "國語學習"
 tags: ["注音符號", "國語", "小一", "幼小銜接", "注音練習", "學前教育", "親子共學"]
 author: "Mommy Wisdom"
-image: "/images/blog/zhuyin-practice.png"
+image: "/images/blog/zhuyin-practice-cover.jpg"
 faq:
   - q: "孩子幾歲開始學注音符號比較好？"
     a: "建議大班（5-6 歲）開始接觸，用遊戲方式認識注音符號。不需要在幼稒園就學會全部，小一前十週有專門的注音教學時間，重點是讓孩子對注音有基本的認識和好感。"
@@ -98,6 +98,8 @@ faq:
 ## 三種注音練習法
 
 光記住口訣還不夠，要讓注音符號真正記牢，需要多種方式反覆練習。建議搭配線上的[注音符號互動練習](/chinese-lang/lower/zhuyin)，隨時隨地都能複習。
+
+![三種注音練習法](/images/blog/zhuyin-practice-1.jpg)
 
 ### 練習法一：書寫練習
 
