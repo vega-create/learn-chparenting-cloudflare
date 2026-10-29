@@ -40,10 +40,10 @@ export default function HowToUsePage() {
         <p className="text-slate-500 text-sm mb-6">進入單元後，上方分頁切換不同學習內容</p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {[
-            { icon: "📖", title: "單字", desc: "點 🔊 聽真人發音，點卡片看例句" },
+            { icon: "📖", title: "單字", desc: "點 🔊 聽 AI 語音發音，點卡片看例句" },
             { icon: "📝", title: "文法", desc: "重點文法+例句解說" },
             { icon: "🎙️", title: "口說", desc: "跟讀練習，麥克風錄音AI評分" },
-            { icon: "🎧", title: "聽力", desc: "聽真人發音回答題目，可重複播" },
+            { icon: "🎧", title: "聽力", desc: "聽 AI 語音回答題目，可重複播" },
             { icon: "📗", title: "閱讀", desc: "文章+理解題，有「🔊 聽文章」功能" },
             { icon: "✏️", title: "測驗", desc: "綜合測驗題，答完立刻看結果" },
           ].map(t => (
@@ -129,9 +129,9 @@ export default function HowToUsePage() {
 
       {/* Voice Quality Notice */}
       <div className="bg-emerald-50 rounded-2xl p-6 md:p-8 border border-emerald-200 mb-8">
-        <h2 className="text-xl font-bold text-slate-800 mb-2">🎤 真人配音</h2>
+        <h2 className="text-xl font-bold text-slate-800 mb-2">🎤 AI 語音</h2>
         <p className="text-slate-600 leading-7 text-sm">
-          英檢的所有單字、例句、聽力、閱讀都使用 <strong>ElevenLabs AI 真人配音</strong>（女聲、教育風格）。
+          英檢和日檢的單字、例句、聽力、閱讀都使用 <strong>ElevenLabs AI 語音</strong>（女聲、教育風格），不是真人錄音。
           發音清晰自然，比一般電子音標準。任何瀏覽器都能正常播放。
         </p>
       </div>

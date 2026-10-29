@@ -106,6 +106,12 @@ const ROUTE_LABELS: Record<string, string> = {
   "expense-tracker": "記帳小達人",
   "schedule": "學習計畫",
   "records": "學習紀錄",
+  "blog": "學習文章",
+  "reading": "閱讀理解",
+  "basic": "基礎篇",
+  "advanced": "進階篇",
+  "author": "作者",
+  "vega-lin": "薇佳媽媽",
 };
 
 interface BreadcrumbItem {
@@ -114,8 +120,11 @@ interface BreadcrumbItem {
   noLink?: boolean;
 }
 
+// 這些頁面自己畫麵包屑（含標題），這裡不再重複一組
+const HAS_OWN_BREADCRUMB = /^\/(blog\/[^/]+|typing-game\/keyboard|author\/vega-lin)\/?$/;
+
 function buildCrumbs(pathname: string): BreadcrumbItem[] {
-  if (pathname === "/") return [];
+  if (pathname === "/" || HAS_OWN_BREADCRUMB.test(pathname)) return [];
 
   const segments = pathname.split("/").filter(Boolean);
   const crumbs: BreadcrumbItem[] = [];

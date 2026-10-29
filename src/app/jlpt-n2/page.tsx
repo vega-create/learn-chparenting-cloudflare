@@ -56,7 +56,7 @@ export default function JlptN2Page() {
           className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 hover-lift no-underline text-center">
           <div className="text-3xl mb-2">📝</div>
           <div className="font-bold text-slate-800">模擬測驗</div>
-          <div className="text-sm text-slate-500 mt-1">仿 JLPT 正式考試</div>
+          <div className="text-sm text-slate-500 mt-1">練習版，題型參考 JLPT</div>
         </Link>
       </div>
     </div>

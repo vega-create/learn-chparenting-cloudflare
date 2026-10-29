@@ -295,7 +295,7 @@ export default function SpeakingPage() {
       </div>
 
       <div className="text-center mt-6">
-        <a href="/upper-intermediate" className="text-sm text-blue-500 hover:underline">← 回初級首頁</a>
+        <a href="/upper-intermediate" className="text-sm text-blue-500 hover:underline">← 回英檢中高級</a>
       </div>
     </div>
   );

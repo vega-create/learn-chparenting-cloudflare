@@ -119,7 +119,7 @@ export default function MockTestPage() {
       <div className="bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-sm">
         <div className="text-5xl mb-4">📝</div>
         <h1 className="text-2xl md:text-3xl font-black text-slate-800 mb-3">GEPT Upper-Intermediate Mock Test</h1>
-        <p className="text-slate-500 mb-6">中高級英檢模擬測驗（全英文出題，考完看答案）</p>
+        <p className="text-slate-500 mb-6">中高級英檢模擬測驗・練習版（題目從各單元隨機抽，題數比正式考試少；全英文出題，考完看答案）</p>
         <div className="bg-blue-50 rounded-xl p-5 text-left mb-6 text-sm text-slate-700 space-y-3">
           <div className="font-bold text-blue-700 mb-1">Test Format：</div>
           <div>🎧 <strong>Part 1 — Listening</strong>：15 questions（每題最多播放 3 次）</div>

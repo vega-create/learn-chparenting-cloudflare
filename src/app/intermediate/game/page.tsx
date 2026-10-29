@@ -314,7 +314,7 @@ export default function GamePage() {
         ))}
       </div>
       <div className="mt-6 text-center">
-        <a href="/intermediate" className="text-blue-600 text-sm hover:underline">← 返回初級首頁</a>
+        <a href="/intermediate" className="text-blue-600 text-sm hover:underline">← 回英檢中級</a>
       </div>
     </div>
   );

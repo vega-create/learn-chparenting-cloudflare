@@ -7,6 +7,7 @@ import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
 import { speakJa, stopSpeaking as stopSynth, pauseSpeaking as pauseSynth, resumeSpeaking as resumeSynth } from "@/lib/speech";
 import WorksheetActions from "@/components/WorksheetActions";
 import EbookModal from "@/components/EbookModal";
+import { PassageText } from "@/components/PassageText";
 
 // ElevenLabs mp3 lookup (JLPT N1, R2)；檔名規則見 scripts/generate-jlpt-audio.py
 // 只有已經做好音檔的單元才列進來，其他單元照舊用瀏覽器語音
@@ -650,7 +651,7 @@ function ReadingTab({ unit }: { unit: JlptUnit }) {
           <button onClick={() => speak(rd.passage, 0.8)}
             className="text-xs border border-slate-200 rounded-lg px-3 py-1.5 bg-transparent cursor-pointer text-slate-500 active:bg-slate-100 transition">🔊 聽文章</button>
         </div>
-        <p className="text-sm md:text-base leading-7 md:leading-8 text-slate-700">{rd.passage}</p>
+        <PassageText text={rd.passage} />
       </div>
       {rd.questions.map((q: { q: string; opts: string[]; ans: number }, qi: number) => (
         <div key={qi} className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm mb-2.5">

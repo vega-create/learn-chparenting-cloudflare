@@ -148,11 +148,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <AchievementProvider>
             <Header />
             <Breadcrumb />
+            <OnboardingTutorial />
             <MainArea>{children}</MainArea>
             <Footer />
             {/* google-anno-skip：不讓 Google 廣告意圖把選單上的字變成廣告連結 */}
             <div className="google-anno-skip"><MobileBottomNav /></div>
-            <OnboardingTutorial />
             <AchievementNotification />
           </AchievementProvider>
         </AuthProvider>

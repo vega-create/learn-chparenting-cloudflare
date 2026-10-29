@@ -6,6 +6,7 @@ import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { speak, stopSpeaking, pauseSpeaking, resumeSpeaking } from "@/lib/speech";
 import WorksheetActions from "@/components/WorksheetActions";
 import EbookModal from "@/components/EbookModal";
+import { PassageText } from "@/components/PassageText";
 
 // ElevenLabs mp3 lookup (upper-intermediate, R2)
 const vocabAudioMap = new Map<string, string>();
@@ -664,7 +665,7 @@ function ReadingTab({ unit }: { unit: any }) {
               className="text-xs border border-red-200 rounded-lg px-3 py-1.5 bg-red-50 cursor-pointer text-red-500 active:bg-red-100 transition">⏹ 停止</button>
           </div>
         </div>
-        <p className="text-sm md:text-base leading-7 md:leading-8 text-slate-700">{rd.passage}</p>
+        <PassageText text={rd.passage} />
       </div>
 
       {rd.questions.map((q: any, qi: number) => (

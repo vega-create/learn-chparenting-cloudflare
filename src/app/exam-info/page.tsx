@@ -20,7 +20,7 @@ const jsonLd = {
       name: "2026 年全民英檢什麼時候報名？",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "2026 年全民英檢初級聽讀有三場（1/3、6/6、11/7），說寫兩場（3/14–15、9/12–13）；中級聽讀 5/9、10/31，另有 1/24、8/1 一日考。每場報名約在考前 2 到 3 個月開放，11/7 初級聽讀報名延長至 9/16，10/31 中級聽讀至 9/17。2027 年日程 LTTC 通常於 9 月底至 10 月公告，實際以官網為準。",
+        text: "2026 年全民英檢初級聽讀有三場（1/3、6/6、11/7），說寫兩場（3/14–15、9/12–13）；中級聽讀 5/9、10/31，另有 1/24、8/1 一日考。每場報名約在考前 2 到 3 個月開放，11/7 初級聽讀報名延長至 9/16，10/31 中級聽讀至 9/17。2027 年日程已公告：初級聽讀 1/9、6/13、10/30；中級聽讀 1/30、5/8、8/14、11/6；中高級聽讀 5/22、9/25。實際以官網為準。",
       },
     },
     {
@@ -28,7 +28,7 @@ const jsonLd = {
       name: "JLPT 日檢什麼時候考試？",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "JLPT 每年舉辦兩次：第一回在 7 月第一個週日，第二回在 12 月第一個週日。台灣地區報名通常在考前 3–4 個月開放。",
+        text: "JLPT 每年舉辦兩次，通常是 7 月和 12 月的第一個週日。台灣 2026 年第二回是 12/6（日），2027 年第一回是 7/4（日）。報名請見 jlpt.tw。",
       },
     },
     {
@@ -119,6 +119,49 @@ const GEPT_SCHEDULE_2026: { level: string; sessions: GeptSession[] }[] = [
   },
 ];
 
+/**
+ * 2027 年 GEPT 日程，抄自 LTTC 官方「2027 年 GEPT 測驗日期」
+ * （gept.org.tw/info/GEPTschedule.pdf，2026-10-01 公告，2026-10-29 核對）。
+ * 2027 年報名費調整：見 GEPT_FEES_2027。
+ */
+const GEPT_SCHEDULE_2027: { level: string; sessions: GeptSession[] }[] = [
+  {
+    level: "初級",
+    sessions: [
+      { type: "聽讀（初試）", examLabel: "1/9（六）", examDate: "2027-01-09", register: "2026/10/5 – 11/20", registerEnd: "2026-11-20" },
+      { type: "說寫（複試）", examLabel: "3/20（六）、21（日）", examDate: "2027-03-21", register: "1/4 – 1/21", registerEnd: "2027-01-21" },
+      { type: "聽讀（初試）", examLabel: "6/13（日）", examDate: "2027-06-13", register: "3/15 – 4/29", registerEnd: "2027-04-29" },
+      { type: "說寫（複試）", examLabel: "9/11（六）、12（日）", examDate: "2027-09-12", register: "6/15 – 7/19", registerEnd: "2027-07-19" },
+      { type: "聽讀（初試）", examLabel: "10/30（六）", examDate: "2027-10-30", register: "7/5 – 9/1", registerEnd: "2027-09-01" },
+    ],
+  },
+  {
+    level: "中級",
+    sessions: [
+      { type: "聽讀（初試）／一日考", examLabel: "1/30（六）", examDate: "2027-01-30", register: "2026/10/20 – 11/23", registerEnd: "2026-11-23" },
+      { type: "說寫（複試）", examLabel: "4/17（六）、18（日）", examDate: "2027-04-18", register: "1/29 – 3/5", registerEnd: "2027-03-05" },
+      { type: "聽讀（初試）", examLabel: "5/8（六）", examDate: "2027-05-08", register: "2/1 – 3/12", registerEnd: "2027-03-12" },
+      { type: "說寫（複試）", examLabel: "7/17（六）", examDate: "2027-07-17", register: "4/26 – 5/28", registerEnd: "2027-05-28" },
+      { type: "聽讀（初試）", examLabel: "8/14（六）", examDate: "2027-08-14", register: "5/10 – 6/14", registerEnd: "2027-06-14" },
+      { type: "聽讀（初試）", examLabel: "11/6（六）", examDate: "2027-11-06", register: "7/26 – 9/14", registerEnd: "2027-09-14" },
+      { type: "說寫（複試）", examLabel: "11/13（六）、14（日）", examDate: "2027-11-14", register: "8/16 – 9/20", registerEnd: "2027-09-20" },
+    ],
+  },
+  {
+    level: "中高級",
+    sessions: [
+      { type: "聽讀（初試）／一日考", examLabel: "5/22（六）", examDate: "2027-05-22", register: "2/22 – 3/29", registerEnd: "2027-03-29" },
+      { type: "說寫（複試）", examLabel: "7/31（六）", examDate: "2027-07-31", register: "5/31 – 6/23", registerEnd: "2027-06-23" },
+      { type: "聽讀（初試）", examLabel: "9/25（六）", examDate: "2027-09-25", register: "6/1 – 7/26", registerEnd: "2027-07-26" },
+      { type: "說寫（複試）", examLabel: "9/25（六）", examDate: "2027-09-25", register: "6/21 – 8/9", registerEnd: "2027-08-09" },
+      { type: "說寫（複試）", examLabel: "12/18（六）", examDate: "2027-12-18", register: "10/12 – 11/11", registerEnd: "2027-11-11" },
+    ],
+  },
+];
+
+/** 2027 年報名費（同一份官方日程） */
+const GEPT_FEES_2027 = "2027 年起報名費調整：初級聽讀 630、說寫兩項 950（口說 560／寫作 390）；中級聽讀 900、說寫兩項 1,630（口說 970／寫作 660）、一日考 2,530；中高級聽讀 1,110、說寫兩項 1,850（口說 1,080／寫作 770）、一日考 2,960 元。";
+
 const JLPT_LEVELS = [
   { level: "N5", name: "入門", desc: "基本日語能力", href: "/jlpt-n5" },
   { level: "N4", name: "基礎", desc: "基礎日語能力", href: "/jlpt-n4" },
@@ -129,17 +172,16 @@ const JLPT_LEVELS = [
 
 const JLPT_SCHEDULE = [
   {
-    year: "2025",
+    year: "2026",
     sessions: [
-      { session: "第一回", register: "3 月下旬 – 4 月上旬", exam: "7 月第一個週日" },
-      { session: "第二回", register: "8 月下旬 – 9 月上旬", exam: "12 月第一個週日" },
+      { session: "第二回", register: "8/17 – 8/31（已截止）", exam: "12/6（日）" },
     ],
   },
   {
-    year: "2026",
+    year: "2027",
     sessions: [
-      { session: "第一回", register: "3 月下旬 – 4 月上旬", exam: "7 月第一個週日" },
-      { session: "第二回", register: "8 月下旬 – 9 月上旬", exam: "12 月第一個週日" },
+      { session: "第一回", register: "依 jlpt.tw 公告（往年約 3–4 月）", exam: "7/4（日）" },
+      { session: "第二回", register: "尚未公告", exam: "尚未公告（往年為 12 月第一個週日）" },
     ],
   },
 ];
@@ -228,13 +270,18 @@ export default function ExamInfoPage() {
 
           {/* 考試時程 */}
           <div className="mb-6">
+            {[
+              { year: 2026, note: "依 LTTC 2025 年 9 月 24 日公告的官方日程整理；報名期間若官網延長，以備註為準。", schedule: GEPT_SCHEDULE_2026 },
+              { year: 2027, note: GEPT_FEES_2027 + "依 LTTC 2026 年 10 月公告的官方日程整理。", schedule: GEPT_SCHEDULE_2027 },
+            ].map(({ year, note, schedule }) => (
+            <div key={year}>
             <h3 className="text-base font-bold text-slate-700 mb-1">
-              2026 年考試時程表（各級每一場）
+              {year} 年考試時程表（各級每一場）
             </h3>
             <p className="text-xs text-slate-500 mb-3">
-              依 LTTC 2025 年 9 月 24 日公告的官方日程整理；報名期間若官網延長，以備註為準。狀態欄依你今天的日期判斷。
+              {note}狀態欄依你今天的日期判斷。
             </p>
-            {GEPT_SCHEDULE_2026.map((lv) => (
+            {schedule.map((lv) => (
               <div key={lv.level} className="mb-5">
                 <div className="text-sm font-bold text-rose-500 mb-2">
                   {lv.level}
@@ -270,10 +317,8 @@ export default function ExamInfoPage() {
                 </div>
               </div>
             ))}
-            <div className="rounded-xl bg-slate-50 border border-slate-200 p-3 text-sm text-slate-600">
-              <span className="font-bold text-slate-700">2027 年日程：</span>
-              LTTC 尚未公告（2026 年的日程是 2025 年 9 月 24 日公告的，往年多在 9 月底至 10 月）。公告後本頁會更新整年的初級、中級、中高級場次。
             </div>
+            ))}
           </div>
 
           {/* 報名方式 */}
@@ -536,7 +581,7 @@ export default function ExamInfoPage() {
       {/* 最後更新時間 */}
       <div className="text-center mt-6">
         <p className="text-xs text-slate-400">
-          資料最後更新：2026 年 9 月 12 日（英檢依 LTTC 2026 官方日程） ｜ 實際資訊請以各主辦單位官方公告為準
+          資料最後更新：2026 年 10 月 29 日（英檢依 LTTC 2026、2027 官方日程；日檢依 jlpt.tw） ｜ 實際資訊請以各主辦單位官方公告為準
         </p>
       </div>
     </div>

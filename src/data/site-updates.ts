@@ -15,11 +15,7 @@ export const MAX_TICKER_ITEMS = 10;
 
 export const SITE_UPDATES: SiteUpdate[] = [
   { date: "2026-10-29", kind: "新增", text: "英檢初級、中級題庫頁加上考試倒數，還能一鍵分享到 LINE 給學生", href: "/intermediate" },
-  { date: "2026-10-18", kind: "更新", text: "日檢 N1 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n1" },
-  { date: "2026-10-18", kind: "更新", text: "日檢 N2 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n2" },
-  { date: "2026-10-18", kind: "更新", text: "日檢 N3 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n3" },
-  { date: "2026-10-18", kind: "更新", text: "日檢 N4 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n4" },
-  { date: "2026-10-18", kind: "更新", text: "日檢 N5 全部 18 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n5" },
+  { date: "2026-10-18", kind: "更新", text: "日檢 N5–N1 各單元的單字、例句、聽力、短文改用 AI 日文語音，發音更自然", href: "/jlpt-n5" },
   { date: "2026-10-09", kind: "新增", text: "心算氣球：算式氣球掉下來，算對就打破，速度可選", href: "/board-games/balloon-math" },
   { date: "2026-10-09", kind: "更新", text: "乘法練習多了進階、高階：兩位數、三位數的乘法", href: "/math/times-table" },
   { date: "2026-09-30", kind: "新增", text: "每週一句英文：句型和諺語輪流，每週一換新的", href: "/#weekly-english" },

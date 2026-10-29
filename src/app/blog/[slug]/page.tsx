@@ -162,7 +162,7 @@ export default async function BlogPostPage({ params }: Props) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://learn.chparenting.com' },
-      { '@type': 'ListItem', position: 2, name: '部落格', item: 'https://learn.chparenting.com/blog' },
+      { '@type': 'ListItem', position: 2, name: '學習文章', item: 'https://learn.chparenting.com/blog' },
       { '@type': 'ListItem', position: 3, name: post.title, item: `https://learn.chparenting.com/blog/${slug}` },
     ],
   };
@@ -188,7 +188,7 @@ export default async function BlogPostPage({ params }: Props) {
         <ol className="flex items-center gap-0 list-none p-0 m-0">
           <li><Link href="/" className="hover:text-slate-600 no-underline">首頁</Link></li>
           <li><span className="mx-2">›</span></li>
-          <li><Link href="/blog" className="hover:text-slate-600 no-underline">部落格</Link></li>
+          <li><Link href="/blog" className="hover:text-slate-600 no-underline">學習文章</Link></li>
           <li><span className="mx-2">›</span></li>
           <li className="text-slate-600 truncate max-w-[200px]">{post.title}</li>
         </ol>
@@ -278,7 +278,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="mt-10 text-center">
         <Link href="/blog"
           className="inline-block px-6 py-2.5 bg-rose-100 border border-rose-300 text-rose-500 rounded-xl font-semibold text-sm hover:bg-rose-200 transition no-underline">
-          ← 回到部落格
+          ← 回到學習文章
         </Link>
       </div>
     </div>

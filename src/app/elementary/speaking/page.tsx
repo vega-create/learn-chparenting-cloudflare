@@ -320,7 +320,7 @@ export default function SpeakingPage() {
       </div>
 
       <div className="text-center mt-6">
-        <a href="/elementary" className="text-sm text-blue-500 hover:underline">← 回初級首頁</a>
+        <a href="/elementary" className="text-sm text-blue-500 hover:underline">← 回英檢初級</a>
       </div>
     </div>
   );
