@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import RelatedPosts from "@/components/RelatedPosts";
 import Link from "next/link";
 import { CHINESE_GRADES, getTotalQuestionCount } from "@/data/chinese-lang";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
@@ -87,6 +88,7 @@ export default function ChineseLangPage() {
                         key={t.id}
                         href={`/chinese-lang/${grade.id}/${t.id}`}
                         icon={t.icon}
+                        iconImage={`/images/topics/zh-${t.id}.webp`}
                         title={t.title}
                         desc={t.description}
                         chips={chips}
@@ -103,7 +105,8 @@ export default function ChineseLangPage() {
         {/* 成語練習（獨立工具） */}
         <section className="mt-10 rounded-2xl border border-[#F6D5DF] bg-[#FFF5F7] p-5 md:p-6">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <span className="hidden sm:flex w-16 h-16 shrink-0 rounded-2xl bg-white border border-[#F6D5DF] text-[#C2416A] items-center justify-center text-2xl font-black" aria-hidden="true">成語</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/topics/zh-idioms.webp" alt="" className="hidden sm:block w-20 h-20 shrink-0 object-contain" />
             <div className="flex-1 min-w-0">
               <span className="inline-block text-xs font-bold px-2.5 py-1 rounded-full bg-[#FDECF1] text-[#C2416A] mb-2">中高年級</span>
               <h2 className="text-xl md:text-2xl font-black text-[#263238] m-0 mb-1">成語練習：填空、配對、學習單</h2>
@@ -125,6 +128,8 @@ export default function ChineseLangPage() {
             <li className="flex gap-3"><span className="w-7 h-7 shrink-0 rounded-full bg-white text-[#2457A7] font-bold flex items-center justify-center">3</span><span>挑戰<strong className="text-[#263238]">閱讀理解</strong>，訓練分析能力</span></li>
           </ol>
         </section>
+
+        <RelatedPosts slugs={["zhuyin-practice", "idiom-learning-guide", "children-learning-motivation"]} />
 
         <div className="text-center mt-8">
           <a href="/" className="text-sm text-[#2457A7] hover:underline no-underline">← 回到首頁</a>

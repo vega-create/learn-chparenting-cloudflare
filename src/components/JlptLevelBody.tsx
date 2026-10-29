@@ -1,4 +1,6 @@
 import Link from "next/link";
+import UnitPhotoCard from "./UnitPhotoCard";
+import { unitImage } from "@/data/unit-images";
 import type { ReactNode } from "react";
 import type { JlptUnit } from "@/data/jlpt-types";
 import PageHeader, { SectionTitle } from "@/components/PageHeader";
@@ -66,18 +68,12 @@ export function JlptLevelBody({
 
         <section>
           <SectionTitle>學習單元</SectionTitle>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid md:grid-cols-2 gap-3">
             {units.map((u) => (
-              <Link key={u.id} href={`/jlpt-${level}/unit/${u.id}`}
-                className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-slate-200 hover:border-[#2457A7] transition-colors no-underline">
-                <span className="w-8 h-8 shrink-0 rounded-full bg-[#FDECF1] text-[#C2416A] text-sm font-bold flex items-center justify-center">{u.id}</span>
-                <span className="flex-1 min-w-0">
-                  <span className="block font-bold text-[#263238] leading-snug">{u.title}</span>
-                  <span className="block text-xs text-[#52616B] mt-0.5" lang="ja">{u.titleJa}</span>
-                  <span className="block text-xs text-slate-400 mt-1">{u.vocab.length} 單字 · {u.grammar.length} 文法 · {practiceCount(u)} 題練習</span>
-                </span>
-                <span className="text-2xl shrink-0" aria-hidden="true">{u.icon}</span>
-              </Link>
+              <UnitPhotoCard key={u.id} href={`/jlpt-${level}/unit/${u.id}`}
+                unitLabel={`Unit ${u.id}`} title={u.title} subtitle={u.titleJa}
+                meta={`${u.vocab.length} 單字 · ${u.grammar.length} 文法 · ${practiceCount(u)} 題練習`}
+                image={unitImage(`jlpt-${level}`, u.id)} icon={u.icon} />
             ))}
           </div>
         </section>

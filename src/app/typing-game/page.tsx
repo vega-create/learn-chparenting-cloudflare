@@ -362,7 +362,8 @@ export default function TypingGamePage() {
           <button key={m.id} onClick={() => startGame(m.id)}
             className="group flex flex-col p-5 bg-white rounded-2xl border border-slate-200 hover:shadow-md hover:border-slate-300 text-left cursor-pointer transition active:scale-[0.98]">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-2xl flex-shrink-0">{m.icon}</div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/images/topics/type-${m.id}.webp`} alt="" className="w-14 h-14 object-contain flex-shrink-0" />
               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FDECF1] text-[#C2416A]">{m.skill}</span>
             </div>
             <div className="font-bold text-[#263238] text-lg">{m.title}</div>

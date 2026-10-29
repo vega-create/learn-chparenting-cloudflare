@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import RelatedPosts from "@/components/RelatedPosts";
 import { MATH_TOPICS } from "@/data/math/topics";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 import PageHeader, { SectionTitle } from "@/components/PageHeader";
@@ -100,6 +101,7 @@ export default function MathPage() {
                       key={t.id}
                       href={`/math/${t.id}`}
                       icon={t.icon}
+                      iconImage={`/images/topics/ma-${t.id}.webp`}
                       title={t.title}
                       meta={t.grade}
                       desc={t.concepts.map((c) => c.title).join("、")}
@@ -135,6 +137,8 @@ export default function MathPage() {
             ))}
           </ul>
         </section>
+
+        <RelatedPosts slugs={["math-struggling-kids", "multiplication-table-games", "math-olympiad-preparation"]} />
 
         <div className="text-center mt-8">
           <a href="/" className="text-sm text-[#2457A7] hover:underline no-underline">← 回到首頁</a>

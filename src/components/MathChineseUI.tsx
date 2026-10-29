@@ -8,7 +8,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export function TopicCard({
-  href, icon, title, meta, desc, chips = [], cta = "開始練習", filled = false,
+  href, icon, title, meta, desc, chips = [], cta = "開始練習", filled = false, iconImage,
 }: {
   href: string;
   icon: ReactNode;
@@ -18,14 +18,20 @@ export function TopicCard({
   chips?: string[];
   cta?: string;
   filled?: boolean;       // 按鈕用實心藍（國語）或外框藍（數學）
+  iconImage?: string;     // 取代 emoji 的圖示圖片
 }) {
   return (
     <Link href={href}
       className="group flex flex-col bg-white rounded-2xl border border-slate-200 p-4 no-underline hover:shadow-md hover:border-slate-300 transition">
       <div className="flex items-start gap-3 mb-3">
-        <span className="w-12 h-12 shrink-0 rounded-xl bg-[#FDECF1] text-[#C2416A] flex items-center justify-center text-2xl font-bold" aria-hidden="true">
-          {icon}
-        </span>
+        {iconImage ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={iconImage} alt="" className="w-16 h-16 shrink-0 object-contain" />
+        ) : (
+          <span className="w-12 h-12 shrink-0 rounded-xl bg-[#FDECF1] text-[#C2416A] flex items-center justify-center text-2xl font-bold" aria-hidden="true">
+            {icon}
+          </span>
+        )}
         <div className="min-w-0">
           <h3 className="text-lg font-bold text-[#263238] m-0 leading-snug">{title}</h3>
           {meta && <div className="text-xs text-[#52616B] mt-0.5">{meta}</div>}

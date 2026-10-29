@@ -5,6 +5,7 @@ import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 import PageHeader, { SectionTitle } from "@/components/PageHeader";
 import SubjectIcon from "@/components/SubjectIcon";
 import HmTopicCard, { HmAboutBox } from "@/components/HmTopicCard";
+import RelatedPosts from "@/components/RelatedPosts";
 
 export const metadata: Metadata = {
   title: "免費樂理基礎練習 | 音符・音階・和弦・音樂常識 | learn.chparenting.com",
@@ -74,6 +75,7 @@ export default function MusicPage() {
                       key={t.id}
                       href={`/music/${level.id}/${t.id}`}
                       icon={t.icon}
+                      image={`/images/topics/mu-${t.id}.webp`}
                       title={t.title}
                       desc={t.description}
                       chips={[...(t.concepts && t.concepts.length > 0 ? ["觀念教學"] : []), `${t.questions.length} 題練習`]}
@@ -85,6 +87,8 @@ export default function MusicPage() {
             );
           })}
         </div>
+
+        <RelatedPosts slugs={["music-theory-for-kids", "children-learning-motivation", "board-games-benefits-for-kids"]} />
 
         <HmAboutBox>
           <ol className="grid sm:grid-cols-3 gap-3 list-none p-0 m-0">

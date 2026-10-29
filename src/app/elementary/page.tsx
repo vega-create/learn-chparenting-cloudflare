@@ -1,6 +1,7 @@
 import { UNITS } from "@/data/elementary";
+import UnitPhotoCard from "@/components/UnitPhotoCard";
+import { unitImage } from "@/data/unit-images";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { GeptLevelNav } from "@/components/GeptLevelNav";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 import { GeptExamBanner } from "@/components/GeptExamBanner";
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function ElementaryPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8">
       <ToolStructuredData
         name="全民英檢初級題庫｜GEPT 初級免費線上練習"
         description="專為國小 5-6 年級備考 GEPT 全民英檢初級設計的免費線上練習平台"
@@ -32,29 +33,23 @@ export default function ElementaryPage() {
         subject="英語"
       />
       <SubjectVisitTracker subject="gept" />
-      <header className="mb-5 text-center">
-        <h1 className="text-2xl md:text-3xl font-black text-slate-800 mb-2">全民英檢初級免費練習</h1>
-        <p className="text-slate-600">國中畢業程度 · 約 2000 單字 · 20 個主題單元，選一個單元或模式就能開始，不用註冊。</p>
+      <header className="mb-5">
+        <div className="text-sm font-bold text-[#E65E83] mb-1">英文與英檢</div>
+        <h1 className="text-[26px] md:text-4xl font-black text-[#263238] mb-2">全民英檢初級免費練習</h1>
+        <p className="text-[15px] md:text-lg text-[#52616B]">國中畢業程度 · 約 2000 單字 · 20 個主題單元，選一個單元或模式就能開始，不用註冊。</p>
       </header>
 
       <GeptLevelNav level="elementary" />
 
       <GeptExamBanner level="elementary" />
 
-      <h2 className="text-lg font-bold text-slate-800 mb-3">主題單元</h2>
-      <div className="grid gap-4 mb-8">
+      <h2 className="text-xl md:text-2xl font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-4">主題單元</h2>
+      <div className="grid md:grid-cols-2 gap-3 mb-8">
         {UNITS.map((u) => (
-          <Link key={u.id} href={`/elementary/unit/${u.id}`}
-            className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover-lift no-underline">
-            <div className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl flex-shrink-0"
-              style={{ background: u.color + "15" }}>{u.icon}</div>
-            <div className="flex-1 min-w-0">
-              <div className="text-xs font-semibold mb-0.5" style={{ color: u.color }}>Unit {u.id}</div>
-              <div className="text-lg font-bold text-slate-800">{u.title}</div>
-              <div className="text-sm text-slate-400">{u.vocab.length} 單字 · {u.grammar.length} 文法 · {u.listening.length + (Array.isArray(u.reading) ? u.reading.reduce((sum, r) => sum + r.questions.length, 0) : u.reading.questions.length) + u.quiz.length} 題練習</div>
-            </div>
-            <span className="text-slate-300 text-xl">→</span>
-          </Link>
+          <UnitPhotoCard key={u.id} href={`/elementary/unit/${u.id}`}
+            unitLabel={`Unit ${u.id}`} title={u.title} color={u.color}
+            meta={`${u.vocab.length} 單字 · ${u.grammar.length} 文法 · ${u.listening.length + (Array.isArray(u.reading) ? u.reading.reduce((sum, r) => sum + r.questions.length, 0) : u.reading.questions.length) + u.quiz.length} 題練習`}
+            image={unitImage("elementary", u.id)} icon={u.icon} />
         ))}
       </div>
 

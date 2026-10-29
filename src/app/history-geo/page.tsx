@@ -5,6 +5,7 @@ import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 import PageHeader, { SectionTitle } from "@/components/PageHeader";
 import SubjectIcon from "@/components/SubjectIcon";
 import HmTopicCard, { HmAboutBox } from "@/components/HmTopicCard";
+import RelatedPosts from "@/components/RelatedPosts";
 
 export const metadata: Metadata = {
   title: "免費歷史地理練習 | 台灣・亞洲・世界 | learn.chparenting.com",
@@ -48,7 +49,8 @@ export default function HistoryGeoPage() {
           {HISTORY_GEO_REGIONS.map((region) => (
             <a key={region.id} href={`#${region.id}`}
               className="flex items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 no-underline hover:border-[#E65E83] transition-colors">
-              <span className="text-2xl sm:text-3xl shrink-0" aria-hidden="true">{region.icon}</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/images/topics/hg-icon-${region.id}.webp`} alt="" className="w-10 h-10 sm:w-14 sm:h-14 shrink-0 object-contain" />
               <span className="min-w-0">
                 <span className="block font-bold text-[#263238] text-sm sm:text-lg">{region.title}</span>
                 <span className="hidden sm:block text-xs text-[#52616B]">{REGION_DESC[region.id]}</span>
@@ -78,6 +80,7 @@ export default function HistoryGeoPage() {
                       key={t.id}
                       href={`/history-geo/${region.id}/${t.id}`}
                       icon={t.icon}
+                      image={`/images/topics/hg-${t.id}.webp`}
                       title={t.title}
                       desc={t.description}
                       chips={[
@@ -91,6 +94,8 @@ export default function HistoryGeoPage() {
             );
           })}
         </div>
+
+        <RelatedPosts slugs={["elementary-social-studies-guide", "self-study-elementary-english", "children-learning-motivation"]} />
 
         <HmAboutBox>
           <ol className="grid sm:grid-cols-3 gap-3 list-none p-0 m-0">

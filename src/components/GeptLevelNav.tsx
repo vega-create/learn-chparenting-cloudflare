@@ -13,16 +13,16 @@ const LEVELS: { id: Level; name: string }[] = [
 ];
 
 const MODES = [
-  { path: "mock-test", icon: "📝", name: "模擬測驗", desc: "練習版，考完看解答" },
-  { path: "speaking", icon: "🎙️", name: "口說訓練", desc: "發音、跟讀、朗讀、問答" },
-  { path: "writing", icon: "✍️", name: "寫作練習", desc: "句子重組、翻譯、段落排序" },
-  { path: "game", icon: "🎮", name: "綜合遊戲", desc: "用遊戲複習全部單元" },
+  { path: "mock-test", icon: "mock", name: "模擬測驗", desc: "練習版，考完看解答" },
+  { path: "speaking", icon: "speaking", name: "口說訓練", desc: "發音、跟讀、朗讀、問答" },
+  { path: "writing", icon: "writing", name: "寫作練習", desc: "句子重組、翻譯、段落排序" },
+  { path: "game", icon: "game", name: "綜合遊戲", desc: "用遊戲複習全部單元" },
 ];
 
 export function GeptLevelNav({ level }: { level: Level }) {
   return (
     <>
-      <nav aria-label="切換英檢級別" className="flex justify-center gap-2 mb-5">
+      <nav aria-label="切換英檢級別" className="flex gap-2 mb-5">
         {LEVELS.map((l) => (
           <Link key={l.id} href={`/${l.id}`} aria-current={l.id === level ? "page" : undefined}
             className={`px-5 py-2 rounded-xl text-sm font-bold no-underline border ${
@@ -39,7 +39,8 @@ export function GeptLevelNav({ level }: { level: Level }) {
         {MODES.map((m) => (
           <Link key={m.path} href={`/${level}/${m.path}`}
             className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-slate-200 shadow-sm hover-lift no-underline">
-            <span className="text-2xl shrink-0" aria-hidden="true">{m.icon}</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`/images/topics/skill-${m.icon}.webp`} alt="" className="w-11 h-11 shrink-0 object-contain" />
             <span className="min-w-0">
               <span className="block font-bold text-slate-800">{m.name}</span>
               <span className="block text-xs text-slate-500">{m.desc}</span>
