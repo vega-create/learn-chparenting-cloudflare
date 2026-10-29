@@ -17,7 +17,7 @@ const SISTER_SITES = [
 
 export default function Footer() {
   return (
-    <footer className="google-anno-skip bg-[#F3EFEA] border-t border-[#E7E1D9] mt-12 hidden md:block">
+    <footer className="google-anno-skip bg-slate-50 border-t border-slate-200 mt-12 hidden md:block">
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 no-underline">
@@ -30,7 +30,7 @@ export default function Footer() {
             ))}
           </nav>
         </div>
-        <div className="mt-4 pt-4 border-t border-[#E7E1D9] flex flex-wrap items-center justify-between gap-3 text-xs text-[#52616B]">
+        <div className="mt-4 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs text-[#52616B]">
           <div className="flex flex-wrap gap-x-4 gap-y-1">
             <span>關聯網站：</span>
             {SISTER_SITES.map((s) => (

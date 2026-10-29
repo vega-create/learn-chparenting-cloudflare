@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, shuffle } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, shuffle, GamePage, BackToGames, GameIntro, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Color Definitions ─── */
 interface ColorDef {
@@ -151,29 +151,25 @@ export default function ColorTapPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🎨</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">色彩快手</h1>
-          <p className="text-slate-500 text-sm">Stroop 效應挑戰 — 看顏色，不看字</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="color-tap" title="色彩快手" desc="Stroop 效應挑戰 — 看顏色，不看字" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>螢幕顯示一個顏色名稱的文字</li>
             <li>文字用<span className="font-bold">不同的顏色</span>印刷</li>
-            <li>你要點擊<span className="font-bold text-amber-600">文字印刷的顏色</span>（不是文字意思）</li>
+            <li>你要點擊<span className="font-bold text-[#E65E83]">文字印刷的顏色</span>（不是文字意思）</li>
             <li>例如：<span className="text-blue-500 font-bold">紅色</span> → 要按<span className="font-bold text-blue-500">藍色</span></li>
             <li>限時 {GAME_DURATION} 秒</li>
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
-          🚀 開始挑戰
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
+          開始挑戰 →
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -181,9 +177,9 @@ export default function ColorTapPage() {
   if (mode === "done") {
     const stars = getStars(score, 200);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           正確 {correct} 次 ・ 錯誤 {wrong} 次 ・ 最長連續 {maxCombo}
         </div>
         <GameOverScreen
@@ -192,34 +188,35 @@ export default function ColorTapPage() {
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "color-tap", activityName: "色彩快手" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">色彩快手</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-6">
-        <div className="text-sm text-slate-500">⏱ {timeLeft}s</div>
-        <div className="text-sm text-slate-500">🔥 {combo}</div>
-        <div className="text-sm font-bold text-amber-600">✅ {correct} ❌ {wrong}</div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{timeLeft}s</b></div>
+        <div className={GAME_UI.chip}>連擊 <b>{combo}</b></div>
+        <div className={GAME_UI.chip}>答對 <b className="text-green-600">{correct}</b> ・ 答錯 <b className="text-red-500">{wrong}</b></div>
       </div>
 
       {/* Timer bar */}
       <div className="w-full h-2 bg-slate-200 rounded-full mb-6 overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-1000"
+        <div className="h-full bg-[#2457A7] rounded-full transition-all duration-1000"
           style={{ width: `${(timeLeft / GAME_DURATION) * 100}%` }} />
       </div>
 
       {/* Challenge */}
       {challenge && (
         <div className={`bg-white rounded-2xl p-8 border shadow-sm mb-8 text-center transition-all
-          ${feedback === "correct" ? "border-green-300 bg-green-50" : feedback === "wrong" ? "border-red-300 bg-red-50" : "border-amber-200"}
+          ${feedback === "correct" ? "border-green-300 bg-green-50" : feedback === "wrong" ? "border-red-300 bg-red-50" : "border-slate-200"}
         `}>
-          <div className="text-xs text-slate-400 mb-2">按下文字的「印刷顏色」</div>
+          <div className="text-xs text-[#52616B] mb-2">按下文字的「印刷顏色」</div>
           <div className={`text-6xl font-black ${challenge.inkTw}`}>
             {challenge.word}
           </div>
@@ -236,6 +233,6 @@ export default function ColorTapPage() {
           </button>
         ))}
       </div>
-    </div>
+    </GamePage>
   );
 }

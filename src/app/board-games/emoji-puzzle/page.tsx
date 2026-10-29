@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, shuffle } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, shuffle, GamePage, BackToGames, GameIntro, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 interface EmojiVar {
@@ -213,16 +213,12 @@ export default function EmojiPuzzlePage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🧩</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">表情密碼</h1>
-          <p className="text-slate-500 text-sm">破解表情符號方程式</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-orange-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="emoji-puzzle" title="表情密碼" desc="破解表情符號方程式" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>每題顯示表情符號組成的方程式</li>
             <li>根據提示推算出未知數的值</li>
             <li>從選項中選擇正確答案</li>
@@ -231,10 +227,10 @@ export default function EmojiPuzzlePage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
           開始解謎
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -242,9 +238,9 @@ export default function EmojiPuzzlePage() {
   if (mode === "done") {
     const stars = getStars(score, TOTAL_PUZZLES * 10);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           正確 {correct} 題 ・ 錯誤 {wrong} 題
         </div>
         <GameOverScreen
@@ -253,37 +249,38 @@ export default function EmojiPuzzlePage() {
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "emoji-puzzle", activityName: "表情密碼" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">表情密碼</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">第 {puzzleIndex + 1}/{TOTAL_PUZZLES} 題</div>
-        <div className="text-sm font-bold text-orange-600">🏆 {score} 分</div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>題目 <b>{puzzleIndex + 1}/{TOTAL_PUZZLES}</b></div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {/* Progress bar */}
       <div className="w-full h-2 bg-slate-200 rounded-full mb-6 overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-orange-400 to-amber-500 rounded-full transition-all duration-500"
+        <div className="h-full bg-[#2457A7] rounded-full transition-all duration-500"
           style={{ width: `${((puzzleIndex) / TOTAL_PUZZLES) * 100}%` }} />
       </div>
 
       {/* Puzzle Card */}
       {puzzle && (
-        <div className={`bg-white rounded-2xl p-6 border shadow-sm mb-6 transition-all
-          ${feedback?.type === "correct" ? "border-green-300 bg-green-50" : feedback?.type === "wrong" ? "border-red-300 bg-red-50" : "border-orange-200"}
+        <div className={`bg-white rounded-2xl p-6 border mb-6 transition-all
+          ${feedback?.type === "correct" ? "border-green-300 bg-green-50" : feedback?.type === "wrong" ? "border-red-300 bg-red-50" : "border-slate-200"}
         `}>
-          <div className="text-xs text-slate-400 mb-4 text-center">根據方程式推算答案</div>
+          <div className="text-xs text-[#52616B] mb-4 text-center">根據方程式推算答案</div>
           <div className="space-y-3">
             {puzzle.equations.map((eq, i) => (
               <div key={i} className={`text-center text-2xl sm:text-3xl font-bold py-2 rounded-xl
-                ${eq.isQuestion ? "bg-orange-100 border-2 border-orange-300 border-dashed" : ""}
+                ${eq.isQuestion ? "bg-[#F3F7FD] border-2 border-[#2457A7] border-dashed" : ""}
               `}>
                 {eq.display}
               </div>
@@ -321,7 +318,7 @@ export default function EmojiPuzzlePage() {
                       ? opt === puzzle.answer
                         ? "bg-green-100 border-green-500 text-green-700"
                         : "bg-slate-50 border-slate-200 text-slate-400"
-                      : "bg-white border-orange-200 text-slate-800 hover:border-orange-400 hover:bg-orange-50"
+                      : "bg-white border-slate-200 text-[#263238] hover:border-[#2457A7] hover:bg-[#F3F7FD]"
                     }
                   `}
                 >
@@ -334,13 +331,13 @@ export default function EmojiPuzzlePage() {
             <div className="text-center mt-4 space-y-2">
               {!showHint && (
                 <button onClick={() => setShowHint(true)}
-                  className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                  className="text-xs text-[#52616B] hover:text-[#2457A7] cursor-pointer border-none bg-transparent underline">
                   需要提示？（使用提示得分減半）
                 </button>
               )}
               <div>
                 <button onClick={handleSkip}
-                  className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                  className="text-xs text-[#52616B] hover:text-[#263238] cursor-pointer border-none bg-transparent underline">
                   跳過此題（不得分）
                 </button>
               </div>
@@ -348,6 +345,6 @@ export default function EmojiPuzzlePage() {
           )}
         </>
       )}
-    </div>
+    </GamePage>
   );
 }

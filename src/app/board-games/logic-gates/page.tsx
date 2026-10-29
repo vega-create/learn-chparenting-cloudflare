@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, shuffle } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, shuffle, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Gate Types ─── */
 type GateType = "AND" | "OR" | "NOT" | "NAND" | "NOR" | "XOR";
@@ -149,27 +149,23 @@ export default function LogicGatesPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">⚡</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">邏輯閘門</h1>
-          <p className="text-slate-500 text-sm">學習 AND、OR、NOT 等邏輯運算</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-2">邏輯閘門介紹</h3>
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="logic-gates" title="邏輯閘門" desc="學習 AND、OR、NOT 等邏輯運算" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>邏輯閘門介紹</h3>
           <div className="space-y-2 text-sm">
             {(Object.entries(GATE_DESC) as [GateType, string][]).map(([gate, desc]) => (
-              <div key={gate} className="flex items-center gap-2 text-slate-600">
-                <span className="font-mono font-bold text-cyan-600 w-12">{gate}</span>
+              <div key={gate} className="flex items-center gap-2 text-[#52616B]">
+                <span className="font-mono font-bold text-[#2457A7] w-12">{gate}</span>
                 <span>{desc}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>共 {TOTAL_ROUNDS} 題</li>
             <li>根據邏輯閘判斷輸出（0 或 1）</li>
             <li>進階題需要推算輸入值</li>
@@ -177,10 +173,10 @@ export default function LogicGatesPage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
           🚀 開始挑戰
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -189,34 +185,35 @@ export default function LogicGatesPage() {
     const maxScore = TOTAL_ROUNDS * 10;
     const stars = getStars(score, maxScore);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
+      <GamePage>
+        <BackToGames />
         <GameOverScreen
           score={score} maxScore={maxScore} gameName="邏輯閘門" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "logic-gates", activityName: "邏輯閘門" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-0">邏輯閘門</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-6">
-        <div className="text-sm text-slate-500">第 {round + 1}/{TOTAL_ROUNDS} 題</div>
-        <div className="text-sm font-bold text-cyan-600">{score} 分</div>
+      <div className="flex flex-wrap gap-2 mt-3 mb-4">
+        <div className={GAME_UI.chip}>題目 <b>{round + 1}/{TOTAL_ROUNDS}</b></div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {puzzle && (
-        <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
+        <div className="bg-white rounded-2xl p-6 border border-slate-200 mb-6">
           {/* Gate Visual */}
           <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-4 bg-slate-50 rounded-xl px-6 py-4">
+            <div className="inline-flex items-center gap-3 sm:gap-4 bg-white rounded-xl px-4 sm:px-6 py-4">
               {/* Inputs */}
               <div className="flex flex-col gap-2">
                 {puzzle.inputs.map((inp, i) => (
@@ -230,9 +227,9 @@ export default function LogicGatesPage() {
 
               {/* Arrow + Gate */}
               <div className="text-slate-400">→</div>
-              <div className="w-16 h-16 rounded-xl bg-cyan-100 border-2 border-cyan-300 flex flex-col items-center justify-center">
-                <span className="font-mono font-bold text-cyan-700 text-sm">{puzzle.gate}</span>
-                <span className="text-[10px] leading-tight text-cyan-500">{GATE_SYMBOL[puzzle.gate]}</span>
+              <div className="w-16 h-16 rounded-xl bg-[#F3F7FD] border-2 border-[#2457A7] flex flex-col items-center justify-center">
+                <span className="font-mono font-bold text-[#2457A7] text-sm">{puzzle.gate}</span>
+                <span className="text-[10px] leading-tight text-[#52616B]">{GATE_SYMBOL[puzzle.gate]}</span>
               </div>
               <div className="text-slate-400">→</div>
 
@@ -274,13 +271,13 @@ export default function LogicGatesPage() {
               <div className="text-center mt-4 space-y-2">
                 {!showHint && (
                   <button onClick={() => setShowHint(true)}
-                    className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                    className="text-xs text-[#52616B] hover:text-[#2457A7] cursor-pointer border-none bg-transparent underline">
                     需要提示？（使用提示得分減半）
                   </button>
                 )}
                 <div>
                   <button onClick={handleSkip}
-                    className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                    className="text-xs text-[#52616B] hover:text-[#263238] cursor-pointer border-none bg-transparent underline">
                     跳過此題（不得分）
                   </button>
                 </div>
@@ -296,6 +293,6 @@ export default function LogicGatesPage() {
           )}
         </div>
       )}
-    </div>
+    </GamePage>
   );
 }

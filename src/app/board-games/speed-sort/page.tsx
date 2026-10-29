@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, shuffle } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, shuffle, GamePage, BackToGames, GameIntro, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 interface Round {
@@ -144,18 +144,14 @@ export default function SpeedSortPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔢</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">快速排序</h1>
-          <p className="text-slate-500 text-sm">按順序點擊數字，越快越好！</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="speed-sort" title="快速排序" desc="按順序點擊數字，越快越好！" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>螢幕顯示一組打亂的數字</li>
-            <li>按<span className="font-bold text-cyan-600">從小到大</span>的順序點擊</li>
+            <li>按<span className="font-bold text-[#2457A7]">從小到大</span>的順序點擊</li>
             <li>速度越快，得分越高</li>
             <li>點錯會扣分</li>
             <li>共 {TOTAL_ROUNDS} 回合，數字越來越多</li>
@@ -163,10 +159,10 @@ export default function SpeedSortPage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
           開始排序
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -175,9 +171,9 @@ export default function SpeedSortPage() {
     const maxScore = TOTAL_ROUNDS * 30;
     const stars = getStars(score, maxScore);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           總用時 {formatTime(totalTime)} ・ 得分 {score}
         </div>
         <GameOverScreen
@@ -186,30 +182,31 @@ export default function SpeedSortPage() {
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "speed-sort", activityName: "快速排序" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">快速排序</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">第 {roundIndex + 1}/{TOTAL_ROUNDS} 回合</div>
-        <div className="text-sm font-mono text-slate-500">⏱ {roundTime}s</div>
-        <div className="text-sm font-bold text-cyan-600">🏆 {score}</div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>回合 <b>{roundIndex + 1}/{TOTAL_ROUNDS}</b></div>
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{roundTime}s</b></div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {/* Progress bar */}
       <div className="w-full h-2 bg-slate-200 rounded-full mb-6 overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transition-all duration-500"
+        <div className="h-full bg-[#2457A7] rounded-full transition-all duration-500"
           style={{ width: `${(roundIndex / TOTAL_ROUNDS) * 100}%` }} />
       </div>
 
       {/* Instruction */}
-      <div className="text-center text-sm text-slate-500 mb-4">
+      <div className="text-center text-sm text-[#52616B] mb-4">
         從小到大依序點擊
       </div>
 
@@ -218,7 +215,7 @@ export default function SpeedSortPage() {
         <div className="flex justify-center gap-1 mb-4 flex-wrap">
           {round.sorted.map((n, i) => (
             <div key={i} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold transition-all
-              ${i < selected.length ? "bg-cyan-500 text-white scale-100" : "bg-slate-100 text-slate-300 scale-90"}
+              ${i < selected.length ? "bg-[#2457A7] text-white scale-100" : "bg-slate-100 text-slate-300 scale-90"}
             `}>
               {i < selected.length ? n : "?"}
             </div>
@@ -235,7 +232,7 @@ export default function SpeedSortPage() {
 
       {/* Number grid */}
       {round && (
-        <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200">
           <div className="grid grid-cols-4 gap-3 max-w-[320px] mx-auto">
             {round.numbers.map((num) => {
               const isSelected = selected.includes(num);
@@ -246,8 +243,8 @@ export default function SpeedSortPage() {
                   disabled={isSelected}
                   className={`aspect-square rounded-xl text-xl sm:text-2xl font-black cursor-pointer border-2 transition-all
                     ${isSelected
-                      ? "bg-cyan-100 border-cyan-300 text-cyan-400 scale-90 opacity-60"
-                      : "bg-white border-cyan-200 text-slate-800 hover:border-cyan-400 hover:bg-cyan-50 active:scale-95"
+                      ? "bg-[#F3F7FD] border-[#BFD0EA] text-[#2457A7] scale-90 opacity-60"
+                      : "bg-white border-slate-200 text-[#263238] hover:border-[#2457A7] hover:bg-[#F3F7FD] active:scale-95"
                     }
                   `}
                 >
@@ -262,6 +259,6 @@ export default function SpeedSortPage() {
           </div>
         </div>
       )}
-    </div>
+    </GamePage>
   );
 }

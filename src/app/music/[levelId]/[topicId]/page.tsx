@@ -47,7 +47,7 @@ export default async function Page({
   const found = getTopicByIds(levelId, topicId);
 
   return (
-    <>
+    <div className="bg-white">
       <ClientPage />
       {found && (
         <MusicTopicSEO
@@ -58,6 +58,6 @@ export default async function Page({
             .map((t) => ({ id: t.id, title: t.title, icon: t.icon }))}
         />
       )}
-    </>
+    </div>
   );
 }

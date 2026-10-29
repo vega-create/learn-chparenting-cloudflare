@@ -46,11 +46,11 @@ export default async function Page({
   const found = getTopicByIds(regionId, topicId);
 
   return (
-    <>
+    <div className="bg-white">
       <ClientPage />
       {found && (
         <HistGeoSEOContent region={found.region} topic={found.topic} />
       )}
-    </>
+    </div>
   );
 }

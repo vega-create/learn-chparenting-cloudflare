@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { SessionStatus } from "./SessionStatus";
+import PageHeader, { SectionTitle } from "@/components/PageHeader";
+import SubjectIcon from "@/components/SubjectIcon";
+import InfoIcon from "@/components/InfoPageIcons";
 
 export const metadata: Metadata = {
   title:
@@ -186,401 +189,339 @@ const JLPT_SCHEDULE = [
   },
 ];
 
+const LEVEL_HREF: Record<string, string> = Object.fromEntries(GEPT_LEVELS.map((l) => [l.level, l.href]));
+
+const TH = "text-left px-3 py-2.5 font-bold text-[#52616B] text-[13px] whitespace-nowrap";
+const TD = "px-3 py-3 text-[#263238]";
+
+function OutlineLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#2457A7] text-[#2457A7] bg-white font-bold text-sm hover:bg-[#F4F7FB] transition no-underline"
+    >
+      <InfoIcon name="external" size={16} /> {children}
+    </a>
+  );
+}
+
+function StepList({ steps }: { steps: string[] }) {
+  return (
+    <ol className="list-none p-0 m-0 space-y-2 text-sm text-[#52616B]">
+      {steps.map((s, i) => (
+        <li key={s} className="flex items-start gap-2.5">
+          <span className="shrink-0 w-6 h-6 rounded-full bg-[#FDECF1] text-[#C2416A] text-xs font-bold flex items-center justify-center">{i + 1}</span>
+          <p className="m-0 pt-0.5 leading-relaxed">{s}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export default function ExamInfoPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="bg-white pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* 標題 */}
-      <div className="text-center mb-10">
-        <div className="text-5xl mb-3">📋</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">報考資訊</h1>
-        <p className="text-slate-500">
-          全民英檢 GEPT 與 日本語能力試驗 JLPT 報名時間、費用一覽
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="考試日程與報名"
+        title="報考資訊"
+        desc="全民英檢 GEPT 與 日本語能力試驗 JLPT 報名時間、費用一覽"
+        image="/images/pages/exam-info.webp"
+      >
+        <div className="inline-flex items-start gap-2 text-sm text-[#52616B] bg-white border border-slate-200 rounded-xl px-3.5 py-2.5">
+          <InfoIcon name="info" size={18} className="text-[#2457A7] mt-px" />
+          <span>資料更新：2026/10/29｜以下資料僅供參考，實際報名時間與費用請以各官方網站公告為準</span>
+        </div>
+      </PageHeader>
 
-      {/* 提醒 */}
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-center">
-        <p className="text-sm text-amber-700">
-          ⚠️ 以下資料僅供參考，實際報名時間與費用請以各官方網站公告為準
-        </p>
-      </div>
-
-      {/* ─── 全民英檢 GEPT ─── */}
-      <section className="mb-10">
-        <div className="bg-gradient-to-b from-rose-50/60 to-orange-50/40 rounded-2xl p-8 border border-rose-200 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-800 mb-6">
-            📘 全民英檢 GEPT
-          </h2>
-
-          {/* 級別與費用 */}
-          <div className="mb-6">
-            <h3 className="text-base font-bold text-slate-700 mb-3">
-              考試級別與費用
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-rose-100/60">
-                    <th className="text-left p-3 font-bold text-slate-700 rounded-tl-lg">
-                      級別
-                    </th>
-                    <th className="text-left p-3 font-bold text-slate-700">
-                      適用程度
-                    </th>
-                    <th className="text-right p-3 font-bold text-slate-700">
-                      聽讀測驗
-                    </th>
-                    <th className="text-right p-3 font-bold text-slate-700 rounded-tr-lg">
-                      說寫測驗
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {GEPT_LEVELS.map((l) => (
-                    <tr
-                      key={l.level}
-                      className="border-t border-rose-100"
-                    >
-                      <td className="p-3 text-slate-800 font-medium">
-                        <a
-                          href={l.href}
-                          className="text-rose-500 hover:underline no-underline"
-                        >
-                          {l.level} {l.eng}
-                        </a>
-                      </td>
-                      <td className="p-3 text-slate-600">{l.target}</td>
-                      <td className="p-3 text-slate-600 text-right">
-                        {l.listenRead}
-                      </td>
-                      <td className="p-3 text-slate-600 text-right">
-                        {l.speakWrite}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+      <div className="max-w-6xl mx-auto px-4">
+        {/* 考試切換（錨點） */}
+        <nav aria-label="考試類別" className="mb-4 overflow-x-auto">
+          <div className="flex gap-1 border-b border-slate-200">
+            <a href="#gept" className="whitespace-nowrap px-4 py-2.5 font-bold text-[#C2416A] border-b-2 border-[#E65E83] -mb-px no-underline">全民英檢 GEPT</a>
+            <a href="#jlpt" className="whitespace-nowrap px-4 py-2.5 font-bold text-[#52616B] hover:text-[#263238] no-underline">日檢 JLPT</a>
+            <a href="#prep" className="whitespace-nowrap px-4 py-2.5 font-bold text-[#52616B] hover:text-[#263238] no-underline">準備建議</a>
           </div>
+        </nav>
 
-          {/* 考試時程 */}
-          <div className="mb-6">
+        {/* ─── 全民英檢 GEPT ─── */}
+        <section id="gept" className="mb-10 scroll-mt-20">
+          <div className="bg-white rounded-2xl p-5 md:p-7 border border-slate-200">
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="w-11 h-11 rounded-xl bg-[#FDECF1] text-[#E65E83] flex items-center justify-center"><SubjectIcon name="book" size={26} /></span>
+              <h2 className="text-2xl font-black text-[#263238] m-0">全民英檢 GEPT</h2>
+            </div>
+
+            {/* 級別與費用 */}
+            <div className="mb-8">
+              <SectionTitle>考試級別與費用</SectionTitle>
+              <div className="overflow-x-auto rounded-xl border border-slate-200">
+                <table className="w-full text-sm min-w-[560px]">
+                  <thead>
+                    <tr className="bg-[#F6F4F1]">
+                      <th className={TH}>級別</th>
+                      <th className={TH}>適用程度</th>
+                      <th className={`${TH} text-right`}>聽讀測驗</th>
+                      <th className={`${TH} text-right`}>說寫測驗</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {GEPT_LEVELS.map((l) => (
+                      <tr key={l.level} className="border-t border-slate-100">
+                        <td className={TD}>
+                          <a href={l.href} className="font-bold text-[#2457A7] no-underline hover:underline">
+                            {l.level} {l.eng}
+                          </a>
+                        </td>
+                        <td className={`${TD} text-[#52616B]`}>{l.target}</td>
+                        <td className={`${TD} text-right`}>{l.listenRead}</td>
+                        <td className={`${TD} text-right`}>{l.speakWrite}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 考試時程 */}
             {[
               { year: 2026, note: "依 LTTC 2025 年 9 月 24 日公告的官方日程整理；報名期間若官網延長，以備註為準。", schedule: GEPT_SCHEDULE_2026 },
               { year: 2027, note: GEPT_FEES_2027 + "依 LTTC 2026 年 10 月公告的官方日程整理。", schedule: GEPT_SCHEDULE_2027 },
             ].map(({ year, note, schedule }) => (
-            <div key={year}>
-            <h3 className="text-base font-bold text-slate-700 mb-1">
-              {year} 年考試時程表（各級每一場）
-            </h3>
-            <p className="text-xs text-slate-500 mb-3">
-              {note}狀態欄依你今天的日期判斷。
-            </p>
-            {schedule.map((lv) => (
-              <div key={lv.level} className="mb-5">
-                <div className="text-sm font-bold text-rose-500 mb-2">
-                  {lv.level}
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-rose-100/40">
-                        <th className="text-left p-2.5 font-bold text-slate-700">測驗項目</th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">測驗日期</th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">報名期間</th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">狀態</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {lv.sessions.map((x) => (
-                        <tr key={lv.level + x.examDate + x.type} className="border-t border-rose-100 align-top">
-                          <td className="p-2.5 text-slate-600">{x.type}</td>
-                          <td className="p-2.5 text-slate-600 whitespace-nowrap">{x.examLabel}</td>
-                          <td className="p-2.5 text-slate-600">
-                            {x.register}
-                            {x.note && (
-                              <div className="text-xs text-amber-700 mt-0.5">{x.note}</div>
-                            )}
-                          </td>
-                          <td className="p-2.5">
-                            <SessionStatus examDate={x.examDate} registerEnd={x.registerEnd} />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            ))}
-            </div>
-            ))}
-          </div>
-
-          {/* 報名方式 */}
-          <div className="mb-4">
-            <h3 className="text-base font-bold text-slate-700 mb-3">
-              報名方式
-            </h3>
-            <div className="space-y-2 text-sm text-slate-600">
-              <div className="flex items-start gap-2">
-                <span className="text-rose-400 mt-0.5">1.</span>
-                <p>至 LTTC 全民英檢官網線上報名</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-rose-400 mt-0.5">2.</span>
-                <p>準備身分證明文件與近期照片</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-rose-400 mt-0.5">3.</span>
-                <p>繳費完成後三個工作天到報名系統確認「已入帳」才算完成；准考證以電子郵件寄發，沒有紙本</p>
-              </div>
-            </div>
-          </div>
-
-          <a
-            href="https://www.gept.org.tw/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-500 font-semibold text-sm hover:bg-rose-100 transition no-underline"
-          >
-            🔗 LTTC 全民英檢官網
-          </a>
-          <a
-            href="https://reg6.lttc.org.tw/GEPT_Exam_New/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-500 font-semibold text-sm hover:bg-rose-100 transition no-underline ml-2"
-          >
-            🔗 全民英檢報名系統
-          </a>
-        </div>
-      </section>
-
-      {/* ─── JLPT 日本語能力試驗 ─── */}
-      <section className="mb-10">
-        <div className="bg-gradient-to-b from-red-50/60 to-orange-50/40 rounded-2xl p-8 border border-red-200 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-800 mb-6">
-            🇯🇵 日本語能力試驗 JLPT
-          </h2>
-
-          {/* 級別說明 */}
-          <div className="mb-6">
-            <h3 className="text-base font-bold text-slate-700 mb-3">
-              考試級別說明
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-red-100/40">
-                    <th className="text-left p-3 font-bold text-slate-700 rounded-tl-lg">
-                      級別
-                    </th>
-                    <th className="text-left p-3 font-bold text-slate-700">
-                      程度
-                    </th>
-                    <th className="text-left p-3 font-bold text-slate-700">
-                      說明
-                    </th>
-                    <th className="text-right p-3 font-bold text-slate-700 rounded-tr-lg">
-                      報名費（台灣）
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {JLPT_LEVELS.map((l) => (
-                    <tr
-                      key={l.level}
-                      className="border-t border-red-100"
-                    >
-                      <td className="p-3 text-slate-800 font-medium">
-                        <a
-                          href={l.href}
-                          className="text-red-500 hover:underline no-underline"
-                        >
-                          {l.level}
-                        </a>
-                      </td>
-                      <td className="p-3 text-slate-600">{l.name}</td>
-                      <td className="p-3 text-slate-600">{l.desc}</td>
-                      <td className="p-3 text-slate-600 text-right">
-                        NT$1,500
-                      </td>
-                    </tr>
+              <details key={year} open className="group mb-6 rounded-xl border border-slate-200">
+                <summary className="flex items-center gap-2.5 cursor-pointer list-none px-4 py-3.5 [&::-webkit-details-marker]:hidden">
+                  <InfoIcon name="calendar" size={20} className="text-[#E65E83]" />
+                  <h3 className="text-lg font-bold text-[#263238] m-0 flex-1">
+                    {year} 年考試時程表（各級每一場）
+                  </h3>
+                  <InfoIcon name="chevron" size={20} className="text-[#52616B] transition group-open:rotate-180" />
+                </summary>
+                <div className="px-4 pb-4">
+                  <p className="text-xs text-[#52616B] mt-0 mb-4 leading-relaxed">
+                    {note}狀態欄依你今天的日期判斷。
+                  </p>
+                  {schedule.map((lv) => (
+                    <div key={lv.level} className="mb-5 last:mb-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#FDECF1] text-[#C2416A] text-sm font-bold">{lv.level}</span>
+                      </div>
+                      <div className="overflow-x-auto rounded-xl border border-slate-200">
+                        <table className="w-full text-sm min-w-[640px]">
+                          <thead>
+                            <tr className="bg-[#F6F4F1]">
+                              <th className={TH}>測驗項目</th>
+                              <th className={TH}>測驗日期</th>
+                              <th className={TH}>報名期間</th>
+                              <th className={TH}>狀態</th>
+                              <th className={TH}>練習準備</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {lv.sessions.map((x) => (
+                              <tr key={lv.level + x.examDate + x.type} className="border-t border-slate-100 align-top">
+                                <td className={TD}>{x.type}</td>
+                                <td className={`${TD} whitespace-nowrap font-medium`}>{x.examLabel}</td>
+                                <td className={`${TD} text-[#52616B]`}>
+                                  {x.register}
+                                  {x.note && (
+                                    <div className="text-xs text-amber-700 mt-0.5">{x.note}</div>
+                                  )}
+                                </td>
+                                <td className={`${TD} whitespace-nowrap`}>
+                                  <SessionStatus examDate={x.examDate} registerEnd={x.registerEnd} />
+                                </td>
+                                <td className={TD}>
+                                  {LEVEL_HREF[lv.level] && (
+                                    <a
+                                      href={LEVEL_HREF[lv.level]}
+                                      className="inline-flex items-center gap-1 whitespace-nowrap px-3 py-1.5 rounded-lg bg-[#2457A7] text-white text-xs font-bold no-underline hover:bg-[#1d4a8f]"
+                                    >
+                                      前往練習 <InfoIcon name="arrow" size={13} />
+                                    </a>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* 考試時程 */}
-          <div className="mb-6">
-            <h3 className="text-base font-bold text-slate-700 mb-3">
-              考試時程表
-            </h3>
-            {JLPT_SCHEDULE.map((y) => (
-              <div key={y.year} className="mb-4">
-                <div className="text-sm font-bold text-red-500 mb-2">
-                  {y.year} 年
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-red-100/40">
-                        <th className="text-left p-2.5 font-bold text-slate-700">
-                          回次
-                        </th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">
-                          報名期間
-                        </th>
-                        <th className="text-left p-2.5 font-bold text-slate-700">
-                          考試日期
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {y.sessions.map((s) => (
-                        <tr
-                          key={s.session}
-                          className="border-t border-red-100"
-                        >
-                          <td className="p-2.5 text-slate-600">
-                            {s.session}
-                          </td>
-                          <td className="p-2.5 text-slate-600">
-                            {s.register}
-                          </td>
-                          <td className="p-2.5 text-slate-600">{s.exam}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              </details>
             ))}
-          </div>
 
-          {/* 報名方式 */}
-          <div className="mb-4">
-            <h3 className="text-base font-bold text-slate-700 mb-3">
-              報名方式
-            </h3>
-            <div className="space-y-2 text-sm text-slate-600">
-              <div className="flex items-start gap-2">
-                <span className="text-red-400 mt-0.5">1.</span>
-                <p>台灣考區由 LTTC（財團法人語言訓練測驗中心）代辦</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-red-400 mt-0.5">2.</span>
-                <p>報名期間至 LTTC 日檢專頁線上報名</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-red-400 mt-0.5">3.</span>
-                <p>可同時報考不同級別，但同一級別每回只能報名一次</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="https://www.lttc.ntu.edu.tw/JLPT.htm"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-50 border border-red-200 text-red-500 font-semibold text-sm hover:bg-red-100 transition no-underline"
-            >
-              🔗 LTTC 日檢報名（台灣）
-            </a>
-            <a
-              href="https://www.jlpt.jp/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-50 border border-red-200 text-red-500 font-semibold text-sm hover:bg-red-100 transition no-underline"
-            >
-              🔗 JLPT 國際官網
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 考試準備建議 ─── */}
-      <section className="mb-10">
-        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-800 mb-5">
-            💡 考試準備建議
-          </h2>
-          <div className="space-y-4">
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-rose-50">
-              <span className="text-xl mt-0.5">📘</span>
+            {/* 報名方式 */}
+            <div className="grid md:grid-cols-[1fr_auto] gap-5 md:items-end mt-8">
               <div>
-                <div className="font-bold text-slate-800 text-sm">
-                  全民英檢準備
-                </div>
-                <p className="text-sm text-slate-600 mt-1">
-                  按照「單字 → 文法 → 聽力 → 閱讀 → 口說 → 寫作」的順序練習效果最好。
-                  使用本平台的模擬測驗了解考試題型。
-                </p>
-                <a
-                  href="/elementary"
-                  className="inline-block mt-2 text-sm text-rose-500 font-semibold no-underline hover:underline"
-                >
-                  前往英檢練習 →
-                </a>
+                <SectionTitle>報名方式</SectionTitle>
+                <StepList
+                  steps={[
+                    "至 LTTC 全民英檢官網線上報名",
+                    "準備身分證明文件與近期照片",
+                    "繳費完成後三個工作天到報名系統確認「已入帳」才算完成；准考證以電子郵件寄發，沒有紙本",
+                  ]}
+                />
               </div>
-            </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50">
-              <span className="text-xl mt-0.5">🇯🇵</span>
-              <div>
-                <div className="font-bold text-slate-800 text-sm">
-                  JLPT 日檢準備
-                </div>
-                <p className="text-sm text-slate-600 mt-1">
-                  從五十音開始，搭配單字、文法、聽力循序漸進。建議考前 2–3
-                  個月密集練習模擬試題。
-                </p>
-                <a
-                  href="/jlpt-n5"
-                  className="inline-block mt-2 text-sm text-red-500 font-semibold no-underline hover:underline"
-                >
-                  前往日文練習 →
-                </a>
+              <div className="flex flex-wrap gap-2">
+                <OutlineLink href="https://www.gept.org.tw/">LTTC 全民英檢官網</OutlineLink>
+                <OutlineLink href="https://reg6.lttc.org.tw/GEPT_Exam_New/">全民英檢報名系統</OutlineLink>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ─── CTA ─── */}
-      <div className="bg-gradient-to-r from-rose-50 to-orange-50 rounded-2xl p-8 border border-rose-200 text-center">
-        <div className="text-3xl mb-3">🎯</div>
-        <p className="text-slate-700 font-medium mb-2">
-          不管你準備的是英檢還是日檢
-        </p>
-        <p className="text-sm text-slate-500 mb-5">
-          本平台提供完全免費的互動式練習，幫助你更有效率地備考！
-        </p>
-        <div className="flex justify-center gap-3 flex-wrap">
-          <a
-            href="/elementary"
-            className="px-6 py-2.5 bg-rose-300 text-white rounded-xl font-semibold text-sm hover:bg-rose-400 transition no-underline"
-          >
-            📘 英檢練習
-          </a>
-          <a
-            href="/jlpt-n5"
-            className="px-6 py-2.5 bg-red-400 text-white rounded-xl font-semibold text-sm hover:bg-red-500 transition no-underline"
-          >
-            🇯🇵 日文練習
-          </a>
-        </div>
-      </div>
+        {/* ─── JLPT 日本語能力試驗 ─── */}
+        <section id="jlpt" className="mb-10 scroll-mt-20">
+          <div className="bg-white rounded-2xl p-5 md:p-7 border border-slate-200">
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="w-11 h-11 rounded-xl bg-[#FDECF1] text-[#E65E83] flex items-center justify-center"><SubjectIcon name="torii" size={26} /></span>
+              <h2 className="text-2xl font-black text-[#263238] m-0">日本語能力試驗 JLPT</h2>
+            </div>
 
-      {/* 最後更新時間 */}
-      <div className="text-center mt-6">
-        <p className="text-xs text-slate-400">
+            {/* 級別說明 */}
+            <div className="mb-8">
+              <SectionTitle>考試級別說明</SectionTitle>
+              <div className="overflow-x-auto rounded-xl border border-slate-200">
+                <table className="w-full text-sm min-w-[520px]">
+                  <thead>
+                    <tr className="bg-[#F6F4F1]">
+                      <th className={TH}>級別</th>
+                      <th className={TH}>程度</th>
+                      <th className={TH}>說明</th>
+                      <th className={`${TH} text-right`}>報名費（台灣）</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {JLPT_LEVELS.map((l) => (
+                      <tr key={l.level} className="border-t border-slate-100">
+                        <td className={TD}>
+                          <a href={l.href} className="font-bold text-[#2457A7] no-underline hover:underline">
+                            {l.level}
+                          </a>
+                        </td>
+                        <td className={TD}>{l.name}</td>
+                        <td className={`${TD} text-[#52616B]`}>{l.desc}</td>
+                        <td className={`${TD} text-right`}>NT$1,500</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 考試時程 */}
+            <div className="mb-8">
+              <SectionTitle>考試時程表</SectionTitle>
+              <div className="grid md:grid-cols-2 gap-4">
+                {JLPT_SCHEDULE.map((y) => (
+                  <div key={y.year} className="rounded-xl border border-slate-200 overflow-hidden">
+                    <div className="flex items-center gap-2 px-4 py-2.5 bg-[#F6F4F1]">
+                      <InfoIcon name="calendar" size={18} className="text-[#E65E83]" />
+                      <span className="font-bold text-[#263238]">{y.year} 年</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr>
+                            <th className={TH}>回次</th>
+                            <th className={TH}>報名期間</th>
+                            <th className={TH}>考試日期</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {y.sessions.map((s) => (
+                            <tr key={s.session} className="border-t border-slate-100 align-top">
+                              <td className={`${TD} whitespace-nowrap`}>{s.session}</td>
+                              <td className={`${TD} text-[#52616B]`}>{s.register}</td>
+                              <td className={`${TD} font-medium`}>{s.exam}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 報名方式 */}
+            <div className="grid md:grid-cols-[1fr_auto] gap-5 md:items-end">
+              <div>
+                <SectionTitle>報名方式</SectionTitle>
+                <StepList
+                  steps={[
+                    "台灣考區由 LTTC（財團法人語言訓練測驗中心）代辦",
+                    "報名期間至 LTTC 日檢專頁線上報名",
+                    "可同時報考不同級別，但同一級別每回只能報名一次",
+                  ]}
+                />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <OutlineLink href="https://www.lttc.ntu.edu.tw/JLPT.htm">LTTC 日檢報名（台灣）</OutlineLink>
+                <OutlineLink href="https://www.jlpt.jp/">JLPT 國際官網</OutlineLink>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── 考試準備建議 ─── */}
+        <section id="prep" className="mb-10 scroll-mt-20">
+          <SectionTitle>考試準備建議</SectionTitle>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-white rounded-2xl p-5 border border-slate-200">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="text-[#E65E83]"><SubjectIcon name="book" size={24} /></span>
+                <h3 className="font-bold text-[#263238] text-lg m-0">全民英檢準備</h3>
+              </div>
+              <p className="text-sm text-[#52616B] leading-relaxed mt-0 mb-3">
+                按照「單字 → 文法 → 聽力 → 閱讀 → 口說 → 寫作」的順序練習效果最好。
+                使用本平台的模擬測驗了解考試題型。
+              </p>
+              <a href="/elementary" className="inline-flex items-center gap-1 text-sm text-[#2457A7] font-bold no-underline hover:underline">
+                前往英檢練習 <InfoIcon name="arrow" size={14} />
+              </a>
+            </div>
+            <div className="bg-white rounded-2xl p-5 border border-slate-200">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="text-[#E65E83]"><SubjectIcon name="torii" size={24} /></span>
+                <h3 className="font-bold text-[#263238] text-lg m-0">JLPT 日檢準備</h3>
+              </div>
+              <p className="text-sm text-[#52616B] leading-relaxed mt-0 mb-3">
+                從五十音開始，搭配單字、文法、聽力循序漸進。建議考前 2–3
+                個月密集練習模擬試題。
+              </p>
+              <a href="/jlpt-n5" className="inline-flex items-center gap-1 text-sm text-[#2457A7] font-bold no-underline hover:underline">
+                前往日文練習 <InfoIcon name="arrow" size={14} />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── CTA ─── */}
+        <div className="bg-[#FDECF1] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5">
+          <div className="flex-1">
+            <p className="text-xl font-bold text-[#263238] m-0">不管你準備的是英檢還是日檢</p>
+            <p className="text-[#52616B] mt-1 mb-0">本平台提供完全免費的互動式練習，幫助你更有效率地備考！</p>
+          </div>
+          <div className="flex gap-3 flex-wrap">
+            <a href="/elementary" className="inline-flex items-center gap-1.5 px-5 py-3 bg-[#2457A7] text-white rounded-xl font-bold text-sm hover:bg-[#1d4a8f] transition no-underline">
+              英檢練習 <InfoIcon name="arrow" size={16} />
+            </a>
+            <a href="/jlpt-n5" className="inline-flex items-center gap-1.5 px-5 py-3 border border-[#2457A7] text-[#2457A7] bg-white rounded-xl font-bold text-sm hover:bg-[#F4F7FB] transition no-underline">
+              日文練習 <InfoIcon name="arrow" size={16} />
+            </a>
+          </div>
+        </div>
+
+        {/* 最後更新時間 */}
+        <p className="text-center text-xs text-[#52616B] mt-6 mb-0">
           資料最後更新：2026 年 10 月 29 日（英檢依 LTTC 2026、2027 官方日程；日檢依 jlpt.tw） ｜ 實際資訊請以各主辦單位官方公告為準
         </p>
       </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CHINESE_GRADES, getGradeById } from "@/data/chinese-lang";
 import { notFound } from "next/navigation";
+import { PracticeHeader, TopicCard } from "@/components/MathChineseUI";
 
 export function generateStaticParams() {
   return CHINESE_GRADES.map((g) => ({ gradeId: g.id }));
@@ -33,75 +34,72 @@ export default async function GradeOverviewPage({
   const grade = getGradeById(gradeId);
   if (!grade) notFound();
 
+  const others = CHINESE_GRADES.filter((g) => g.id !== grade.id);
+  const lgCols = grade.topics.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <Link
-        href="/chinese-lang"
-        className="text-sm text-orange-500 hover:underline no-underline"
-      >
-        ← 回到國語學習
-      </Link>
+    <div className="bg-white">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <PracticeHeader
+          backHref="/chinese-lang"
+          backLabel="回到國語學習"
+          eyebrow="國語學習"
+          title={grade.title}
+          desc={`${grade.topics.length} 個主題 · 選擇下方主題開始練習`}
+          icon={grade.icon}
+        />
 
-      <div className="text-center mt-4 mb-8">
-        <div className="text-5xl mb-2">{grade.icon}</div>
-        <h1 className="text-2xl font-black text-slate-800">{grade.title}</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          {grade.topics.length} 個主題 · 選擇下方主題開始練習
-        </p>
-      </div>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${lgCols} gap-4`}>
+          {grade.topics.map((topic) => {
+            const qCount =
+              topic.questions.length +
+              (topic.readings?.reduce(
+                (s, r) => s + r.questions.length,
+                0
+              ) ?? 0);
+            const chips = [
+              topic.questions.length > 0 ? `${topic.questions.length} 題練習` : "",
+              topic.readings && topic.readings.length > 0 ? `${topic.readings.length} 篇閱讀` : "",
+              `共 ${qCount} 題`,
+            ].filter(Boolean);
+            return (
+              <TopicCard
+                key={topic.id}
+                href={`/chinese-lang/${grade.id}/${topic.id}`}
+                icon={topic.icon}
+                title={topic.title}
+                desc={topic.description}
+                chips={chips}
+                filled
+              />
+            );
+          })}
+        </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
-        {grade.topics.map((topic) => {
-          const qCount =
-            topic.questions.length +
-            (topic.readings?.reduce(
-              (s, r) => s + r.questions.length,
-              0
-            ) ?? 0);
-          return (
-            <Link
-              key={topic.id}
-              href={`/chinese-lang/${grade.id}/${topic.id}`}
-              className={`bg-white rounded-2xl overflow-hidden border ${topic.border} shadow-sm hover-lift no-underline transition-all hover:shadow-lg`}
-            >
-              <div
-                className={`bg-gradient-to-r ${topic.color} p-4 text-white`}
-              >
-                <div className="text-3xl mb-1">{topic.icon}</div>
-                <div className="text-lg font-bold">{topic.title}</div>
-              </div>
-              <div className="p-4">
-                <p className="text-sm text-slate-600 mb-3">
-                  {topic.description}
-                </p>
-                <div className="flex gap-2 flex-wrap">
-                  {topic.questions.length > 0 && (
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-green-50 text-green-600">
-                      ✏️ {topic.questions.length} 題練習
-                    </span>
-                  )}
-                  {topic.readings && topic.readings.length > 0 && (
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-600">
-                      📗 {topic.readings.length} 篇閱讀
-                    </span>
-                  )}
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-orange-50 text-orange-600">
-                    共 {qCount} 題
-                  </span>
-                </div>
-              </div>
+        <div className="mt-8 bg-white rounded-2xl border border-slate-200 p-5">
+          <div className="text-sm font-bold text-[#263238] mb-3">其他年級</div>
+          <div className="flex flex-wrap gap-2">
+            {others.map((g) => (
+              <Link key={g.id} href={`/chinese-lang/${g.id}`}
+                className="px-4 py-2 rounded-xl border border-[#2457A7] text-[#2457A7] bg-white text-sm font-bold no-underline hover:bg-[#EEF3FB]">
+                {g.title}
+              </Link>
+            ))}
+            <Link href="/chinese-lang/idiom-practice"
+              className="px-4 py-2 rounded-xl border border-slate-200 text-[#263238] bg-white text-sm font-bold no-underline hover:bg-slate-50">
+              成語填空・配對・學習單
             </Link>
-          );
-        })}
-      </div>
+          </div>
+        </div>
 
-      <div className="text-center mt-10">
-        <Link
-          href="/chinese-lang"
-          className="text-sm text-orange-500 hover:underline no-underline"
-        >
-          ← 回到國語學習
-        </Link>
+        <div className="text-center mt-8">
+          <Link
+            href="/chinese-lang"
+            className="text-sm text-[#2457A7] hover:underline no-underline"
+          >
+            ← 回到國語學習
+          </Link>
+        </div>
       </div>
     </div>
   );

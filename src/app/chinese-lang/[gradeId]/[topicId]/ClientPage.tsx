@@ -8,6 +8,7 @@ import type { ChineseQ, ChineseReading, ChineseListening } from "@/data/chinese-
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import ShareButtons from "@/components/ShareButtons";
+import { PracticeHeader, tabClass } from "@/components/MathChineseUI";
 
 type Tab = "quiz" | "reading" | "listening";
 
@@ -31,7 +32,7 @@ export default function TopicPracticePage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center">
         <p className="text-slate-500">找不到這個主題</p>
-        <Link href="/chinese-lang" className="text-orange-500 hover:underline no-underline mt-4 inline-block">
+        <Link href="/chinese-lang" className="text-[#2457A7] hover:underline no-underline mt-4 inline-block">
           ← 回到國語學習
         </Link>
       </div>
@@ -65,40 +66,33 @@ function TopicContent({
   const [tab, setTab] = useState<Tab>(defaultTab);
 
   const tabs: { key: Tab; label: string; show: boolean }[] = [
-    { key: "quiz", label: "✏️ 練習", show: hasQuiz },
-    { key: "listening", label: "🔊 聽力", show: hasListening },
-    { key: "reading", label: "📗 閱讀", show: hasReadings },
+    { key: "quiz", label: "練習", show: hasQuiz },
+    { key: "listening", label: "聽力", show: hasListening },
+    { key: "reading", label: "閱讀", show: hasReadings },
   ];
 
   const visibleTabs = tabs.filter((t) => t.show);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <Link
-        href={`/chinese-lang/${gradeId}`}
-        className="text-sm text-orange-500 hover:underline no-underline"
-      >
-        ← 回到{grade.title}
-      </Link>
-
-      <div className="text-center mt-4 mb-6">
-        <div className="text-4xl mb-2">{topic.icon}</div>
-        <h1 className="text-2xl font-black text-slate-800">{topic.title}</h1>
-        <p className="text-sm text-slate-500">{grade.title}</p>
-      </div>
+      <PracticeHeader
+        backHref={`/chinese-lang/${gradeId}`}
+        backLabel={`回到${grade.title}`}
+        eyebrow={`國語學習・${grade.title}`}
+        title={topic.title}
+        icon={topic.icon}
+      />
 
       {/* Tab switcher */}
       {visibleTabs.length > 1 && (
-        <div className="flex gap-2 justify-center mb-6">
+        <div className="flex gap-2 mb-6 p-1.5 bg-white border border-slate-200 rounded-2xl sm:inline-flex" role="tablist">
           {visibleTabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`px-5 py-2 rounded-xl font-bold text-sm border-none cursor-pointer transition ${
-                tab === t.key
-                  ? `bg-gradient-to-r ${topic.color} text-white shadow`
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+              role="tab"
+              aria-selected={tab === t.key}
+              className={tabClass(tab === t.key)}
             >
               {t.label}
             </button>
@@ -225,14 +219,14 @@ function QuizSection({
   if (done) {
     const pct = Math.round((correct / shuffled.length) * 100);
     return (
-      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200">
         <div className="text-5xl mb-3">
           {pct >= 90 ? "🎉" : pct >= 60 ? "👍" : "💪"}
         </div>
         <h2 className="text-2xl font-black text-slate-800 mb-2">
           練習完成！
         </h2>
-        <div className="text-4xl font-black text-orange-500 my-3">
+        <div className="text-4xl font-black text-[#E65E83] my-3">
           {correct} / {shuffled.length}
         </div>
         <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
@@ -246,7 +240,7 @@ function QuizSection({
         <div className="mt-4">
           <button
             onClick={handleRestart}
-            className="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-bold cursor-pointer border-none hover:bg-orange-600 transition"
+            className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
           >
             🔄 再做一次
           </button>
@@ -256,7 +250,7 @@ function QuizSection({
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl p-6 border border-slate-200">
       <div className="flex justify-between items-center mb-4">
         <span className="text-sm text-slate-400">
           第 {idx + 1} / {shuffled.length} 題
@@ -311,7 +305,7 @@ function QuizSection({
           </div>
           <button
             onClick={handleNext}
-            className={`mt-3 px-5 py-2 rounded-xl bg-gradient-to-r ${color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}
+            className={`mt-3 px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}
           >
             {idx + 1 >= shuffled.length ? "看結果 →" : "下一題 →"}
           </button>
@@ -387,7 +381,7 @@ function ReadingSection({
     <div className="space-y-6">
       {/* Passage selector */}
       {readings.length > 1 && (
-        <div className="flex gap-2 justify-center">
+        <div className="flex flex-wrap gap-2 justify-center">
           {readings.map((_, i) => (
             <button
               key={i}
@@ -398,8 +392,8 @@ function ReadingSection({
               }}
               className={`px-4 py-1.5 rounded-lg text-sm font-medium border-none cursor-pointer transition ${
                 pIdx === i
-                  ? "bg-orange-500 text-white"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  ? "bg-[#2457A7] text-white"
+                  : "bg-white ring-1 ring-slate-200 text-slate-600 hover:bg-slate-50"
               }`}
             >
               第 {i + 1} 篇
@@ -409,17 +403,17 @@ function ReadingSection({
       )}
 
       {/* Passage */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200">
         <h3 className="font-bold text-slate-800 mb-3">
           📗 閱讀文章（第 {pIdx + 1} 篇）
         </h3>
-        <div className="text-slate-700 leading-8 text-[15px] bg-slate-50 rounded-xl p-5 border border-slate-100 whitespace-pre-line">
+        <div className="text-slate-700 leading-8 text-[15px] bg-white rounded-xl p-5 border border-slate-100 whitespace-pre-line">
           {rd.passage}
         </div>
       </div>
 
       {/* Questions */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200">
         <h3 className="font-bold text-slate-800 mb-4">
           📝 閱讀理解題
           {submitted && (
@@ -440,7 +434,7 @@ function ReadingSection({
                     "bg-slate-50 border-slate-200 hover:bg-slate-100 cursor-pointer";
                   if (sel[qi] === oi && !submitted) {
                     cls =
-                      "bg-orange-50 border-orange-400 text-orange-700 cursor-pointer";
+                      "bg-[#EEF3FB] border-[#2457A7] text-[#2457A7] cursor-pointer";
                   }
                   if (submitted) {
                     if (oi === q.ans)
@@ -480,7 +474,7 @@ function ReadingSection({
               disabled={!allAnswered}
               className={`px-6 py-2.5 rounded-xl font-bold border-none cursor-pointer transition ${
                 allAnswered
-                  ? `bg-gradient-to-r ${color} text-white hover:opacity-90`
+                  ? `bg-[#2457A7] text-white hover:opacity-90`
                   : "bg-slate-200 text-slate-400 cursor-not-allowed"
               }`}
             >
@@ -498,7 +492,7 @@ function ReadingSection({
               {readings.length > 1 && (
                 <button
                   onClick={handleNextPassage}
-                  className="px-5 py-2 rounded-xl bg-orange-500 text-white font-bold cursor-pointer border-none hover:bg-orange-600 transition"
+                  className="px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
                 >
                   下一篇 →
                 </button>
@@ -628,7 +622,7 @@ function ListeningSection({
 
   if (!ttsSupported) {
     return (
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm text-center">
+      <div className="bg-white rounded-2xl p-8 border border-slate-200 text-center">
         <div className="text-4xl mb-3">🔇</div>
         <p className="text-slate-600">你的瀏覽器不支援語音功能</p>
         <p className="text-sm text-slate-400 mt-1">請使用 Chrome 或 Safari 瀏覽器</p>
@@ -641,14 +635,14 @@ function ListeningSection({
   if (done) {
     const pct = Math.round((correct / shuffled.length) * 100);
     return (
-      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200">
         <div className="text-5xl mb-3">
           {pct >= 90 ? "🎉" : pct >= 60 ? "👍" : "💪"}
         </div>
         <h2 className="text-2xl font-black text-slate-800 mb-2">
           聽力練習完成！
         </h2>
-        <div className="text-4xl font-black text-orange-500 my-3">
+        <div className="text-4xl font-black text-[#E65E83] my-3">
           {correct} / {shuffled.length}
         </div>
         <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
@@ -662,7 +656,7 @@ function ListeningSection({
         <div className="mt-4">
           <button
             onClick={handleRestart}
-            className="px-6 py-2.5 rounded-xl bg-orange-500 text-white font-bold cursor-pointer border-none hover:bg-orange-600 transition"
+            className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
           >
             🔄 再做一次
           </button>
@@ -672,7 +666,7 @@ function ListeningSection({
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl p-6 border border-slate-200">
       <div className="flex justify-between items-center mb-4">
         <span className="text-sm text-slate-400">
           第 {idx + 1} / {shuffled.length} 題
@@ -689,8 +683,8 @@ function ListeningSection({
           disabled={speaking}
           className={`inline-flex items-center justify-center w-20 h-20 rounded-full border-none cursor-pointer transition text-4xl ${
             speaking
-              ? "bg-orange-100 text-orange-400 animate-pulse"
-              : "bg-orange-50 text-orange-500 hover:bg-orange-100"
+              ? "bg-[#FDECF1] text-[#E65E83] animate-pulse"
+              : "bg-[#FDECF1] text-[#C2416A] hover:bg-[#FBD9E3]"
           }`}
         >
           🔊
@@ -749,7 +743,7 @@ function ListeningSection({
           </div>
           <button
             onClick={handleNext}
-            className={`mt-3 px-5 py-2 rounded-xl bg-gradient-to-r ${color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}
+            className={`mt-3 px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}
           >
             {idx + 1 >= shuffled.length ? "看結果 →" : "下一題 →"}
           </button>

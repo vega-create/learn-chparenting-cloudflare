@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 type Difficulty = "easy" | "medium" | "hard";
@@ -188,32 +188,32 @@ export default function MazeRunnerPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🏃</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">迷宮探險</h1>
-          <p className="text-slate-500 text-sm">找到出口，越快越好！</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-violet-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="maze-runner" title="迷宮探險" desc="找到出口，越快越好！" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>使用方向鍵或按鈕移動角色</li>
             <li>從左上角出發，到達右下角的終點</li>
             <li>移動次數越少、用時越短，分數越高</li>
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {DIFF_OPTIONS.map(d => (
             <button key={d.key} onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              className={GAME_UI.diffBtn}>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -221,9 +221,9 @@ export default function MazeRunnerPage() {
   if (mode === "done") {
     const stars = getStars(score, 150);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           移動 {moves} 步 ・ 用時 {formatTime(time)}
         </div>
         <GameOverScreen
@@ -232,26 +232,28 @@ export default function MazeRunnerPage() {
           onRestart={() => startGame(diff)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "maze-runner", activityName: "迷宮探險" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn" ref={gameRef} tabIndex={0} onKeyDown={handleKeyDown} style={{ outline: "none" }}>
-      <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+    <div ref={gameRef} tabIndex={0} onKeyDown={handleKeyDown} style={{ outline: "none" }}>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">迷宮探險</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">👣 {moves} 步</div>
-        <div className="text-sm font-mono text-slate-500">⏱ {formatTime(time)}</div>
-        <div className="text-sm font-bold text-violet-600">
-          {DIFF_OPTIONS.find(d => d.key === diff)?.label}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>步數 <b>{moves}</b></div>
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{formatTime(time)}</b></div>
+        <div className={GAME_UI.chip}>
+          難度 <b className="text-[#2457A7]">{DIFF_OPTIONS.find(d => d.key === diff)?.label}</b>
         </div>
       </div>
 
       {/* Maze Grid */}
-      <div className="bg-white rounded-2xl p-1.5 sm:p-3 -mx-2 sm:mx-0 border border-violet-200 shadow-sm mb-4 overflow-auto">
+      <div className="bg-white rounded-2xl p-1.5 sm:p-3 -mx-2 sm:mx-0 border border-slate-200 mb-4 overflow-auto">
         <div className="mx-auto" style={{ width: config.cols * config.cellSize + 2, height: config.rows * config.cellSize + 2 }}>
           <div className="relative border border-slate-800" style={{ width: config.cols * config.cellSize, height: config.rows * config.cellSize }}>
             {maze.map((row, r) =>
@@ -293,25 +295,26 @@ export default function MazeRunnerPage() {
       {/* Direction Buttons (mobile-friendly) */}
       <div className="flex flex-col items-center gap-2 mt-4">
         <button onClick={() => movePlayer(-1, 0)}
-          className="w-16 h-16 rounded-xl bg-violet-500 text-white text-2xl font-bold cursor-pointer border-none hover:bg-violet-600 active:scale-95 transition flex items-center justify-center">
+          className="w-16 h-16 rounded-xl bg-[#2457A7] text-white text-2xl font-bold cursor-pointer border-none hover:bg-[#1d4688] active:scale-95 transition flex items-center justify-center">
           ↑
         </button>
         <div className="flex gap-2">
           <button onClick={() => movePlayer(0, -1)}
-            className="w-16 h-16 rounded-xl bg-violet-500 text-white text-2xl font-bold cursor-pointer border-none hover:bg-violet-600 active:scale-95 transition flex items-center justify-center">
+            className="w-16 h-16 rounded-xl bg-[#2457A7] text-white text-2xl font-bold cursor-pointer border-none hover:bg-[#1d4688] active:scale-95 transition flex items-center justify-center">
             ←
           </button>
           <button onClick={() => movePlayer(1, 0)}
-            className="w-16 h-16 rounded-xl bg-violet-500 text-white text-2xl font-bold cursor-pointer border-none hover:bg-violet-600 active:scale-95 transition flex items-center justify-center">
+            className="w-16 h-16 rounded-xl bg-[#2457A7] text-white text-2xl font-bold cursor-pointer border-none hover:bg-[#1d4688] active:scale-95 transition flex items-center justify-center">
             ↓
           </button>
           <button onClick={() => movePlayer(0, 1)}
-            className="w-16 h-16 rounded-xl bg-violet-500 text-white text-2xl font-bold cursor-pointer border-none hover:bg-violet-600 active:scale-95 transition flex items-center justify-center">
+            className="w-16 h-16 rounded-xl bg-[#2457A7] text-white text-2xl font-bold cursor-pointer border-none hover:bg-[#1d4688] active:scale-95 transition flex items-center justify-center">
             →
           </button>
         </div>
       </div>
-      <p className="text-center text-xs text-slate-400 mt-2">也可使用鍵盤方向鍵或 WASD</p>
+      <p className="text-center text-xs text-[#52616B] mt-2">也可使用鍵盤方向鍵或 WASD</p>
     </div>
+    </GamePage>
   );
 }

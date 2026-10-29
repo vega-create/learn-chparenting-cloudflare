@@ -40,7 +40,7 @@ export default function BoardGameCatalog({ categories }: { categories: CatalogCa
           <Link key={g.id} href={`/board-games/${g.id}`}
             className="group flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden no-underline hover:shadow-md transition-shadow">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/images/games/${g.id}.webp`} alt="" loading="lazy" className="w-full aspect-[3/2] object-cover bg-[#FAF3EA]" />
+            <img src={`/images/games/${g.id}.webp`} alt="" loading="lazy" className="w-full aspect-[3/2] object-cover bg-slate-50" />
             <div className="flex flex-col flex-1 p-4">
               <h3 className="text-lg font-bold text-slate-800 mb-1">{g.name}</h3>
               <p className="text-sm text-slate-600 mb-3 flex-1">{g.desc}</p>

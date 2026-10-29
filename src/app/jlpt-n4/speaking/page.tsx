@@ -183,7 +183,7 @@ export default function SpeakingPage() {
     <div className="max-w-2xl mx-auto px-4 py-10">
       <div className="text-center mb-8">
         <div className="text-5xl mb-3">🎙️</div>
-        <h1 className="text-2xl md:text-3xl font-black text-slate-800 mb-2">口說訓練中心</h1>
+        <h1 className="text-2xl md:text-3xl font-black text-[#263238] mb-2">口說訓練中心</h1>
         <p className="text-slate-500">練習日文發音、跟讀、朗讀和問答</p>
         {!supported && (
           <div className="mt-3 bg-red-50 text-red-600 rounded-xl p-3 text-sm">
@@ -200,7 +200,7 @@ export default function SpeakingPage() {
           { m: "qa" as Mode, icon: "💬", title: "問答練習", desc: "聽日文問題、用日文回答", tag: "N4", color: "#dc2626", count: "5 題" },
         ].map(item => (
           <button key={item.m} onClick={() => startMode(item.m)} disabled={!supported && item.m !== "menu"}
-            className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition text-left cursor-pointer disabled:opacity-40 active:scale-[0.99]">
+            className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 hover:border-[#2457A7] transition text-left cursor-pointer disabled:opacity-40 active:scale-[0.99]">
             <div className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl flex-shrink-0"
               style={{ background: item.color + "12" }}>{item.icon}</div>
             <div className="flex-1">
@@ -217,7 +217,7 @@ export default function SpeakingPage() {
       </div>
 
       <div className="text-center mt-6">
-        <a href="/jlpt-n4" className="text-sm text-red-500 hover:underline no-underline">← 回到 JLPT N4</a>
+        <a href="/jlpt-n4" className="text-sm text-[#2457A7] hover:underline no-underline">← 回到 JLPT N4</a>
       </div>
     </div>
   );
@@ -229,7 +229,7 @@ export default function SpeakingPage() {
       <div className="max-w-md mx-auto px-4 py-12 text-center">
         <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-lg">
           <div className="text-6xl mb-3">{avgScore >= 70 ? "🎉" : "💪"}</div>
-          <h2 className="text-2xl font-black text-slate-800 mb-2">練習完成！</h2>
+          <h2 className="text-2xl font-black text-[#263238] mb-2">練習完成！</h2>
           <div className="text-5xl font-black my-4" style={{ color: pctColor(avgScore) }}>{avgScore}%</div>
           <div className="text-sm text-slate-500 mb-4">平均正確率</div>
 
@@ -250,7 +250,7 @@ export default function SpeakingPage() {
           <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
           <ShareButtons text={`我在JLPT N4口說練習得了 ${avgScore}% 的成績！🎙️`} url="/jlpt-n4/speaking" />
           <div className="mt-4 flex gap-3 justify-center flex-wrap">
-            <button onClick={() => startMode(mode)} className="px-6 py-2.5 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none">🔄 再練一次</button>
+            <button onClick={() => startMode(mode)} className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none">🔄 再練一次</button>
             <button onClick={() => setMode("menu")} className="px-6 py-2.5 rounded-xl border-2 border-slate-300 text-slate-600 font-semibold text-sm cursor-pointer bg-white">← 選其他模式</button>
           </div>
         </div>
@@ -328,7 +328,7 @@ export default function SpeakingPage() {
           </button>
           {mode !== "passage" && (
             <button onClick={next}
-              className="px-5 py-2.5 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none hover:bg-red-600 transition">
+              className="px-5 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none hover:bg-[#1d4a8f] transition">
               {idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
             </button>
           )}
@@ -379,7 +379,7 @@ export default function SpeakingPage() {
       {/* Progress */}
       {mode !== "passage" && (
         <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-5">
-          <div className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-red-500 to-pink-500"
+          <div className="h-full rounded-full transition-all duration-500 bg-[#2457A7]"
             style={{ width: `${((idx) / items.length) * 100}%` }} />
         </div>
       )}
@@ -599,7 +599,7 @@ export default function SpeakingPage() {
                   🔄 再答一次
                 </button>
                 <button onClick={next}
-                  className="px-5 py-2.5 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none">
+                  className="px-5 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none">
                   {idx + 1 >= items.length ? "看結果 →" : "下一題 →"}
                 </button>
               </div>

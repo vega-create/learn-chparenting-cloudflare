@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MUSIC_LEVELS, getTotalQuestionCount } from "@/data/music";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
+import PageHeader, { SectionTitle } from "@/components/PageHeader";
+import SubjectIcon from "@/components/SubjectIcon";
+import HmTopicCard, { HmAboutBox } from "@/components/HmTopicCard";
 
 export const metadata: Metadata = {
   title: "免費樂理基礎練習 | 音符・音階・和弦・音樂常識 | learn.chparenting.com",
@@ -10,86 +13,86 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://learn.chparenting.com/music" },
 };
 
+const LEVEL_DESC: Record<string, string> = {
+  intro: "從看懂樂譜開始",
+  basic: "認識音階、音程與記號",
+  advanced: "和弦、曲式與音樂常識",
+};
+
 export default function MusicPage() {
   const total = getTotalQuestionCount();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="bg-white">
       <SubjectVisitTracker subject="music" />
-      <div className="text-center mb-10">
-        <div className="text-5xl mb-3 animate-float">🎵</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">樂理基礎</h1>
-        <p className="text-slate-500">
-          音符 · 節拍 · 音階 · 和弦 — 從入門到進階
-        </p>
-        <div className="mt-3 inline-block px-4 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-sm text-pink-600 font-medium">
-          🎶 {total}+ 題免費練習
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="音樂與樂理"
+        title="樂理基礎"
+        desc="音符 · 節拍 · 音階 · 和弦，從入門到進階。不需要會樂器，大人小孩都能練。"
+        icon={<SubjectIcon name="music" size={40} />}
+        iconBg="bg-[#9B5BD1]"
+        image="/images/pages/music.webp"
+      >
+        <span className="inline-block px-3 py-1 rounded-full bg-[#FDECF1] text-[#C2416A] text-sm font-bold">
+          {total}+ 題免費練習
+        </span>
+      </PageHeader>
 
-      {/* 學習方式 */}
-      <div className="bg-pink-50 rounded-2xl p-6 border border-pink-200 mb-8">
-        <h2 className="font-bold text-slate-800 mb-2">🎼 學習方式</h2>
-        <div className="grid sm:grid-cols-3 gap-4 text-sm text-slate-600">
-          <div className="flex gap-2">
-            <span className="text-pink-500 font-bold">1.</span>選擇<strong>程度等級</strong>，從入門開始
-          </div>
-          <div className="flex gap-2">
-            <span className="text-pink-500 font-bold">2.</span>做<strong>互動練習</strong>，每題都有詳解
-          </div>
-          <div className="flex gap-2">
-            <span className="text-pink-500 font-bold">3.</span>循序漸進，<strong>建立樂理基礎</strong>
-          </div>
-        </div>
-      </div>
+      <div className="max-w-6xl mx-auto px-4 pb-12">
+        {/* 程度快速切換 */}
+        <nav aria-label="選擇程度" className="grid grid-cols-3 gap-2 sm:gap-4 mb-10">
+          {MUSIC_LEVELS.map((level) => (
+            <a key={level.id} href={`#${level.id}`}
+              className="flex items-center gap-3 bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 no-underline hover:border-[#E65E83] transition-colors">
+              <span className="text-2xl sm:text-3xl shrink-0" aria-hidden="true">{level.icon}</span>
+              <span className="min-w-0">
+                <span className="block font-bold text-[#263238] text-sm sm:text-lg">{level.title}</span>
+                <span className="hidden sm:block text-xs text-[#52616B]">{LEVEL_DESC[level.id]}</span>
+              </span>
+            </a>
+          ))}
+        </nav>
 
-      {/* 等級卡片 */}
-      <div className="space-y-6">
-        {MUSIC_LEVELS.map((level) => {
-          const qCount = level.topics.reduce((s, t) => s + t.questions.length, 0);
-          return (
-            <Link
-              key={level.id}
-              href={`/music/${level.id}`}
-              className="block bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover-lift no-underline transition-all hover:shadow-lg"
-            >
-              <div
-                className={`bg-gradient-to-r ${level.color} p-5 text-white`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-4xl">{level.icon}</span>
-                  <div>
-                    <div className="text-xl font-bold">{level.title}</div>
-                    <div className="text-sm opacity-80">
-                      {level.topics.length} 個主題 · {qCount} 題練習
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="flex gap-2 flex-wrap">
+        <div className="space-y-10">
+          {MUSIC_LEVELS.map((level) => {
+            const qCount = level.topics.reduce((s, t) => s + t.questions.length, 0);
+            return (
+              <section key={level.id} id={level.id} className="scroll-mt-24">
+                <SectionTitle
+                  action={
+                    <Link href={`/music/${level.id}`} className="text-sm font-bold text-[#2457A7] no-underline hover:underline shrink-0">
+                      {level.title}總覽 →
+                    </Link>
+                  }
+                >
+                  {level.title}
+                  <span className="ml-2 text-sm font-normal text-[#52616B]">{level.topics.length} 個主題 · {qCount} 題</span>
+                </SectionTitle>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {level.topics.map((t) => (
-                    <span
+                    <HmTopicCard
                       key={t.id}
-                      className="text-xs px-2.5 py-1 rounded-full bg-slate-50 text-slate-600 border border-slate-200"
-                    >
-                      {t.icon} {t.title}
-                    </span>
+                      href={`/music/${level.id}/${t.id}`}
+                      icon={t.icon}
+                      title={t.title}
+                      desc={t.description}
+                      chips={[...(t.concepts && t.concepts.length > 0 ? ["觀念教學"] : []), `${t.questions.length} 題練習`]}
+                      cta={t.concepts && t.concepts.length > 0 ? "先看觀念再練習" : "開始練習"}
+                    />
                   ))}
                 </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+              </section>
+            );
+          })}
+        </div>
 
-      <div className="text-center mt-10">
-        <a
-          href="/"
-          className="text-sm text-pink-500 hover:underline no-underline"
-        >
-          ← 回到首頁
-        </a>
+        <HmAboutBox>
+          <ol className="grid sm:grid-cols-3 gap-3 list-none p-0 m-0">
+            <li className="flex gap-2"><span className="text-[#E65E83] font-bold">1.</span><span>選擇<strong>程度等級</strong>，從入門開始</span></li>
+            <li className="flex gap-2"><span className="text-[#E65E83] font-bold">2.</span><span>做<strong>互動練習</strong>，每題都有詳解</span></li>
+            <li className="flex gap-2"><span className="text-[#E65E83] font-bold">3.</span><span>循序漸進，<strong>建立樂理基礎</strong></span></li>
+          </ol>
+        </HmAboutBox>
       </div>
     </div>
   );

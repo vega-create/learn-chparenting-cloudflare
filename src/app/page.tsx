@@ -68,7 +68,7 @@ export default function HomePage() {
   const guides = GUIDE_POSTS.map((g) => ({ ...g, post: getPostBySlug(g.slug) })).filter((g) => g.post);
 
   return (
-    <div className="bg-[#FAF8F5]">
+    <div className="bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* 最新消息跑馬燈（必留；內容在 src/data/site-updates.ts 與 exam-dates.ts） */}
@@ -76,7 +76,7 @@ export default function HomePage() {
       <OnboardingTutorial />
 
       {/* 主視覺：左文案、右三張照片（大人自學／親子共學） */}
-      <section className="bg-gradient-to-b from-white to-[#FAF8F5]">
+      <section className="bg-gradient-to-b from-white to-white">
         <div className="max-w-6xl mx-auto px-4 pt-6 pb-6 md:pt-10 md:pb-10 grid md:grid-cols-[1fr_1.15fr] gap-6 md:gap-8 items-center">
           <div>
             <h1 className="text-[28px] leading-snug md:text-[30px] lg:text-[35px] md:leading-tight font-black text-[#263238] mb-3">

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 interface Mole {
@@ -189,16 +189,12 @@ export default function WhackAMolePage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🐹</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">打地鼠</h1>
-          <p className="text-slate-500 text-sm">快速反應，精準出擊</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="whack-a-mole" title="打地鼠" desc="快速反應，精準出擊" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>地鼠會從洞裡冒出來</li>
             <li>🐹 普通地鼠：+10 分</li>
             <li>⭐ 金色地鼠：+20 分</li>
@@ -209,10 +205,10 @@ export default function WhackAMolePage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
-          🚀 開始打地鼠
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
+          開始打地鼠 →
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -220,9 +216,9 @@ export default function WhackAMolePage() {
   if (mode === "done") {
     const stars = getStars(score, 250);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           命中 {hits} 次 ・ 最長連續 {maxCombo}
         </div>
         <GameOverScreen
@@ -231,30 +227,31 @@ export default function WhackAMolePage() {
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "whack-a-mole", activityName: "打地鼠" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">打地鼠</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">⏱ {timeLeft}s</div>
-        <div className="text-sm text-slate-500">🔥 x{combo}</div>
-        <div className="text-sm font-bold text-amber-600">{score} 分</div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{timeLeft}s</b></div>
+        <div className={GAME_UI.chip}>連擊 <b>x{combo}</b></div>
       </div>
 
       {/* Timer bar */}
       <div className="w-full h-2 bg-slate-200 rounded-full mb-6 overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-1000"
+        <div className="h-full bg-[#2457A7] rounded-full transition-all duration-1000"
           style={{ width: `${(timeLeft / GAME_DURATION) * 100}%` }} />
       </div>
 
       {/* Grid */}
-      <div className="bg-gradient-to-b from-green-100 to-amber-100 rounded-2xl p-6 border border-amber-200 shadow-sm">
+      <div className="bg-gradient-to-b from-green-100 to-amber-100 rounded-2xl p-4 sm:p-6 border border-slate-200">
         <div className="grid grid-cols-3 gap-4 max-w-[300px] mx-auto">
           {moles.map(mole => (
             <button key={mole.id}
@@ -287,10 +284,10 @@ export default function WhackAMolePage() {
 
       {/* Combo display */}
       {combo >= 3 && (
-        <div className="text-center mt-4 text-lg font-bold text-amber-500 animate-pulse">
+        <div className="text-center mt-4 text-lg font-bold text-[#E65E83] animate-pulse">
           🔥 {combo} 連擊！+{Math.min(combo, 5) * 2} 額外分
         </div>
       )}
-    </div>
+    </GamePage>
   );
 }

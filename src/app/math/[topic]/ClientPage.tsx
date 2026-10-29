@@ -8,6 +8,7 @@ import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import { useParams } from "next/navigation";
 import ShareButtons from "@/components/ShareButtons";
+import { PracticeHeader, tabClass } from "@/components/MathChineseUI";
 
 function shuffleMathOpts<T extends { options: string[]; answer: number }>(item: T): T {
   const indices = item.options.map((_, i) => i).sort(() => Math.random() - 0.5);
@@ -27,32 +28,27 @@ export default function MathTopicPage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center">
         <p className="text-slate-500">找不到這個主題</p>
-        <Link href="/math" className="text-amber-500 hover:underline no-underline mt-4 inline-block">← 回到數學練習</Link>
+        <Link href="/math" className="text-[#2457A7] hover:underline no-underline mt-4 inline-block">← 回到數學練習</Link>
       </div>
     );
   }
 
   const tabs: { key: Tab; label: string }[] = [
-    { key: "concepts", label: "📖 觀念" },
-    { key: "practice", label: "✏️ 練習" },
-    { key: "challenge", label: "⏱️ 挑戰" },
+    { key: "concepts", label: "觀念" },
+    { key: "practice", label: "練習" },
+    { key: "challenge", label: "限時挑戰" },
   ];
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <Link href="/math" className="text-sm text-amber-500 hover:underline no-underline">← 回到數學練習</Link>
-
-      <div className="text-center mt-4 mb-6">
-        <div className="text-4xl mb-2">{topic.icon}</div>
-        <h1 className="text-2xl font-black text-slate-800">{topic.title}</h1>
-        <p className="text-sm text-slate-500">{topic.grade}</p>
-      </div>
+      <PracticeHeader backHref="/math" backLabel="回到數學練習" eyebrow={`數學練習・${topic.grade}`} title={topic.title}
+        desc="先看觀念，再做練習，最後挑戰限時計算。" icon={topic.icon} />
 
       {/* Tab switcher */}
-      <div className="flex gap-2 justify-center mb-6">
+      <div className="flex gap-2 mb-6 p-1.5 bg-white border border-slate-200 rounded-2xl sm:inline-flex" role="tablist">
         {tabs.map((t) => (
-          <button key={t.key} onClick={() => setTab(t.key)}
-            className={`px-5 py-2 rounded-xl font-bold text-sm border-none cursor-pointer transition ${tab === t.key ? `bg-gradient-to-r ${topic.color} text-white shadow` : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}>
+          <button key={t.key} onClick={() => setTab(t.key)} role="tab" aria-selected={tab === t.key}
+            className={tabClass(tab === t.key)}>
             {t.label}
           </button>
         ))}
@@ -70,12 +66,12 @@ function ConceptsTab({ topic }: { topic: MathTopic }) {
   return (
     <div className="space-y-6">
       {topic.concepts.map((c, i) => (
-        <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-800 mb-3">{c.title}</h2>
+        <div key={i} className="bg-white rounded-2xl p-5 md:p-6 border border-slate-200">
+          <h2 className="text-lg font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-3">{c.title}</h2>
           <p className="text-slate-600 leading-7 mb-4">{c.explanation}</p>
           <div className="space-y-3">
             {c.examples.map((ex, j) => (
-              <div key={j} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+              <div key={j} className="bg-white rounded-xl p-4 border border-slate-100">
                 <div className="font-bold text-slate-700 mb-2">💡 {ex.question}</div>
                 <div className="space-y-1 ml-4">
                   {ex.steps.map((s, k) => (
@@ -153,10 +149,10 @@ function PracticeTab({ topic }: { topic: MathTopic }) {
   if (done) {
     const pct = Math.round((correct / practices.length) * 100);
     return (
-      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200">
         <div className="text-5xl mb-3">{pct >= 90 ? "🎉" : pct >= 60 ? "👍" : "💪"}</div>
         <h2 className="text-2xl font-black text-slate-800 mb-2">練習完成！</h2>
-        <div className="text-4xl font-black text-amber-500 my-3">{correct} / {practices.length}</div>
+        <div className="text-4xl font-black text-[#E65E83] my-3">{correct} / {practices.length}</div>
         <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
         <div className="text-xs text-slate-500 mb-2 mt-4">分享你的成績：</div>
         <ShareButtons
@@ -164,14 +160,14 @@ function PracticeTab({ topic }: { topic: MathTopic }) {
           url="/math"
         />
         <div className="mt-4">
-          <button onClick={handleRestart} className="px-6 py-2.5 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">🔄 再做一次</button>
+          <button onClick={handleRestart} className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">🔄 再做一次</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl p-6 border border-slate-200">
       <div className="flex justify-between items-center mb-4">
         <span className="text-sm text-slate-400">第 {idx + 1} / {practices.length} 題</span>
         <span className="text-sm font-bold text-emerald-600">✅ {correct} 題正確</span>
@@ -198,7 +194,7 @@ function PracticeTab({ topic }: { topic: MathTopic }) {
             {q.explanation}
           </div>
           <button onClick={handleNext}
-            className="mt-3 px-5 py-2 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">
+            className="mt-3 px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
             {idx + 1 >= practices.length ? "看結果 →" : "下一題 →"}
           </button>
         </div>
@@ -284,12 +280,12 @@ function ChallengeTab({ topic }: { topic: MathTopic }) {
 
   if (phase === "ready") {
     return (
-      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200">
         <div className="text-5xl mb-3">⏱️</div>
         <h2 className="text-xl font-bold text-slate-800 mb-2">限時挑戰</h2>
         <p className="text-slate-500 text-sm mb-2">在 {topic.challenge.timeLimit} 秒內答對越多題越好！</p>
         <p className="text-slate-400 text-xs mb-4">連續答對可獲得額外加分</p>
-        <button onClick={start} className={`px-8 py-3 rounded-xl bg-gradient-to-r ${topic.color} text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition`}>
+        <button onClick={start} className={`px-8 py-3 rounded-xl bg-[#2457A7] text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition`}>
           開始挑戰 🚀
         </button>
       </div>
@@ -298,17 +294,17 @@ function ChallengeTab({ topic }: { topic: MathTopic }) {
 
   if (phase === "done") {
     return (
-      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200">
         <div className="text-5xl mb-3">🏆</div>
         <h2 className="text-2xl font-black text-slate-800 mb-2">挑戰結束！</h2>
-        <div className="text-4xl font-black text-amber-500 my-3">{score} 分</div>
+        <div className="text-4xl font-black text-[#E65E83] my-3">{score} 分</div>
         <div className="text-xs text-slate-500 mb-2 mt-4">分享你的成績：</div>
         <ShareButtons
           text={`我完成了數學「${topic.title}」限時挑戰，得到 ${score} 分！📝`}
           url="/math"
         />
         <div className="mt-4">
-          <button onClick={start} className="px-6 py-2.5 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">🔄 再挑戰一次</button>
+          <button onClick={start} className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">🔄 再挑戰一次</button>
         </div>
       </div>
     );
@@ -317,15 +313,15 @@ function ChallengeTab({ topic }: { topic: MathTopic }) {
   const fmt = `${Math.floor(remaining / 60).toString().padStart(2, "0")}:${(remaining % 60).toString().padStart(2, "0")}`;
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl p-6 border border-slate-200">
       <div className="flex justify-between items-center mb-4">
         <span className="text-lg font-bold text-slate-800">⏱️ {fmt}</span>
-        <span className="text-lg font-bold text-amber-500">🏆 {score} 分</span>
+        <span className="text-lg font-bold text-[#E65E83]">🏆 {score} 分</span>
       </div>
       {streak > 1 && <div className="text-center text-sm font-bold text-orange-500 mb-2">🔥 連續 {streak} 題！</div>}
       {/* progress bar */}
       <div className="h-2 bg-slate-100 rounded-full mb-6 overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all"
+        <div className="h-full bg-[#E65E83] rounded-full transition-all"
           style={{ width: `${(remaining / topic.challenge.timeLimit) * 100}%` }} />
       </div>
 
@@ -336,10 +332,10 @@ function ChallengeTab({ topic }: { topic: MathTopic }) {
           </h3>
           <form onSubmit={handleSubmit} className="flex gap-3 justify-center items-center">
             <input ref={inputRef} type="number" step="any" value={input} onChange={(e) => setInput(e.target.value)}
-              className="w-32 px-4 py-3 rounded-xl border-2 border-slate-200 text-center text-xl font-bold focus:border-amber-400 focus:outline-none"
+              className="w-32 px-4 py-3 rounded-xl border-2 border-slate-200 text-center text-xl font-bold focus:border-[#2457A7] focus:outline-none"
               placeholder="答案" autoComplete="off" />
             <button type="submit"
-              className={`px-6 py-3 rounded-xl bg-gradient-to-r ${topic.color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}>
+              className={`px-6 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}>
               送出
             </button>
           </form>

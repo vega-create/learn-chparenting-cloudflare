@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 type Difficulty = "easy" | "medium" | "hard";
@@ -177,16 +177,12 @@ export default function MathRushPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔢</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">數學衝刺</h1>
-          <p className="text-slate-500 text-sm">限時 {GAME_DURATION} 秒，挑戰你的心算速度！</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-blue-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="math-rush" title="數學衝刺" desc={<>限時 {GAME_DURATION} 秒，挑戰你的心算速度！</>} />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>螢幕顯示數學算式，輸入答案</li>
             <li>答對得 10 分，連續答對有額外加分</li>
             <li>答錯扣 3 分，連續紀錄歸零</li>
@@ -194,16 +190,20 @@ export default function MathRushPage() {
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {DIFF_OPTIONS.map(d => (
             <button key={d.key} onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              className={GAME_UI.diffBtn}>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -211,9 +211,9 @@ export default function MathRushPage() {
   if (mode === "done") {
     const stars = getStars(score, 300);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           正確 {correct} 題 ・ 錯誤 {wrong} 題 ・ 最長連續 {bestStreak}
         </div>
         <GameOverScreen
@@ -222,35 +222,36 @@ export default function MathRushPage() {
           onRestart={() => startGame(diff)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "math-rush", activityName: "數學衝刺" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">數學衝刺</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">⏱ {timeLeft}s</div>
-        <div className="text-sm text-slate-500">🔥 連續 {streak}</div>
-        <div className="text-sm font-bold text-blue-600">✅ {correct} ❌ {wrong}</div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{timeLeft}s</b></div>
+        <div className={GAME_UI.chip}>連續 <b>{streak}</b></div>
+        <div className={GAME_UI.chip}>答對 <b className="text-green-600">{correct}</b> ・ 答錯 <b className="text-red-500">{wrong}</b></div>
       </div>
 
       {/* Timer bar */}
       <div className="w-full h-2 bg-slate-200 rounded-full mb-6 overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full transition-all duration-1000"
+        <div className="h-full bg-[#2457A7] rounded-full transition-all duration-1000"
           style={{ width: `${(timeLeft / GAME_DURATION) * 100}%` }} />
       </div>
 
       {/* Problem */}
       {problem && (
         <div className={`bg-white rounded-2xl p-8 border shadow-sm mb-6 text-center transition-all
-          ${feedback === "correct" ? "border-green-300 bg-green-50" : feedback === "wrong" ? "border-red-300 bg-red-50" : "border-blue-200"}
+          ${feedback === "correct" ? "border-green-300 bg-green-50" : feedback === "wrong" ? "border-red-300 bg-red-50" : "border-slate-200"}
         `}>
-          <div className="text-xs text-slate-400 mb-2">計算答案</div>
-          <div className="text-4xl sm:text-5xl font-black text-slate-800 font-mono">
+          <div className="text-xs text-[#52616B] mb-2">計算答案</div>
+          <div className="text-4xl sm:text-5xl font-black text-[#263238] font-mono">
             {problem.display}
           </div>
         </div>
@@ -266,10 +267,10 @@ export default function MathRushPage() {
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="輸入答案..."
-          className="flex-1 px-4 py-4 text-2xl font-bold text-center rounded-xl border-2 border-blue-200 focus:border-blue-500 focus:outline-none transition"
+          className="flex-1 min-w-0 px-4 py-4 text-2xl font-bold text-center rounded-xl border-2 border-slate-300 bg-white focus:border-[#2457A7] focus:outline-none transition"
         />
         <button onClick={handleSubmit}
-          className="px-6 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition active:scale-95">
+          className="px-6 py-4 rounded-xl bg-[#2457A7] text-white font-bold text-lg cursor-pointer border-none hover:bg-[#1d4688] transition active:scale-95">
           確認
         </button>
       </div>
@@ -278,16 +279,16 @@ export default function MathRushPage() {
       <div className="grid grid-cols-3 gap-2 max-w-[280px] mx-auto sm:hidden">
         {[1,2,3,4,5,6,7,8,9].map(n => (
           <button key={n} onClick={() => { setInput(prev => prev + n); }}
-            className="py-3 rounded-xl bg-slate-100 text-slate-800 font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-200 transition">
+            className="py-3 rounded-xl bg-white text-[#263238] font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-100 transition">
             {n}
           </button>
         ))}
         <button onClick={() => { setInput(prev => "-" + prev.replace("-", "")); }}
-          className="py-3 rounded-xl bg-slate-100 text-slate-800 font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-200 transition">
+          className="py-3 rounded-xl bg-white text-[#263238] font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-100 transition">
           ±
         </button>
         <button onClick={() => { setInput(prev => prev + "0"); }}
-          className="py-3 rounded-xl bg-slate-100 text-slate-800 font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-200 transition">
+          className="py-3 rounded-xl bg-white text-[#263238] font-bold text-xl cursor-pointer border border-slate-200 active:bg-slate-100 transition">
           0
         </button>
         <button onClick={() => { setInput(prev => prev.slice(0, -1)); }}
@@ -295,6 +296,6 @@ export default function MathRushPage() {
           ⌫
         </button>
       </div>
-    </div>
+    </GamePage>
   );
 }

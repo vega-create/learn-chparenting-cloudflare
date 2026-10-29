@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 import { chooseMove, estimateScore, GO_LEVELS, KOMI } from "@/lib/go-ai";
 
 /* ─── Types ─── */
@@ -346,18 +346,12 @@ export default function GoGamePage() {
   /* ─── Render: Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">
-          &larr; 返回教育遊戲
-        </a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">&#9898;</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">圍棋入門</h1>
-          <p className="text-slate-500 text-sm">9&times;9 小棋盤，體驗圍棋的樂趣</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="go-game" title="圍棋入門" desc={<>9&times;9 小棋盤，體驗圍棋的樂趣</>} />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>你是黑棋先下，和電腦（白棋）輪流下</li>
             <li>把對方的棋上下左右都圍住，就可以吃掉</li>
             <li>不能下在「一放上去就被圍死」的地方，除非那一步可以吃掉對方</li>
@@ -368,37 +362,41 @@ export default function GoGamePage() {
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-amber-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-3">第一次玩？先看這三張圖</h3>
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className="font-bold text-[#263238] mb-3 text-base">第一次玩？先看這三張圖</h3>
           <div className="space-y-4">
             {GO_DEMOS.map(d => (
               <div key={d.title} className="flex gap-4 items-center">
                 <GoDiagram rows={d.rows} />
                 <div>
-                  <div className="font-bold text-slate-700 text-sm mb-0.5">{d.title}</div>
-                  <p className="text-sm text-slate-500 m-0 leading-relaxed">{d.text}</p>
+                  <div className="font-bold text-[#263238] text-sm mb-0.5">{d.title}</div>
+                  <p className="text-sm text-[#52616B] m-0 leading-relaxed">{d.text}</p>
                 </div>
               </div>
             ))}
-            <p className="text-sm text-slate-500 m-0 leading-relaxed">
-              <strong className="text-slate-700">怎麼算贏：</strong>
+            <p className="text-sm text-[#52616B] m-0 leading-relaxed">
+              <strong className="text-[#263238]">怎麼算贏：</strong>
               結束時比誰的「棋子＋圍起來的空地」比較多。所以除了吃子，也要把空地圍起來。
             </p>
           </div>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {DIFF_OPTIONS.map(d => (
             <button
               key={d.key}
               onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition"
+              className={GAME_UI.diffBtn}
             >
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -407,11 +405,9 @@ export default function GoGamePage() {
     const stars = getStars(score, 150);
     const whiteTotal = finalScores ? finalScores.white + 6.5 : 0;
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">
-          &larr; 返回教育遊戲
-        </a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           {finalScores && (
             <>
               {aiResigned ? "白棋認輸 ── 黑勝！" : (
@@ -423,7 +419,7 @@ export default function GoGamePage() {
             </>
           )}
         </div>
-        <div className="text-center text-xs text-slate-400 mb-2">
+        <div className="text-center text-xs text-[#52616B] mb-2">
           提子：黑吃 {capturedByBlack} 子 / 白吃 {capturedByWhite} 子 ・ 用時 {fmtTime}
         </div>
         <GameOverScreen
@@ -437,7 +433,7 @@ export default function GoGamePage() {
           onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "go-game", activityName: "圍棋" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
@@ -445,27 +441,26 @@ export default function GoGamePage() {
   const cellSize = `calc(min(100vw - 32px, 400px) / ${SIZE})`;
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">
-        &larr; 返回教育遊戲
-      </a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">圍棋入門</h1>
 
       {/* Status bar */}
-      <div className="flex justify-between items-center mt-3 mb-3 text-sm">
-        <span className="text-slate-500">&#9200; {fmtTime}</span>
-        <span className={`font-bold ${isBlackTurn && !aiThinking ? "text-slate-800" : "text-slate-400"}`}>
+      <div className="flex justify-between items-center gap-2 flex-wrap mb-2 text-sm">
+        <span className={GAME_UI.chip}>時間 <b className="font-mono">{fmtTime}</b></span>
+        <span className={`font-bold ${isBlackTurn && !aiThinking ? "text-[#263238]" : "text-slate-400"}`}>
           {aiThinking ? "白棋思考中..." : isBlackTurn ? (aiPassed ? "白棋虛手，輪到你（黑）" : "輪到你（黑）") : ""}
         </span>
       </div>
 
       {/* Captures */}
       <div className="flex justify-between items-center mb-3 text-sm">
-        <span className="flex items-center gap-1">
+        <span className={GAME_UI.chip}>
           <span className="inline-block w-4 h-4 rounded-full bg-black border border-slate-300" />
-          <span className="text-slate-600">提子 {capturedByBlack}</span>
+          <span className="text-[#52616B]">提子 <b className="text-[#263238]">{capturedByBlack}</b></span>
         </span>
-        <span className="flex items-center gap-1">
-          <span className="text-slate-600">提子 {capturedByWhite}</span>
+        <span className={GAME_UI.chip}>
+          <span className="text-[#52616B]">提子 <b className="text-[#263238]">{capturedByWhite}</b></span>
           <span className="inline-block w-4 h-4 rounded-full bg-white border border-slate-300" />
         </span>
       </div>
@@ -566,17 +561,17 @@ export default function GoGamePage() {
         <button
           onClick={handlePass}
           disabled={!isBlackTurn || aiThinking}
-          className="px-5 py-2.5 rounded-xl bg-slate-200 text-slate-700 font-bold cursor-pointer border-none hover:bg-slate-300 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          className={`px-5 py-2.5 ${GAME_UI.secondaryBtn} disabled:opacity-40 disabled:cursor-not-allowed`}
         >
           虛手 (PASS)
         </button>
         <button
           onClick={handleResign}
-          className="px-5 py-2.5 rounded-xl bg-red-100 text-red-600 font-bold cursor-pointer border-none hover:bg-red-200 transition"
+          className="px-5 py-2.5 rounded-xl bg-white border border-red-200 text-red-600 font-semibold cursor-pointer hover:bg-red-50 transition"
         >
           認輸
         </button>
       </div>
-    </div>
+    </GamePage>
   );
 }

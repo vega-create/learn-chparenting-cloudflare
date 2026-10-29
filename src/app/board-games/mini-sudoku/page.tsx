@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 import { useTimer } from "@/lib/game-utils";
 import { generateSudoku as generate, SPEC_4 } from "@/lib/sudoku";
 
@@ -139,16 +139,12 @@ export default function MiniSudokuPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔢</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">迷你數獨</h1>
-          <p className="text-slate-500 text-sm">4×4 水果數獨，每一橫排、直排、宮格都不重複</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="mini-sudoku" title="迷你數獨" desc="4×4 水果數獨，每一橫排、直排、宮格都不重複" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>每一橫排 4 種水果各出現一次</li>
             <li>每一直排 4 種水果各出現一次</li>
             <li>每個 2x2 宮格 4 種水果各一次</li>
@@ -157,16 +153,20 @@ export default function MiniSudokuPage() {
             <li>錯誤越少、完成越快，分數越高</li>
           </ul>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {DIFF_OPTIONS.map(d => (
             <button key={d.key} onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              className={GAME_UI.diffBtn}>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -174,34 +174,36 @@ export default function MiniSudokuPage() {
   if (mode === "done") {
     const stars = getStars(score, 100);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
+      <GamePage>
+        <BackToGames />
         <GameOverScreen
           score={score} maxScore={100} gameName="迷你數獨" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
           onRestart={() => startGame(diff)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "mini-sudoku", activityName: "迷你數獨" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl sm:text-2xl font-black text-[#263238] mt-2 mb-1">迷你數獨</h1>
+      <p className="text-sm text-[#52616B] m-0 mb-3">每一橫排、直排與 2×2 宮格，四種水果各出現一次。</p>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-6">
-        <div className="text-sm font-mono text-slate-500">⏱ {timerFmt}</div>
+      <div className="flex justify-between items-center gap-2 mb-4">
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{timerFmt}</b></div>
         <button onClick={useHint} disabled={hints <= 0}
-          className="text-sm px-3 py-1 rounded-lg bg-amber-100 text-amber-700 font-bold cursor-pointer border-none disabled:opacity-40">
+          className="text-sm px-4 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] disabled:opacity-40">
           💡 提示 ({hints})
         </button>
       </div>
 
       {/* Board */}
-      <div className="bg-white rounded-2xl p-4 border border-purple-200 shadow-sm mb-6">
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 mb-5">
         <div className="grid grid-cols-4 gap-0 max-w-[280px] mx-auto border-2 border-slate-800 rounded-lg overflow-hidden">
           {board.map((row, r) =>
             row.map((val, c) => {
@@ -215,7 +217,7 @@ export default function MiniSudokuPage() {
                   onClick={() => !given && setSelected([r, c])}
                   className={`w-[70px] h-[70px] flex items-center justify-center text-2xl cursor-pointer border-none transition-colors
                     ${borderR} ${borderB}
-                    ${given ? "bg-slate-100" : isSelected ? "bg-purple-100" : hasError ? "bg-red-50" : "bg-white hover:bg-purple-50"}
+                    ${given ? "bg-slate-100" : isSelected ? "bg-[#CFE0F7]" : hasError ? "bg-red-50" : "bg-white hover:bg-[#F3F7FD]"}
                   `}>
                   {val !== null ? EMOJIS[val] : ""}
                 </button>
@@ -226,24 +228,24 @@ export default function MiniSudokuPage() {
       </div>
 
       {/* Emoji Input */}
-      <div className="flex gap-3 justify-center mb-4">
+      <div className="flex gap-2 sm:gap-3 justify-center mb-4">
         {EMOJIS.map((emoji, i) => (
           <button key={i} onClick={() => placeEmoji(i)}
-            className="w-16 h-16 rounded-xl bg-white border-2 border-purple-200 text-2xl cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition">
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-white border-2 border-slate-200 text-2xl cursor-pointer hover:border-[#2457A7] hover:bg-[#F3F7FD] transition">
             {emoji}
           </button>
         ))}
         <button onClick={clearCell}
-          className="w-16 h-16 rounded-xl bg-white border-2 border-slate-200 text-lg cursor-pointer hover:border-red-300 hover:bg-red-50 transition">
+          className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-white border-2 border-slate-200 text-lg cursor-pointer hover:border-red-300 hover:bg-red-50 transition">
           🗑️
         </button>
       </div>
 
       {selected && (
-        <div className="text-center text-xs text-slate-400">
+        <div className="text-center text-xs text-[#52616B]">
           已選取第 {selected[0] + 1} 橫排、第 {selected[1] + 1} 直排
         </div>
       )}
-    </div>
+    </GamePage>
   );
 }

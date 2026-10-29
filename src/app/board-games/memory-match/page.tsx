@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, shuffle } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, shuffle, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 import { useTimer } from "@/lib/game-utils";
 
 /* ─── Types ─── */
@@ -128,32 +128,32 @@ export default function MemoryMatchPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-pink-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🃏</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">記憶翻牌</h1>
-          <p className="text-slate-500 text-sm">翻開配對，訓練你的記憶力</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-pink-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="memory-match" title="記憶翻牌" desc="翻開配對，訓練你的記憶力" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>每次翻開 2 張牌</li>
             <li>圖案相同即配對成功</li>
             <li>翻牌次數越少、速度越快，分數越高</li>
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {DIFF_OPTIONS.map(d => (
             <button key={d.key} onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              className={GAME_UI.diffBtn}>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -161,16 +161,16 @@ export default function MemoryMatchPage() {
   if (mode === "done") {
     const stars = getStars(score, 150);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-pink-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">翻牌 {moves} 次 ・ 用時 {timerFmt}</div>
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">翻牌 {moves} 次 ・ 用時 {timerFmt}</div>
         <GameOverScreen
           score={score} maxScore={150} gameName="記憶翻牌" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
           onRestart={() => startGame(diff)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "memory-match", activityName: "記憶翻牌" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
@@ -178,18 +178,19 @@ export default function MemoryMatchPage() {
   const config = DIFF_CONFIG[diff];
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-pink-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-0">記憶翻牌</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-6">
-        <div className="text-sm text-slate-500">翻牌 {moves} 次</div>
-        <div className="text-sm font-mono text-slate-500">⏱ {timerFmt}</div>
-        <div className="text-sm font-bold text-pink-600">{matchedPairs}/{totalPairs} 對</div>
+      <div className="flex flex-wrap gap-2 mt-3 mb-4">
+        <div className={GAME_UI.chip}>翻牌 <b>{moves}</b> 次</div>
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{timerFmt}</b></div>
+        <div className={GAME_UI.chip}>已配對 <b className="text-[#2457A7]">{matchedPairs}/{totalPairs}</b></div>
       </div>
 
       {/* Card Grid */}
-      <div className="bg-white rounded-2xl p-4 border border-pink-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-4 border border-slate-200">
         <div className="grid gap-2 mx-auto" style={{
           gridTemplateColumns: `repeat(${config.cols}, 1fr)`,
           maxWidth: config.cols * 72,
@@ -200,8 +201,8 @@ export default function MemoryMatchPage() {
                 ${card.matched
                   ? "bg-green-100 border-2 border-green-300 scale-90 opacity-70"
                   : card.flipped
-                    ? "bg-pink-100 border-2 border-pink-300 scale-105"
-                    : "bg-gradient-to-br from-pink-400 to-rose-500 hover:from-pink-500 hover:to-rose-600 scale-100"
+                    ? "bg-white border-2 border-[#E65E83] scale-105"
+                    : "bg-[#FDECF1] border-2 border-[#F5B8C8] hover:bg-[#FAD9E3] scale-100"
                 }
               `}
               style={{ minHeight: 60 }}
@@ -210,12 +211,12 @@ export default function MemoryMatchPage() {
               {card.flipped || card.matched ? (
                 <span className="animate-fadeIn">{card.emoji}</span>
               ) : (
-                <span className="text-white text-lg">?</span>
+                <span className="text-[#E65E83] text-lg font-bold">?</span>
               )}
             </button>
           ))}
         </div>
       </div>
-    </div>
+    </GamePage>
   );
 }

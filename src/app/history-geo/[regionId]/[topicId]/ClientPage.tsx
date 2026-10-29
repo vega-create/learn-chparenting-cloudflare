@@ -26,7 +26,7 @@ export default function TopicPracticePage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center">
         <p className="text-slate-500">找不到這個主題</p>
-        <Link href="/history-geo" className="text-emerald-500 hover:underline no-underline mt-4 inline-block">
+        <Link href="/history-geo" className="text-[#2457A7] hover:underline no-underline mt-4 inline-block">
           ← 回到歷史地理
         </Link>
       </div>
@@ -67,28 +67,30 @@ function TopicContent({
     <div className="max-w-3xl mx-auto px-4 py-8">
       <Link
         href={`/history-geo/${regionId}`}
-        className="text-sm text-emerald-500 hover:underline no-underline"
+        className="text-sm font-bold text-[#2457A7] hover:underline no-underline"
       >
         ← 回到{region.title}
       </Link>
 
-      <div className="text-center mt-4 mb-6">
-        <div className="text-4xl mb-2">{topic.icon}</div>
-        <h1 className="text-2xl font-black text-slate-800">{topic.title}</h1>
-        <p className="text-sm text-slate-500">{region.title}</p>
+      <div className="flex items-center gap-3 mt-4 mb-6">
+        <span className="w-12 h-12 shrink-0 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-2xl" aria-hidden="true">{topic.icon}</span>
+        <div className="min-w-0">
+          <div className="text-sm font-bold text-[#E65E83]">歷史地理 · {region.title}</div>
+          <h1 className="text-2xl md:text-3xl font-black text-[#263238] m-0 leading-tight">{topic.title}</h1>
+        </div>
       </div>
 
       {/* Tab switcher */}
       {visibleTabs.length > 1 && (
-        <div className="flex gap-2 justify-center mb-6">
+        <div className="flex gap-2 mb-6">
           {visibleTabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`px-5 py-2 rounded-xl font-bold text-sm border-none cursor-pointer transition ${
+              className={`px-5 py-2 rounded-xl font-bold text-sm border cursor-pointer transition ${
                 tab === t.key
-                  ? `bg-gradient-to-r ${topic.color} text-white shadow`
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  ? "bg-[#2457A7] border-[#2457A7] text-white"
+                  : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
               }`}
             >
               {t.label}
@@ -206,14 +208,14 @@ function QuizSection({
   if (done) {
     const pct = Math.round((correct / shuffled.length) * 100);
     return (
-      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200">
         <div className="text-5xl mb-3">
           {pct >= 90 ? "🎉" : pct >= 60 ? "👍" : "💪"}
         </div>
         <h2 className="text-2xl font-black text-slate-800 mb-2">
           練習完成！
         </h2>
-        <div className="text-4xl font-black text-emerald-500 my-3">
+        <div className="text-4xl font-black text-[#2457A7] my-3">
           {correct} / {shuffled.length}
         </div>
         <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
@@ -227,7 +229,7 @@ function QuizSection({
         <div className="mt-4">
           <button
             onClick={handleRestart}
-            className="px-6 py-2.5 rounded-xl bg-emerald-500 text-white font-bold cursor-pointer border-none hover:bg-emerald-600 transition"
+            className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
           >
             🔄 再做一次
           </button>
@@ -237,7 +239,7 @@ function QuizSection({
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl p-6 border border-slate-200">
       <div className="flex justify-between items-center mb-4">
         <span className="text-sm text-slate-400">
           第 {idx + 1} / {shuffled.length} 題
@@ -292,7 +294,7 @@ function QuizSection({
           </div>
           <button
             onClick={handleNext}
-            className={`mt-3 px-5 py-2 rounded-xl bg-gradient-to-r ${color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}
+            className="mt-3 px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
           >
             {idx + 1 >= shuffled.length ? "看結果 →" : "下一題 →"}
           </button>
@@ -378,8 +380,8 @@ function ReadingSection({
               }}
               className={`px-4 py-1.5 rounded-lg text-sm font-medium border-none cursor-pointer transition ${
                 pIdx === i
-                  ? "bg-emerald-500 text-white"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  ? "bg-[#2457A7] text-white"
+                  : "bg-white text-slate-600 hover:bg-slate-50 ring-1 ring-slate-200"
               }`}
             >
               第 {i + 1} 篇
@@ -389,7 +391,7 @@ function ReadingSection({
       )}
 
       {/* Passage */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200">
         <h3 className="font-bold text-slate-800 mb-3">
           📗 閱讀文章（第 {pIdx + 1} 篇）
         </h3>
@@ -399,7 +401,7 @@ function ReadingSection({
       </div>
 
       {/* Questions */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200">
         <h3 className="font-bold text-slate-800 mb-4">
           📝 閱讀理解題
           {submitted && (
@@ -460,7 +462,7 @@ function ReadingSection({
               disabled={!allAnswered}
               className={`px-6 py-2.5 rounded-xl font-bold border-none cursor-pointer transition ${
                 allAnswered
-                  ? `bg-gradient-to-r ${color} text-white hover:opacity-90`
+                  ? "bg-[#2457A7] text-white hover:bg-[#1d4688]"
                   : "bg-slate-200 text-slate-400 cursor-not-allowed"
               }`}
             >
@@ -478,7 +480,7 @@ function ReadingSection({
               {readings.length > 1 && (
                 <button
                   onClick={handleNextPassage}
-                  className="px-5 py-2 rounded-xl bg-emerald-500 text-white font-bold cursor-pointer border-none hover:bg-emerald-600 transition"
+                  className="px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
                 >
                   下一篇 →
                 </button>

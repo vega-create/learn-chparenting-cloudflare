@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, GAME_UI } from "@/lib/game-utils";
 import { WORD_CHAIN_WORDS } from "@/data/word-chain-words";
 
 const WORD_LIST = new Set(WORD_CHAIN_WORDS);
@@ -180,18 +180,14 @@ export default function WordChainPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔗</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">接龍大師</h1>
-          <p className="text-slate-500 text-sm">英文單字接龍，訓練你的詞彙量</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-emerald-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="word-chain" title="接龍大師" desc="英文單字接龍，訓練你的詞彙量" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>系統給出一個起始單字</li>
-            <li>你要輸入一個以<span className="font-bold text-emerald-600">前一個字的最後字母</span>開頭的單字</li>
+            <li>你要輸入一個以<span className="font-bold text-[#2457A7]">前一個字的最後字母</span>開頭的單字</li>
             <li>每個單字只能用一次</li>
             <li>每回合限時 {TURN_TIME} 秒</li>
             <li>共 3 條命，超過時間會扣一條命</li>
@@ -201,10 +197,10 @@ export default function WordChainPage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
           開始接龍
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -212,9 +208,9 @@ export default function WordChainPage() {
   if (mode === "done") {
     const stars = getStars(score, 200);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           接龍 {chain.length} 個字 ・ 得分 {score}
         </div>
         <GameOverScreen
@@ -223,48 +219,49 @@ export default function WordChainPage() {
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "word-chain", activityName: "接龍大師" }}
         />
-        <div className="mt-4 bg-white rounded-2xl p-4 border border-emerald-200 shadow-sm">
-          <h4 className="font-bold text-sm text-slate-600 mb-2">完成的接龍：</h4>
+        <div className="mt-4 bg-white rounded-2xl p-4 border border-slate-200">
+          <h4 className="font-bold text-sm text-[#263238] mb-2">完成的接龍：</h4>
           <div className="flex flex-wrap gap-1">
             {chain.map((w, i) => (
-              <span key={i} className={`text-xs px-2 py-1 rounded-full ${w.startsWith("(") ? "bg-slate-100 text-slate-400" : "bg-emerald-100 text-emerald-700"}`}>
+              <span key={i} className={`text-xs px-2 py-1 rounded-full ${w.startsWith("(") ? "bg-slate-100 text-slate-400" : "bg-[#EAF0F9] text-[#2457A7]"}`}>
                 {w}
               </span>
             ))}
           </div>
         </div>
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">接龍大師</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">
-          {"❤️".repeat(lives)}{"🖤".repeat(3 - lives)}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>
+          生命 {"❤️".repeat(lives)}{"🖤".repeat(3 - lives)}
         </div>
-        <div className={`text-sm font-mono ${turnTime <= 5 ? "text-red-500 font-bold" : "text-slate-500"}`}>
-          ⏱ {turnTime}s
+        <div className={`${GAME_UI.chip} font-mono ${turnTime <= 5 ? "text-red-500 font-bold" : ""}`}>
+          時間 {turnTime}s
         </div>
-        <div className="text-sm font-bold text-emerald-600">🏆 {score}</div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {/* Timer bar */}
       <div className="w-full h-2 bg-slate-200 rounded-full mb-4 overflow-hidden">
-        <div className={`h-full rounded-full transition-all duration-1000 ${turnTime <= 5 ? "bg-red-500" : "bg-gradient-to-r from-emerald-400 to-teal-500"}`}
+        <div className={`h-full rounded-full transition-all duration-1000 ${turnTime <= 5 ? "bg-red-500" : "bg-[#2457A7]"}`}
           style={{ width: `${(turnTime / TURN_TIME) * 100}%` }} />
       </div>
 
       {/* Chain display */}
-      <div className="bg-white rounded-2xl p-4 border border-emerald-200 shadow-sm mb-4 max-h-40 overflow-y-auto">
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 mb-4 max-h-40 overflow-y-auto">
         <div className="flex flex-wrap gap-1">
           {chain.map((w, i) => (
             <span key={i} className={`text-sm px-2 py-1 rounded-full font-medium
-              ${w.startsWith("(") ? "bg-slate-100 text-slate-400 italic" : i === chain.length - 1 ? "bg-emerald-500 text-white" : "bg-emerald-100 text-emerald-700"}`}>
+              ${w.startsWith("(") ? "bg-slate-100 text-slate-400 italic" : i === chain.length - 1 ? "bg-[#2457A7] text-white" : "bg-[#EAF0F9] text-[#2457A7]"}`}>
               {w}
             </span>
           ))}
@@ -274,9 +271,9 @@ export default function WordChainPage() {
 
       {/* Current requirement */}
       <div className="text-center mb-4">
-        <span className="text-sm text-slate-500">請輸入以</span>
-        <span className="text-2xl font-black text-emerald-600 mx-2">{lastLetter.toUpperCase()}</span>
-        <span className="text-sm text-slate-500">開頭的單字</span>
+        <span className="text-sm text-[#52616B]">請輸入以</span>
+        <span className="text-2xl font-black text-[#E65E83] mx-2">{lastLetter.toUpperCase()}</span>
+        <span className="text-sm text-[#52616B]">開頭的單字</span>
       </div>
 
       {/* Feedback */}
@@ -295,17 +292,17 @@ export default function WordChainPage() {
           onChange={e => setInput(e.target.value.replace(/[^a-zA-Z]/g, ""))}
           onKeyDown={handleKeyDown}
           placeholder={`輸入以 ${lastLetter} 開頭的單字...`}
-          className="flex-1 px-4 py-4 text-xl font-bold text-center rounded-xl border-2 border-emerald-200 focus:border-emerald-500 focus:outline-none transition lowercase"
+          className="flex-1 min-w-0 px-4 py-4 text-xl font-bold text-center rounded-xl border-2 border-slate-300 bg-white focus:border-[#2457A7] focus:outline-none transition lowercase"
           autoFocus
           autoCapitalize="off"
           autoCorrect="off"
           spellCheck={false}
         />
         <button onClick={handleSubmit}
-          className="px-6 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition active:scale-95">
+          className={`px-6 py-4 text-lg active:scale-95 ${GAME_UI.primaryBtn}`}>
           送出
         </button>
       </div>
-    </div>
+    </GamePage>
   );
 }

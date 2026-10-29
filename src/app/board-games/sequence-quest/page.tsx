@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 import { useTimer } from "@/lib/game-utils";
 
 /* ─── Sequence Generators ─── */
@@ -199,16 +199,12 @@ export default function SequenceQuestPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔍</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">數列探險</h1>
-          <p className="text-slate-500 text-sm">找出數列的規律，推算下一個數字</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="sequence-quest" title="數列探險" desc="找出數列的規律，推算下一個數字" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>共 {TOTAL_ROUNDS} 題，先選適合的程度</li>
             <li>觀察數列規律，填入下一個數字</li>
             <li>每題答對得 10 分（用提示得 5 分）</li>
@@ -216,16 +212,20 @@ export default function SequenceQuestPage() {
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {LEVEL_OPTIONS.map(d => (
             <button key={d.key} onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              className={GAME_UI.diffBtn}>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -234,38 +234,39 @@ export default function SequenceQuestPage() {
     const maxScore = TOTAL_ROUNDS * 10;
     const stars = getStars(score, maxScore);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
+      <GamePage>
+        <BackToGames />
         <GameOverScreen
           score={score} maxScore={maxScore} gameName="數列探險" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
           onRestart={() => startGame(level)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "sequence-quest", activityName: "數列探險" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-0">數列探險</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-6">
-        <div className="text-sm text-slate-500">第 {round + 1}/{TOTAL_ROUNDS} 題</div>
-        <div className="text-sm font-mono text-slate-500">{timerFmt}</div>
-        <div className="text-sm font-bold text-purple-600">{score} 分</div>
+      <div className="flex flex-wrap gap-2 mt-3 mb-4">
+        <div className={GAME_UI.chip}>題目 <b>{round + 1}/{TOTAL_ROUNDS}</b></div>
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{timerFmt}</b></div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {/* Sequence Display */}
       {question && (
-        <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
+        <div className="bg-white rounded-2xl p-6 border border-slate-200 mb-6">
           <div className="text-center mb-4">
-            <div className="text-xs text-slate-400 mb-2">找出規律，填入 ? 的數字</div>
+            <div className="text-xs text-[#52616B] mb-2">找出規律，填入 ? 的數字</div>
             <div className="flex items-center justify-center gap-2 flex-wrap">
               {question.sequence.map((n, i) => (
-                <span key={i} className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-purple-100 text-purple-700 font-black text-lg border border-purple-200">
+                <span key={i} className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-[#F3F7FD] text-[#2457A7] font-black text-lg border border-[#D6E2F3]">
                   {n}
                 </span>
               ))}
@@ -284,13 +285,13 @@ export default function SequenceQuestPage() {
                 </div>
               ) : (
                 <button onClick={() => setShowHint(true)}
-                  className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                  className="text-xs text-[#52616B] hover:text-[#2457A7] cursor-pointer border-none bg-transparent underline">
                   需要提示？（使用提示得分減半）
                 </button>
               )}
               <div>
                 <button onClick={handleSkip}
-                  className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                  className="text-xs text-[#52616B] hover:text-[#263238] cursor-pointer border-none bg-transparent underline">
                   跳過此題（不得分）
                 </button>
               </div>
@@ -308,11 +309,11 @@ export default function SequenceQuestPage() {
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && handleSubmit()}
             placeholder="輸入答案"
-            className="w-32 px-4 py-3 rounded-xl border-2 border-purple-200 text-center text-lg font-bold focus:outline-none focus:border-purple-500"
+            className="w-32 px-4 py-3 rounded-xl border-2 border-slate-300 bg-white text-center text-lg font-bold focus:outline-none focus:border-[#2457A7]"
             autoFocus
           />
           <button onClick={handleSubmit}
-            className="px-6 py-3 rounded-xl bg-purple-600 text-white font-bold cursor-pointer border-none hover:bg-purple-700 transition">
+            className="px-6 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
             確定
           </button>
         </div>
@@ -324,6 +325,6 @@ export default function SequenceQuestPage() {
           {feedback === "correct" ? "✅ 答對了！" : `❌ 正確答案是 ${question?.answer}`}
         </div>
       )}
-    </div>
+    </GamePage>
   );
 }

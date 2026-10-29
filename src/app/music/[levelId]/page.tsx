@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MUSIC_LEVELS, getLevelById } from "@/data/music";
 import { notFound } from "next/navigation";
+import PageHeader, { SectionTitle } from "@/components/PageHeader";
+import HmTopicCard from "@/components/HmTopicCard";
 
 export function generateStaticParams() {
   return MUSIC_LEVELS.map((l) => ({ levelId: l.id }));
@@ -34,56 +36,40 @@ export default async function LevelOverviewPage({
   if (!level) notFound();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <Link
-        href="/music"
-        className="text-sm text-pink-500 hover:underline no-underline"
+    <div className="bg-white">
+      <PageHeader
+        eyebrow="樂理基礎"
+        title={level.title}
+        desc={`${level.topics.length} 個主題，先看觀念再做題。不需要會樂器，大人小孩都能練。`}
+        icon={<span>{level.icon}</span>}
+        iconBg="bg-white border border-slate-200"
       >
-        ← 回到樂理基礎
-      </Link>
-
-      <div className="text-center mt-4 mb-8">
-        <div className="text-5xl mb-2">{level.icon}</div>
-        <h1 className="text-2xl font-black text-slate-800">{level.title}</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          {level.topics.length} 個主題 · 選擇下方主題開始練習
-        </p>
-      </div>
-
-      <div className="grid sm:grid-cols-2 gap-4">
-        {level.topics.map((topic) => (
-          <Link
-            key={topic.id}
-            href={`/music/${level.id}/${topic.id}`}
-            className={`bg-white rounded-2xl overflow-hidden border ${topic.border} shadow-sm hover-lift no-underline transition-all hover:shadow-lg`}
-          >
-            <div
-              className={`bg-gradient-to-r ${topic.color} p-4 text-white`}
-            >
-              <div className="text-3xl mb-1">{topic.icon}</div>
-              <div className="text-lg font-bold">{topic.title}</div>
-            </div>
-            <div className="p-4">
-              <p className="text-sm text-slate-600 mb-3">
-                {topic.description}
-              </p>
-              <div className="flex gap-2 flex-wrap">
-                <span className="text-xs px-2.5 py-1 rounded-full bg-pink-50 text-pink-600">
-                  ✏️ {topic.questions.length} 題練習
-                </span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-
-      <div className="text-center mt-10">
-        <Link
-          href="/music"
-          className="text-sm text-pink-500 hover:underline no-underline"
-        >
+        <Link href="/music" className="text-sm font-bold text-[#2457A7] no-underline hover:underline">
           ← 回到樂理基礎
         </Link>
+      </PageHeader>
+
+      <div className="max-w-6xl mx-auto px-4 pb-12">
+        <SectionTitle>{level.title}主題</SectionTitle>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {level.topics.map((topic) => (
+            <HmTopicCard
+              key={topic.id}
+              href={`/music/${level.id}/${topic.id}`}
+              icon={topic.icon}
+              title={topic.title}
+              desc={topic.description}
+              chips={[...(topic.concepts && topic.concepts.length > 0 ? ["觀念教學"] : []), `${topic.questions.length} 題練習`]}
+              cta={topic.concepts && topic.concepts.length > 0 ? "先看觀念再練習" : "開始練習"}
+            />
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link href="/music" className="text-sm font-bold text-[#2457A7] no-underline hover:underline">
+            ← 回到樂理基礎
+          </Link>
+        </div>
       </div>
     </div>
   );

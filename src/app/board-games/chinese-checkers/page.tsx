@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 type Difficulty = "easy" | "medium" | "hard";
@@ -380,18 +380,12 @@ export default function ChineseCheckersPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-indigo-500 hover:underline no-underline">
-          ← 返回教育遊戲
-        </a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">⭐</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">跳棋</h1>
-          <p className="text-slate-500 text-sm">經典中國跳棋，挑戰 AI 對手</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-indigo-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="chinese-checkers" title="跳棋" desc="經典中國跳棋，挑戰 AI 對手" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>你是藍色棋子（下方），AI 是紅色棋子（上方）</li>
             <li>每回合移動一顆棋子到相鄰空位</li>
             <li>可以跳過其他棋子，連續跳躍</li>
@@ -399,19 +393,23 @@ export default function ChineseCheckersPage() {
             <li>步數越少分數越高</li>
           </ul>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {DIFF_OPTIONS.map(d => (
             <button
               key={d.key}
               onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition"
+              className={GAME_UI.diffBtn}
             >
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -419,10 +417,8 @@ export default function ChineseCheckersPage() {
   if (mode === "done") {
     const stars = getStars(score, 100);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-indigo-500 hover:underline no-underline">
-          ← 返回教育遊戲
-        </a>
+      <GamePage>
+        <BackToGames />
         <GameOverScreen
           score={score}
           maxScore={100}
@@ -434,19 +430,18 @@ export default function ChineseCheckersPage() {
           onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "chinese-checkers", activityName: "跳棋" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-indigo-500 hover:underline no-underline">
-        ← 返回教育遊戲
-      </a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">跳棋</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-3 mb-3">
+      <div className="flex justify-between items-center gap-2 flex-wrap mb-3">
         <div className="flex items-center gap-3">
           <span className="text-xs px-2 py-1 rounded-full bg-red-100 text-red-600 font-bold">
             🔴 AI
@@ -455,7 +450,7 @@ export default function ChineseCheckersPage() {
             🔵 你
           </span>
         </div>
-        <div className="text-sm font-mono text-slate-500">步數：{moveCount}</div>
+        <div className={GAME_UI.chip}>步數 <b className="font-mono">{moveCount}</b></div>
       </div>
 
       {/* Status bar */}
@@ -468,7 +463,7 @@ export default function ChineseCheckersPage() {
       </div>
 
       {/* Board */}
-      <div className="bg-white rounded-2xl p-1 sm:p-3 -mx-2 sm:mx-0 border border-indigo-200 shadow-sm mb-4 overflow-hidden">
+      <div className="bg-white rounded-2xl p-1 sm:p-3 -mx-2 sm:mx-0 border border-slate-200 mb-4 overflow-hidden">
         <div className="mx-auto" style={{ width: boardWidth * fitScale, height: boardHeight * fitScale }}>
         <div
           className="relative"
@@ -547,7 +542,7 @@ export default function ChineseCheckersPage() {
       </div>
 
       {/* Legend */}
-      <div className="flex justify-center gap-4 text-xs text-slate-400 mb-2">
+      <div className="flex justify-center flex-wrap gap-4 text-xs text-[#52616B] mb-2">
         <span className="flex items-center gap-1">
           <span className="inline-block w-3 h-3 rounded-full bg-blue-100 border border-blue-200" />
           你的目標區
@@ -563,7 +558,7 @@ export default function ChineseCheckersPage() {
       </div>
 
       {/* Piece counts */}
-      <div className="flex justify-between text-xs text-slate-500 px-2">
+      <div className="flex justify-between text-xs text-[#52616B] px-2">
         <span>
           你在目標區：{getGoalPositions("top").filter(g => board[g.r]?.[g.c] === "player").length}/10
         </span>
@@ -571,6 +566,6 @@ export default function ChineseCheckersPage() {
           AI 在目標區：{getGoalPositions("bot").filter(g => board[g.r]?.[g.c] === "ai").length}/10
         </span>
       </div>
-    </div>
+    </GamePage>
   );
 }

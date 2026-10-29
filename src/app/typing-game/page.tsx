@@ -4,6 +4,8 @@ import { ENGLISH_WORDS, ENGLISH_SENTENCES } from "@/data/typing/english-words";
 import { CHINESE_PHRASES } from "@/data/typing/chinese-phrases";
 import ShareButtons from "@/components/ShareButtons";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
+import SubjectIcon from "@/components/SubjectIcon";
+import PageHeader from "@/components/PageHeader";
 
 /* ─── Types ─── */
 type Lang = "en" | "zh";
@@ -273,66 +275,116 @@ export default function TypingGamePage() {
 
   // ─── MENU ───
   if (mode === "menu") return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
+    <div className="bg-white">
+    <div className="max-w-6xl mx-auto px-4 py-6 md:py-8">
       <SubjectVisitTracker subject="typing" />
-      <div className="text-center mb-10">
-        <div className="text-5xl mb-3">⌨️</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">打字練習</h1>
-        <p className="text-slate-500">中英雙語打字訓練，提升打字速度與準確率</p>
+
+      {/* 標題＋裝置提示 */}
+      <div className="-mx-4 -mt-6 md:-mt-8">
+        <PageHeader
+          eyebrow="打字與鍵盤"
+          title="打字練習"
+          desc="中英雙語打字訓練，提升打字速度與準確率。大人小孩都能練。"
+          icon={<SubjectIcon name="keyboard" size={40} />}
+          iconBg="bg-[#7C5CD6]"
+          image="/images/pages/typing.webp"
+        >
+          <div className="inline-flex items-center gap-3 bg-[#EEF3FB] border border-[#D3E0F3] rounded-2xl px-4 py-2.5">
+            <span className="text-[#2457A7] shrink-0"><SubjectIcon name="keyboard" size={24} /></span>
+            <div className="text-sm">
+              <span className="font-bold text-[#263238]">需要實體鍵盤</span>
+              <span className="text-[#52616B]">：建議用電腦，或幫平板接上鍵盤再練。</span>
+            </div>
+          </div>
+        </PageHeader>
       </div>
 
       {/* Language & Difficulty */}
-      <div className="flex justify-center gap-3 mb-4">
-        <button onClick={() => setLang("en")}
-          className={`px-5 py-2.5 rounded-xl text-sm font-semibold border transition cursor-pointer ${
-            lang === "en" ? "text-rose-400 border-rose-300" : "bg-white border-slate-200 text-slate-600"
-          }`}>🔤 English</button>
-        <button onClick={() => setLang("zh")}
-          className={`px-5 py-2.5 rounded-xl text-sm font-semibold border transition cursor-pointer ${
-            lang === "zh" ? "bg-red-500 text-white border-red-500" : "bg-white border-slate-200 text-slate-600"
-          }`}>ㄅ 中文</button>
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 mb-6 flex flex-col sm:flex-row gap-4 sm:gap-8">
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-bold text-[#263238] shrink-0">選擇語言</span>
+          <div className="flex gap-2" role="group" aria-label="選擇語言">
+            <button onClick={() => setLang("en")} aria-pressed={lang === "en"}
+              className={`px-5 py-2 rounded-xl text-sm font-semibold border transition cursor-pointer ${
+                lang === "en" ? "bg-[#E65E83] text-white border-[#E65E83]" : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+              }`}>English</button>
+            <button onClick={() => setLang("zh")} aria-pressed={lang === "zh"}
+              className={`px-5 py-2 rounded-xl text-sm font-semibold border transition cursor-pointer ${
+                lang === "zh" ? "bg-[#E65E83] text-white border-[#E65E83]" : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+              }`}>ㄅ 中文</button>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-bold text-[#263238] shrink-0">選擇難度</span>
+          <div className="flex gap-2" role="group" aria-label="選擇難度">
+            {(["easy", "medium", "hard"] as Difficulty[]).map(d => (
+              <button key={d} onClick={() => setDifficulty(d)} aria-pressed={difficulty === d}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold border transition cursor-pointer ${
+                  difficulty === d ? "bg-[#E65E83] text-white border-[#E65E83]" : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                }`}>
+                {d === "easy" ? "初級" : d === "medium" ? "中級" : "高級"}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="flex justify-center gap-2 mb-8">
-        {(["easy", "medium", "hard"] as Difficulty[]).map(d => (
-          <button key={d} onClick={() => setDifficulty(d)}
-            className={`px-4 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer ${
-              difficulty === d ? "bg-emerald-500 text-white border-emerald-500" : "bg-white border-slate-200 text-slate-500"
-            }`}>
-            {d === "easy" ? "初級" : d === "medium" ? "中級" : "高級"}
-          </button>
-        ))}
+      {/* 第一次學打字的人先去記位置（獨立頁面，不影響下面四種玩法） */}
+      <div className="bg-[#FDF2F5] border border-[#F6D5DF] rounded-2xl p-5 md:p-6 mb-8 flex flex-col md:flex-row md:items-center gap-5">
+        <div className="flex-1 min-w-0">
+          <h2 className="text-xl md:text-2xl font-black text-[#263238] m-0">第一次練打字？先認識鍵盤位置</h2>
+          <p className="text-sm md:text-[15px] text-[#52616B] mt-2 mb-4">從基準鍵開始，畫面會告訴你按哪個鍵、用哪根手指。先求按對，不用快。</p>
+          <a href="/typing-game/keyboard"
+            className="inline-block px-5 py-2.5 rounded-xl bg-[#2457A7] text-white text-sm font-bold no-underline hover:bg-[#1d4688]">
+            開始鍵盤位置練習 →
+          </a>
+        </div>
+        <div className="bg-white rounded-xl border border-slate-200 p-4 shrink-0" aria-hidden="true">
+          <div className="flex gap-1.5 justify-center">
+            {["A", "S", "D", "F"].map(c => (
+              <span key={c} className={`w-9 h-10 rounded-lg border flex items-center justify-center font-bold ${c === "F" ? "bg-[#FDECF1] border-[#E65E83] text-[#C2416A]" : "bg-slate-50 border-slate-200 text-slate-600"}`}>{c}</span>
+            ))}
+            <span className="w-3" />
+            {["J", "K", "L", ";"].map(c => (
+              <span key={c} className={`w-9 h-10 rounded-lg border flex items-center justify-center font-bold ${c === "J" ? "bg-[#FDECF1] border-[#E65E83] text-[#C2416A]" : "bg-slate-50 border-slate-200 text-slate-600"}`}>{c}</span>
+            ))}
+          </div>
+          <div className="flex justify-between text-xs text-[#52616B] mt-2 px-1">
+            <span>左手 A S D F</span><span>右手 J K L ;</span>
+          </div>
+        </div>
       </div>
 
       {/* Game modes */}
-      <div className="grid sm:grid-cols-2 gap-3">
+      <h2 className="text-xl md:text-2xl font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-4">選擇玩法</h2>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {MODES.map(m => (
           <button key={m.id} onClick={() => startGame(m.id)}
-            className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md text-left cursor-pointer transition active:scale-[0.98]">
-            <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-2xl flex-shrink-0">{m.icon}</div>
-            <div className="flex-1">
-              <div className="font-bold text-slate-800 text-base">{m.title}</div>
-              <div className="text-sm text-slate-400 mt-0.5">{m.desc}</div>
+            className="group flex flex-col p-5 bg-white rounded-2xl border border-slate-200 hover:shadow-md hover:border-slate-300 text-left cursor-pointer transition active:scale-[0.98]">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-2xl flex-shrink-0">{m.icon}</div>
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FDECF1] text-[#C2416A]">{m.skill}</span>
             </div>
-            <span className="px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-600">{m.skill}</span>
+            <div className="font-bold text-[#263238] text-lg">{m.title}</div>
+            <div className="text-sm text-[#52616B] mt-1 mb-4 flex-1">{m.desc}</div>
+            <span className="block text-center py-2 rounded-xl bg-[#2457A7] text-white text-sm font-bold group-hover:bg-[#1d4688]">開始 →</span>
           </button>
         ))}
       </div>
 
-      {/* 第一次學打字的人先去記位置（獨立頁面，不影響上面四種玩法） */}
-      <a href="/typing-game/keyboard"
-        className="mt-3 flex items-center gap-4 p-5 bg-blue-50 rounded-2xl border border-blue-100 hover:shadow-md text-left transition no-underline">
-        <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-2xl flex-shrink-0">🖐️</div>
-        <div className="flex-1">
-          <div className="font-bold text-slate-800 text-base">鍵盤位置練習</div>
-          <div className="text-sm text-slate-500 mt-0.5">第一次學打字？先從基準鍵開始，畫面會告訴你用哪根手指</div>
-        </div>
-        <span className="px-2 py-0.5 rounded text-xs font-semibold bg-white text-blue-600">入門</span>
-      </a>
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 mt-8">
+        <h2 className="text-lg font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-3">打字小提醒</h2>
+        <ol className="list-decimal pl-5 space-y-1.5 text-sm text-[#52616B] m-0">
+          <li>雙手放在基準鍵上，每打完一個字，手指回到 F 和 J。</li>
+          <li>眼睛看螢幕，不要一直低頭看鍵盤。</li>
+          <li>先求打對，再慢慢加快速度。</li>
+        </ol>
+      </div>
 
       <div className="mt-6 text-center">
-        <a href="/" className="text-sm text-slate-400 hover:text-blue-500 transition no-underline">← 回到首頁</a>
+        <a href="/" className="text-sm font-bold text-[#2457A7] hover:underline no-underline">← 回到首頁</a>
       </div>
+    </div>
     </div>
   );
 
@@ -341,8 +393,9 @@ export default function TypingGamePage() {
     const wpm = getWPM();
     const acc = getAccuracy();
     return (
+      <div className="bg-white">
       <div className="max-w-md mx-auto px-4 py-12 text-center">
-        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-lg">
+        <div className="bg-white rounded-2xl p-8 border border-slate-200">
           <div className="text-5xl mb-4">{acc >= 90 ? "🏆" : acc >= 70 ? "⭐" : "💪"}</div>
           <h2 className="text-2xl font-black text-slate-800 mb-6">
             {acc >= 90 ? "太厲害了！" : acc >= 70 ? "做得好！" : "繼續加油！"}
@@ -375,26 +428,28 @@ export default function TypingGamePage() {
 
           <div className="flex gap-2 justify-center mt-4">
             <button onClick={() => setMode("menu")}
-              className="px-6 py-3 rounded-xl bg-slate-100 text-slate-600 font-semibold cursor-pointer border-none transition hover:bg-slate-200">
+              className="px-6 py-3 rounded-xl bg-white border border-[#2457A7] text-[#2457A7] font-semibold cursor-pointer transition hover:bg-[#EEF3FB]">
               選單
             </button>
             <button onClick={() => startGame(mode)}
-              className="px-6 py-3 rounded-xl bg-rose-300 text-white font-semibold cursor-pointer border-none transition hover:bg-rose-400">
+              className="px-6 py-3 rounded-xl bg-[#2457A7] text-white font-semibold cursor-pointer border-none transition hover:bg-[#1d4688]">
               再來一次
             </button>
           </div>
         </div>
+      </div>
       </div>
     );
   }
 
   // ─── GAME SCREENS ───
   return (
+    <div className="bg-white">
     <div className="max-w-2xl mx-auto px-4 py-6">
       {/* HUD */}
       <div className="flex items-center justify-between mb-4">
         <button onClick={() => { resetGame(); setMode("menu"); }}
-          className="text-sm text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-none">← 選單</button>
+          className="text-sm font-bold text-[#2457A7] hover:underline cursor-pointer bg-transparent border-none">← 選單</button>
         <div className="flex gap-2">
           <span className="px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-600 text-sm font-bold">⭐ {score}</span>
           {combo > 1 && <span className="px-3 py-1 rounded-full bg-red-50 border border-red-300 text-red-500 text-sm font-bold animate-pulse">🔥 x{combo}</span>}
@@ -535,6 +590,7 @@ export default function TypingGamePage() {
           />
         </>
       )}
+    </div>
     </div>
   );
 }

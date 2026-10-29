@@ -48,9 +48,9 @@ export default async function Page({
   const found = getTopicByIds(gradeId, topicId);
 
   return (
-    <>
+    <div className="bg-white pb-4">
       <ClientPage />
       {found && <ChineseLangSEOContent grade={found.grade} topic={found.topic} />}
-    </>
+    </div>
   );
 }

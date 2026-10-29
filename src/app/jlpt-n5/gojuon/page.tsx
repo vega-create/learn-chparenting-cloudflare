@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
 import { speakJa, stopSpeaking } from "@/lib/speech";
+import { JlptLevelTabs } from "@/components/JlptLevelNav";
 
 /** 表格點擊：唸一次，稍慢 */
 const speak = (text: string, rate = 0.65) => {
@@ -123,22 +124,28 @@ export default function GojuonPage() {
   const chart = chartType === "hiragana" ? HIRAGANA : KATAKANA;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <div className="text-5xl mb-3">あ</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">五十音</h1>
-        <p className="text-slate-500">平假名 & 片假名 · 點擊聽發音 · 測驗練習</p>
+    <div className="max-w-4xl mx-auto px-4 py-6 md:py-8">
+      <div className="mb-6">
+        <div className="text-sm font-bold text-[#E65E83] mb-1">日文學習 · 入門必修</div>
+        <div className="flex items-center gap-4">
+          <span className="hidden sm:flex w-16 h-16 shrink-0 rounded-2xl bg-[#E65E83] text-white items-center justify-center text-3xl" aria-hidden="true">あ</span>
+          <div className="min-w-0">
+            <h1 className="text-[26px] md:text-4xl font-black text-[#263238] leading-tight m-0">五十音</h1>
+            <p className="mt-2 mb-0 text-[15px] md:text-lg text-[#52616B]">平假名 & 片假名 · 點擊聽發音 · 測驗練習</p>
+          </div>
+        </div>
+        <div className="mt-5"><JlptLevelTabs current="gojuon" /></div>
       </div>
 
       {/* Mode Toggle */}
-      <div className="flex justify-center gap-3 mb-6">
+      <div className="flex justify-center gap-2 mb-6 p-1 bg-white border border-slate-200 rounded-2xl w-fit mx-auto">
         <button onClick={() => setMode("chart")}
           className={`px-5 py-2.5 rounded-xl text-sm font-semibold border transition cursor-pointer ${
-            mode === "chart" ? "bg-red-500 text-white border-red-500" : "bg-white border-slate-200 text-slate-600"
+            mode === "chart" ? "bg-[#2457A7] text-white border-[#2457A7]" : "bg-white border-transparent text-[#52616B]"
           }`}>📊 五十音表</button>
         <button onClick={() => startQuiz("h2r")}
           className={`px-5 py-2.5 rounded-xl text-sm font-semibold border transition cursor-pointer ${
-            mode === "quiz" ? "bg-red-500 text-white border-red-500" : "bg-white border-slate-200 text-slate-600"
+            mode === "quiz" ? "bg-[#2457A7] text-white border-[#2457A7]" : "bg-white border-transparent text-[#52616B]"
           }`}>🎯 測驗練習</button>
       </div>
 
@@ -148,11 +155,11 @@ export default function GojuonPage() {
           <div className="flex justify-center gap-3 mb-4">
             <button onClick={() => setChartType("hiragana")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${
-                chartType === "hiragana" ? "bg-red-100 text-red-700" : "text-slate-500"
+                chartType === "hiragana" ? "bg-[#FDECF1] text-[#C2416A] font-bold" : "text-[#52616B]"
               }`}>平假名 ひらがな</button>
             <button onClick={() => setChartType("katakana")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${
-                chartType === "katakana" ? "bg-blue-100 text-blue-700" : "text-slate-500"
+                chartType === "katakana" ? "bg-[#EEF3FB] text-[#2457A7] font-bold" : "text-[#52616B]"
               }`}>片假名 カタカナ</button>
             <button onClick={() => setShowRomaji(!showRomaji)}
               className="px-4 py-2 rounded-lg text-sm font-medium text-slate-500 transition cursor-pointer hover:bg-slate-100">
@@ -177,11 +184,11 @@ export default function GojuonPage() {
                     <button key={ci} onClick={() => ch && speak(ch)}
                       disabled={!ch}
                       className={`aspect-square rounded-xl flex flex-col items-center justify-center transition cursor-pointer active:scale-95 ${
-                        ch ? (chartType === "hiragana" ? "bg-red-50 border border-red-200 hover:bg-red-100" : "bg-blue-50 border border-blue-200 hover:bg-blue-100") : "bg-transparent border border-transparent"
+                        ch ? (chartType === "hiragana" ? "bg-white border border-[#F6C9D6] hover:bg-[#FDF3F6]" : "bg-white border border-[#C9D8EF] hover:bg-[#EEF3FB]") : "bg-transparent border border-transparent"
                       }`}>
                       {ch && (
                         <>
-                          <span className="text-xl md:text-2xl font-bold text-slate-800">{ch}</span>
+                          <span className="text-xl md:text-2xl font-bold text-[#263238]">{ch}</span>
                           {showRomaji && <span className="text-[10px] text-slate-400 font-mono">{ROMAJI[ri][ci]}</span>}
                         </>
                       )}
@@ -206,15 +213,15 @@ export default function GojuonPage() {
             ]).map(t => (
               <button key={t.id} onClick={() => startQuiz(t.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer ${
-                  quizType === t.id ? "bg-red-500 text-white border-red-500" : "bg-white border-slate-200 text-slate-500"
+                  quizType === t.id ? "bg-[#2457A7] text-white border-[#2457A7]" : "bg-white border-slate-200 text-[#52616B]"
                 }`}>{t.label}</button>
             ))}
           </div>
 
           {qi < quizItems.length ? (
-            <div className="max-w-md mx-auto bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            <div className="max-w-md mx-auto bg-white rounded-2xl p-6 border border-slate-200">
               <div className="flex justify-between mb-4">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-600">
+                <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#FDECF1] text-[#C2416A]">
                   {qi + 1} / {quizItems.length}
                 </span>
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">✓ {score}</span>
@@ -223,11 +230,11 @@ export default function GojuonPage() {
               <div className="text-center mb-6">
                 {quizType === "listen" ? (
                   <button onClick={() => speakRepeat(quizItems[qi].h)}
-                    className="w-24 h-24 rounded-full text-4xl bg-red-50 border-2 border-red-200 cursor-pointer transition active:scale-95 mx-auto">
+                    className="w-24 h-24 rounded-full text-4xl bg-[#EEF3FB] border-2 border-[#2457A7] cursor-pointer transition active:scale-95 mx-auto">
                     🔊
                   </button>
                 ) : (
-                  <div className="text-6xl font-black text-slate-800 py-4">
+                  <div className="text-6xl font-black text-[#263238] py-4">
                     {quizType === "r2h" ? quizItems[qi].r : quizType === "k2r" ? quizItems[qi].k : quizItems[qi].h}
                   </div>
                 )}
@@ -239,12 +246,12 @@ export default function GojuonPage() {
               <div className="grid grid-cols-2 gap-3">
                 {options.map((opt, i) => {
                   const correct = quizType === "h2r" || quizType === "k2r" || quizType === "listen" ? quizItems[qi].r : quizItems[qi].h;
-                  let cls = "bg-slate-50 border-slate-200";
+                  let cls = "bg-white border-slate-200";
                   if (show && opt === correct) cls = "bg-emerald-50 border-emerald-400";
                   if (show && opt === sel && opt !== correct) cls = "bg-red-50 border-red-400";
                   return (
                     <button key={i} onClick={() => handleAnswer(opt)}
-                      className={`p-4 rounded-xl border text-center text-xl font-bold transition active:scale-[0.97] ${cls} ${show ? "" : "cursor-pointer hover:bg-slate-100"}`}>
+                      className={`p-4 rounded-xl border text-center text-xl font-bold transition active:scale-[0.97] ${cls} ${show ? "" : "cursor-pointer hover:border-[#2457A7]"}`}>
                       {opt}
                     </button>
                   );
@@ -257,11 +264,11 @@ export default function GojuonPage() {
                     {sel === (quizType === "h2r" || quizType === "k2r" || quizType === "listen" ? quizItems[qi].r : quizItems[qi].h) ? "✅ 答對了！" : `❌ 正確答案：${quizType === "h2r" || quizType === "k2r" || quizType === "listen" ? quizItems[qi].r : quizItems[qi].h}`}
                   </div>
                   {qi + 1 < quizItems.length ? (
-                    <button onClick={nextQ} className="px-6 py-3 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none active:scale-95 transition">
+                    <button onClick={nextQ} className="px-6 py-3 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none active:scale-95 transition">
                       下一題 →
                     </button>
                   ) : (
-                    <button onClick={() => { setQi(quizItems.length); if (score >= 18) playPerfect(); else playCorrect(); }} className="px-6 py-3 rounded-xl bg-red-500 text-white font-semibold text-sm cursor-pointer border-none active:scale-95 transition">
+                    <button onClick={() => { setQi(quizItems.length); if (score >= 18) playPerfect(); else playCorrect(); }} className="px-6 py-3 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none active:scale-95 transition">
                       看結果 →
                     </button>
                   )}
@@ -269,11 +276,11 @@ export default function GojuonPage() {
               )}
             </div>
           ) : (
-            <div className="max-w-md mx-auto bg-white rounded-2xl p-8 border border-slate-200 shadow-sm text-center">
+            <div className="max-w-md mx-auto bg-white rounded-2xl p-8 border border-slate-200 text-center">
               <div className="text-5xl mb-3">{score >= 18 ? "🌟" : score >= 14 ? "⭐" : "💪"}</div>
-              <div className="text-3xl font-black text-slate-800 mb-2">{score} / {quizItems.length}</div>
+              <div className="text-3xl font-black text-[#263238] mb-2">{score} / {quizItems.length}</div>
               <div className="text-slate-500 mb-4">{score >= 18 ? "太厲害了！" : score >= 14 ? "很不錯！繼續加油！" : "多練習就會進步！"}</div>
-              <button onClick={() => startQuiz(quizType)} className="px-6 py-3 rounded-xl bg-red-500 text-white font-bold cursor-pointer border-none active:scale-95 transition">
+              <button onClick={() => startQuiz(quizType)} className="px-6 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none active:scale-95 transition">
                 🔄 再來一次
               </button>
             </div>
@@ -283,7 +290,7 @@ export default function GojuonPage() {
 
       {/* Back to N5 */}
       <div className="text-center mt-8">
-        <a href="/jlpt-n5" className="text-sm text-slate-400 hover:text-red-500 transition no-underline">← 回到 JLPT N5</a>
+        <a href="/jlpt-n5" className="text-sm text-[#2457A7] hover:underline transition no-underline">← 回到 JLPT N5</a>
       </div>
     </div>
   );

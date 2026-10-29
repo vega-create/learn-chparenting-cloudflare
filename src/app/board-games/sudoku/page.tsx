@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, useTimer } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, useTimer, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 import { generateSudoku, SPEC_6, SPEC_9, type SudokuSpec } from "@/lib/sudoku";
 
 /**
@@ -169,16 +169,12 @@ export default function SudokuPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔢</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">數獨</h1>
-          <p className="text-slate-500 text-sm">6×6 和 9×9 數字數獨，每一題都只有一個答案</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="sudoku" title="數獨" desc="6×6 和 9×9 數字數獨，每一題都只有一個答案" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>每一橫排、每一直排的數字都不能重複</li>
             <li>每一個粗線框起來的宮格裡，數字也不能重複</li>
             <li>6×6 填 1 到 6，9×9 填 1 到 9</li>
@@ -187,55 +183,59 @@ export default function SudokuPage() {
             <li>可以開「筆記」先記下可能的數字</li>
           </ul>
         </div>
-        <div className="bg-white rounded-2xl p-6 border border-purple-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-3">卡住的時候，用這兩種找法</h3>
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className="font-bold text-[#263238] mb-3 text-base">卡住的時候，用這兩種找法</h3>
           <div className="space-y-4">
             <div className="flex gap-4 items-center flex-wrap sm:flex-nowrap">
               <DemoGrid cols={6} cells={[3, 1, -1, 6, 2, 5]} />
               <div>
-                <div className="font-bold text-slate-700 text-sm mb-0.5">1. 這一排還缺誰？</div>
-                <p className="text-sm text-slate-500 m-0 leading-relaxed">這一橫排已經有 1、2、3、5、6，只缺 4，所以黃色那格是 4。直排和宮格也是一樣的找法。</p>
+                <div className="font-bold text-[#263238] text-sm mb-0.5">1. 這一排還缺誰？</div>
+                <p className="text-sm text-[#52616B] m-0 leading-relaxed">這一橫排已經有 1、2、3、5、6，只缺 4，所以黃色那格是 4。直排和宮格也是一樣的找法。</p>
               </div>
             </div>
             <div className="flex gap-4 items-center flex-wrap sm:flex-nowrap">
               <DemoGrid cols={3} cells={[1, 6, 2, 4, -1, 3]} />
               <div>
-                <div className="font-bold text-slate-700 text-sm mb-0.5">2. 這一宮還缺誰？</div>
-                <p className="text-sm text-slate-500 m-0 leading-relaxed">粗線框起來的這一宮已經有 1、2、3、4、6，只缺 5，所以黃色那格是 5。</p>
+                <div className="font-bold text-[#263238] text-sm mb-0.5">2. 這一宮還缺誰？</div>
+                <p className="text-sm text-[#52616B] m-0 leading-relaxed">粗線框起來的這一宮已經有 1、2、3、4、6，只缺 5，所以黃色那格是 5。</p>
               </div>
             </div>
-            <p className="text-sm text-slate-500 m-0 leading-relaxed">
-              <strong className="text-slate-700">缺的不只一個怎麼辦：</strong>
+            <p className="text-sm text-[#52616B] m-0 leading-relaxed">
+              <strong className="text-[#263238]">缺的不只一個怎麼辦：</strong>
               看那一格的橫排、直排、宮格，出現過的數字都不能填。把不能填的刪掉，只剩一個就是答案。
             </p>
-            <p className="text-sm text-slate-500 m-0 leading-relaxed">
-              <strong className="text-slate-700">小提醒：</strong>
+            <p className="text-sm text-[#52616B] m-0 leading-relaxed">
+              <strong className="text-[#263238]">小提醒：</strong>
               先從已經填最多的那一排或那一宮開始找，通常最快。
             </p>
           </div>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {LEVELS.map(lv => (
             <button key={lv.key} onClick={() => startGame(lv)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
-              <div className="text-lg">{lv.label}</div>
-              <div className="text-xs opacity-80">{lv.desc}</div>
+              className={GAME_UI.diffBtn}>
+              <div>
+                <div className={GAME_UI.diffLabel}>{lv.label}</div>
+                <div className={GAME_UI.diffDesc}>{lv.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-        <p className="text-xs text-slate-400 text-center mt-4">
-          還沒玩過數獨？先從<a href="/board-games/mini-sudoku" className="text-purple-500">4×4 的迷你數獨</a>開始。
+        <p className="text-xs text-[#52616B] text-center mt-4">
+          還沒玩過數獨？先從<a href="/board-games/mini-sudoku" className="text-[#2457A7] font-semibold">4×4 的迷你數獨</a>開始。
         </p>
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Done ─── */
   if (mode === "done") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4">
           {level.label}・用時 {timerFmt}・填錯 {mistakes} 次・用了 {hintsUsed} 次提示
         </div>
         <GameOverScreen
@@ -244,7 +244,7 @@ export default function SudokuPage() {
           onRestart={() => startGame(level)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "sudoku", activityName: "數獨", metadata: { level: level.key } }}
         />
-      </div>
+      </GamePage>
     );
   }
 
@@ -257,17 +257,20 @@ export default function SudokuPage() {
   const noteCols = size === 9 ? 3 : 3;
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage maxW="max-w-lg md:max-w-4xl">
+      <BackToGames />
+      <h1 className="text-xl sm:text-2xl font-black text-[#263238] mt-2 mb-1">數獨</h1>
+      <p className="text-sm text-[#52616B] m-0 mb-3">每一橫排、直排與粗線宮格裡的數字都不重複。</p>
 
-      <div className="flex justify-between items-center mt-3 mb-3 text-sm">
-        <span className="font-mono text-slate-500">⏱ {timerFmt}</span>
-        <span className="text-slate-500">{level.label}</span>
-        <span className="text-slate-500">填錯 {mistakes} 次</span>
+      <div className="flex flex-wrap gap-2 mb-3">
+        <span className={GAME_UI.chip}>時間 <b className="font-mono">{timerFmt}</b></span>
+        <span className={GAME_UI.chip}>難度 <b>{level.label}</b></span>
+        <span className={GAME_UI.chip}>填錯 <b className="text-red-600">{mistakes}</b> 次</span>
       </div>
 
+      <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-5 md:grid md:grid-cols-[1fr_280px] md:gap-6 md:items-start">
       {/* Board */}
-      <div className="mx-auto border-2 border-slate-800 rounded-lg overflow-hidden bg-white select-none"
+      <div className="mx-auto max-w-full border-2 border-slate-800 rounded-lg overflow-hidden bg-white select-none"
         style={{ width: "min(100vw - 32px, 450px)", display: "grid", gridTemplateColumns: `repeat(${size}, 1fr)` }}>
         {board.map((val, i) => {
           const r = Math.floor(i / size), c = i % size;
@@ -283,8 +286,8 @@ export default function SudokuPage() {
               aria-label={`第 ${r + 1} 橫排第 ${c + 1} 直排${val ? `，${val}` : "，空格"}`}
               className={`relative aspect-square flex items-center justify-center p-0 cursor-pointer border-0 font-bold
                 ${size === 9 ? "text-lg sm:text-2xl" : "text-2xl sm:text-3xl"}
-                ${isSel ? "bg-purple-200" : wrong ? "bg-red-50" : sameVal ? "bg-purple-100" : related ? "bg-slate-100" : "bg-white"}
-                ${wrong ? "text-red-500" : given[i] ? "text-slate-800" : "text-indigo-600"}`}
+                ${isSel ? "bg-[#CFE0F7]" : wrong ? "bg-red-50" : sameVal ? "bg-[#E4EEFB]" : related ? "bg-[#F3F7FD]" : "bg-white"}
+                ${wrong ? "text-red-500" : given[i] ? "text-slate-800" : "text-[#2457A7]"}`}
               style={{
                 borderRight: c < size - 1 ? (thickR ? "2px solid #1e293b" : "1px solid #cbd5e1") : undefined,
                 borderBottom: r < size - 1 ? (thickB ? "2px solid #1e293b" : "1px solid #cbd5e1") : undefined,
@@ -302,14 +305,15 @@ export default function SudokuPage() {
         })}
       </div>
 
+      <div className="md:pt-1">
       {/* Number pad */}
-      <div className="grid gap-1.5 mt-4 mx-auto" style={{ width: "min(100vw - 32px, 450px)", gridTemplateColumns: `repeat(${size}, 1fr)` }}>
+      <div className="grid gap-1.5 mt-4 md:mt-0 mx-auto max-w-full md:!w-full" style={{ width: "min(100vw - 32px, 450px)", gridTemplateColumns: `repeat(${size}, 1fr)` }}>
         {Array.from({ length: size }, (_, k) => k + 1).map(n => {
           const full = counts[n] >= size;
           return (
             <button key={n} onClick={() => place(n)} disabled={full}
               className={`aspect-square rounded-lg border-2 font-bold text-xl sm:text-2xl p-0
-                ${full ? "bg-slate-50 border-slate-100 text-slate-300" : "bg-white border-purple-200 text-purple-700 cursor-pointer hover:bg-purple-50 active:scale-95"}`}>
+                ${full ? "bg-slate-50 border-slate-100 text-slate-300" : "bg-white border-slate-200 text-[#263238] cursor-pointer hover:bg-[#F3F7FD] hover:border-[#2457A7] active:scale-95"}`}>
               {n}
             </button>
           );
@@ -319,25 +323,27 @@ export default function SudokuPage() {
       {/* Tools */}
       <div className="flex gap-2 justify-center mt-3 flex-wrap">
         <button onClick={() => setNoteMode(v => !v)} aria-pressed={noteMode}
-          className={`px-4 py-2.5 rounded-xl font-bold text-sm cursor-pointer border-2 ${noteMode ? "bg-purple-600 border-purple-600 text-white" : "bg-white border-slate-200 text-slate-600"}`}>
+          className={`px-4 py-2.5 rounded-xl font-bold text-sm cursor-pointer border-2 ${noteMode ? "bg-[#2457A7] border-[#2457A7] text-white" : "bg-white border-slate-200 text-[#263238]"}`}>
           ✏️ 筆記{noteMode ? "：開" : "：關"}
         </button>
         <button onClick={erase}
-          className="px-4 py-2.5 rounded-xl font-bold text-sm cursor-pointer border-2 bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+          className="px-4 py-2.5 rounded-xl font-bold text-sm cursor-pointer border-2 bg-white border-slate-200 text-[#263238] hover:bg-slate-50">
           🧽 清除
         </button>
         <button onClick={hint} disabled={hintsUsed >= MAX_HINTS}
-          className="px-4 py-2.5 rounded-xl font-bold text-sm cursor-pointer border-2 bg-amber-50 border-amber-200 text-amber-700 disabled:opacity-40 disabled:cursor-not-allowed">
+          className="px-4 py-2.5 rounded-xl font-bold text-sm cursor-pointer border-2 bg-[#2457A7] border-[#2457A7] text-white hover:bg-[#1d4688] disabled:opacity-40 disabled:cursor-not-allowed">
           💡 提示（剩 {MAX_HINTS - hintsUsed}）
         </button>
       </div>
 
-      <p className="text-xs text-slate-400 text-center mt-3">
+      <p className="text-xs text-[#52616B] text-center mt-3">
         先點一格，再點下面的數字。{noteMode ? "筆記開著：點數字是記小字，不算作答。" : "用電腦可以直接按數字鍵和方向鍵。"}
       </p>
       <div className="text-center mt-2">
-        <button onClick={() => setMode("menu")} className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0 underline">放棄這一題，回選單</button>
+        <button onClick={() => setMode("menu")} className="text-xs text-[#52616B] hover:text-[#263238] cursor-pointer bg-transparent border-0 underline">放棄這一題，回選單</button>
       </div>
-    </div>
+      </div>
+      </div>
+    </GamePage>
   );
 }

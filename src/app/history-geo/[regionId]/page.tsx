@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { HISTORY_GEO_REGIONS, getRegionById } from "@/data/history-geo";
 import { notFound } from "next/navigation";
+import PageHeader, { SectionTitle } from "@/components/PageHeader";
+import HmTopicCard from "@/components/HmTopicCard";
 
 export function generateStaticParams() {
   return HISTORY_GEO_REGIONS.map((r) => ({ regionId: r.id }));
@@ -34,74 +36,48 @@ export default async function RegionOverviewPage({
   if (!region) notFound();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <Link
-        href="/history-geo"
-        className="text-sm text-emerald-500 hover:underline no-underline"
+    <div className="bg-white">
+      <PageHeader
+        eyebrow="歷史地理"
+        title={region.title}
+        desc={`${region.topics.length} 個主題，選一個開始練習。大人小孩都能練，每題都有詳解。`}
+        icon={<span>{region.icon}</span>}
+        iconBg="bg-white border border-slate-200"
       >
-        ← 回到歷史地理
-      </Link>
-
-      <div className="text-center mt-4 mb-8">
-        <div className="text-5xl mb-2">{region.icon}</div>
-        <h1 className="text-2xl font-black text-slate-800">{region.title}</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          {region.topics.length} 個主題 · 選擇下方主題開始練習
-        </p>
-      </div>
-
-      <div className="grid sm:grid-cols-2 gap-4">
-        {region.topics.map((topic) => {
-          const qCount =
-            topic.questions.length +
-            (topic.readings?.reduce(
-              (s, r) => s + r.questions.length,
-              0
-            ) ?? 0);
-          return (
-            <Link
-              key={topic.id}
-              href={`/history-geo/${region.id}/${topic.id}`}
-              className={`bg-white rounded-2xl overflow-hidden border ${topic.border} shadow-sm hover-lift no-underline transition-all hover:shadow-lg`}
-            >
-              <div
-                className={`bg-gradient-to-r ${topic.color} p-4 text-white`}
-              >
-                <div className="text-3xl mb-1">{topic.icon}</div>
-                <div className="text-lg font-bold">{topic.title}</div>
-              </div>
-              <div className="p-4">
-                <p className="text-sm text-slate-600 mb-3">
-                  {topic.description}
-                </p>
-                <div className="flex gap-2 flex-wrap">
-                  {topic.questions.length > 0 && (
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-green-50 text-green-600">
-                      ✏️ {topic.questions.length} 題練習
-                    </span>
-                  )}
-                  {topic.readings && topic.readings.length > 0 && (
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-600">
-                      📗 {topic.readings.length} 篇閱讀
-                    </span>
-                  )}
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">
-                    共 {qCount} 題
-                  </span>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-
-      <div className="text-center mt-10">
-        <Link
-          href="/history-geo"
-          className="text-sm text-emerald-500 hover:underline no-underline"
-        >
+        <Link href="/history-geo" className="text-sm font-bold text-[#2457A7] no-underline hover:underline">
           ← 回到歷史地理
         </Link>
+      </PageHeader>
+
+      <div className="max-w-6xl mx-auto px-4 pb-12">
+        <SectionTitle>{region.title}主題</SectionTitle>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {region.topics.map((topic) => {
+            const qCount =
+              topic.questions.length +
+              (topic.readings?.reduce((s, r) => s + r.questions.length, 0) ?? 0);
+            return (
+              <HmTopicCard
+                key={topic.id}
+                href={`/history-geo/${region.id}/${topic.id}`}
+                icon={topic.icon}
+                title={topic.title}
+                desc={topic.description}
+                chips={[
+                  ...(topic.questions.length > 0 ? [`${topic.questions.length} 題練習`] : []),
+                  ...(topic.readings && topic.readings.length > 0 ? [`${topic.readings.length} 篇閱讀`] : []),
+                  `共 ${qCount} 題`,
+                ]}
+              />
+            );
+          })}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link href="/history-geo" className="text-sm font-bold text-[#2457A7] no-underline hover:underline">
+            ← 回到歷史地理
+          </Link>
+        </div>
       </div>
     </div>
   );

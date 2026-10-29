@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Level Data ─── */
 type Dir = "up" | "down" | "left" | "right";
@@ -319,16 +319,12 @@ export default function CodePathPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🤖</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">程式路徑</h1>
-          <p className="text-slate-500 text-sm">編寫指令，引導機器人到達目標</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="code-path" title="程式路徑" desc="編寫指令，引導機器人到達目標" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>共 {TOTAL_LEVELS} 關，每次隨機產生</li>
             <li>用方向指令引導 🤖 到達 🎯</li>
             <li>避開牆壁 🧱</li>
@@ -337,10 +333,10 @@ export default function CodePathPage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
           🚀 開始闖關
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -349,15 +345,15 @@ export default function CodePathPage() {
     const maxScore = TOTAL_LEVELS * 15;
     const stars = getStars(score, maxScore);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
+      <GamePage>
+        <BackToGames />
         <GameOverScreen
           score={score} maxScore={maxScore} gameName="程式路徑" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "code-path", activityName: "程式路徑" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
@@ -366,17 +362,18 @@ export default function CodePathPage() {
   const pathSet = new Set(path.map(p => `${p[0]},${p[1]}`));
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-0">程式路徑</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">第 {level + 1}/{TOTAL_LEVELS} 關</div>
-        <div className="text-sm font-bold text-cyan-600">{score} 分</div>
+      <div className="flex flex-wrap gap-2 mt-3 mb-4">
+        <div className={GAME_UI.chip}>關卡 <b>{level + 1}/{TOTAL_LEVELS}</b></div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {/* Grid */}
-      <div className="bg-white rounded-2xl p-4 border border-cyan-200 shadow-sm mb-4">
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 mb-4">
         <div className="grid gap-1 mx-auto" style={{ gridTemplateColumns: `repeat(${currentLevel.size}, 1fr)`, maxWidth: currentLevel.size * 52 }}>
           {Array.from({ length: currentLevel.size * currentLevel.size }, (_, idx) => {
             const r = Math.floor(idx / currentLevel.size);
@@ -406,12 +403,12 @@ export default function CodePathPage() {
       )}
 
       {/* Command list */}
-      <div className="bg-white rounded-xl p-3 border border-cyan-200 mb-4 min-h-[52px]">
-        <div className="text-xs text-slate-400 mb-1">指令 ({commands.length}/{currentLevel.maxMoves})</div>
+      <div className="bg-white rounded-xl p-3 border border-slate-200 mb-4 min-h-[52px]">
+        <div className="text-xs text-[#52616B] mb-1">指令 ({commands.length}/{currentLevel.maxMoves})</div>
         <div className="flex flex-wrap gap-1">
           {commands.map((cmd, i) => (
             <button key={i} onClick={() => !isRunning && removeCommand(i)}
-              className={`px-2 py-1 rounded-lg text-lg cursor-pointer border-none transition ${isRunning ? "bg-cyan-100" : "bg-slate-100 hover:bg-red-100"}`}>
+              className={`px-2 py-1 rounded-lg text-lg cursor-pointer border-none transition ${isRunning ? "bg-[#F3F7FD]" : "bg-slate-100 hover:bg-red-100"}`}>
               {DIR_EMOJI[cmd]}
             </button>
           ))}
@@ -425,18 +422,18 @@ export default function CodePathPage() {
           <div className="flex gap-2 justify-center mb-3">
             {(Object.keys(DIR_EMOJI) as Dir[]).map(dir => (
               <button key={dir} onClick={() => addCommand(dir)}
-                className="w-14 h-14 rounded-xl bg-white border-2 border-cyan-200 text-2xl cursor-pointer hover:border-cyan-400 hover:bg-cyan-50 transition">
+                className="w-14 h-14 rounded-xl bg-white border-2 border-slate-200 text-2xl cursor-pointer hover:border-[#2457A7] hover:bg-[#F3F7FD] transition">
                 {DIR_EMOJI[dir]}
               </button>
             ))}
           </div>
           <div className="flex gap-3 justify-center">
             <button onClick={runProgram} disabled={commands.length === 0}
-              className="px-6 py-2.5 rounded-xl bg-green-500 text-white font-bold cursor-pointer border-none hover:bg-green-600 transition disabled:opacity-40">
+              className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition disabled:opacity-40">
               ▶️ 執行
             </button>
             <button onClick={clearCommands}
-              className="px-6 py-2.5 rounded-xl border-2 border-slate-300 text-slate-600 font-bold cursor-pointer bg-white hover:bg-slate-50 transition">
+              className="px-6 py-2.5 rounded-xl border border-slate-300 text-[#263238] font-semibold cursor-pointer bg-white hover:bg-slate-50 transition">
               🗑️ 清除
             </button>
           </div>
@@ -449,7 +446,7 @@ export default function CodePathPage() {
               </div>
               <div>
                 <button onClick={skipLevel}
-                  className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+                  className="text-xs text-[#52616B] hover:text-[#263238] cursor-pointer border-none bg-transparent underline">
                   跳過此關（不得分）
                 </button>
               </div>
@@ -457,6 +454,6 @@ export default function CodePathPage() {
           )}
         </>
       )}
-    </div>
+    </GamePage>
   );
 }

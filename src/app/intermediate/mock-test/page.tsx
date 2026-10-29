@@ -37,6 +37,7 @@ import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
 import { trackActivity } from "@/lib/tracking";
 import { speak, stopSpeaking } from "@/lib/speech";
 import ShareButtons from "@/components/ShareButtons";
+import { LangMockTestIntro } from "@/components/LangMockTestIntro";
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 
@@ -115,26 +116,25 @@ export default function MockTestPage() {
 
   // ─── INTRO ───
   if (phase === "intro") return (
-    <div className="max-w-2xl mx-auto px-4 py-12 text-center">
-      <div className="bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-sm">
-        <div className="text-5xl mb-4">📝</div>
-        <h1 className="text-2xl md:text-3xl font-black text-slate-800 mb-3">GEPT Intermediate Mock Test</h1>
-        <p className="text-slate-500 mb-6">中級英檢模擬測驗・練習版（題目從各單元隨機抽，題數比正式考試少；全英文出題，考完看答案）</p>
-        <div className="bg-blue-50 rounded-xl p-5 text-left mb-6 text-sm text-slate-700 space-y-3">
-          <div className="font-bold text-blue-700 mb-1">Test Format：</div>
-          <div>🎧 <strong>Part 1 — Listening</strong>：15 questions（每題最多播放 3 次）</div>
-          <div>📖 <strong>Part 2 — Vocabulary & Grammar</strong>：15 questions</div>
-          <div>📗 <strong>Part 3 — Reading Comprehension</strong>：2 passages + ~10 questions</div>
-          <div className="pt-2 border-t border-blue-200 text-blue-600 font-medium">
-            ⚠️ 測驗中全英文，不顯示中文提示。考完才看成績與答案。
-          </div>
-        </div>
-        <button onClick={startTest} className="px-10 py-4 bg-rose-300 text-white rounded-xl font-bold text-lg cursor-pointer border-none hover:bg-rose-400 transition active:scale-95">
-          🚀 Start Test
-        </button>
-        <div className="mt-4"><a href="/intermediate" className="text-sm text-blue-500 hover:underline">← Back to Intermediate</a></div>
-      </div>
-    </div>
+    <LangMockTestIntro
+      title="GEPT Intermediate Mock Test"
+      desc="中級英檢模擬測驗・練習版（題目從各單元隨機抽，題數比正式考試少；全英文出題，考完看答案）"
+      parts={[
+        { icon: "listen", name: "Listening", detail: "15 questions（每題最多播放 3 次）" },
+        { icon: "vocab", name: "Vocabulary & Grammar", detail: "15 questions" },
+        { icon: "read", name: "Reading Comprehension", detail: "2 passages + ~10 questions" },
+      ]}
+      notes={[
+        "聽力題會播放英文語音，請先確認裝置音量。",
+        "測驗中全英文，不顯示中文提示。考完才看成績與答案。",
+        "建議在安靜的環境作答，三個部分依序完成。",
+      ]}
+      startLabel="Start Test"
+      onStart={startTest}
+      onTestSound={() => speakWithAudio("Hello! This is a sound test.", 1.0)}
+      backHref="/intermediate"
+      backLabel="← Back to Intermediate"
+    />
   );
 
   // ─── RESULT ───
@@ -148,7 +148,7 @@ export default function MockTestPage() {
     const rS = readingData.reduce((sum: number, rd: any, pi: number) => sum + rd.questions.filter((q: any, qi: number) => answers[`r${pi}_${qi}`] === q.ans).length, 0);
     return (
       <div className="max-w-lg mx-auto px-4 py-10 text-center">
-        <div className="bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-lg">
+        <div className="bg-white rounded-2xl p-8 md:p-10 border border-slate-200">
           <div className="text-6xl mb-3">{pass ? "🎉" : "💪"}</div>
           <h2 className="text-2xl font-black text-slate-800 mb-1">Test Complete</h2>
           <div className="text-sm text-slate-400 mb-4">Time: {fmt(timer)}</div>
@@ -165,9 +165,9 @@ export default function MockTestPage() {
           <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
           <ShareButtons text={`我在全民英檢中級模擬考答對了 ${correct}/${total} 題！你也來試試 💪`} url="/intermediate/mock-test" />
           <div className="flex gap-3 justify-center flex-wrap mt-4">
-            <button onClick={() => setPhase("review")} className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-sm cursor-pointer border-none hover:bg-indigo-700 transition">📋 Review Answers</button>
-            <button onClick={startTest} className="px-6 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none hover:bg-rose-400 transition">🔄 Try Again</button>
-            <a href="/intermediate" className="px-6 py-2.5 rounded-xl border-2 border-rose-300 text-rose-400 font-semibold text-sm no-underline hover:bg-rose-50 transition">← Back</a>
+            <button onClick={() => setPhase("review")} className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none hover:bg-[#1d4a8f] transition">📋 Review Answers</button>
+            <button onClick={startTest} className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none hover:bg-[#1d4a8f] transition">🔄 Try Again</button>
+            <a href="/intermediate" className="px-6 py-2.5 rounded-xl border-2 border-[#2457A7] text-[#2457A7] font-semibold text-sm no-underline hover:bg-[#EEF3FB] transition">← Back</a>
           </div>
         </div>
       </div>
@@ -179,7 +179,7 @@ export default function MockTestPage() {
     const { details, correct, total } = calcScore();
     return (
       <div className="max-w-3xl mx-auto px-4 py-6">
-        <div className="flex items-center justify-between mb-6 bg-white p-4 rounded-xl border border-slate-200 sticky top-16 z-10">
+        <div className="flex items-center justify-between mb-6 bg-white p-4 rounded-2xl border border-slate-200 sticky top-16 z-10">
           <h2 className="text-base font-bold text-slate-800 m-0">📋 Answer Review 答案詳解</h2>
           <div className="flex gap-2"><span className="text-sm font-bold text-emerald-600">✓{correct}</span><span className="text-sm font-bold text-red-500">✗{total - correct}</span></div>
         </div>
@@ -191,7 +191,7 @@ export default function MockTestPage() {
               <h3 className="text-sm font-bold text-slate-700 mb-3">{section === "Listening" ? "🎧" : section === "Vocabulary & Grammar" ? "📖" : "📗"} {section}</h3>
               {section === "Reading Comprehension" && readingData.length > 0 && (
                 <div className="space-y-3 mb-3">{readingData.map((rd: any, pi: number) => (
-                  <div key={pi} className="bg-blue-50 rounded-xl p-4 text-sm leading-7 text-slate-700 whitespace-pre-line"><div className="text-xs font-semibold text-blue-600 mb-2">Passage {pi + 1}</div>{rd.passage}</div>
+                  <div key={pi} className="bg-blue-50 rounded-xl p-4 text-sm leading-7 text-slate-700 whitespace-pre-line"><div className="text-xs font-semibold text-[#2457A7] mb-2">Passage {pi + 1}</div>{rd.passage}</div>
                 ))}</div>
               )}
               <div className="space-y-3">
@@ -217,7 +217,7 @@ export default function MockTestPage() {
         })}
         <div className="text-center py-6 flex gap-3 justify-center flex-wrap">
           <button onClick={() => setPhase("result")} className="px-6 py-2.5 rounded-xl border-2 border-slate-300 text-slate-600 font-semibold text-sm cursor-pointer bg-white">← Back to Score</button>
-          <button onClick={startTest} className="px-6 py-2.5 rounded-xl bg-rose-300 text-white font-semibold text-sm cursor-pointer border-none">🔄 Try Again</button>
+          <button onClick={startTest} className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold text-sm cursor-pointer border-none">🔄 Try Again</button>
         </div>
       </div>
     );
@@ -232,13 +232,13 @@ export default function MockTestPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between mb-5 bg-white p-3 md:p-4 rounded-xl border border-slate-200 sticky top-16 z-10 shadow-sm">
+      <div className="flex items-center justify-between mb-5 bg-white p-3 md:p-4 rounded-2xl border border-slate-200 sticky top-16 z-10">
         <div className="flex items-center gap-2">
-          {phase === "reading" && <button onClick={() => setPhase("listening")} className="text-sm text-blue-500 bg-transparent border-none cursor-pointer p-1">← Back</button>}
-          <span className="text-sm font-bold text-blue-600">{phase === "listening" ? "🎧 Part 1: Listening" : "📖 Part 2 & 3"}</span>
+          {phase === "reading" && <button onClick={() => setPhase("listening")} className="text-sm text-[#2457A7] bg-transparent border-none cursor-pointer p-1">← Back</button>}
+          <span className="text-sm font-bold text-[#2457A7]">{phase === "listening" ? "🎧 Part 1: Listening" : "📖 Part 2 & 3"}</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full font-medium">
+          <span className="text-xs bg-[#FDECF1] text-[#C2416A] px-2 py-1 rounded-full font-medium">
             {phase === "listening" ? `${lDone}/${listenQs.length}` : `${rDone}/${rTotal}`}
           </span>
           <span className="font-mono text-sm text-slate-400">{fmt(timer)}</span>
@@ -249,18 +249,18 @@ export default function MockTestPage() {
         <div className="space-y-4">
           <div className="bg-amber-50 rounded-xl p-3 text-sm text-amber-700">⚠️ Each question can be played up to <strong>3 times</strong>. Listen carefully.</div>
           {listenQs.map((q, i) => (
-            <div key={i} className="bg-white rounded-xl p-4 md:p-5 border border-slate-200">
+            <div key={i} className="bg-white rounded-2xl p-4 md:p-5 border border-slate-200">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-sm font-bold text-slate-800 flex-shrink-0">Q{i + 1}.</span>
                 <button onClick={() => playListen(i, q.text)} disabled={(listenPlays[i] || 0) >= 3}
-                  className={`border rounded-lg px-3 py-1.5 text-sm cursor-pointer transition flex-shrink-0 ${(listenPlays[i] || 0) >= 3 ? "bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed" : "bg-blue-50 border-blue-200 hover:bg-blue-100 text-blue-700"}`}>
+                  className={`border rounded-lg px-3 py-1.5 text-sm cursor-pointer transition flex-shrink-0 ${(listenPlays[i] || 0) >= 3 ? "bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed" : "bg-white border-[#2457A7] hover:bg-[#EEF3FB] text-[#2457A7]"}`}>
                   🔊 Play {(listenPlays[i] || 0) >= 3 ? "(max)" : `(${3 - (listenPlays[i] || 0)} left)`}
                 </button>
               </div>
               <div className="space-y-1.5">
                 {q.opts.map((o: string, oi: number) => (
                   <button key={oi} onClick={() => setAns(`l${i}`, oi)}
-                    className={`w-full text-left p-3 rounded-lg border text-sm cursor-pointer transition ${answers[`l${i}`] === oi ? "bg-blue-50 border-blue-400 font-medium" : "bg-slate-50 border-slate-200 hover:bg-slate-100"}`}>
+                    className={`w-full text-left p-3 rounded-lg border text-sm cursor-pointer transition ${answers[`l${i}`] === oi ? "bg-[#EEF3FB] border-[#2457A7] font-medium" : "bg-white border-slate-200 hover:border-[#2457A7]"}`}>
                     {String.fromCharCode(65 + oi)}. {o}
                   </button>
                 ))}
@@ -269,7 +269,7 @@ export default function MockTestPage() {
           ))}
           <div className="text-center py-4">
             <button onClick={() => setPhase("reading")} disabled={lDone < listenQs.length}
-              className="px-8 py-3 rounded-xl bg-rose-300 text-white font-bold cursor-pointer border-none disabled:opacity-40 hover:bg-rose-400 transition">Next: Reading →</button>
+              className="px-8 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none disabled:opacity-40 hover:bg-[#1d4a8f] transition">Next: Reading →</button>
             {lDone < listenQs.length && <p className="text-xs text-slate-400 mt-2">Answer all questions to continue.</p>}
           </div>
         </div>
@@ -279,12 +279,12 @@ export default function MockTestPage() {
         <div className="space-y-4">
           <h3 className="font-bold text-slate-800 text-base">Part 2: Vocabulary & Grammar</h3>
           {vocabQs.map((q, i) => (
-            <div key={i} className="bg-white rounded-xl p-4 md:p-5 border border-slate-200">
+            <div key={i} className="bg-white rounded-2xl p-4 md:p-5 border border-slate-200">
               <div className="font-medium text-slate-800 mb-3 text-sm">{i + 1}. {q.s}</div>
               <div className="grid grid-cols-2 gap-2">
                 {q.opts.map((o: string, oi: number) => (
                   <button key={oi} onClick={() => setAns(`v${i}`, oi)}
-                    className={`p-2.5 rounded-lg border text-sm text-center cursor-pointer transition ${answers[`v${i}`] === oi ? "bg-blue-50 border-blue-400 font-medium" : "bg-slate-50 border-slate-200 hover:bg-slate-100"}`}>{o}</button>
+                    className={`p-2.5 rounded-lg border text-sm text-center cursor-pointer transition ${answers[`v${i}`] === oi ? "bg-[#EEF3FB] border-[#2457A7] font-medium" : "bg-white border-slate-200 hover:border-[#2457A7]"}`}>{o}</button>
                 ))}
               </div>
             </div>
@@ -295,17 +295,17 @@ export default function MockTestPage() {
             return (
               <div key={pi}>
                 {pi > 0 && <div className="border-t border-dashed border-slate-300 my-6" />}
-                <div className="bg-white rounded-xl p-4 md:p-6 border border-slate-200 mb-4">
-                  <div className="text-xs font-semibold text-blue-600 mb-2 uppercase tracking-wide">Passage {pi + 1}:</div>
+                <div className="bg-white rounded-2xl p-4 md:p-6 border border-slate-200 mb-4">
+                  <div className="text-xs font-semibold text-[#2457A7] mb-2 uppercase tracking-wide">Passage {pi + 1}:</div>
                   <p className="text-sm md:text-base leading-7 md:leading-8 text-slate-700 whitespace-pre-line">{rd.passage}</p>
                 </div>
                 {rd.questions.map((q: any, qi: number) => (
-                  <div key={qi} className="bg-white rounded-xl p-4 md:p-5 border border-slate-200 mb-4">
+                  <div key={qi} className="bg-white rounded-2xl p-4 md:p-5 border border-slate-200 mb-4">
                     <div className="font-medium text-slate-800 mb-3 text-sm">{qOffset + qi + 1}. {q.q}</div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {q.opts.map((o: string, oi: number) => (
                         <button key={oi} onClick={() => setAns(`r${pi}_${qi}`, oi)}
-                          className={`p-2.5 rounded-lg border text-sm text-left cursor-pointer transition ${answers[`r${pi}_${qi}`] === oi ? "bg-blue-50 border-blue-400 font-medium" : "bg-slate-50 border-slate-200 hover:bg-slate-100"}`}>{String.fromCharCode(65 + oi)}. {o}</button>
+                          className={`p-2.5 rounded-lg border text-sm text-left cursor-pointer transition ${answers[`r${pi}_${qi}`] === oi ? "bg-[#EEF3FB] border-[#2457A7] font-medium" : "bg-white border-slate-200 hover:border-[#2457A7]"}`}>{String.fromCharCode(65 + oi)}. {o}</button>
                       ))}
                     </div>
                   </div>
@@ -315,7 +315,7 @@ export default function MockTestPage() {
           })}
           <div className="text-center py-6">
             <button onClick={() => { setStarted(false); setPhase("result"); const s = calcScore(); const p = Math.round((s.correct / s.total) * 100); if (p === 100) playPerfect(); else if (p >= 72) playVictory(); else playWrong(); }} disabled={rDone < rTotal}
-              className="px-10 py-4 bg-emerald-600 text-white rounded-xl font-bold text-lg cursor-pointer border-none hover:bg-emerald-700 transition disabled:opacity-40">📊 Submit Test</button>
+              className="px-10 py-4 bg-[#2457A7] text-white rounded-xl font-bold text-lg cursor-pointer border-none hover:bg-[#1d4a8f] transition disabled:opacity-40">📊 Submit Test</button>
             {rDone < rTotal && <p className="text-xs text-slate-400 mt-2">Answer all questions to submit.</p>}
           </div>
         </div>

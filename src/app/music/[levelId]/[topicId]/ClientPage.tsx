@@ -24,7 +24,7 @@ export default function TopicPracticePage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center">
         <p className="text-slate-500">找不到這個主題</p>
-        <Link href="/music" className="text-pink-500 hover:underline no-underline mt-4 inline-block">
+        <Link href="/music" className="text-[#2457A7] hover:underline no-underline mt-4 inline-block">
           ← 回到樂理基礎
         </Link>
       </div>
@@ -38,15 +38,17 @@ export default function TopicPracticePage() {
     <div className="max-w-3xl mx-auto px-4 py-8">
       <Link
         href={`/music/${levelId}`}
-        className="text-sm text-pink-500 hover:underline no-underline"
+        className="text-sm font-bold text-[#2457A7] hover:underline no-underline"
       >
         ← 回到{level.title}
       </Link>
 
-      <div className="text-center mt-4 mb-6">
-        <div className="text-4xl mb-2">{topic.icon}</div>
-        <h1 className="text-2xl font-black text-slate-800">{topic.title}</h1>
-        <p className="text-sm text-slate-500">{level.title}</p>
+      <div className="flex items-center gap-3 mt-4 mb-6">
+        <span className="w-12 h-12 shrink-0 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-2xl" aria-hidden="true">{topic.icon}</span>
+        <div className="min-w-0">
+          <div className="text-sm font-bold text-[#E65E83]">樂理基礎 · {level.title}</div>
+          <h1 className="text-2xl md:text-3xl font-black text-[#263238] m-0 leading-tight">{topic.title}</h1>
+        </div>
       </div>
 
       {hasConcepts ? (
@@ -77,13 +79,13 @@ function TabbedView({ topic, levelId, levelTitle }: { topic: MusicTopic; levelId
 
   return (
     <>
-      <div className="flex gap-2 justify-center mb-6">
+      <div className="flex gap-2 mb-6">
         {tabs.map((t) => (
           <button key={t.key} onClick={() => setTab(t.key)}
-            className={`px-5 py-2 rounded-xl font-bold text-sm border-none cursor-pointer transition ${
+            className={`px-5 py-2 rounded-xl font-bold text-sm border cursor-pointer transition ${
               tab === t.key
-                ? `bg-gradient-to-r ${topic.color} text-white shadow`
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                ? "bg-[#2457A7] border-[#2457A7] text-white"
+                : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
             }`}>
             {t.label}
           </button>
@@ -93,7 +95,7 @@ function TabbedView({ topic, levelId, levelTitle }: { topic: MusicTopic; levelId
       {tab === "concepts" && (
         <div className="space-y-4">
           {topic.concepts!.map((c, i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+            <div key={i} className="bg-white rounded-2xl p-5 border border-slate-200">
               <h2 className="text-lg font-bold text-slate-800 mb-2">{c.title}</h2>
               <p className="text-slate-600 leading-7 mb-3">{c.explanation}</p>
               {c.images && c.images.length > 0 && (
@@ -133,7 +135,7 @@ function TabbedView({ topic, levelId, levelTitle }: { topic: MusicTopic; levelId
           ))}
           <div className="text-center pt-2">
             <button onClick={() => setTab("practice")}
-              className={`px-6 py-2.5 rounded-xl bg-gradient-to-r ${topic.color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}>
+              className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
               觀念看完了，開始練習 →
             </button>
           </div>
@@ -238,14 +240,14 @@ function QuizSection({
   if (done) {
     const pct = Math.round((correct / shuffled.length) * 100);
     return (
-      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="text-center bg-white rounded-2xl p-8 border border-slate-200">
         <div className="text-5xl mb-3">
           {pct >= 90 ? "🎉" : pct >= 60 ? "👍" : "💪"}
         </div>
         <h2 className="text-2xl font-black text-slate-800 mb-2">
           練習完成！
         </h2>
-        <div className="text-4xl font-black text-pink-500 my-3">
+        <div className="text-4xl font-black text-[#2457A7] my-3">
           {correct} / {shuffled.length}
         </div>
         <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
@@ -259,7 +261,7 @@ function QuizSection({
         <div className="mt-4">
           <button
             onClick={handleRestart}
-            className="px-6 py-2.5 rounded-xl bg-pink-500 text-white font-bold cursor-pointer border-none hover:bg-pink-600 transition"
+            className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
           >
             🔄 再做一次
           </button>
@@ -269,7 +271,7 @@ function QuizSection({
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl p-6 border border-slate-200">
       <div className="flex justify-between items-center mb-4">
         <span className="text-sm text-slate-400">
           第 {idx + 1} / {shuffled.length} 題
@@ -324,7 +326,7 @@ function QuizSection({
           </div>
           <button
             onClick={handleNext}
-            className={`mt-3 px-5 py-2 rounded-xl bg-gradient-to-r ${color} text-white font-bold cursor-pointer border-none hover:opacity-90 transition`}
+            className="mt-3 px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition"
           >
             {idx + 1 >= shuffled.length ? "看結果 →" : "下一題 →"}
           </button>

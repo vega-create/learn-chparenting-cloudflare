@@ -82,7 +82,7 @@ export default function ExpenseTracker() {
           </div>
         </div>
         <button onClick={() => setPhase("tracking")}
-          className="px-8 py-3 rounded-xl bg-violet-500 text-white font-bold text-lg cursor-pointer border-none hover:bg-violet-600 transition">
+          className="px-8 py-3 rounded-xl bg-[#2457A7] text-white font-bold text-lg cursor-pointer border-none hover:bg-[#1d4688] transition">
           開始記帳 ✏️
         </button>
       </div>
@@ -154,7 +154,7 @@ export default function ExpenseTracker() {
         </div>
 
         <button onClick={() => { setPhase("intro"); setTransactions([]); setCurrentDay(1); }}
-          className="w-full py-3 rounded-xl bg-violet-500 text-white font-bold cursor-pointer border-none hover:bg-violet-600 transition">
+          className="w-full py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
           🔄 重新開始
         </button>
       </div>
@@ -215,7 +215,7 @@ export default function ExpenseTracker() {
         {/* Add buttons */}
         <div className="flex gap-2 mt-3">
           <button onClick={() => setShowAdd(!showAdd)}
-            className="flex-1 py-2 rounded-xl bg-violet-500 text-white font-bold text-sm cursor-pointer border-none hover:bg-violet-600 transition">
+            className="flex-1 py-2 rounded-xl bg-[#2457A7] text-white font-bold text-sm cursor-pointer border-none hover:bg-[#1d4688] transition">
             ➕ 新增記錄
           </button>
           {dayTransactions.length === 0 && (
@@ -244,7 +244,7 @@ export default function ExpenseTracker() {
               ))}
             </div>
             <button onClick={addTransaction}
-              className="w-full py-2 rounded-lg bg-violet-500 text-white font-bold text-sm cursor-pointer border-none hover:bg-violet-600 transition">
+              className="w-full py-2 rounded-lg bg-[#2457A7] text-white font-bold text-sm cursor-pointer border-none hover:bg-[#1d4688] transition">
               ✅ 儲存
             </button>
           </div>
@@ -254,7 +254,7 @@ export default function ExpenseTracker() {
       {/* Finish button */}
       {currentDay >= 7 && transactions.length > 0 && (
         <button onClick={handleFinish}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold cursor-pointer border-none hover:opacity-90 transition">
+          className="w-full py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
           📊 查看 7 天總結
         </button>
       )}

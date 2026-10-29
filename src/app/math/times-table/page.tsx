@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { PracticeHeader } from "@/components/MathChineseUI";
 
 /**
  * 九九乘法練習。
@@ -163,15 +164,15 @@ export default function TimesTablePage() {
         <thead>
           <tr>
             <th className="w-9 h-9 sm:w-11 sm:h-10 text-slate-400 font-semibold">×</th>
-            {NUMS.map(b => <th key={b} className="w-9 h-9 sm:w-11 sm:h-10 bg-amber-50 border border-amber-100 text-amber-700 font-bold">{b}</th>)}
+            {NUMS.map(b => <th key={b} className="w-9 h-9 sm:w-11 sm:h-10 bg-[#FDECF1] border border-[#F6D5DF] text-[#C2416A] font-bold">{b}</th>)}
           </tr>
         </thead>
         <tbody>
           {NUMS.map(a => (
             <tr key={a}>
-              <th className="bg-amber-50 border border-amber-100 text-amber-700 font-bold h-9 sm:h-10">{a}</th>
+              <th className="bg-[#FDECF1] border border-[#F6D5DF] text-[#C2416A] font-bold h-9 sm:h-10">{a}</th>
               {NUMS.map(b => (
-                <td key={b} className={`border text-center h-9 sm:h-10 ${a === highlight ? "bg-amber-100 border-amber-200 text-slate-800 font-semibold" : "bg-white border-slate-100 text-slate-600"}`}>{a * b}</td>
+                <td key={b} className={`border text-center h-9 sm:h-10 ${a === highlight ? "bg-[#FBD9E3] border-[#F6D5DF] text-slate-800 font-semibold" : "bg-white border-slate-100 text-slate-600"}`}>{a * b}</td>
               ))}
             </tr>
           ))}
@@ -187,15 +188,9 @@ export default function TimesTablePage() {
   const pct = done ? Math.round((done.correct / done.total) * 100) : 0;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <nav className="text-sm text-slate-400 mb-6">
-        <a href="/math" className="hover:text-slate-600 no-underline">← 回數學練習</a>
-      </nav>
-
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-black text-slate-800 mb-2">九九乘法練習</h1>
-        <p className="text-slate-500">從九九乘法到多位數乘法，答錯的題目最後會再練一次。</p>
-      </div>
+    <div className="max-w-3xl mx-auto px-4 py-8">
+      <PracticeHeader backHref="/math" backLabel="回數學練習" eyebrow="數學練習" title="九九乘法練習"
+        desc="從九九乘法到多位數乘法，答錯的題目最後會再練一次。" icon="×" />
 
       {/* 選擇 */}
       {!queue && (
@@ -203,7 +198,7 @@ export default function TimesTablePage() {
           <div className="grid grid-cols-3 gap-2 mb-4">
             {LEVELS.map(lv => (
               <button key={lv.id} onClick={() => { setLevel(lv.id); if (lv.id !== "basic") setKind(KINDS[lv.id][0].id); }} aria-pressed={level === lv.id}
-                className={`py-3 rounded-xl border-2 cursor-pointer transition ${level === lv.id ? "bg-amber-50 border-amber-400 text-slate-800" : "bg-white border-slate-200 text-slate-500"}`}>
+                className={`py-3 rounded-xl border-2 cursor-pointer transition ${level === lv.id ? "bg-[#FDECF1] border-[#E65E83] text-[#263238]" : "bg-white border-slate-200 text-slate-500"}`}>
                 <span className="block font-bold">{lv.label}</span>
                 <span className="block text-xs text-slate-400">{lv.desc}</span>
               </button>
@@ -211,7 +206,7 @@ export default function TimesTablePage() {
           </div>
 
           {level !== "basic" && (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
               <h2 className="font-bold text-slate-800 mb-3">要練哪一種？</h2>
               <div className="grid grid-cols-2 gap-2 mb-3">
                 {KINDS[level].map(k => {
@@ -219,24 +214,24 @@ export default function TimesTablePage() {
                   const b = multiBest(level, k.id);
                   return (
                     <button key={k.id} onClick={() => setKind(k.id)} aria-pressed={on}
-                      className={`py-3 px-2 rounded-xl border-2 cursor-pointer transition ${on ? "bg-amber-400 border-amber-500 text-white" : "bg-white border-slate-200 text-slate-600 hover:border-amber-300"}`}>
+                      className={`py-3 px-2 rounded-xl border-2 cursor-pointer transition ${on ? "bg-[#E65E83] border-[#E65E83] text-white" : "bg-white border-slate-200 text-slate-600 hover:border-[#E65E83]"}`}>
                       <span className="block font-bold">{k.label}</span>
-                      <span className={`block text-xs ${on ? "text-amber-50" : "text-slate-400"}`}>{k.example}</span>
-                      <span className={`block text-[10px] font-medium ${on ? "text-amber-50" : "text-emerald-600"}`}>{b ? `最佳 ${b.correct}/${b.total}` : "\u00a0"}</span>
+                      <span className={`block text-xs ${on ? "text-white/85" : "text-slate-400"}`}>{k.example}</span>
+                      <span className={`block text-[10px] font-medium ${on ? "text-white/85" : "text-emerald-600"}`}>{b ? `最佳 ${b.correct}/${b.total}` : "\u00a0"}</span>
                     </button>
                   );
                 })}
               </div>
               <p className="text-xs text-slate-400 mb-6">一輪 {MULTI_LENGTH} 題，題目隨機出。準備紙筆用直式算，答案算好再輸入。</p>
               <button onClick={start}
-                className="w-full py-3.5 rounded-xl font-bold text-lg border-0 bg-gradient-to-r from-amber-400 to-amber-500 text-white cursor-pointer hover:opacity-90">
+                className="w-full py-3.5 rounded-xl font-bold text-lg border-0 bg-[#2457A7] text-white cursor-pointer hover:bg-[#1d4688]">
                 開始練習：{label}
               </button>
             </div>
           )}
 
           {level === "basic" && (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
+          <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
             <h2 className="font-bold text-slate-800 mb-3">1. 要練幾的乘法？（可以選不只一個）</h2>
             <div className="grid grid-cols-4 gap-2 mb-3">
               {TABLES.map(n => {
@@ -244,15 +239,15 @@ export default function TimesTablePage() {
                 const b = best[String(n)];
                 return (
                   <button key={n} onClick={() => toggle(n)} aria-pressed={on}
-                    className={`py-3 rounded-xl border-2 font-black text-xl cursor-pointer transition active:scale-95 ${on ? "bg-amber-400 border-amber-500 text-white" : "bg-white border-slate-200 text-slate-600 hover:border-amber-300"}`}>
+                    className={`py-3 rounded-xl border-2 font-black text-xl cursor-pointer transition active:scale-95 ${on ? "bg-[#E65E83] border-[#E65E83] text-white" : "bg-white border-slate-200 text-slate-600 hover:border-[#E65E83]"}`}>
                     {n}
-                    <span className={`block text-[10px] font-medium ${on ? "text-amber-50" : "text-emerald-600"}`}>{b ? `最佳 ${b.correct}/${b.total}` : " "}</span>
+                    <span className={`block text-[10px] font-medium ${on ? "text-white/85" : "text-emerald-600"}`}>{b ? `最佳 ${b.correct}/${b.total}` : " "}</span>
                   </button>
                 );
               })}
             </div>
             <div className="flex gap-3 text-sm mb-6">
-              <button onClick={() => setSelected(TABLES)} className="text-amber-600 hover:underline cursor-pointer bg-transparent border-0 p-0">全部都選</button>
+              <button onClick={() => setSelected(TABLES)} className="text-[#2457A7] hover:underline cursor-pointer bg-transparent border-0 p-0">全部都選</button>
               <button onClick={() => setSelected([])} className="text-slate-400 hover:underline cursor-pointer bg-transparent border-0 p-0">清除</button>
             </div>
 
@@ -260,7 +255,7 @@ export default function TimesTablePage() {
             <div className="grid grid-cols-2 gap-2 mb-2">
               {([["seq", "照順序", "×1、×2、×3…"], ["random", "打亂", "順序不固定"]] as const).map(([id, t, d]) => (
                 <button key={id} onClick={() => setOrder(id)} aria-pressed={order === id} disabled={selected.length > 1}
-                  className={`py-3 rounded-xl border-2 cursor-pointer transition ${(selected.length > 1 ? id === "random" : order === id) ? "bg-amber-50 border-amber-400 text-slate-800" : "bg-white border-slate-200 text-slate-500"} ${selected.length > 1 ? "cursor-default" : ""}`}>
+                  className={`py-3 rounded-xl border-2 cursor-pointer transition ${(selected.length > 1 ? id === "random" : order === id) ? "bg-[#FDECF1] border-[#E65E83] text-[#263238]" : "bg-white border-slate-200 text-slate-500"} ${selected.length > 1 ? "cursor-default" : ""}`}>
                   <span className="block font-bold">{t}</span>
                   <span className="block text-xs text-slate-400">{d}</span>
                 </button>
@@ -271,7 +266,7 @@ export default function TimesTablePage() {
             </p>
 
             <button onClick={start} disabled={selected.length === 0}
-              className={`w-full py-3.5 rounded-xl font-bold text-lg border-0 ${selected.length === 0 ? "bg-slate-100 text-slate-400" : "bg-gradient-to-r from-amber-400 to-amber-500 text-white cursor-pointer hover:opacity-90"}`}>
+              className={`w-full py-3.5 rounded-xl font-bold text-lg border-0 ${selected.length === 0 ? "bg-slate-100 text-slate-400" : "bg-[#2457A7] text-white cursor-pointer hover:bg-[#1d4688]"}`}>
               {selected.length === 0 ? "請先選要練的乘法" : `開始練習：${label}`}
             </button>
           </div>
@@ -289,19 +284,19 @@ export default function TimesTablePage() {
 
       {/* 練習中 */}
       {current && queue && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
+        <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
           <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
             <span>{retrying ? "再練一次答錯的題目" : label}</span>
             <span>第 {pos + 1} 題／共 {queue.length} 題</span>
           </div>
           <div className="h-2 bg-slate-100 rounded-full mb-6 overflow-hidden">
-            <div className="h-full bg-amber-400 transition-all" style={{ width: `${(pos / queue.length) * 100}%` }} />
+            <div className="h-full bg-[#E65E83] transition-all" style={{ width: `${(pos / queue.length) * 100}%` }} />
           </div>
 
           <div className="text-center mb-5" aria-live="polite">
             <div className={`font-black text-slate-800 mb-3 ${level === "basic" ? "text-5xl sm:text-6xl" : "text-3xl sm:text-5xl"}`}>
               {current.a} × {current.b} ={" "}
-              <span className={`inline-block min-w-[2.2ch] border-b-4 ${feedback === "right" ? "text-emerald-600 border-emerald-400" : feedback === "wrong" ? "text-red-500 border-red-400" : "text-amber-600 border-amber-300"}`}>
+              <span className={`inline-block min-w-[2.2ch] border-b-4 ${feedback === "right" ? "text-emerald-600 border-emerald-400" : feedback === "wrong" ? "text-red-500 border-red-400" : "text-[#2457A7] border-[#9DB6DE]"}`}>
                 {input || " "}
               </span>
             </div>
@@ -321,7 +316,7 @@ export default function TimesTablePage() {
             <button onClick={() => press("0")} disabled={!!feedback}
               className="py-3.5 rounded-xl bg-slate-50 border border-slate-200 text-2xl font-bold text-slate-700 cursor-pointer active:scale-95 hover:bg-slate-100">0</button>
             <button onClick={() => press("enter")} disabled={!feedback && input === ""}
-              className={`py-3.5 rounded-xl border-0 text-base font-bold text-white active:scale-95 ${!feedback && input === "" ? "bg-slate-200" : "bg-amber-500 cursor-pointer hover:bg-amber-600"}`}>
+              className={`py-3.5 rounded-xl border-0 text-base font-bold text-white active:scale-95 ${!feedback && input === "" ? "bg-slate-200" : "bg-[#2457A7] cursor-pointer hover:bg-[#1d4688]"}`}>
               {feedback ? "下一題" : "確認"}
             </button>
           </div>
@@ -337,7 +332,7 @@ export default function TimesTablePage() {
 
       {/* 結果 */}
       {done && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 mb-8 text-center">
+        <div className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 text-center">
           <div className="text-5xl mb-3">{pct === 100 ? "🏆" : pct >= 80 ? "⭐" : "💪"}</div>
           <h2 className="text-2xl font-black text-slate-800 mb-1">
             {pct === 100 ? "全部答對！" : pct >= 80 ? "不錯，再練一輪會更熟" : "慢慢來，多練幾次就會記住"}
@@ -345,7 +340,7 @@ export default function TimesTablePage() {
           {done.isBest && <p className="text-sm text-emerald-600">這是你目前的最佳紀錄</p>}
           <div className="grid grid-cols-2 gap-4 my-6 max-w-xs mx-auto">
             <div className="p-4 rounded-xl bg-emerald-50"><div className="text-3xl font-black text-emerald-600">{done.correct}/{done.total}</div><div className="text-xs text-emerald-500 mt-1">第一次就答對</div></div>
-            <div className="p-4 rounded-xl bg-amber-50"><div className="text-3xl font-black text-amber-600">{done.seconds}</div><div className="text-xs text-amber-500 mt-1">秒（含重練）</div></div>
+            <div className="p-4 rounded-xl bg-[#EEF3FB]"><div className="text-3xl font-black text-[#2457A7]">{done.seconds}</div><div className="text-xs text-[#52616B] mt-1">秒（含重練）</div></div>
           </div>
           {missed.length > 0 && (
             <div className="mb-6">
@@ -358,14 +353,14 @@ export default function TimesTablePage() {
             </div>
           )}
           <div className="flex flex-wrap justify-center gap-3">
-            <button onClick={start} className="px-5 py-2.5 rounded-xl bg-amber-500 text-white font-semibold cursor-pointer border-0 hover:bg-amber-600">再練一次</button>
+            <button onClick={start} className="px-5 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold cursor-pointer border-0 hover:bg-[#1d4688]">再練一次</button>
             <button onClick={() => { setQueue(null); setDone(null); }} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">選其他練習</button>
           </div>
         </div>
       )}
 
       {/* 說明（固定顯示，給第一次來的家長和搜尋引擎看） */}
-      <section className="prose prose-slate max-w-none text-slate-600 leading-relaxed">
+      <section className="prose prose-slate max-w-none text-slate-600 leading-relaxed bg-white rounded-2xl border border-slate-200 p-5 sm:p-8">
         <h2 className="text-xl font-bold text-slate-800 mb-3">怎麼用這個練習</h2>
         <ol className="list-decimal pl-5 space-y-2 mb-6">
           <li>剛開始學的孩子，一次只選一個乘法，順序選「照順序」，先把 ×1 到 ×9 唸熟。</li>
@@ -385,8 +380,8 @@ export default function TimesTablePage() {
         </p>
         <h2 className="text-xl font-bold text-slate-800 mb-3">練熟之後</h2>
         <p>
-          九九乘法熟了，可以接著做<a href="/math/basic-arithmetic" className="text-amber-600">四則運算練習</a>和<a href="/math/word-problems" className="text-amber-600">應用題</a>。
-          不想只用背的，可以看<a href="/blog/multiplication-table-games" className="text-amber-600">九九乘法的 5 種遊戲練法</a>。
+          九九乘法熟了，可以接著做<a href="/math/basic-arithmetic" className="text-[#2457A7]">四則運算練習</a>和<a href="/math/word-problems" className="text-[#2457A7]">應用題</a>。
+          不想只用背的，可以看<a href="/blog/multiplication-table-games" className="text-[#2457A7]">九九乘法的 5 種遊戲練法</a>。
         </p>
       </section>
     </div>

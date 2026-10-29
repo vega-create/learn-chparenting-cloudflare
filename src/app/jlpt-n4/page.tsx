@@ -1,6 +1,6 @@
 import { N4_UNITS } from "@/data/jlpt-n4";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { JlptLevelBody } from "@/components/JlptLevelBody";
 
 export const metadata: Metadata = {
   title: "JLPT N4 日文檢定免費練習 | 單字・文法・聽力・模擬考 | learn.chparenting.com",
@@ -10,55 +10,22 @@ export const metadata: Metadata = {
 
 export default function JlptN4Page() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="text-center mb-10">
-        <div className="text-5xl mb-3">🇯🇵</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">JLPT N4 基礎</h1>
-        <p className="text-slate-500">基礎日文 · {N4_UNITS.reduce((sum, u) => sum + u.vocab.length, 0)}+ 單字 · 聽說讀寫完整練習</p>
-      </div>
-
-      <div className="grid gap-4 mb-8">
-        {N4_UNITS.map((u) => (
-          <Link key={u.id} href={`/jlpt-n4/unit/${u.id}`}
-            className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover-lift no-underline">
-            <div className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl flex-shrink-0"
-              style={{ background: u.color + "15" }}>{u.icon}</div>
-            <div className="flex-1 min-w-0">
-              <div className="text-xs font-semibold mb-0.5" style={{ color: u.color }}>Unit {u.id}</div>
-              <div className="text-lg font-bold text-slate-800">{u.title}</div>
-              <div className="text-sm text-slate-400">{u.titleJa} · {u.vocab.length} 單字 · {u.grammar.length} 文法</div>
-            </div>
-            <span className="text-slate-300 text-xl">→</span>
-          </Link>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Link href="/jlpt-n4/speaking"
-          className="p-6 bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl border border-red-200 hover-lift no-underline text-center">
-          <div className="text-3xl mb-2">🎙️</div>
-          <div className="font-bold text-slate-800">口說訓練</div>
-          <div className="text-sm text-slate-500 mt-1">發音、跟讀、朗讀</div>
-        </Link>
-        <Link href="/jlpt-n4/writing"
-          className="p-6 bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl border border-violet-200 hover-lift no-underline text-center">
-          <div className="text-3xl mb-2">✍️</div>
-          <div className="font-bold text-slate-800">寫作練習</div>
-          <div className="text-sm text-slate-500 mt-1">句子重組、翻譯</div>
-        </Link>
-        <Link href="/jlpt-n4/game"
-          className="p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-200 hover-lift no-underline text-center">
-          <div className="text-3xl mb-2">🎮</div>
-          <div className="font-bold text-slate-800">綜合遊戲</div>
-          <div className="text-sm text-slate-500 mt-1">用遊戲複習全部單元</div>
-        </Link>
-        <Link href="/jlpt-n4/mock-test"
-          className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 hover-lift no-underline text-center">
-          <div className="text-3xl mb-2">📝</div>
-          <div className="font-bold text-slate-800">模擬測驗</div>
-          <div className="text-sm text-slate-500 mt-1">練習版，題型參考 JLPT</div>
-        </Link>
-      </div>
-    </div>
+    <JlptLevelBody
+      level="n4"
+      units={N4_UNITS}
+      eyebrow="日文學習"
+      title="JLPT N4 基礎"
+      desc={<>基礎日文 · {N4_UNITS.reduce((sum, u) => sum + u.vocab.length, 0)}+ 單字 · 聽說讀寫完整練習。選一個單元或模式就能開始，不用註冊。</>}
+      about={
+        <>
+          <p className="text-[#52616B] leading-relaxed mb-3">N4 在 N5 之後，加入て形、比較句型、敬語稱呼等關鍵文法。適合已有 N5 基礎、想再往上一級的大人或孩子。題庫共 {N4_UNITS.length} 個主題單元，單字附發音，搭配文法重點、聽力與閱讀練習，另有單字遊戲、口說、寫作與計時模擬測驗，每單元附陪伴說明。</p>
+          <ul className="space-y-1 text-sm text-[#263238] list-none p-0 m-0">
+            <li>✓ 單字、文法、聽力、閱讀完整題型</li>
+            <li>✓ 手機、平板、電腦都能使用</li>
+            <li>✓ 不需要帳號，免費直接練習</li>
+          </ul>
+        </>
+      }
+    />
   );
 }

@@ -122,7 +122,7 @@ export default function RedEnvelope() {
           </div>
 
           <button onClick={handleNext}
-            className="w-full py-3 rounded-xl bg-red-500 text-white font-bold cursor-pointer border-none hover:bg-red-600 transition">
+            className="w-full py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
             下一個情境 →
           </button>
         </div>

@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function TimesTableLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div className="bg-white">{children}</div>;
 }

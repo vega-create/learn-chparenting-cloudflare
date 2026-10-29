@@ -56,7 +56,7 @@ function FlashCardView() {
         </button>
         <button onClick={() => { setIdx(Math.min(flashCards.length - 1, idx + 1)); setFlipped(false); }}
           disabled={idx === flashCards.length - 1}
-          className="px-5 py-2 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 disabled:opacity-40 transition">
+          className="px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] disabled:opacity-40 transition">
           下一張 →
         </button>
       </div>
@@ -97,7 +97,7 @@ function QuizView() {
         <div className="text-4xl font-black text-amber-500 my-3">{score} / {quizItems.length}</div>
         <div className="text-sm text-slate-500 mb-4">正確率 {pct}%</div>
         <button onClick={() => { setIdx(0); setSelected(null); setScore(0); setDone(false); }}
-          className="px-6 py-2.5 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">🔄 再做一次</button>
+          className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">🔄 再做一次</button>
       </div>
     );
   }
@@ -130,7 +130,7 @@ function QuizView() {
             {q.explanation}
           </div>
           <button onClick={handleNext}
-            className="mt-3 px-5 py-2 rounded-xl bg-amber-500 text-white font-bold cursor-pointer border-none hover:bg-amber-600 transition">
+            className="mt-3 px-5 py-2 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
             {idx + 1 >= quizItems.length ? "看結果 →" : "下一題 →"}
           </button>
         </div>

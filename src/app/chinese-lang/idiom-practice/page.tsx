@@ -2,6 +2,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { IDIOMS, IDIOM_LEVELS, type Idiom, type IdiomLevel } from "@/data/idiom-practice";
+import { PracticeHeader } from "@/components/MathChineseUI";
+
+const MODE_ICON: Record<string, React.ReactNode> = {
+  fill: <><path d="M4 20h4L19 9l-4-4L4 16v4Z" /><path d="m13.5 6.5 4 4" /></>,
+  match: <><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1" /><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" /></>,
+  sheet: <><path d="M7 8V3h10v5" /><rect x="3" y="8" width="18" height="9" rx="2" /><path d="M7 14h10v7H7Z" /></>,
+};
 
 /**
  * 成語練習：填空、配對、可列印學習單。
@@ -217,60 +224,71 @@ export default function IdiomPracticePage() {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <nav className="text-sm text-slate-400 mb-6">
-        <a href="/chinese-lang" className="hover:text-slate-600 no-underline">← 回國語學習</a>
-      </nav>
-
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-black text-slate-800 mb-2">成語練習</h1>
-        <p className="text-slate-500">填空、配對，還可以印成學習單用手寫。</p>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="flex items-center gap-6 mb-2">
+        <div className="flex-1 min-w-0">
+          <PracticeHeader backHref="/chinese-lang" backLabel="回國語學習" eyebrow="國語學習・中高年級" title="成語練習"
+            desc="填空、配對，還可以印成學習單用手寫。大人小孩都能一起練。" icon="成" />
+        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/pages/idiom.webp" alt="" className="hidden md:block w-56 lg:w-64 aspect-[3/2] object-cover rounded-2xl shrink-0" />
       </div>
 
       {/* 選程度與玩法 */}
       {mode === null && (
-        <div className="mb-8">
-          <div className="grid grid-cols-2 gap-2 mb-5">
-            {IDIOM_LEVELS.map(l => (
-              <button key={l.id} onClick={() => setLevel(l.id)} aria-pressed={level === l.id}
-                className={`py-3 rounded-xl border-2 cursor-pointer transition ${level === l.id ? "bg-orange-50 border-orange-400 text-slate-800" : "bg-white border-slate-200 text-slate-500"}`}>
-                <span className="block font-bold">{l.title}</span>
-                <span className="block text-xs text-slate-400">{l.note}・{IDIOMS.filter(x => x.level === l.id).length} 個成語</span>
-              </button>
-            ))}
+        <div className="mb-8 space-y-4">
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5">
+            <h2 className="text-base font-bold text-[#263238] m-0">選擇學習階段</h2>
+            <p className="text-sm text-[#52616B] mt-0.5 mb-3">依孩子的年級選擇合適的成語難度</p>
+            <div className="grid grid-cols-2 gap-2">
+              {IDIOM_LEVELS.map(l => (
+                <button key={l.id} onClick={() => setLevel(l.id)} aria-pressed={level === l.id}
+                  className={`py-3 px-2 rounded-xl border-2 cursor-pointer transition ${level === l.id ? "bg-[#FDECF1] border-[#E65E83] text-[#263238]" : "bg-white border-slate-200 text-slate-500 hover:border-slate-300"}`}>
+                  <span className="block font-bold">{l.title}</span>
+                  <span className="block text-xs text-slate-500">{l.note}・{IDIOMS.filter(x => x.level === l.id).length} 個成語</span>
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="space-y-3">
-            {MODES.map(m => (
-              <button key={m.id} onClick={m.go}
-                className="w-full flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md text-left cursor-pointer transition active:scale-[0.98]">
-                <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-2xl flex-shrink-0">{m.icon}</div>
-                <div className="flex-1">
-                  <div className="font-bold text-slate-800">{m.title}</div>
-                  <div className="text-sm text-slate-400 mt-0.5">{m.desc}</div>
-                  {best[`${m.id}-${level}`] !== undefined && <div className="text-xs text-emerald-600 mt-1">{levelTitle}最佳：正確率 {best[`${m.id}-${level}`]}%</div>}
-                </div>
-              </button>
-            ))}
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5">
+            <h2 className="text-base font-bold text-[#263238] m-0">選擇練習模式</h2>
+            <p className="text-sm text-[#52616B] mt-0.5 mb-3">點一下就開始，三種練法可以輪流做</p>
+            <div className="grid sm:grid-cols-3 gap-3">
+              {MODES.map(m => (
+                <button key={m.id} onClick={m.go}
+                  className="group w-full flex sm:flex-col items-center sm:items-start gap-3 p-4 bg-white rounded-2xl border border-slate-200 hover:border-[#E65E83] hover:bg-[#FFF5F7] text-left cursor-pointer transition active:scale-[0.98]">
+                  <span className="w-12 h-12 rounded-xl bg-[#FDECF1] text-[#C2416A] flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{MODE_ICON[m.id]}</svg>
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-[#263238]">{m.title}</div>
+                    <div className="text-sm text-[#52616B] mt-0.5">{m.desc}</div>
+                    {best[`${m.id}-${level}`] !== undefined && <div className="text-xs text-emerald-600 mt-1">{levelTitle}最佳：正確率 {best[`${m.id}-${level}`]}%</div>}
+                    <span className="hidden sm:inline-block mt-3 text-sm font-bold text-[#2457A7]">{m.id === "sheet" ? "產生學習單" : "開始練習"} →</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {/* 填空 */}
       {fq && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
+        <div className="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
           <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
             <span>成語填空・{levelTitle}</span>
             <span>第 {fillPos + 1} 題／共 {fillQs.length} 題</span>
           </div>
           <div className="h-2 bg-slate-100 rounded-full mb-6 overflow-hidden">
-            <div className="h-full bg-orange-400 transition-all" style={{ width: `${(fillPos / fillQs.length) * 100}%` }} />
+            <div className="h-full bg-[#E65E83] transition-all" style={{ width: `${(fillPos / fillQs.length) * 100}%` }} />
           </div>
           <div className="text-center mb-6" aria-live="polite">
             <div className="text-sm text-slate-400 mb-1">意思</div>
             <div className="text-lg text-slate-700 mb-5">{fq.idiom.meaning}</div>
             <div className="text-4xl sm:text-5xl font-black text-slate-800 tracking-widest">
               {fq.idiom.word.split("").map((c, i) => (
-                <span key={i} className={i === fq.idiom.blank ? (picked ? (picked === c ? "text-emerald-600" : "text-red-500") : "text-orange-400") : ""}>
+                <span key={i} className={i === fq.idiom.blank ? (picked ? (picked === c ? "text-emerald-600" : "text-red-500") : "text-[#E65E83]") : ""}>
                   {i === fq.idiom.blank ? (picked ? c : "＿") : c}
                 </span>
               ))}
@@ -287,7 +305,7 @@ export default function IdiomPracticePage() {
               return (
                 <button key={c} onClick={() => pickFill(c)} disabled={!!picked}
                   className={`py-4 rounded-xl border-2 text-3xl font-bold transition active:scale-95
-                    ${!picked ? "bg-white border-slate-200 text-slate-700 cursor-pointer hover:border-orange-300"
+                    ${!picked ? "bg-white border-slate-200 text-slate-700 cursor-pointer hover:border-[#E65E83]"
                       : isAns ? "bg-emerald-50 border-emerald-400 text-emerald-700"
                       : c === picked ? "bg-red-50 border-red-400 text-red-600" : "bg-white border-slate-100 text-slate-300"}`}>
                   {c}
@@ -297,7 +315,7 @@ export default function IdiomPracticePage() {
           </div>
           <div className="text-center">
             {picked
-              ? <button onClick={nextFill} className="px-8 py-3 rounded-xl bg-orange-500 text-white font-bold cursor-pointer border-0 hover:bg-orange-600">{fillPos + 1 >= fillQs.length ? "看結果" : "下一題"}</button>
+              ? <button onClick={nextFill} className="px-8 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-0 hover:bg-[#1d4688]">{fillPos + 1 >= fillQs.length ? "看結果" : "下一題"}</button>
               : <button onClick={back} className="text-sm text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0">結束這一輪</button>}
           </div>
         </div>
@@ -305,7 +323,7 @@ export default function IdiomPracticePage() {
 
       {/* 配對 */}
       {board && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
+        <div className="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
           <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
             <span>意思配對・{levelTitle}</span>
             <span>第 {boardIdx + 1} 組／共 {boards.length} 組　錯 {matchErrors} 次</span>
@@ -321,7 +339,7 @@ export default function IdiomPracticePage() {
                 return (
                   <button key={it.word} onClick={() => { if (!ok) { setSelLeft(it.word); setWrongRight(null); } }} disabled={ok}
                     className={`w-full min-h-[64px] px-2 rounded-xl border-2 text-lg sm:text-xl font-bold transition
-                      ${ok ? "bg-emerald-50 border-emerald-300 text-emerald-700" : selLeft === it.word ? "bg-orange-100 border-orange-400 text-slate-800 cursor-pointer" : "bg-white border-slate-200 text-slate-700 cursor-pointer hover:border-orange-300"}`}>
+                      ${ok ? "bg-emerald-50 border-emerald-300 text-emerald-700" : selLeft === it.word ? "bg-[#FDECF1] border-[#E65E83] text-slate-800 cursor-pointer" : "bg-white border-slate-200 text-slate-700 cursor-pointer hover:border-[#E65E83]"}`}>
                     {it.word}
                   </button>
                 );
@@ -333,7 +351,7 @@ export default function IdiomPracticePage() {
                 return (
                   <button key={it.word} onClick={() => pickRight(it.word)} disabled={ok || !selLeft}
                     className={`w-full min-h-[64px] px-3 rounded-xl border-2 text-sm sm:text-base text-left transition
-                      ${ok ? "bg-emerald-50 border-emerald-300 text-emerald-700" : wrongRight === it.word ? "bg-red-50 border-red-400 text-red-600 cursor-pointer" : selLeft ? "bg-white border-slate-200 text-slate-700 cursor-pointer hover:border-orange-300" : "bg-white border-slate-200 text-slate-500"}`}>
+                      ${ok ? "bg-emerald-50 border-emerald-300 text-emerald-700" : wrongRight === it.word ? "bg-red-50 border-red-400 text-red-600 cursor-pointer" : selLeft ? "bg-white border-slate-200 text-slate-700 cursor-pointer hover:border-[#E65E83]" : "bg-white border-slate-200 text-slate-500"}`}>
                     {it.meaning}
                   </button>
                 );
@@ -342,7 +360,7 @@ export default function IdiomPracticePage() {
           </div>
           <div className="text-center">
             {boardDone
-              ? <button onClick={nextBoard} className="px-8 py-3 rounded-xl bg-orange-500 text-white font-bold cursor-pointer border-0 hover:bg-orange-600">{boardIdx + 1 >= boards.length ? "看結果" : "下一組"}</button>
+              ? <button onClick={nextBoard} className="px-8 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-0 hover:bg-[#1d4688]">{boardIdx + 1 >= boards.length ? "看結果" : "下一組"}</button>
               : <button onClick={back} className="text-sm text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0">結束這一輪</button>}
           </div>
         </div>
@@ -350,7 +368,7 @@ export default function IdiomPracticePage() {
 
       {/* 結果 */}
       {result && (mode === "fill" || mode === "match") && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 mb-8 text-center">
+        <div className="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-8 mb-8 text-center">
           <div className="text-5xl mb-3">{result.acc >= 95 ? "🏆" : result.acc >= 80 ? "⭐" : "💪"}</div>
           <h2 className="text-2xl font-black text-slate-800 mb-1">
             {result.acc >= 95 ? "這些成語你都熟了！" : result.acc >= 80 ? "不錯，再練一輪會更熟" : "慢慢來，多看幾次就會記住"}
@@ -365,7 +383,7 @@ export default function IdiomPracticePage() {
               <p className="text-sm text-slate-500 mb-2 text-center">這幾個可以再看一次：</p>
               <ul className="space-y-1.5 list-none p-0 m-0">
                 {result.missed.map(it => (
-                  <li key={it.word} className="px-3 py-2 rounded-lg bg-orange-50 border border-orange-100 text-sm">
+                  <li key={it.word} className="px-3 py-2 rounded-lg bg-[#FDECF1] border border-[#F6D5DF] text-sm">
                     <strong className="text-slate-800">{it.word}</strong><span className="text-slate-500">：{it.meaning}</span>
                   </li>
                 ))}
@@ -373,7 +391,7 @@ export default function IdiomPracticePage() {
             </div>
           )}
           <div className="flex flex-wrap justify-center gap-3">
-            <button onClick={mode === "fill" ? startFill : startMatch} className="px-5 py-2.5 rounded-xl bg-orange-500 text-white font-semibold cursor-pointer border-0 hover:bg-orange-600">再練一次</button>
+            <button onClick={mode === "fill" ? startFill : startMatch} className="px-5 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold cursor-pointer border-0 hover:bg-[#1d4688]">再練一次</button>
             <button onClick={back} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">選其他玩法</button>
           </div>
         </div>
@@ -381,14 +399,14 @@ export default function IdiomPracticePage() {
 
       {/* 學習單 */}
       {mode === "sheet" && sheet && (
-        <div className="mb-8">
+        <div className="max-w-3xl mx-auto mb-8">
           <div className="flex flex-wrap justify-center gap-3 mb-4">
-            <button onClick={() => window.print()} className="px-5 py-2.5 rounded-xl bg-orange-500 text-white font-semibold cursor-pointer border-0 hover:bg-orange-600">🖨️ 列印這張學習單</button>
+            <button onClick={() => window.print()} className="px-5 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold cursor-pointer border-0 hover:bg-[#1d4688]">列印這張學習單</button>
             <button onClick={() => setSheet(makeSheet(level))} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">換一張題目</button>
             <button onClick={back} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">回上一頁</button>
           </div>
           <p className="text-xs text-slate-400 text-center mb-4">列印時只會印出學習單，解答印在第二頁。在列印視窗選「另存為 PDF」就能存成檔案。</p>
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 overflow-x-auto">
+          <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 overflow-x-auto">
             <SheetView sheet={sheet} />
           </div>
           <style>{`
@@ -405,7 +423,7 @@ export default function IdiomPracticePage() {
       )}
 
       {/* 說明（固定顯示，給第一次來的家長和搜尋引擎看） */}
-      <section className="prose prose-slate max-w-none text-slate-600 leading-relaxed">
+      <section className="prose prose-slate max-w-none text-slate-600 leading-relaxed bg-white rounded-2xl border border-slate-200 p-5 sm:p-8">
         <h2 className="text-xl font-bold text-slate-800 mb-3">三種練法</h2>
         <ul className="list-disc pl-5 space-y-2 mb-6">
           <li><strong>成語填空</strong>：畫面給成語的意思，成語缺一個字，從四個字裡選出對的。選項都是同音或長得像的字，例如「畫龍點睛」的「睛」和「晴」。</li>
@@ -416,12 +434,12 @@ export default function IdiomPracticePage() {
         <p className="mb-6">
           基礎是中年級常見的成語，像守株待兔、畫蛇添足、半途而廢；進階是高年級常見的成語，像未雨綢繆、破釜沉舟、不恥下問。
           兩種程度的成語都來自站上的成語題庫，想做選擇題可以到
-          <a href="/chinese-lang/middle/idioms" className="text-orange-600">中年級成語練習</a>和
-          <a href="/chinese-lang/high/idioms" className="text-orange-600">高年級成語練習</a>。
+          <a href="/chinese-lang/middle/idioms" className="text-[#2457A7]">中年級成語練習</a>和
+          <a href="/chinese-lang/high/idioms" className="text-[#2457A7]">高年級成語練習</a>。
         </p>
         <h2 className="text-xl font-bold text-slate-800 mb-3">搭配閱讀</h2>
         <p>
-          成語怎麼分年級學、怎麼用在作文裡，可以看<a href="/blog/idiom-learning-guide" className="text-orange-600">成語學習指南</a>。
+          成語怎麼分年級學、怎麼用在作文裡，可以看<a href="/blog/idiom-learning-guide" className="text-[#2457A7]">成語學習指南</a>。
         </p>
       </section>
     </div>

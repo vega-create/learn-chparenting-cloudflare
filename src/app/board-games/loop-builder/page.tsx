@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 type Direction = 0 | 1 | 2 | 3; // 0=up, 1=right, 2=down, 3=left
@@ -236,16 +236,12 @@ export default function LoopBuilderPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔄</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">迴圈建造師</h1>
-          <p className="text-slate-500 text-sm">用重複指令畫出目標圖形</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-cyan-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="loop-builder" title="迴圈建造師" desc="用重複指令畫出目標圖形" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>共 {TOTAL_LEVELS} 關，每次隨機產生</li>
             <li>設定「重複次數」「前進步數」「轉向」</li>
             <li>讓烏龜畫出和目標一樣的圖形</li>
@@ -253,10 +249,10 @@ export default function LoopBuilderPage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
           🚀 開始建造
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -265,15 +261,15 @@ export default function LoopBuilderPage() {
     const maxScore = TOTAL_LEVELS * 10;
     const stars = getStars(score, maxScore);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
+      <GamePage>
+        <BackToGames />
         <GameOverScreen
           score={score} maxScore={maxScore} gameName="迴圈建造師" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "loop-builder", activityName: "迴圈建造師" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
@@ -283,17 +279,18 @@ export default function LoopBuilderPage() {
   const drawnSet = new Set(drawnPath.map(t => `${t[0]},${t[1]}`));
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-cyan-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-0">迴圈建造師</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">第 {level + 1}/{TOTAL_LEVELS} 關：{currentLevel.name}</div>
-        <div className="text-sm font-bold text-cyan-600">{score} 分</div>
+      <div className="flex flex-wrap gap-2 mt-3 mb-4">
+        <div className={GAME_UI.chip}>第 <b>{level + 1}/{TOTAL_LEVELS}</b> 關：{currentLevel.name}</div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {/* Grid */}
-      <div className="bg-white rounded-2xl p-3 border border-cyan-200 shadow-sm mb-4 overflow-auto">
+      <div className="bg-white rounded-2xl p-3 border border-slate-200 mb-4 overflow-auto">
         <div className="grid gap-0 mx-auto" style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`, width: GRID_SIZE * 32 }}>
           {Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, idx) => {
             const x = idx % GRID_SIZE;
@@ -329,11 +326,11 @@ export default function LoopBuilderPage() {
 
       {/* Controls */}
       {!isRunning && (
-        <div className="bg-white rounded-xl p-4 border border-cyan-200 mb-4">
+        <div className="bg-white rounded-xl p-4 border border-slate-200 mb-4">
           <div className="font-mono text-sm text-slate-600 mb-3 bg-slate-50 rounded-lg p-3">
-            <span className="text-cyan-600 font-bold">repeat</span>({repeatCount}) {"{"}<br />
+            <span className="text-[#2457A7] font-bold">repeat</span>({repeatCount}) {"{"}<br />
             &nbsp;&nbsp;<span className="text-green-600">forward</span>({forwardSteps})<br />
-            &nbsp;&nbsp;<span className="text-purple-600">turn</span>(<span className="text-amber-600">{turnDir === "right" ? "右轉" : "左轉"}</span>)<br />
+            &nbsp;&nbsp;<span className="text-[#E65E83]">turn</span>(<span className="text-amber-600">{turnDir === "right" ? "右轉" : "左轉"}</span>)<br />
             {"}"}
           </div>
 
@@ -343,7 +340,7 @@ export default function LoopBuilderPage() {
               <input type="range" min={1} max={8} value={repeatCount}
                 onChange={e => setRepeatCount(Number(e.target.value))}
                 className="flex-1" />
-              <span className="font-mono font-bold text-cyan-600 w-8 text-center">{repeatCount}</span>
+              <span className="font-mono font-bold text-[#2457A7] w-8 text-center">{repeatCount}</span>
             </div>
             <div className="flex items-center gap-3">
               <label className="text-sm text-slate-500 w-20">前進步數</label>
@@ -356,11 +353,11 @@ export default function LoopBuilderPage() {
               <label className="text-sm text-slate-500 w-20">轉向</label>
               <div className="flex gap-2">
                 <button onClick={() => setTurnDir("left")}
-                  className={`px-4 py-2 rounded-lg font-bold cursor-pointer border-none transition ${turnDir === "left" ? "bg-purple-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                  className={`px-4 py-2 rounded-lg font-bold cursor-pointer border-none transition ${turnDir === "left" ? "bg-[#2457A7] text-white" : "bg-slate-100 text-[#52616B]"}`}>
                   ↰ 左轉
                 </button>
                 <button onClick={() => setTurnDir("right")}
-                  className={`px-4 py-2 rounded-lg font-bold cursor-pointer border-none transition ${turnDir === "right" ? "bg-purple-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                  className={`px-4 py-2 rounded-lg font-bold cursor-pointer border-none transition ${turnDir === "right" ? "bg-[#2457A7] text-white" : "bg-slate-100 text-[#52616B]"}`}>
                   ↱ 右轉
                 </button>
               </div>
@@ -372,7 +369,7 @@ export default function LoopBuilderPage() {
       {!isRunning && (
         <div className="flex gap-3 justify-center">
           <button onClick={runProgram}
-            className="px-6 py-2.5 rounded-xl bg-green-500 text-white font-bold cursor-pointer border-none hover:bg-green-600 transition">
+            className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4688] transition">
             ▶️ 執行
           </button>
         </div>
@@ -390,7 +387,7 @@ export default function LoopBuilderPage() {
           {!showAnswer ? (
             <div>
               <button onClick={() => setShowAnswer(true)}
-                className="text-xs text-slate-400 hover:text-amber-500 cursor-pointer border-none bg-transparent underline">
+                className="text-xs text-[#52616B] hover:text-[#2457A7] cursor-pointer border-none bg-transparent underline">
                 還是不行？顯示答案
               </button>
             </div>
@@ -401,12 +398,12 @@ export default function LoopBuilderPage() {
           )}
           <div>
             <button onClick={skipLevel}
-              className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer border-none bg-transparent underline">
+              className="text-xs text-[#52616B] hover:text-[#263238] cursor-pointer border-none bg-transparent underline">
               跳過此關（不得分）
             </button>
           </div>
         </div>
       )}
-    </div>
+    </GamePage>
   );
 }

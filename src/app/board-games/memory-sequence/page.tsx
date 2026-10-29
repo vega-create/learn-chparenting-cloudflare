@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 const COLORS = [
@@ -126,16 +126,12 @@ export default function MemorySequencePage() {
   /* ─── Menu ─── */
   if (phase === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-pink-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🎵</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">記憶旋律</h1>
-          <p className="text-slate-500 text-sm">記住燈光順序，挑戰你的記憶極限</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-pink-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="memory-sequence" title="記憶旋律" desc="記住燈光順序，挑戰你的記憶極限" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>觀察燈光閃爍的順序</li>
             <li>按照相同順序點擊面板</li>
             <li>每輪增加一個新燈光</li>
@@ -144,10 +140,10 @@ export default function MemorySequencePage() {
           </ul>
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
-          🚀 開始挑戰
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
+          開始挑戰 →
         </button>
-      </div>
+      </GamePage>
     );
   }
 
@@ -156,16 +152,16 @@ export default function MemorySequencePage() {
     const maxScore = 100; // 記住 9 個以上就是三顆星；原本要 14 個，國小孩子幾乎拿不到
     const stars = getStars(score, maxScore);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-pink-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">連續記住了 {bestRound} 個</div>
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">連續記住了 {bestRound} 個</div>
         <GameOverScreen
           score={score} maxScore={maxScore} gameName="記憶旋律" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
           onRestart={startGame} onBack={() => setPhase("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "memory-sequence", activityName: "記憶旋律" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
@@ -173,17 +169,18 @@ export default function MemorySequencePage() {
   const isShowing = phase === "showing";
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-pink-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">記憶旋律</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-6">
-        <div className="text-sm text-slate-500">第 {round + 1} 輪</div>
-        <div className="text-sm font-bold text-pink-600">序列長度：{sequence.length}</div>
+      <div className="flex flex-wrap gap-2 mb-5">
+        <div className={GAME_UI.chip}>回合 <b>第 {round + 1} 輪</b></div>
+        <div className={GAME_UI.chip}>序列長度 <b className="text-[#2457A7]">{sequence.length}</b></div>
       </div>
 
       {/* Status */}
-      <div className="text-center mb-6">
+      <div className="text-center mb-6 bg-white rounded-2xl border border-slate-200 py-3">
         {isShowing ? (
           <div className="text-lg font-bold text-amber-500 animate-pulse">👀 注意觀察！</div>
         ) : (
@@ -227,6 +224,6 @@ export default function MemorySequencePage() {
       {feedback && (
         <div className="text-center text-sm font-bold text-green-500">{feedback}</div>
       )}
-    </div>
+    </GamePage>
   );
 }

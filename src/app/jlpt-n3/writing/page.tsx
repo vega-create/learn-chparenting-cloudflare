@@ -22,7 +22,7 @@ const TABS = [
 function ProgressBar({ cur, tot }: { cur: number; tot: number }) {
   return (
     <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden mb-4">
-      <div className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-red-500 to-pink-500"
+      <div className="h-full rounded-full transition-all duration-500 bg-[#2457A7]"
         style={{ width: `${(cur / tot) * 100}%` }} />
     </div>
   );
@@ -41,9 +41,9 @@ function ResultScreen({ score, total, onBack }: { score: number; total: number; 
   const pct = Math.round((score / Math.max(total, 1)) * 100);
   const stars = pct >= 90 ? 3 : pct >= 60 ? 2 : pct >= 30 ? 1 : 0;
   return (
-    <div className="max-w-sm mx-auto mt-16 text-center bg-white rounded-2xl p-10 border border-slate-200 shadow-lg animate-slideUp">
+    <div className="max-w-sm mx-auto mt-16 text-center bg-white rounded-2xl p-10 border border-slate-200 animate-slideUp">
       <div className="text-5xl mb-4">{"⭐".repeat(stars)}{"☆".repeat(3 - stars)}</div>
-      <h2 className="text-2xl font-black text-slate-800 mb-2">
+      <h2 className="text-2xl font-black text-[#263238] mb-2">
         {pct >= 90 ? "すごい！🎉" : pct >= 60 ? "よくできました！👏" : "頑張って！💪"}
       </h2>
       <div className="text-5xl font-black text-amber-500 my-4">{score} 分</div>
@@ -51,7 +51,7 @@ function ResultScreen({ score, total, onBack }: { score: number; total: number; 
       <div className="text-xs text-slate-500 mb-2">分享你的成績：</div>
       <ShareButtons text={`我在JLPT N3寫作練習得了 ${score} 分！✍️`} url="/jlpt-n3/writing" />
       <div className="mt-4">
-        <button onClick={onBack} className="px-8 py-3 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold cursor-pointer border-none text-base hover:opacity-90 transition">
+        <button onClick={onBack} className="px-8 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none text-base hover:opacity-90 transition">
           回到選單
         </button>
       </div>
@@ -172,7 +172,7 @@ export default function WritingPage() {
     <div className="max-w-2xl mx-auto px-4 py-10">
       <div className="text-center mb-8">
         <div className="text-5xl mb-3">✍️</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">寫作練習</h1>
+        <h1 className="text-3xl font-black text-[#263238] mb-2">寫作練習</h1>
         <p className="text-slate-500">透過多種題型練習日文寫作能力</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -186,7 +186,7 @@ export default function WritingPage() {
         ))}
       </div>
       <div className="text-center mt-6">
-        <a href="/jlpt-n3" className="text-sm text-red-500 hover:underline no-underline">← 回到 JLPT N3</a>
+        <a href="/jlpt-n3" className="text-sm text-[#2457A7] hover:underline no-underline">← 回到 JLPT N3</a>
       </div>
     </div>
   );
@@ -223,7 +223,7 @@ export default function WritingPage() {
             {sentArr.length === 0 && <span className="text-red-300 text-sm">👆 點擊下方詞語排出日文句子</span>}
             {sentArr.map((w: any) => (
               <button key={w.id} onClick={() => { if (show) return; setSentArr(a => a.filter(x => x.id !== w.id)); setSentRem(r => [...r, w]); }}
-                className="px-3 py-1.5 rounded-lg bg-red-500 text-white font-medium text-sm cursor-pointer border-none hover:bg-red-600 transition">
+                className="px-3 py-1.5 rounded-lg bg-[#2457A7] text-white font-medium text-sm cursor-pointer border-none hover:bg-[#1d4a8f] transition">
                 {w.t}
               </button>
             ))}
@@ -244,7 +244,7 @@ export default function WritingPage() {
           {sentArr.length === q.parts.length && !show && (
             <div className="text-center">
               <button onClick={handleSentenceCheck}
-                className="px-6 py-2.5 rounded-xl bg-red-500 text-white font-bold cursor-pointer border-none hover:bg-red-600 transition">確認答案 ✓</button>
+                className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4a8f] transition">確認答案 ✓</button>
             </div>
           )}
           {show && (() => {
@@ -301,7 +301,7 @@ export default function WritingPage() {
           {!show && transInput.trim() && (
             <div className="text-center mt-3">
               <button onClick={handleTranslationCheck}
-                className="px-6 py-2.5 rounded-xl bg-red-500 text-white font-bold cursor-pointer border-none hover:bg-red-600 transition">確認答案 ✓</button>
+                className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4a8f] transition">確認答案 ✓</button>
             </div>
           )}
           {show && (
@@ -370,7 +370,7 @@ export default function WritingPage() {
             <span>文字數：{essayInput.replace(/[\s\u3000]/g, "").length}</span>
             {!submitted && essayInput.trim().length > 0 && (
               <button onClick={handleGuidedSubmit}
-                className="px-4 py-1.5 rounded-lg bg-red-500 text-white text-xs font-bold cursor-pointer border-none hover:bg-red-600 transition">提交 ✓</button>
+                className="px-4 py-1.5 rounded-lg bg-[#2457A7] text-white text-xs font-bold cursor-pointer border-none hover:bg-[#1d4a8f] transition">提交 ✓</button>
             )}
           </div>
           {/* Sample answer after submission */}
@@ -391,7 +391,7 @@ export default function WritingPage() {
               )}
               <div className="text-center">
                 <button onClick={handleGuidedNext}
-                  className="px-6 py-2.5 rounded-xl bg-red-500 text-white font-bold cursor-pointer border-none hover:bg-red-600 transition">
+                  className="px-6 py-2.5 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none hover:bg-[#1d4a8f] transition">
                   {qi + 1 < total ? "下一題 →" : "查看成績 📊"}
                 </button>
               </div>

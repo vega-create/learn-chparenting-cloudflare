@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, GamePage, BackToGames, GameIntro, GAME_UI } from "@/lib/game-utils";
 
 /**
  * 心算氣球。
@@ -227,16 +227,12 @@ export default function BalloonMathPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🎈</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">心算氣球</h1>
-          <p className="text-slate-500 text-sm">算出氣球上的答案，在它掉到底之前把它打破</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-emerald-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="balloon-math" title="心算氣球" desc="算出氣球上的答案，在它掉到底之前把它打破" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>氣球帶著算式從上面掉下來</li>
             <li>算出答案，輸入數字按「確認」，氣球就會破掉</li>
             <li>氣球掉到底沒算出來，少一條命；共 {LIVES} 條命</li>
@@ -245,41 +241,41 @@ export default function BalloonMathPage() {
           </ul>
         </div>
 
-        <h3 className="font-bold text-slate-700 mb-2">1. 選程度</h3>
+        <h3 className="text-sm font-bold text-[#263238] mb-2">1. 選程度</h3>
         <div className="grid grid-cols-3 gap-2 mb-5">
           {LEVELS.map(l => (
             <button key={l.id} onClick={() => setLevel(l.id)} aria-pressed={level === l.id}
-              className={`py-3 px-2 rounded-xl border-2 cursor-pointer transition ${level === l.id ? "bg-emerald-50 border-emerald-400 text-slate-800" : "bg-white border-slate-200 text-slate-500"}`}>
+              className={`py-3 px-2 rounded-xl border cursor-pointer transition ${level === l.id ? GAME_UI.segOn : GAME_UI.segOff}`}>
               <span className="block font-bold">{l.label}</span>
-              <span className="block text-xs text-slate-400">{l.desc}</span>
+              <span className="block text-xs opacity-80">{l.desc}</span>
             </button>
           ))}
         </div>
-        <h3 className="font-bold text-slate-700 mb-2">2. 選氣球掉落的速度</h3>
+        <h3 className="text-sm font-bold text-[#263238] mb-2">2. 選氣球掉落的速度</h3>
         <div className="grid grid-cols-3 gap-2 mb-6">
           {SPEEDS.map(s => (
             <button key={s.id} onClick={() => setSpeed(s.id)} aria-pressed={speed === s.id}
-              className={`py-3 px-2 rounded-xl border-2 cursor-pointer transition ${speed === s.id ? "bg-emerald-50 border-emerald-400 text-slate-800" : "bg-white border-slate-200 text-slate-500"}`}>
+              className={`py-3 px-2 rounded-xl border cursor-pointer transition ${speed === s.id ? GAME_UI.segOn : GAME_UI.segOff}`}>
               <span className="block font-bold">{s.label}</span>
-              <span className="block text-xs text-slate-400">{s.desc}</span>
+              <span className="block text-xs opacity-80">{s.desc}</span>
             </button>
           ))}
         </div>
         <button onClick={startGame}
-          className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-lg cursor-pointer border-none hover:opacity-90 transition">
-          🎈 開始：{levelLabel}・速度{SPEEDS.find(s => s.id === speed)!.label}
+          className={`w-full py-4 px-6 text-lg ${GAME_UI.primaryBtn}`}>
+          開始：{levelLabel}・速度{SPEEDS.find(s => s.id === speed)!.label}
         </button>
-        <p className="text-xs text-slate-400 text-center mt-3">這個組合的最高紀錄：{highScore} 分</p>
-      </div>
+        <p className="text-xs text-[#52616B] text-center mt-3">這個組合的最高紀錄：{highScore} 分</p>
+      </GamePage>
     );
   }
 
   /* ─── Done ─── */
   if (mode === "done") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4">
           {levelLabel}・速度{SPEEDS.find(s => s.id === speed)!.label}・打破 {popped} 顆{lives <= 0 ? "・氣球掉到底三次了" : "・時間到"}
         </div>
         {missed.length > 0 && (
@@ -293,19 +289,20 @@ export default function BalloonMathPage() {
           onRestart={startGame} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "balloon-math", activityName: "心算氣球", metadata: { level, speed } }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">心算氣球</h1>
 
-      <div className="flex justify-between items-center mt-3 mb-3 text-sm">
-        <span>{"❤️".repeat(Math.max(lives, 0))}{"🖤".repeat(LIVES - Math.max(lives, 0))}</span>
-        <span className={`font-mono ${timeLeft <= 10 ? "text-red-500 font-bold" : "text-slate-500"}`}>⏱ {timeLeft}s</span>
-        <span className="font-bold text-emerald-600">🏆 {score}</span>
+      <div className="flex flex-wrap gap-2 mb-3">
+        <span className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></span>
+        <span className={GAME_UI.chip}>時間 <b className={`font-mono ${timeLeft <= 10 ? "text-red-500" : ""}`}>{timeLeft}s</b></span>
+        <span className={GAME_UI.chip}>生命 <span>{"❤️".repeat(Math.max(lives, 0))}{"🖤".repeat(LIVES - Math.max(lives, 0))}</span></span>
       </div>
 
       {/* 天空 */}
@@ -325,27 +322,27 @@ export default function BalloonMathPage() {
 
       {/* 輸入 */}
       <div className="flex items-center justify-center gap-3 mt-4">
-        <div className={`min-w-[6rem] h-12 px-4 rounded-xl border-2 bg-white flex items-center justify-center text-2xl font-black ${flash === "wrong" ? "border-red-400 text-red-500" : "border-emerald-300 text-slate-800"}`} aria-label="你的答案">
+        <div className={`min-w-[6rem] h-12 px-4 rounded-xl border-2 bg-white flex items-center justify-center text-2xl font-black ${flash === "wrong" ? "border-red-400 text-red-500" : "border-slate-300 text-[#263238]"}`} aria-label="你的答案">
           {input || <span className="text-slate-300">?</span>}
         </div>
         <button onClick={() => press("enter")} disabled={input === ""}
-          className={`h-12 px-6 rounded-xl font-bold text-white border-0 ${input === "" ? "bg-slate-200" : "bg-emerald-500 cursor-pointer hover:bg-emerald-600 active:scale-95"}`}>
+          className={`h-12 px-6 rounded-xl font-bold text-white border-0 ${input === "" ? "bg-slate-200" : "bg-[#2457A7] cursor-pointer hover:bg-[#1d4688] active:scale-95"}`}>
           確認
         </button>
       </div>
       <div className="grid grid-cols-3 gap-2 max-w-[260px] mx-auto mt-3 select-none sm:hidden">
         {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map(d => (
-          <button key={d} onClick={() => press(d)} className="py-3 rounded-xl bg-slate-50 border border-slate-200 text-xl font-bold text-slate-700 cursor-pointer active:bg-slate-200">{d}</button>
+          <button key={d} onClick={() => press(d)} className="py-3 rounded-xl bg-white border border-slate-200 text-xl font-bold text-[#263238] cursor-pointer active:bg-slate-100">{d}</button>
         ))}
         <button onClick={() => press("back")} aria-label="刪除一個數字" className="py-3 rounded-xl bg-slate-50 border border-slate-200 text-lg font-bold text-slate-500 cursor-pointer active:bg-slate-200">⌫</button>
-        <button onClick={() => press("0")} className="py-3 rounded-xl bg-slate-50 border border-slate-200 text-xl font-bold text-slate-700 cursor-pointer active:bg-slate-200">0</button>
-        <button onClick={() => press("enter")} className="py-3 rounded-xl bg-emerald-500 text-white text-base font-bold border-0 cursor-pointer active:bg-emerald-600">確認</button>
+        <button onClick={() => press("0")} className="py-3 rounded-xl bg-white border border-slate-200 text-xl font-bold text-[#263238] cursor-pointer active:bg-slate-100">0</button>
+        <button onClick={() => press("enter")} className="py-3 rounded-xl bg-[#2457A7] text-white text-base font-bold border-0 cursor-pointer active:bg-[#1d4688]">確認</button>
       </div>
-      <p className="text-xs text-slate-400 text-center mt-3 hidden sm:block">直接按鍵盤的數字和 Enter 就可以。</p>
+      <p className="text-xs text-[#52616B] text-center mt-3 hidden sm:block">直接按鍵盤的數字和 Enter 就可以。</p>
       <div className="text-center mt-2">
         <button onClick={() => { endedRef.current = true; cancelAnimationFrame(rafRef.current); setMode("menu"); }}
-          className="text-xs text-slate-400 hover:text-slate-600 cursor-pointer bg-transparent border-0 underline">結束這一局</button>
+          className="text-xs text-[#52616B] hover:text-[#263238] cursor-pointer bg-transparent border-0 underline">結束這一局</button>
       </div>
-    </div>
+    </GamePage>
   );
 }

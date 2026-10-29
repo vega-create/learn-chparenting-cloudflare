@@ -155,19 +155,29 @@ export default function KeyboardPracticePage() {
   );
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <nav className="text-sm text-slate-400 mb-6" aria-label="breadcrumb">
-        <a href="/typing-game" className="hover:text-slate-600 no-underline">← 回打字練習</a>
+    <div className="bg-white">
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <nav className="text-sm mb-4" aria-label="breadcrumb">
+        <a href="/typing-game" className="font-bold text-[#2457A7] hover:underline no-underline">← 回打字練習</a>
       </nav>
 
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-black text-slate-800 mb-2">鍵盤位置練習</h1>
-        <p className="text-slate-500">畫面會告訴你按哪個鍵、用哪根手指。先求按對，不用快。</p>
+      <div className="flex items-center gap-6 mb-6">
+        <div className="flex-1 min-w-0">
+          <div className="text-sm font-bold text-[#E65E83] mb-0.5">打字與鍵盤</div>
+          <h1 className="text-[26px] md:text-4xl font-black text-[#263238] leading-tight m-0">鍵盤位置練習</h1>
+          <p className="text-[15px] text-[#52616B] mt-1 mb-4">畫面會告訴你按哪個鍵、用哪根手指。先求按對，不用快。大人小孩都能練。</p>
+          <div className="inline-flex items-center gap-3 bg-[#FDF2F5] border border-[#F6D5DF] rounded-2xl px-4 py-2.5 text-sm">
+            <span className="text-xl shrink-0" aria-hidden="true">⌨️</span>
+            <span><span className="font-bold text-[#C2416A]">請使用實體鍵盤</span><span className="text-[#52616B]">，開著注音輸入法也能練</span></span>
+          </div>
+        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/pages/keyboard.webp" alt="" className="hidden md:block w-64 aspect-[3/2] object-cover rounded-2xl shrink-0" />
       </div>
 
-      <div className="flex justify-center mb-6">
+      <div className="flex mb-6">
         <button onClick={() => setShowZhuyin(v => !v)}
-          className="px-4 py-2 rounded-xl text-sm font-semibold border bg-white border-slate-200 text-slate-600 cursor-pointer hover:bg-slate-50">
+          className="px-4 py-2 rounded-xl text-sm font-bold border bg-white border-[#2457A7] text-[#2457A7] cursor-pointer hover:bg-[#EEF3FB]">
           {showZhuyin ? "改顯示英文字母" : "改顯示注音位置"}
         </button>
       </div>
@@ -180,16 +190,16 @@ export default function KeyboardPracticePage() {
 
       {/* 練習中 */}
       {stage !== null && !done && target && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 mb-8">
+        <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
           <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
             <span>第 {stage} 階段・{STAGES.find(x => x.id === stage)!.title}</span>
             <span>{pos} / {drill.length}　錯 {errors} 次</span>
           </div>
           <div className="h-2 bg-slate-100 rounded-full mb-6 overflow-hidden">
-            <div className="h-full bg-blue-500 transition-all" style={{ width: `${(pos / drill.length) * 100}%` }} />
+            <div className="h-full bg-[#2457A7] transition-all" style={{ width: `${(pos / drill.length) * 100}%` }} />
           </div>
           <div className="text-center mb-6" aria-live="polite">
-            <div className="text-6xl font-black text-blue-600 mb-2">{face(target)}</div>
+            <div className="text-6xl font-black text-[#2457A7] mb-2">{face(target)}</div>
             <div className="text-slate-600">
               用<strong className="text-slate-800">{target.hand === "L" ? "左手" : "右手"}{FINGER_NAME[target.finger]}</strong>
               {wrongCode && <span className="text-red-500 ml-2">按錯了，再試一次</span>}
@@ -205,7 +215,7 @@ export default function KeyboardPracticePage() {
 
       {/* 結果 */}
       {stage !== null && done && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 mb-8 text-center">
+        <div className="bg-white rounded-2xl border border-slate-200 p-8 mb-8 text-center">
           <div className="text-5xl mb-3">{done.acc >= 95 ? "🏆" : done.acc >= 80 ? "⭐" : "💪"}</div>
           <h2 className="text-2xl font-black text-slate-800 mb-1">
             {done.acc >= 95 ? "位置記得很熟了！" : done.acc >= 80 ? "不錯，再練一輪會更穩" : "慢慢來，先求按對"}
@@ -217,9 +227,9 @@ export default function KeyboardPracticePage() {
           </div>
           <p className="text-sm text-slate-500 mb-6">正確率到 95% 再進下一個階段，會比較輕鬆。</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <button onClick={() => start(stage)} className="px-5 py-2.5 rounded-xl bg-blue-500 text-white font-semibold cursor-pointer border-0 hover:bg-blue-600">再練一次</button>
-            {stage < STAGES.length && <button onClick={() => start(stage + 1)} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">下一個階段</button>}
-            <button onClick={() => setStage(null)} className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold cursor-pointer hover:bg-slate-50">選其他階段</button>
+            <button onClick={() => start(stage)} className="px-5 py-2.5 rounded-xl bg-[#2457A7] text-white font-semibold cursor-pointer border-0 hover:bg-[#1d4688]">再練一次</button>
+            {stage < STAGES.length && <button onClick={() => start(stage + 1)} className="px-5 py-2.5 rounded-xl bg-white border border-[#2457A7] text-[#2457A7] font-semibold cursor-pointer hover:bg-[#EEF3FB]">下一個階段</button>}
+            <button onClick={() => setStage(null)} className="px-5 py-2.5 rounded-xl bg-white border border-[#2457A7] text-[#2457A7] font-semibold cursor-pointer hover:bg-[#EEF3FB]">選其他階段</button>
           </div>
         </div>
       )}
@@ -227,21 +237,21 @@ export default function KeyboardPracticePage() {
       {/* 選階段 */}
       {stage === null && (
         <>
-          <div className="grid sm:grid-cols-2 gap-3 mb-8">
+          <h2 className="text-xl md:text-2xl font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-4">選一個階段開始</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
             {STAGES.map(s => (
               <button key={s.id} onClick={() => start(s.id)}
-                className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md text-left cursor-pointer transition active:scale-[0.98]">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-black flex-shrink-0">{s.id}</div>
-                <div className="flex-1">
-                  <div className="font-bold text-slate-800">{s.title}</div>
-                  <div className="text-sm text-slate-400 mt-0.5">{s.desc}</div>
-                  {best[s.id] && <div className="text-xs text-emerald-600 mt-1">最佳：正確率 {best[s.id].acc}%・每分鐘 {best[s.id].kpm} 鍵</div>}
-                </div>
+                className="group flex flex-col items-center text-center p-4 bg-white rounded-2xl border border-slate-200 hover:shadow-md hover:border-[#E65E83] cursor-pointer transition active:scale-[0.98]">
+                <div className="w-10 h-10 rounded-full bg-[#FDECF1] text-[#C2416A] group-hover:bg-[#E65E83] group-hover:text-white flex items-center justify-center text-lg font-black flex-shrink-0 mb-2 transition">{s.id}</div>
+                <div className="font-bold text-[#263238]">{s.title}</div>
+                <div className="text-xs text-[#52616B] mt-1 flex-1">{s.desc}</div>
+                {best[s.id] && <div className="text-xs text-emerald-600 mt-1">最佳 {best[s.id].acc}%・{best[s.id].kpm} 鍵/分</div>}
+                <span className="mt-3 text-xs font-bold text-[#2457A7]">開始練習 →</span>
               </button>
             ))}
           </div>
           <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 mb-8">
-            <h2 className="text-lg font-bold text-slate-800 mb-4 text-center">鍵盤位置圖：每根手指負責哪些鍵</h2>
+            <h2 className="text-lg font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-4">鍵盤位置圖：每根手指負責哪些鍵</h2>
             {keyboard}
             {legend}
             <p className="text-xs text-slate-400 text-center mt-4">F 和 J 上面有一條小凸起，是讓食指不用看就能摸到位置。</p>
@@ -250,7 +260,7 @@ export default function KeyboardPracticePage() {
       )}
 
       {/* 說明（固定顯示，給第一次來的家長和搜尋引擎看） */}
-      <section className="prose prose-slate max-w-none text-slate-600 leading-relaxed">
+      <section className="prose prose-slate max-w-none text-[#52616B] leading-relaxed bg-white rounded-2xl border border-slate-200 p-5 md:p-8">
         <h2 className="text-xl font-bold text-slate-800 mb-3">怎麼用這個練習</h2>
         <ol className="list-decimal pl-5 space-y-2 mb-6">
           <li>雙手放在基準鍵上：左手四指放 A、S、D、F，右手四指放 J、K、L、;，兩隻大拇指放空白鍵。</li>
@@ -269,6 +279,7 @@ export default function KeyboardPracticePage() {
           練習的順序和常見錯誤，可以看<a href="/blog/keyboard-typing-beginner" className="text-blue-600">鍵盤練習怎麼開始</a>這篇。
         </p>
       </section>
+    </div>
     </div>
   );
 }

@@ -38,9 +38,9 @@ export default async function Page({
   const m = getModuleById(moduleId);
 
   return (
-    <>
+    <div className="bg-white">
       <ClientPage />
       {m && <FinanceModuleSEO module={m} />}
-    </>
+    </div>
   );
 }

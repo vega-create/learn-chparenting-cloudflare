@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playPerfect } from "@/lib/sounds";
 import { speakJa, stopSpeaking as stopSynth, pauseSpeaking as pauseSynth, resumeSpeaking as resumeSynth } from "@/lib/speech";
 import WorksheetActions from "@/components/WorksheetActions";
+import { LangUnitHeader } from "@/components/LangUnitHeader";
 import EbookModal from "@/components/EbookModal";
 import { PassageText } from "@/components/PassageText";
 
@@ -54,13 +55,16 @@ interface SRecognition { lang: string; interimResults: boolean; maxAlternatives:
 
 const LANG = "ja-JP";
 
+/** 改版：主要按鈕統一用深藍，粉紅只做小重點 */
+const ACCENT = "#2457A7";
+
 const TABS = [
-  { id: "vocab", label: "📖 單字" },
-  { id: "grammar", label: "📝 文法" },
-  { id: "speaking", label: "🎙️ 口說" },
-  { id: "listening", label: "🎧 聽力" },
-  { id: "reading", label: "📗 閱讀" },
-  { id: "quiz", label: "✏️ 測驗" },
+  { id: "vocab", label: "單字" },
+  { id: "grammar", label: "文法" },
+  { id: "speaking", label: "口說" },
+  { id: "listening", label: "聽力" },
+  { id: "reading", label: "閱讀" },
+  { id: "quiz", label: "測驗" },
 ];
 
 export default function JlptUnitPage() {
@@ -86,45 +90,41 @@ export default function JlptUnitPage() {
 
   const nextUnit = N1_UNITS.find(u => u.id === uid + 1);
   const prevUnit = N1_UNITS.find(u => u.id === uid - 1);
+  const themed = { ...unit, color: ACCENT };
 
   return (
     <div>
-      <div className="text-white py-4 md:py-6 px-4" style={{ background: unit.color }}>
-        <div className="max-w-4xl mx-auto flex items-center gap-3">
-          <button onClick={() => router.push("/jlpt-n1")}
-            className="bg-white/20 border-none text-white text-sm rounded-lg px-2.5 py-1.5 cursor-pointer hover:bg-white/30 transition flex-shrink-0">←</button>
-          <span className="text-2xl md:text-3xl">{unit.icon}</span>
-          <div className="min-w-0">
-            <div className="text-xs opacity-80">Unit {unit.id} · {unit.titleJa}</div>
-            <div className="text-base md:text-xl font-bold truncate">{unit.title}</div>
-          </div>
-        </div>
-      </div>
+      <LangUnitHeader
+        subject="日文學習"
+        level="JLPT N1"
+        levelHref="/jlpt-n1"
+        unitNo={unit.id}
+        title={unit.title}
+        subtitle={unit.titleJa}
+        icon={unit.icon}
+        guideHref={`/jlpt-n1/guide/${unitId}`}
+        actions={<WorksheetActions toolSlug="japanese" level="n1" unitId={unitId} unitName={unit.title} />}
+      />
 
-      {/* Download & Answer Actions */}
-      <div className="max-w-4xl mx-auto px-3 md:px-4 pt-3">
-        <WorksheetActions toolSlug="japanese" level="n1" unitId={unitId} unitName={unit.title} color="amber" />
-      </div>
-
-      <div ref={tabRef} className="flex border-b border-slate-200 bg-white overflow-x-auto sticky top-14 z-40">
+      <div ref={tabRef} className="max-w-[62rem] mx-auto md:mx-4 lg:mx-auto mt-4 flex bg-white border-y md:border md:rounded-2xl border-slate-200 overflow-x-auto sticky top-14 z-40">
         {TABS.map(t => (
           <button key={t.id} data-active={tab === t.id} onClick={() => setTab(t.id)}
-            className={`px-4 md:px-5 py-3 text-sm font-medium border-b-2 transition whitespace-nowrap flex-shrink-0 ${
-              tab === t.id ? "font-bold" : "border-transparent text-slate-400"
-            }`} style={tab === t.id ? { borderColor: unit.color, color: unit.color } : {}}>{t.label}</button>
+            className={`flex-1 min-w-[4.5rem] px-4 md:px-5 py-3 text-[15px] font-medium border-b-2 transition whitespace-nowrap flex-shrink-0 bg-transparent cursor-pointer ${
+              tab === t.id ? "font-bold border-[#E65E83] text-[#C2416A]" : "border-transparent text-[#52616B] hover:text-[#263238]"
+            }`}>{t.label}</button>
         ))}
       </div>
 
-      <div className="max-w-4xl mx-auto px-3 md:px-4 py-4 md:py-6 animate-fadeIn">
-        {tab === "vocab" && <VocabTab unit={unit} />}
-        {tab === "grammar" && <GrammarTab unit={unit} />}
-        {tab === "speaking" && <SpeakingTab key={uid + "s"} unit={unit} />}
-        {tab === "listening" && <ListeningTab key={uid + "l"} unit={unit} />}
-        {tab === "reading" && <ReadingTab key={uid + "r"} unit={unit} />}
-        {tab === "quiz" && <QuizTab key={uid + "q"} unit={unit} />}
+      <div className="max-w-5xl mx-auto px-3 md:px-4 py-4 md:py-6 animate-fadeIn">
+        {tab === "vocab" && <VocabTab unit={themed} />}
+        {tab === "grammar" && <GrammarTab unit={themed} />}
+        {tab === "speaking" && <SpeakingTab key={uid + "s"} unit={themed} />}
+        {tab === "listening" && <ListeningTab key={uid + "l"} unit={themed} />}
+        {tab === "reading" && <ReadingTab key={uid + "r"} unit={themed} />}
+        {tab === "quiz" && <QuizTab key={uid + "q"} unit={themed} />}
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 pb-8 flex justify-between items-center gap-3">
+      <div className="max-w-5xl mx-auto px-4 pb-8 flex justify-between items-center gap-3">
         {prevUnit ? (
           <button onClick={() => { router.push(`/jlpt-n1/unit/${prevUnit.id}`); setTab("vocab"); }}
             className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-medium text-slate-600 cursor-pointer hover:bg-slate-50 transition">
@@ -134,11 +134,11 @@ export default function JlptUnitPage() {
         {nextUnit ? (
           <button onClick={() => { router.push(`/jlpt-n1/unit/${nextUnit.id}`); setTab("vocab"); }}
             className="flex items-center gap-2 px-4 py-3 rounded-xl text-white text-sm font-bold cursor-pointer border-none hover:opacity-90 transition"
-            style={{ background: nextUnit.color }}>
+            style={{ background: ACCENT }}>
             {nextUnit.icon} Unit {nextUnit.id} →
           </button>
         ) : (
-          <a href="/jlpt-n1/game" className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-500 text-white text-sm font-bold no-underline hover:bg-amber-600 transition">
+          <a href="/jlpt-n1/game" className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#2457A7] text-white text-sm font-bold no-underline hover:bg-[#1d4a8f] transition">
             🎮 去遊戲練習 →
           </a>
         )}
@@ -189,7 +189,7 @@ function GrammarTab({ unit }: { unit: JlptUnit }) {
   return (
     <div className="space-y-3">
       {unit.grammar.map((g: JlptGrammarPoint, i: number) => (
-        <div key={i} className="bg-white rounded-xl p-4 md:p-5 border border-slate-200 shadow-sm"
+        <div key={i} className="bg-white rounded-2xl p-4 md:p-5 border border-slate-200"
           style={{ borderLeftWidth: 4, borderLeftColor: unit.color }}>
           <div onClick={() => setOpenIdx(openIdx === i ? -1 : i)} className="flex justify-between items-center cursor-pointer">
             <h4 className="text-base font-bold m-0" style={{ color: unit.color }}>{g.title}</h4>
@@ -387,7 +387,7 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
   const getScoreColor = (pct: number) => pct >= 90 ? "#059669" : pct >= 70 ? "#2563eb" : pct >= 50 ? "#f59e0b" : "#ef4444";
 
   if (!supported) return (
-    <div className="bg-white rounded-xl p-8 border border-slate-200 text-center">
+    <div className="bg-white rounded-2xl p-8 border border-slate-200 text-center">
       <div className="text-4xl mb-3">😅</div>
       <h3 className="font-bold text-slate-800 mb-2">你的瀏覽器不支援語音辨識</h3>
       <p className="text-sm text-slate-500">請使用 Chrome 或 Edge 瀏覽器來使用口說練習功能</p>
@@ -406,9 +406,9 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
       </div>
 
       {subMode === "word" && (
-        <div className="bg-white rounded-xl p-5 md:p-6 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-5 md:p-6 border border-slate-200">
           <div className="flex justify-between mb-4">
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: unit.color + "15", color: unit.color }}>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: "#FDECF1", color: "#C2416A" }}>
               {wordIdx + 1} / {words.length}
             </span>
             {bestScore > 0 && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">最高 {bestScore}%</span>}
@@ -457,9 +457,9 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
       )}
 
       {subMode === "sentence" && (
-        <div className="bg-white rounded-xl p-5 md:p-6 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-5 md:p-6 border border-slate-200">
           <div className="flex justify-between mb-4">
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: unit.color + "15", color: unit.color }}>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: "#FDECF1", color: "#C2416A" }}>
               句子 {sentIdx + 1} / {sentences.length}
             </span>
             {bestScore > 0 && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">最高 {bestScore}%</span>}
@@ -502,12 +502,12 @@ function SpeakingTab({ unit }: { unit: JlptUnit }) {
                   <div className="text-3xl font-black" style={{ color: getScoreColor(result.pct) }}>{result.pct}%</div>
                   <div className="text-sm font-medium" style={{ color: getScoreColor(result.pct) }}>{getScoreLabel(result.pct)}</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 mb-3">
+                <div className="bg-white rounded-2xl p-4 mb-3">
                   <div className="text-xs text-slate-400 mb-2 font-medium">原文：</div>
                   <div className="text-base text-slate-700 leading-7">{sentences[sentIdx].text}</div>
                   <div className="text-sm text-slate-400 mt-1">{sentences[sentIdx].zh}</div>
                 </div>
-                <div className="bg-white rounded-xl p-4">
+                <div className="bg-white rounded-2xl p-4">
                   <div className="text-xs text-slate-400 mb-2 font-medium">你唸的：</div>
                   <div className="text-sm text-slate-600">{result.transcript || "(未偵測到語音)"}</div>
                 </div>
@@ -566,9 +566,9 @@ function ListeningTab({ unit }: { unit: JlptUnit }) {
   const resetQuiz = () => { stopSpeaking(); setIsSpeaking(false); setIsPaused(false); setQi(0); setSel(null); setShow(false); setScore(0); setShuffledQs([...unit.listening].sort(() => Math.random() - 0.5)); };
 
   return (
-    <div className="bg-white rounded-xl p-4 md:p-6 border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl p-4 md:p-6 border border-slate-200">
       <div className="flex justify-between mb-4">
-        <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: unit.color + "15", color: unit.color }}>第 {qi + 1} / {qs.length} 題</span>
+        <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: "#FDECF1", color: "#C2416A" }}>第 {qi + 1} / {qs.length} 題</span>
         <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">✓ {score}</span>
       </div>
       <div className="text-center my-5">
@@ -645,27 +645,29 @@ function ReadingTab({ unit }: { unit: JlptUnit }) {
           ))}
         </div>
       )}
-      <div className="bg-white rounded-xl p-4 md:p-6 border border-slate-200 shadow-sm mb-3">
+      <div className="lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-5 lg:items-start">
+      <div className="bg-white rounded-2xl p-4 md:p-6 border border-slate-200 mb-3">
         <div className="flex justify-between items-center mb-3">
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: unit.color + "15", color: unit.color }}>文章</span>
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: "#FDECF1", color: "#C2416A" }}>文章</span>
           <button onClick={() => speak(rd.passage, 0.8)}
             className="text-xs border border-slate-200 rounded-lg px-3 py-1.5 bg-transparent cursor-pointer text-slate-500 active:bg-slate-100 transition">🔊 聽文章</button>
         </div>
         <PassageText text={rd.passage} />
       </div>
+      <div className="min-w-0">
       {rd.questions.map((q: { q: string; opts: string[]; ans: number }, qi: number) => (
-        <div key={qi} className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm mb-2.5">
+        <div key={qi} className="bg-white rounded-2xl p-4 border border-slate-200 mb-2.5">
           <div className="font-semibold text-slate-800 mb-3 text-sm">{qi + 1}. {q.q}</div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
             {q.opts.map((o: string, oi: number) => {
-              let cls = "bg-slate-50 border-transparent";
+              let cls = "bg-white border-slate-200";
               if (sel[qi] === oi && !show) cls = "border-current";
               if (show && oi === q.ans) cls = "bg-emerald-50 border-emerald-400";
               if (show && sel[qi] === oi && oi !== q.ans) cls = "bg-red-50 border-red-400";
               return (
                 <button key={oi} onClick={() => !show && setSel(s => ({ ...s, [qi]: oi }))}
                   className={`p-2.5 rounded-lg border text-sm text-left transition active:scale-[0.97] ${cls} ${show ? "" : "cursor-pointer"}`}
-                  style={sel[qi] === oi && !show ? { borderColor: unit.color, background: unit.color + "08" } : {}}>
+                  style={sel[qi] === oi && !show ? { borderColor: unit.color, background: unit.color + "14" } : {}}>
                   {String.fromCharCode(65 + oi)}. {o}
                 </button>
               );
@@ -680,6 +682,8 @@ function ReadingTab({ unit }: { unit: JlptUnit }) {
             style={{ background: unit.color }}>送出答案</button>
         )}
         {show && <div className="text-emerald-600 font-bold text-lg">得分 {score} / {rd.questions.length}</div>}
+      </div>
+      </div>
       </div>
     </div>
   );
@@ -707,18 +711,18 @@ function QuizTab({ unit }: { unit: JlptUnit }) {
         </span>}
       </div>
       {qs.map((q: JlptQuizQ, qi: number) => (
-        <div key={qi} className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm mb-2.5">
+        <div key={qi} className="bg-white rounded-2xl p-4 border border-slate-200 mb-2.5">
           <div className="font-semibold text-slate-800 mb-3">{qi + 1}. {q.s}</div>
           <div className="grid grid-cols-2 gap-2">
             {q.opts.map((o: string, oi: number) => {
-              let cls = "bg-slate-50 border-transparent";
+              let cls = "bg-white border-slate-200";
               if (sel[qi] === oi && !show) cls = "border-current";
               if (show && oi === q.ans) cls = "bg-emerald-50 border-emerald-400";
               if (show && sel[qi] === oi && oi !== q.ans) cls = "bg-red-50 border-red-400";
               return (
                 <button key={oi} onClick={() => !show && setSel(s => ({ ...s, [qi]: oi }))}
                   className={`p-3 rounded-lg border text-sm font-medium text-center transition active:scale-[0.97] ${cls} ${show ? "" : "cursor-pointer"}`}
-                  style={sel[qi] === oi && !show ? { borderColor: unit.color, background: unit.color + "08" } : {}}>{o}</button>
+                  style={sel[qi] === oi && !show ? { borderColor: unit.color, background: unit.color + "14" } : {}}>{o}</button>
               );
             })}
           </div>
@@ -745,7 +749,7 @@ function QuizTab({ unit }: { unit: JlptUnit }) {
               <div className="bg-slate-50 rounded-xl p-4">
                 <p className="text-sm font-medium text-slate-700 mb-2">📥 下載本單元練習單，讓孩子再練一次</p>
                 <a href={`/worksheets/japanese/n1/unit-${String(unit.id).padStart(2,"0")}.pdf`} download
-                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-bold text-sm no-underline hover:bg-blue-700 transition">
+                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2457A7] text-white rounded-xl font-bold text-sm no-underline hover:bg-[#1d4a8f] transition">
                   📥 下載練習單 (PDF)
                 </a>
               </div>

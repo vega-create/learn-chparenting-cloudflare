@@ -50,7 +50,7 @@ const GAMES = [
 function ProgressBar({ cur, tot }: { cur: number; tot: number }) {
   return (
     <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden mb-4">
-      <div className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-blue-500 to-emerald-500"
+      <div className="h-full rounded-full transition-all duration-500 bg-[#2457A7]"
         style={{ width: `${(cur / tot) * 100}%` }} />
     </div>
   );
@@ -69,14 +69,14 @@ function ResultScreen({ score, total, onBack }: { score: number; total: number; 
   const pct = Math.round((score / Math.max(total, 1)) * 100);
   const stars = pct >= 90 ? 3 : pct >= 60 ? 2 : pct >= 30 ? 1 : 0;
   return (
-    <div className="max-w-sm mx-auto mt-16 text-center bg-white rounded-2xl p-10 border border-slate-200 shadow-lg animate-slideUp">
+    <div className="max-w-sm mx-auto mt-16 text-center bg-white rounded-2xl p-10 border border-slate-200 animate-slideUp">
       <div className="text-5xl mb-4">{"⭐".repeat(stars)}{"☆".repeat(3 - stars)}</div>
-      <h2 className="text-2xl font-black text-slate-800 mb-2">
+      <h2 className="text-2xl font-black text-[#263238] mb-2">
         {pct >= 90 ? "太厲害了！🎉" : pct >= 60 ? "做得好！👏" : "繼續加油！💪"}
       </h2>
       <div className="text-5xl font-black text-amber-500 my-4">{score} 分</div>
       <div className="text-slate-400 mb-6">正確率 {pct}%</div>
-      <button onClick={onBack} className="px-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white font-bold cursor-pointer border-none text-base hover:opacity-90 transition">
+      <button onClick={onBack} className="px-8 py-3 rounded-xl bg-[#2457A7] text-white font-bold cursor-pointer border-none text-base hover:opacity-90 transition">
         回到選單
       </button>
     </div>
@@ -194,18 +194,18 @@ export default function GamePage() {
     <div className="max-w-3xl mx-auto px-4 py-10">
       <div className="text-center mb-10">
         <div className="text-5xl mb-3 animate-float">🎮</div>
-        <h1 className="text-3xl font-black text-slate-800 mb-2">綜合遊戲練習</h1>
+        <h1 className="text-3xl font-black text-[#263238] mb-2">綜合遊戲練習</h1>
         <p className="text-slate-500">5 種遊戲模式，全面複習 JLPT N3！</p>
         <div className="flex flex-wrap gap-2 justify-center mt-3">
           {["聽", "讀", "寫"].map(s => (
-            <span key={s} className="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold">{s}</span>
+            <span key={s} className="px-3 py-1 rounded-full bg-[#FDECF1] text-[#C2416A] text-xs font-semibold">{s}</span>
           ))}
         </div>
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         {GAMES.map(g => (
           <button key={g.id} onClick={() => startGame(g.id)}
-            className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover-lift text-left cursor-pointer transition">
+            className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-slate-200 hover:border-[#2457A7] hover-lift text-left cursor-pointer transition">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
               style={{ background: g.color + "15" }}>{g.icon}</div>
             <div className="flex-1">
@@ -217,7 +217,7 @@ export default function GamePage() {
         ))}
       </div>
       <div className="mt-6 text-center">
-        <a href="/jlpt-n3" className="text-blue-600 text-sm hover:underline">← 返回 JLPT N3 首頁</a>
+        <a href="/jlpt-n3" className="text-[#2457A7] text-sm hover:underline">← 返回 JLPT N3 首頁</a>
       </div>
     </div>
   );

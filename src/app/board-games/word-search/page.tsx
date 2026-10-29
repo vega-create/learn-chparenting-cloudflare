@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useRef } from "react";
 import { playCorrect, playWrong, playPerfect, playVictory } from "@/lib/sounds";
-import { useHighScore, getStars, GameOverScreen, shuffle } from "@/lib/game-utils";
+import { useHighScore, getStars, GameOverScreen, shuffle, GamePage, BackToGames, GameIntro, StartTag, GAME_UI } from "@/lib/game-utils";
 
 /* ─── Types ─── */
 const GRID_SIZE = 10;
@@ -316,16 +316,12 @@ export default function WordSearchPage() {
   /* ─── Menu ─── */
   if (mode === "menu") {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-rose-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center mt-6 mb-8">
-          <div className="text-5xl mb-3">🔍</div>
-          <h1 className="text-2xl font-black text-slate-800 mb-2">單字搜尋</h1>
-          <p className="text-slate-500 text-sm">在字母方格中找出隱藏的英文單字</p>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-rose-200 shadow-sm mb-6">
-          <h3 className="font-bold text-slate-700 mb-1">遊戲規則</h3>
-          <ul className="text-sm text-slate-500 space-y-1 list-disc list-inside">
+      <GamePage>
+        <BackToGames />
+        <GameIntro gameId="word-search" title="單字搜尋" desc="在字母方格中找出隱藏的英文單字" />
+        <div className={`${GAME_UI.rules} mb-5`}>
+          <h3 className={GAME_UI.rulesTitle}>遊戲規則</h3>
+          <ul className={GAME_UI.rulesList}>
             <li>10x10 字母方格中隱藏了英文單字</li>
             <li>點單字的第一個字母，再點最後一個字母；也可以直接拖曳</li>
             <li>單字都是由左到右或由上到下，不會倒著寫</li>
@@ -335,16 +331,20 @@ export default function WordSearchPage() {
             <li>最高紀錄：{highScore} 分</li>
           </ul>
         </div>
+        <div className="text-sm font-bold text-[#263238] mb-2">選擇難度</div>
         <div className="space-y-3">
           {LEVEL_OPTIONS.map(d => (
             <button key={d.key} onClick={() => startGame(d.key)}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-left cursor-pointer border-none hover:opacity-90 transition">
-              <div className="text-lg">{d.label}</div>
-              <div className="text-xs opacity-80">{d.desc}</div>
+              className={GAME_UI.diffBtn}>
+              <div>
+                <div className={GAME_UI.diffLabel}>{d.label}</div>
+                <div className={GAME_UI.diffDesc}>{d.desc}</div>
+              </div>
+              <StartTag />
             </button>
           ))}
         </div>
-      </div>
+      </GamePage>
     );
   }
 
@@ -353,9 +353,9 @@ export default function WordSearchPage() {
     const maxScore = (puzzle?.words.length || 6) * 15 + 30;
     const stars = getStars(score, maxScore);
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-rose-500 hover:underline no-underline">← 返回教育遊戲</a>
-        <div className="text-center text-sm text-slate-500 mt-4 mb-2">
+      <GamePage>
+        <BackToGames />
+        <div className="text-center text-sm text-[#52616B] mt-4 mb-2">
           找到 {wordsFound} 個字 ・ 用時 {formatTime(time)}
         </div>
         <GameOverScreen
@@ -364,20 +364,22 @@ export default function WordSearchPage() {
           onRestart={() => startGame(level)} onBack={() => setMode("menu")}
           trackingData={{ subject: "board-game", activityType: "game", activityId: "word-search", activityName: "單字搜尋" }}
         />
-      </div>
+      </GamePage>
     );
   }
 
   /* ─── Playing ─── */
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn" onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} onPointerCancel={handlePointerUp}>
-      <a href="/board-games" className="text-sm text-rose-500 hover:underline no-underline">← 返回教育遊戲</a>
+    <GamePage>
+    <div onPointerUp={handlePointerUp} onPointerMove={handlePointerMove} onPointerCancel={handlePointerUp}>
+      <BackToGames />
+      <h1 className="text-xl font-black text-[#263238] mt-2 mb-3">單字搜尋</h1>
 
       {/* Header */}
-      <div className="flex justify-between items-center mt-4 mb-4">
-        <div className="text-sm text-slate-500">{wordsFound}/{puzzle?.words.length || 0} 個字</div>
-        <div className="text-sm font-mono text-slate-500">⏱ {formatTime(time)}</div>
-        <div className="text-sm font-bold text-rose-600">🏆 {score}</div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <div className={GAME_UI.chip}>找到 <b>{wordsFound}/{puzzle?.words.length || 0}</b></div>
+        <div className={GAME_UI.chip}>時間 <b className="font-mono">{formatTime(time)}</b></div>
+        <div className={GAME_UI.chip}>得分 <b className="text-[#2457A7]">{score}</b></div>
       </div>
 
       {/* Feedback */}
@@ -394,7 +396,7 @@ export default function WordSearchPage() {
             <span key={i} className={`text-sm px-3 py-1 rounded-full font-bold transition-all
               ${pw.found
                 ? "bg-green-100 text-green-600 line-through"
-                : "bg-rose-100 text-rose-700"
+                : "bg-[#EAF0F9] text-[#2457A7]"
               }
             `}>
               {pw.word}
@@ -405,7 +407,7 @@ export default function WordSearchPage() {
 
       {/* Grid */}
       {puzzle && (
-        <div className="bg-white rounded-2xl p-3 border border-rose-200 shadow-sm select-none touch-none">
+        <div className="bg-white rounded-2xl p-3 border border-slate-200 select-none touch-none">
           <div className="grid mx-auto" style={{
             gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
             maxWidth: GRID_SIZE * 36,
@@ -423,12 +425,12 @@ export default function WordSearchPage() {
                     onPointerDown={(e) => { e.preventDefault(); handleCellPointerDown(r, c); }}
                     className={`aspect-square rounded-md flex items-center justify-center font-bold text-sm sm:text-base cursor-pointer border transition-all select-none
                       ${isSelected
-                        ? "bg-rose-400 border-rose-500 text-white scale-105"
+                        ? "bg-[#2457A7] border-[#1d4688] text-white scale-105"
                         : isFound
                           ? "bg-green-200 border-green-400 text-green-800"
                           : hintCell === key
                             ? "bg-amber-200 border-amber-400 text-amber-900 animate-pulse"
-                          : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-rose-50 hover:border-rose-300"
+                          : "bg-slate-50 border-slate-200 text-[#263238] hover:bg-[#F3F7FD] hover:border-[#2457A7]"
                       }
                     `}
                     style={{ touchAction: "none" }}
@@ -442,15 +444,16 @@ export default function WordSearchPage() {
         </div>
       )}
 
-      <p className="text-center text-sm text-slate-500 mt-3 h-5" aria-live="polite">
+      <p className="text-center text-sm text-[#52616B] mt-3 h-5" aria-live="polite">
         {anchor ? "再點這個單字的最後一個字母" : "點單字的第一個字母，或直接拖曳"}
       </p>
       <div className="text-center mt-2">
         <button onClick={showHint}
-          className="px-4 py-2 rounded-xl bg-amber-50 border-2 border-amber-200 text-amber-700 font-bold text-sm cursor-pointer">
+          className={`px-4 py-2 text-sm ${GAME_UI.secondaryBtn}`}>
           💡 提示第一個字母（-5 分{hintsUsed > 0 ? `，已用 ${hintsUsed} 次` : ""}）
         </button>
       </div>
     </div>
+    </GamePage>
   );
 }
