@@ -32,11 +32,17 @@ const TOOLS = [
   { icon: "💰", label: "兒童理財", href: "/finance", prefix: "/finance" },
 ];
 
+// 學習文章、家長指南直接放在選單上，其餘收進「更多」
+const MAIN_LINKS = [
+  { label: "學習文章", href: "/blog" },
+  { label: "家長指南", href: "/parent-guide" },
+];
+
 const INFO_LINKS = [
-  { label: "📝 部落格", href: "/blog" },
+  ...MAIN_LINKS.map(l => ({ ...l, narrowOnly: true })),
   { label: "使用說明", href: "/how-to-use" },
   { label: "常見問題", href: "/faq" },
-  { label: "陪伴指南", href: "/parent-guide" },
+  { label: "全部公告", href: "/updates" },
   { label: "報考資訊", href: "/exam-info" },
   { label: "學習成就", href: "/achievements" },
   { label: "關於我們", href: "/about" },
@@ -60,12 +66,12 @@ export default function Header() {
         {/* Brand */}
         <a href="/" className="flex items-center gap-2 no-underline shrink-0">
           <span className="text-2xl">📚</span>
-          <span className="text-lg font-bold text-rose-400 hidden sm:inline">親子多元學習平台</span>
-          <span className="text-lg font-bold text-rose-400 sm:hidden">親子學習</span>
+          <span className="text-lg font-bold text-rose-400 hidden lg:inline">親子多元學習平台</span>
+          <span className="text-lg font-bold text-rose-400 lg:hidden">親子學習</span>
         </a>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1 text-sm">
+        <nav className="hidden md:flex items-center gap-1 text-sm whitespace-nowrap">
           {/* GEPT dropdown */}
           <div className="relative"
             onMouseEnter={() => setGeptOpen(true)}
@@ -152,6 +158,14 @@ export default function Header() {
           </div>
 
           {/* Info dropdown */}
+          {MAIN_LINKS.map(l => (
+            <a key={l.href} href={l.href}
+              className={`hidden lg:inline-block px-3 py-2 rounded-lg font-medium transition no-underline ${
+                pathname.startsWith(l.href) ? "text-rose-400 bg-rose-50" : "text-slate-600 hover:bg-rose-50 hover:text-rose-400"
+              }`}>
+              {l.label}
+            </a>
+          ))}
           <div className="relative"
             onMouseEnter={() => setInfoOpen(true)}
             onMouseLeave={() => setInfoOpen(false)}
@@ -169,7 +183,7 @@ export default function Header() {
               <div className="absolute right-0 top-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden min-w-[120px]">
                 {INFO_LINKS.map(l => (
                   <a key={l.href} href={l.href}
-                    className={`block px-4 py-2.5 text-sm font-medium no-underline transition ${
+                    className={`${"narrowOnly" in l ? "lg:hidden " : ""}block px-4 py-2.5 text-sm font-medium no-underline transition ${
                       pathname === l.href ? "text-rose-400 bg-rose-50" : "text-slate-600 hover:bg-slate-50"
                     }`}>
                     {l.label}
