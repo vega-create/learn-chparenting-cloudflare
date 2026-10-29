@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { getWeeklyEnglish } from "@/data/weekly-english";
 import { SITE_UPDATES, MAX_TICKER_ITEMS, type SiteUpdate } from "@/data/site-updates";
+import { EXAM_DATES, nextExam, formatExamDate } from "@/data/exam-dates";
 
 /**
  * 首頁的「最新消息」跑馬燈。
@@ -12,9 +13,16 @@ import { SITE_UPDATES, MAX_TICKER_ITEMS, type SiteUpdate } from "@/data/site-upd
  * - 內容複製一份接在後面做無縫循環，第二份對螢幕報讀器隱藏。
  */
 
-type TickerItem = Omit<SiteUpdate, "kind"> & { kind: SiteUpdate["kind"] | "本週一句" };
+type TickerItem = Omit<SiteUpdate, "kind"> & { kind: SiteUpdate["kind"] | "本週一句" | "考試倒數" };
+
+const EXAMS = [
+  { name: "英檢初級", dates: EXAM_DATES.geptElementary, href: "/elementary" },
+  { name: "英檢中級", dates: EXAM_DATES.geptIntermediate, href: "/intermediate" },
+  { name: "日檢 N1–N5", dates: EXAM_DATES.jlpt, href: "/jlpt-n5" },
+];
 
 const KIND_STYLE: Record<TickerItem["kind"], string> = {
+  "考試倒數": "bg-violet-500 text-white",
   "本週一句": "bg-emerald-500 text-white",
   "新增": "bg-rose-500 text-white",
   "更新": "bg-sky-500 text-white",
@@ -47,12 +55,20 @@ export default function UpdateTicker() {
   const [paused, setPaused] = useState(false);
   // 本週一句要用瀏覽器的日期算，所以載入後才加到最前面
   const [weekly, setWeekly] = useState<TickerItem | null>(null);
+  // 考試倒數同樣用瀏覽器的日期算
+  const [countdowns, setCountdowns] = useState<TickerItem[]>([]);
   useEffect(() => {
     const { item } = getWeeklyEnglish();
     setWeekly({ date: "", kind: "本週一句", text: `${item.en}　${item.zh}`, href: "/#weekly-english" });
+    setCountdowns(EXAMS.flatMap(e => {
+      const next = nextExam(e.dates);
+      if (!next) return [];
+      const left = next.days === 0 ? "就是今天，加油！" : `還有 ${next.days} 天`;
+      return [{ date: "", kind: "考試倒數" as const, text: `${e.name} ${formatExamDate(next.date)} ${left}`, href: e.href }];
+    }));
   }, []);
 
-  const items: TickerItem[] = [...(weekly ? [weekly] : []), ...SITE_UPDATES.slice(0, MAX_TICKER_ITEMS)];
+  const items: TickerItem[] = [...countdowns, ...(weekly ? [weekly] : []), ...SITE_UPDATES.slice(0, MAX_TICKER_ITEMS)];
   if (items.length === 0) return null;
 
   return (

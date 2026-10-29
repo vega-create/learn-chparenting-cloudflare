@@ -1,20 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-// 聽讀測驗日期（來源：LTTC 官方日程 gept.org.tw，2026-10-29 核對）
-// 新年度日程公布後補進來；全部過期時只顯示官網連結。
-const EXAM_DATES: Record<"elementary" | "intermediate", string[]> = {
-  elementary: ["2026-11-07", "2027-01-09", "2027-06-13", "2027-10-30"],
-  intermediate: ["2026-10-31", "2027-01-30", "2027-05-08", "2027-08-14", "2027-11-06"],
-};
+import { EXAM_DATES, nextExam, formatExamDate } from "@/data/exam-dates";
 
 const LEVEL_NAME = { elementary: "初級", intermediate: "中級" };
-const WEEKDAY = ["日", "一", "二", "三", "四", "五", "六"];
-
-function todayInTaiwan() {
-  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Taipei" });
-}
+const LEVEL_DATES = { elementary: EXAM_DATES.geptElementary, intermediate: EXAM_DATES.geptIntermediate };
 
 export function GeptExamBanner({ level }: { level: "elementary" | "intermediate" }) {
   const [next, setNext] = useState<{ date: string; days: number } | null>(null);
@@ -23,12 +13,7 @@ export function GeptExamBanner({ level }: { level: "elementary" | "intermediate"
   const name = LEVEL_NAME[level];
 
   useEffect(() => {
-    const today = todayInTaiwan();
-    const date = EXAM_DATES[level].find((d) => d >= today);
-    if (date) {
-      const days = Math.round((Date.parse(date) - Date.parse(today)) / 86400000);
-      setNext({ date, days });
-    }
+    setNext(nextExam(LEVEL_DATES[level]));
   }, [level]);
 
   const shareText = `全民英檢${name}免費線上題庫，單字、聽力、閱讀、模擬測驗都有，不用註冊 ${pageUrl}`;
@@ -44,18 +29,13 @@ export function GeptExamBanner({ level }: { level: "elementary" | "intermediate"
     }
   };
 
-  const fmt = (d: string) => {
-    const [y, m, day] = d.split("-").map(Number);
-    return `${y}/${m}/${day}（${WEEKDAY[new Date(y, m - 1, day).getDay()]}）`;
-  };
-
   return (
     <div className="mb-8 grid gap-3 md:grid-cols-2">
       <div className="p-4 rounded-2xl border border-amber-200 bg-amber-50">
         <div className="text-xs font-semibold text-amber-700 mb-1">📅 下次 GEPT {name}聽讀測驗</div>
         {next ? (
           <div className="text-slate-800">
-            <span className="text-lg font-bold">{fmt(next.date)}</span>
+            <span className="text-lg font-bold">{formatExamDate(next.date, true)}</span>
             <span className="ml-2 text-sm text-amber-700 font-semibold">
               {next.days === 0 ? "就是今天，加油！" : `還有 ${next.days} 天`}
             </span>
