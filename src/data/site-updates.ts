@@ -14,6 +14,7 @@ export interface SiteUpdate {
 export const MAX_TICKER_ITEMS = 10;
 
 export const SITE_UPDATES: SiteUpdate[] = [
+  { date: "2026-10-29", kind: "新增", text: "英檢初級、中級題庫頁加上考試倒數，還能一鍵分享到 LINE 給學生", href: "/intermediate" },
   { date: "2026-10-18", kind: "更新", text: "日檢 N1 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n1" },
   { date: "2026-10-18", kind: "更新", text: "日檢 N2 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n2" },
   { date: "2026-10-18", kind: "更新", text: "日檢 N3 全部 20 單元的單字、例句、聽力、短文改成真人日文發音", href: "/jlpt-n3" },
