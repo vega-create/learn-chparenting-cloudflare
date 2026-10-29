@@ -111,12 +111,12 @@ export default function DailyChallengeBlock() {
           ? isCorrect
             ? "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200"
             : "bg-gradient-to-r from-red-50 to-orange-50 border-red-200"
-          : "bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200"
+          : "bg-[#FFF6F8] border-[#F5CAD6]"
       }`}>
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2">
-            <span className="text-xl">✨</span>
+            <span className="text-xl">🏆</span>
             <h3 className="text-lg font-bold text-slate-800">今日挑戰</h3>
           </div>
           <div className="flex items-center gap-3">

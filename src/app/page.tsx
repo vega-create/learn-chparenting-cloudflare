@@ -8,6 +8,7 @@ import { getPostBySlug } from "@/lib/blog";
 import UpdateTicker from "@/components/UpdateTicker";
 import OnboardingTutorial from "@/components/OnboardingTutorial";
 import WeeklyEnglishCard from "@/components/WeeklyEnglish";
+import ShareSite from "@/components/ShareSite";
 import SubjectIcon, { type SubjectIconName } from "@/components/SubjectIcon";
 
 export const metadata: Metadata = {
@@ -78,7 +79,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-b from-white to-[#FAF8F5]">
         <div className="max-w-6xl mx-auto px-4 pt-6 pb-6 md:pt-10 md:pb-10 grid md:grid-cols-[1fr_1.15fr] gap-6 md:gap-8 items-center">
           <div>
-            <h1 className="text-[28px] leading-snug md:text-[44px] md:leading-tight font-black text-[#263238] mb-3">
+            <h1 className="text-[28px] leading-snug md:text-[30px] lg:text-[35px] md:leading-tight font-black text-[#263238] mb-3">
               大人小孩都能練，<br className="md:hidden" /><span className="text-[#E65E83] whitespace-nowrap">一起學更多。</span>
             </h1>
             <p className="text-[15px] md:text-lg text-[#52616B] leading-relaxed mb-2">
@@ -93,6 +94,7 @@ export default function HomePage() {
               </a>
               <a href="/parent-guide" className="inline-flex items-center gap-2 h-11 md:h-12 px-4 md:px-6 rounded-xl border border-[#2457A7] bg-white text-[#2457A7] font-bold no-underline hover:bg-blue-50">看看怎麼陪孩子學</a>
             </div>
+            <div className="mt-4"><ShareSite /></div>
           </div>
           <div className="grid grid-cols-3 gap-2 md:gap-3">
             {HERO_PHOTOS.map((p) => (
@@ -152,11 +154,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 每天練一點：每週一句＋今日挑戰（並排；元件自己的外距拿掉） */}
-      <section className="max-w-6xl mx-auto px-4 pb-4">
-        <h2 className="text-xl md:text-2xl font-bold text-[#263238] mb-4 border-l-4 border-[#E65E83] pl-3">每天練一點</h2>
-        <div className="grid lg:grid-cols-2 gap-4 [&>section]:max-w-none [&>section]:p-0 [&>section]:m-0">
+      {/* 每天練一點（每週一句）＋今日挑戰：兩欄並排，各自有標題 */}
+      <section className="max-w-6xl mx-auto px-4 pb-4 grid lg:grid-cols-2 gap-6 [&_section]:max-w-none [&_section]:p-0 [&_section]:m-0">
+        <div>
+          <h2 className="text-xl md:text-2xl font-bold text-[#263238] mb-4 border-l-4 border-[#E65E83] pl-3">每天練一點</h2>
           <WeeklyEnglishCard />
+        </div>
+        <div>
+          <div className="flex items-end justify-between mb-4">
+            <h2 className="text-xl md:text-2xl font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3">今日挑戰</h2>
+            <a href="/board-games" className="text-sm font-semibold text-[#2457A7] no-underline">更多挑戰 →</a>
+          </div>
           <DailyChallenge />
         </div>
       </section>
