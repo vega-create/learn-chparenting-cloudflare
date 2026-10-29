@@ -35,7 +35,7 @@ export function GeptLevelNav({ level }: { level: Level }) {
         ))}
       </nav>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
         {MODES.map((m) => (
           <Link key={m.path} href={`/${level}/${m.path}`}
             className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-slate-200 shadow-sm hover-lift no-underline">
@@ -47,8 +47,6 @@ export function GeptLevelNav({ level }: { level: Level }) {
           </Link>
         ))}
       </div>
-
-      <h2 className="text-lg font-bold text-slate-800 mb-3">主題單元</h2>
     </>
   );
 }

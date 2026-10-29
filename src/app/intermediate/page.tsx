@@ -31,14 +31,15 @@ export default function ElementaryPage() {
         subject="英語"
       />
       <header className="mb-5 text-center">
-        <h1 className="text-3xl font-black text-slate-800 mb-2">全民英檢中級免費練習</h1>
+        <h1 className="text-2xl md:text-3xl font-black text-slate-800 mb-2">全民英檢中級免費練習</h1>
         <p className="text-slate-600">高中畢業程度 · 約 5000 單字 · 34 個主題單元，選一個單元或模式就能開始，不用註冊。</p>
       </header>
 
-      <GeptExamBanner level="intermediate" />
-
       <GeptLevelNav level="intermediate" />
 
+      <GeptExamBanner level="intermediate" />
+
+      <h2 className="text-lg font-bold text-slate-800 mb-3">主題單元</h2>
       <div className="grid gap-4 mb-8">
         {UNITS.map((u) => (
           <Link key={u.id} href={`/intermediate/unit/${u.id}`}

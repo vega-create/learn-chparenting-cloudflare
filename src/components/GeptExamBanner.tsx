@@ -30,12 +30,12 @@ export function GeptExamBanner({ level }: { level: "elementary" | "intermediate"
   };
 
   return (
-    <div className="mb-8 grid gap-3 md:grid-cols-2">
-      <div className="p-4 rounded-2xl border border-amber-200 bg-amber-50">
-        <div className="text-xs font-semibold text-amber-700 mb-1">📅 下次 GEPT {name}聽讀測驗</div>
+    <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-3 p-4 rounded-2xl border border-amber-200 bg-amber-50">
+      <div className="flex-1 min-w-[12rem]">
+        <div className="text-xs font-semibold text-amber-700">📅 下次 GEPT {name}聽讀測驗</div>
         {next ? (
           <div className="text-slate-800">
-            <span className="text-lg font-bold">{formatExamDate(next.date, true)}</span>
+            <span className="font-bold">{formatExamDate(next.date, true)}</span>
             <span className="ml-2 text-sm text-amber-700 font-semibold">
               {next.days === 0 ? "就是今天，加油！" : `還有 ${next.days} 天`}
             </span>
@@ -44,16 +44,16 @@ export function GeptExamBanner({ level }: { level: "elementary" | "intermediate"
           <div className="text-sm text-slate-600">最新日期請見官網</div>
         )}
         <a href="https://www.gept.org.tw/" target="_blank" rel="noopener noreferrer"
-          className="text-xs text-slate-500 underline mt-1 inline-block">以 LTTC 全民英檢官網公告為準</a>
+          className="text-xs text-slate-500 underline">以 LTTC 全民英檢官網公告為準</a>
       </div>
 
-      <div className="p-4 rounded-2xl border border-emerald-200 bg-emerald-50">
-        <div className="text-sm text-slate-700 mb-2">👩‍🏫 老師、家長可免費分享給學生練習</div>
+      <div>
+        <div className="text-xs text-slate-600 mb-1.5">老師、家長可免費分享給學生練習</div>
         <div className="flex gap-2">
           <a href={lineUrl} target="_blank" rel="noopener noreferrer"
-            className="px-4 py-2 rounded-xl bg-[#06C755] text-white text-sm font-bold no-underline">分享到 LINE</a>
+            className="px-3 py-2 rounded-xl bg-[#06C755] text-white text-sm font-bold no-underline">分享到 LINE</a>
           <button type="button" onClick={copyLink}
-            className="px-4 py-2 rounded-xl bg-white border border-emerald-300 text-emerald-700 text-sm font-bold">
+            className="px-3 py-2 rounded-xl bg-white border border-amber-300 text-amber-800 text-sm font-bold cursor-pointer">
             {copied ? "已複製 ✓" : "複製連結"}
           </button>
         </div>

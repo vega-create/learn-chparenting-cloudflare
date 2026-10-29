@@ -33,14 +33,15 @@ export default function ElementaryPage() {
       />
       <SubjectVisitTracker subject="gept" />
       <header className="mb-5 text-center">
-        <h1 className="text-3xl font-black text-slate-800 mb-2">全民英檢初級免費練習</h1>
+        <h1 className="text-2xl md:text-3xl font-black text-slate-800 mb-2">全民英檢初級免費練習</h1>
         <p className="text-slate-600">國中畢業程度 · 約 2000 單字 · 20 個主題單元，選一個單元或模式就能開始，不用註冊。</p>
       </header>
 
-      <GeptExamBanner level="elementary" />
-
       <GeptLevelNav level="elementary" />
 
+      <GeptExamBanner level="elementary" />
+
+      <h2 className="text-lg font-bold text-slate-800 mb-3">主題單元</h2>
       <div className="grid gap-4 mb-8">
         {UNITS.map((u) => (
           <Link key={u.id} href={`/elementary/unit/${u.id}`}
