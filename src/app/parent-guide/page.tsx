@@ -1,10 +1,18 @@
+import { UNITS as EL_UNITS } from "@/data/elementary";
+import { INTER_UNITS } from "@/data/intermediate";
+import { UI_UNITS } from "@/data/upper-intermediate";
+import { N5_UNITS } from "@/data/jlpt-n5";
+import { N4_UNITS } from "@/data/jlpt-n4";
+import { N3_UNITS } from "@/data/jlpt-n3";
+import { N2_UNITS } from "@/data/jlpt-n2";
+import { N1_UNITS } from "@/data/jlpt-n1";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "家長陪伴指南 | 全民英檢・JLPT 日檢 204 個單元指南 | learn.chparenting.com",
+  title: "家長陪伴指南 | 全民英檢・JLPT 日檢 194 個單元指南 | learn.chparenting.com",
   description:
-    "204 個單元的家長陪伴指南，涵蓋全民英檢初級到中高級、JLPT N5 到 N1。每個單元都有學習目標、陪伴方式、過關清單和常見問題，幫助家長陪孩子一起學習。",
+    "194 個單元的家長陪伴指南，涵蓋全民英檢初級到中高級、JLPT N5 到 N1。每個單元都有學習目標、陪伴方式、過關清單和常見問題，幫助家長陪孩子一起學習。",
   keywords:
     "家長陪伴指南, 全民英檢家長, JLPT家長指南, 親子學習, 英檢學習指南, 日檢學習指南",
   alternates: { canonical: "https://learn.chparenting.com/parent-guide" },
@@ -15,7 +23,7 @@ const GEPT_GUIDES = [
     level: "初級",
     eng: "Elementary",
     href: "/elementary/guide",
-    units: 30,
+    units: EL_UNITS.length,
     icon: "🌱",
     color: "bg-rose-50 border-rose-200",
     textColor: "text-rose-500",
@@ -24,7 +32,7 @@ const GEPT_GUIDES = [
     level: "中級",
     eng: "Intermediate",
     href: "/intermediate/guide",
-    units: 34,
+    units: INTER_UNITS.length,
     icon: "🌿",
     color: "bg-rose-50 border-rose-200",
     textColor: "text-rose-500",
@@ -33,7 +41,7 @@ const GEPT_GUIDES = [
     level: "中高級",
     eng: "Upper-Intermediate",
     href: "/upper-intermediate/guide",
-    units: 40,
+    units: UI_UNITS.length,
     icon: "🌳",
     color: "bg-rose-50 border-rose-200",
     textColor: "text-rose-500",
@@ -45,7 +53,7 @@ const JLPT_GUIDES = [
     level: "N5",
     name: "入門",
     href: "/jlpt-n5/guide",
-    units: 20,
+    units: N5_UNITS.length,
     icon: "🌸",
     color: "bg-red-50 border-red-200",
     textColor: "text-red-500",
@@ -54,7 +62,7 @@ const JLPT_GUIDES = [
     level: "N4",
     name: "基礎",
     href: "/jlpt-n4/guide",
-    units: 20,
+    units: N4_UNITS.length,
     icon: "🎋",
     color: "bg-red-50 border-red-200",
     textColor: "text-red-500",
@@ -63,7 +71,7 @@ const JLPT_GUIDES = [
     level: "N3",
     name: "中級",
     href: "/jlpt-n3/guide",
-    units: 20,
+    units: N3_UNITS.length,
     icon: "🏯",
     color: "bg-red-50 border-red-200",
     textColor: "text-red-500",
@@ -72,7 +80,7 @@ const JLPT_GUIDES = [
     level: "N2",
     name: "上級",
     href: "/jlpt-n2/guide",
-    units: 20,
+    units: N2_UNITS.length,
     icon: "⛩️",
     color: "bg-red-50 border-red-200",
     textColor: "text-red-500",
@@ -81,7 +89,7 @@ const JLPT_GUIDES = [
     level: "N1",
     name: "最上級",
     href: "/jlpt-n1/guide",
-    units: 20,
+    units: N1_UNITS.length,
     icon: "🗾",
     color: "bg-red-50 border-red-200",
     textColor: "text-red-500",
