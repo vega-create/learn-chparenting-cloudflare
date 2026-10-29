@@ -382,7 +382,7 @@ export default function ChineseCheckersPage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
         <a href="/board-games" className="text-sm text-indigo-500 hover:underline no-underline">
-          ← 返回桌遊專區
+          ← 返回教育遊戲
         </a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">⭐</div>
@@ -421,7 +421,7 @@ export default function ChineseCheckersPage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
         <a href="/board-games" className="text-sm text-indigo-500 hover:underline no-underline">
-          ← 返回桌遊專區
+          ← 返回教育遊戲
         </a>
         <GameOverScreen
           score={score}
@@ -442,7 +442,7 @@ export default function ChineseCheckersPage() {
   return (
     <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
       <a href="/board-games" className="text-sm text-indigo-500 hover:underline no-underline">
-        ← 返回桌遊專區
+        ← 返回教育遊戲
       </a>
 
       {/* Header */}

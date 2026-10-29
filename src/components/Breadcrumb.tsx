@@ -29,7 +29,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "gojuon": "五十音",
   "typing-game": "打字練習",
   keyboard: "鍵盤位置練習",
-  "board-games": "教育桌遊",
+  "board-games": "教育遊戲",
   "pattern-master": "圖案大師",
   "mini-sudoku": "迷你數獨",
   "sequence-quest": "數列探險",

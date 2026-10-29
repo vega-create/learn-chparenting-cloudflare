@@ -348,7 +348,7 @@ export default function GoGamePage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
         <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">
-          &larr; 返回桌遊專區
+          &larr; 返回教育遊戲
         </a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">&#9898;</div>
@@ -409,7 +409,7 @@ export default function GoGamePage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
         <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">
-          &larr; 返回桌遊專區
+          &larr; 返回教育遊戲
         </a>
         <div className="text-center text-sm text-slate-500 mt-4 mb-2">
           {finalScores && (
@@ -447,7 +447,7 @@ export default function GoGamePage() {
   return (
     <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
       <a href="/board-games" className="text-sm text-blue-500 hover:underline no-underline">
-        &larr; 返回桌遊專區
+        &larr; 返回教育遊戲
       </a>
 
       {/* Status bar */}

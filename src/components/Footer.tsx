@@ -1,75 +1,49 @@
+import { BrandMark } from "./SubjectIcon";
+
+const LINKS = [
+  { label: "關於平台", href: "/about" },
+  { label: "使用說明", href: "/how-to-use" },
+  { label: "常見問題", href: "/faq" },
+  { label: "報考資訊", href: "/exam-info" },
+  { label: "全部公告", href: "/updates" },
+];
+
+// 同一位作者經營的其他站（family network 互連，別拿掉）
+const SISTER_SITES = [
+  { label: "媽媽生活復原力 Lab", href: "https://chparenting.com/" },
+  { label: "冒險英語", href: "https://english.chparenting.com/" },
+  { label: "原來會這樣！品格互動繪本", href: "https://character.chparenting.com/" },
+];
+
 export default function Footer() {
   return (
-    <footer className="google-anno-skip bg-slate-50 border-t border-slate-200 py-8 mt-12 hidden md:block">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6 text-sm">
-          {/* 英檢 */}
-          <div>
-            <h4 className="font-bold text-slate-700 mb-2">📘 全民英檢</h4>
-            <div className="flex flex-col gap-1.5">
-              <a href="/elementary" className="text-slate-500 hover:text-rose-400 transition">初級 Elementary</a>
-              <a href="/intermediate" className="text-slate-500 hover:text-rose-400 transition">中級 Intermediate</a>
-              <a href="/upper-intermediate" className="text-slate-500 hover:text-rose-400 transition">中高級 Upper-Int.</a>
-            </div>
-          </div>
-          {/* 日文 */}
-          <div>
-            <h4 className="font-bold text-slate-700 mb-2">🇯🇵 日文檢定</h4>
-            <div className="flex flex-col gap-1.5">
-              <a href="/jlpt-n5" className="text-slate-500 hover:text-red-500 transition">JLPT N5</a>
-              <a href="/jlpt-n4" className="text-slate-500 hover:text-red-500 transition">JLPT N4</a>
-              <a href="/jlpt-n3" className="text-slate-500 hover:text-red-500 transition">JLPT N3</a>
-              <a href="/jlpt-n2" className="text-slate-500 hover:text-red-500 transition">JLPT N2</a>
-              <a href="/jlpt-n1" className="text-slate-500 hover:text-red-500 transition">JLPT N1</a>
-            </div>
-          </div>
-          {/* 更多工具 */}
-          <div>
-            <h4 className="font-bold text-slate-700 mb-2">🎯 更多工具</h4>
-            <div className="flex flex-col gap-1.5">
-              <a href="/chinese-lang" className="text-slate-500 hover:text-orange-500 transition">📝 國語學習</a>
-              <a href="/chinese-lang/idiom-practice" className="text-slate-500 hover:text-red-500 transition">🏮 成語練習</a>
-              <a href="/history-geo" className="text-slate-500 hover:text-emerald-500 transition">🌏 歷史地理</a>
-              <a href="/music" className="text-slate-500 hover:text-pink-500 transition">🎵 樂理基礎</a>
-              <a href="/board-games" className="text-slate-500 hover:text-orange-500 transition">🎲 教育桌遊</a>
-              <a href="/math" className="text-slate-500 hover:text-amber-500 transition">🔢 數學練習</a>
-              <a href="/math/times-table" className="text-slate-500 hover:text-amber-500 transition">✖️ 九九乘法練習</a>
-              <a href="/typing-game" className="text-slate-500 hover:text-emerald-500 transition">⌨️ 打字練習</a>
-              <a href="/typing-game/keyboard" className="text-slate-500 hover:text-sky-500 transition">🖐️ 鍵盤位置練習</a>
-              <a href="/finance" className="text-slate-500 hover:text-purple-500 transition">💰 兒童理財</a>
-            </div>
-          </div>
-          {/* 網站資訊 */}
-          <div>
-            <h4 className="font-bold text-slate-700 mb-2">ℹ️ 網站資訊</h4>
-            <div className="flex flex-col gap-1.5">
-              <a href="/how-to-use" className="text-slate-500 hover:text-rose-400 transition">使用說明</a>
-              <a href="/faq" className="text-slate-500 hover:text-rose-400 transition">常見問題</a>
-              <a href="/parent-guide" className="text-slate-500 hover:text-rose-400 transition">陪伴指南</a>
-              <a href="/exam-info" className="text-slate-500 hover:text-rose-400 transition">報考資訊</a>
-              <a href="/achievements" className="text-slate-500 hover:text-rose-400 transition">學習成就</a>
-              <a href="/about" className="text-slate-500 hover:text-rose-400 transition">關於我們</a>
-            </div>
-          </div>
+    <footer className="google-anno-skip bg-[#F3EFEA] border-t border-[#E7E1D9] mt-12 hidden md:block">
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <a href="/" className="flex items-center gap-2 no-underline">
+            <BrandMark size={24} />
+            <span className="font-bold text-[#E65E83]">親子多元學習平台</span>
+          </a>
+          <nav aria-label="網站資訊" className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+            {LINKS.map((l) => (
+              <a key={l.href} href={l.href} className="text-[#52616B] no-underline hover:text-[#E65E83]">{l.label}</a>
+            ))}
+          </nav>
         </div>
-        {/* 關聯網站：同一位作者經營的其他站 */}
-        <div className="border-t border-slate-200 pt-4 mb-4 text-sm">
-          <h4 className="font-bold text-slate-700 mb-2">🔗 關聯網站</h4>
-          <div className="flex flex-wrap gap-x-5 gap-y-1.5">
-            <a href="https://chparenting.com/" className="text-slate-500 hover:text-rose-400 transition">媽媽生活復原力 Lab chparenting.com</a>
-            <a href="https://english.chparenting.com/" className="text-slate-500 hover:text-rose-400 transition">冒險英語 english.chparenting.com</a>
-            <a href="https://character.chparenting.com/" className="text-slate-500 hover:text-rose-400 transition">原來會這樣！品格互動繪本 character.chparenting.com</a>
+        <div className="mt-4 pt-4 border-t border-[#E7E1D9] flex flex-wrap items-center justify-between gap-3 text-xs text-[#52616B]">
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <span>關聯網站：</span>
+            {SISTER_SITES.map((s) => (
+              <a key={s.href} href={s.href} className="text-[#52616B] no-underline hover:text-[#E65E83]">{s.label}</a>
+            ))}
           </div>
-        </div>
-        <div className="border-t border-slate-200 pt-4 text-center">
-          <p className="text-sm text-slate-400">
-            © 2026 親子多元學習平台 — 由{" "}
-            <a href="https://aimommywisdom.com" target="_blank" rel="noopener noreferrer" className="text-rose-400 hover:underline">
-              智慧媽咪國際有限公司 Mommy Wisdom International LTD.
+          <p className="m-0">
+            © 2026 親子多元學習平台・由{" "}
+            <a href="https://aimommywisdom.com" target="_blank" rel="noopener noreferrer" className="text-[#52616B] hover:text-[#E65E83]">
+              智慧媽咪國際有限公司
             </a>{" "}
-            製作
+            製作・所有內容免費使用
           </p>
-          <p className="text-xs text-slate-400 mt-1">本站為免費學習資源平台，所有內容皆可免費使用</p>
         </div>
       </div>
     </footer>

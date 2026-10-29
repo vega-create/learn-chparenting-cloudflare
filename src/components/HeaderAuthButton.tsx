@@ -12,7 +12,7 @@ export default function HeaderAuthButton() {
     return (
       <a
         href="/login"
-        className="px-4 py-2 rounded-lg bg-rose-100 border border-rose-300 text-rose-500 font-medium text-sm no-underline hover:bg-rose-200 transition"
+        className="px-5 py-2 rounded-lg bg-white border border-[#2457A7] text-[#2457A7] font-bold text-sm no-underline hover:bg-blue-50 transition"
       >
         登入
       </a>
@@ -29,7 +29,7 @@ export default function HeaderAuthButton() {
     return (
       <a
         href="/login"
-        className="px-4 py-2 rounded-lg bg-rose-100 border border-rose-300 text-rose-500 font-medium text-sm no-underline hover:bg-rose-200 transition"
+        className="px-5 py-2 rounded-lg bg-white border border-[#2457A7] text-[#2457A7] font-bold text-sm no-underline hover:bg-blue-50 transition"
       >
         登入
       </a>

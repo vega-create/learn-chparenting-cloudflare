@@ -200,7 +200,7 @@ export default function SequenceQuestPage() {
   if (mode === "menu") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">🔍</div>
           <h1 className="text-2xl font-black text-slate-800 mb-2">數列探險</h1>
@@ -235,7 +235,7 @@ export default function SequenceQuestPage() {
     const stars = getStars(score, maxScore);
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
         <GameOverScreen
           score={score} maxScore={maxScore} gameName="數列探險" stars={stars}
           highScore={Math.max(highScore, score)} isNewHigh={isNewHigh}
@@ -249,7 +249,7 @@ export default function SequenceQuestPage() {
   /* ─── Playing ─── */
   return (
     <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回桌遊專區</a>
+      <a href="/board-games" className="text-sm text-purple-500 hover:underline no-underline">← 返回教育遊戲</a>
 
       {/* Header */}
       <div className="flex justify-between items-center mt-4 mb-6">

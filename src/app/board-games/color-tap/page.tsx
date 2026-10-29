@@ -152,7 +152,7 @@ export default function ColorTapPage() {
   if (mode === "menu") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">🎨</div>
           <h1 className="text-2xl font-black text-slate-800 mb-2">色彩快手</h1>
@@ -182,7 +182,7 @@ export default function ColorTapPage() {
     const stars = getStars(score, 200);
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center text-sm text-slate-500 mt-4 mb-2">
           正確 {correct} 次 ・ 錯誤 {wrong} 次 ・ 最長連續 {maxCombo}
         </div>
@@ -199,7 +199,7 @@ export default function ColorTapPage() {
   /* ─── Playing ─── */
   return (
     <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回桌遊專區</a>
+      <a href="/board-games" className="text-sm text-amber-500 hover:underline no-underline">← 返回教育遊戲</a>
 
       {/* Header */}
       <div className="flex justify-between items-center mt-4 mb-6">

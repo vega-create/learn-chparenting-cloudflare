@@ -214,7 +214,7 @@ export default function EmojiPuzzlePage() {
   if (mode === "menu") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">🧩</div>
           <h1 className="text-2xl font-black text-slate-800 mb-2">表情密碼</h1>
@@ -243,7 +243,7 @@ export default function EmojiPuzzlePage() {
     const stars = getStars(score, TOTAL_PUZZLES * 10);
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center text-sm text-slate-500 mt-4 mb-2">
           正確 {correct} 題 ・ 錯誤 {wrong} 題
         </div>
@@ -260,7 +260,7 @@ export default function EmojiPuzzlePage() {
   /* ─── Playing ─── */
   return (
     <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回桌遊專區</a>
+      <a href="/board-games" className="text-sm text-orange-500 hover:underline no-underline">← 返回教育遊戲</a>
 
       {/* Header */}
       <div className="flex justify-between items-center mt-4 mb-4">

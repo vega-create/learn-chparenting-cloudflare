@@ -198,7 +198,7 @@ export default function MinesweeperPage() {
   if (mode === "menu") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-red-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-red-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">💣</div>
           <h1 className="text-2xl font-black text-slate-800 mb-2">踩地雷</h1>
@@ -236,7 +236,7 @@ export default function MinesweeperPage() {
   if (mode === "done") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-red-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-red-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center text-sm text-slate-500 mt-4">
           {level.label}・{outcome === "won" ? `過關！用時 ${timerFmt}` : "踩到地雷了，分數依翻開的格數計算"}
         </div>
@@ -255,7 +255,7 @@ export default function MinesweeperPage() {
 
   return (
     <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-red-500 hover:underline no-underline">← 返回桌遊專區</a>
+      <a href="/board-games" className="text-sm text-red-500 hover:underline no-underline">← 返回教育遊戲</a>
 
       <div className="flex justify-between items-center mt-3 mb-3 text-sm">
         <span className="font-mono text-slate-500">⏱ {timerFmt}</span>

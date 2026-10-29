@@ -189,7 +189,7 @@ export default function MazeRunnerPage() {
   if (mode === "menu") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">🏃</div>
           <h1 className="text-2xl font-black text-slate-800 mb-2">迷宮探險</h1>
@@ -222,7 +222,7 @@ export default function MazeRunnerPage() {
     const stars = getStars(score, 150);
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center text-sm text-slate-500 mt-4 mb-2">
           移動 {moves} 步 ・ 用時 {formatTime(time)}
         </div>
@@ -239,7 +239,7 @@ export default function MazeRunnerPage() {
   /* ─── Playing ─── */
   return (
     <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn" ref={gameRef} tabIndex={0} onKeyDown={handleKeyDown} style={{ outline: "none" }}>
-      <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回桌遊專區</a>
+      <a href="/board-games" className="text-sm text-violet-500 hover:underline no-underline">← 返回教育遊戲</a>
 
       {/* Header */}
       <div className="flex justify-between items-center mt-4 mb-4">

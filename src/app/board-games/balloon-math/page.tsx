@@ -228,7 +228,7 @@ export default function BalloonMathPage() {
   if (mode === "menu") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center mt-6 mb-8">
           <div className="text-5xl mb-3">🎈</div>
           <h1 className="text-2xl font-black text-slate-800 mb-2">心算氣球</h1>
@@ -278,7 +278,7 @@ export default function BalloonMathPage() {
   if (mode === "done") {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 animate-fadeIn">
-        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回桌遊專區</a>
+        <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
         <div className="text-center text-sm text-slate-500 mt-4">
           {levelLabel}・速度{SPEEDS.find(s => s.id === speed)!.label}・打破 {popped} 顆{lives <= 0 ? "・氣球掉到底三次了" : "・時間到"}
         </div>
@@ -300,7 +300,7 @@ export default function BalloonMathPage() {
   /* ─── Playing ─── */
   return (
     <div className="max-w-lg mx-auto px-4 py-6 animate-fadeIn">
-      <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回桌遊專區</a>
+      <a href="/board-games" className="text-sm text-emerald-500 hover:underline no-underline">← 返回教育遊戲</a>
 
       <div className="flex justify-between items-center mt-3 mb-3 text-sm">
         <span>{"❤️".repeat(Math.max(lives, 0))}{"🖤".repeat(LIVES - Math.max(lives, 0))}</span>
