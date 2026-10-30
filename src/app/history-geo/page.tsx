@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdSlot from "@/components/AdSlot";
 import Link from "next/link";
 import { HISTORY_GEO_REGIONS, getTotalQuestionCount } from "@/data/history-geo";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
@@ -94,6 +95,8 @@ export default function HistoryGeoPage() {
             );
           })}
         </div>
+
+        <AdSlot unit="list" />
 
         <RelatedPosts slugs={["elementary-social-studies-guide", "self-study-elementary-english", "children-learning-motivation"]} />
 

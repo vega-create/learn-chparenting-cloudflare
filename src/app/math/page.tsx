@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdSlot from "@/components/AdSlot";
 import RelatedPosts from "@/components/RelatedPosts";
 import { MATH_TOPICS } from "@/data/math/topics";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
@@ -137,6 +138,8 @@ export default function MathPage() {
             ))}
           </ul>
         </section>
+
+        <AdSlot unit="list" />
 
         <RelatedPosts slugs={["math-struggling-kids", "multiplication-table-games", "math-olympiad-preparation"]} />
 

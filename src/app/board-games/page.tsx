@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdSlot from "@/components/AdSlot";
 import PageHeader from "@/components/PageHeader";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 import BoardGameCatalog, { type CatalogCategory } from "@/components/BoardGameCatalog";
@@ -81,6 +82,7 @@ export default function BoardGamesPage() {
         <PageHeader bare eyebrow="教育遊戲專區" title="找一款遊戲，動動腦。" image="/images/banners/board-games.webp"
           desc="邏輯、程式、記憶、反應、數學、語言、棋盤共 21 款，大人小孩都能玩，不用下載、不用註冊。" />
         <BoardGameCatalog categories={CATEGORIES} />
+        <AdSlot unit="list" />
       </div>
     </div>
   );

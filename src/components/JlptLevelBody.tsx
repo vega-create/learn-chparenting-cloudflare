@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AdSlot from "@/components/AdSlot";
 import UnitPhotoCard from "./UnitPhotoCard";
 import { unitImage } from "@/data/unit-images";
 import type { ReactNode } from "react";
@@ -77,6 +78,8 @@ export function JlptLevelBody({
             ))}
           </div>
         </section>
+
+        <AdSlot unit="list" />
 
         <section className="p-6 bg-white rounded-2xl border border-slate-200">
           <h2 className="text-lg font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-3">關於這個題庫</h2>

@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import AdSlot from "@/components/AdSlot";
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostWithHtml, getAllPosts, TocItem, FaqItem } from '@/lib/blog';
@@ -181,6 +182,10 @@ export default async function BlogPostPage({ params }: Props) {
   const tocH2 = tocAll.filter(t => t.level === 2);
   const practice = findPracticeLink(post.htmlContent || '');
   const articleHtml = wrapTables(post.htmlContent || '');
+  const h2At = [...articleHtml.matchAll(/<h2[\s>]/g)].map((m) => m.index ?? 0);
+  const articleHalves = h2At.length >= 4
+    ? [articleHtml.slice(0, h2At[Math.floor(h2At.length / 2)]), articleHtml.slice(h2At[Math.floor(h2At.length / 2)])]
+    : null;
 
   const modified = modifiedDateFor(slug, post.date);
 
@@ -307,8 +312,20 @@ export default async function BlogPostPage({ params }: Props) {
                 </details>
               )}
 
-              {/* Article Content */}
-              <article className={PROSE} dangerouslySetInnerHTML={{ __html: articleHtml }} />
+              <AdSlot unit="articleTop" className="mb-8" />
+
+              {/* Article Content：中間的 h2 前切開放一個廣告（h2 少於 4 個就不放中段） */}
+              {articleHalves ? (
+                <article>
+                  <div className={PROSE} dangerouslySetInnerHTML={{ __html: articleHalves[0] }} />
+                  <AdSlot unit="articleMid" />
+                  <div className={PROSE} dangerouslySetInnerHTML={{ __html: articleHalves[1] }} />
+                </article>
+              ) : (
+                <article className={PROSE} dangerouslySetInnerHTML={{ __html: articleHtml }} />
+              )}
+
+              <AdSlot unit="articleMid" className="mt-10" />
 
               {/* 前往相關練習（只在文章本身有連到練習頁時出現） */}
               {practice && (

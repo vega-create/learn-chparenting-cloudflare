@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdSlot from "@/components/AdSlot";
 import RelatedPosts from "@/components/RelatedPosts";
 import Link from "next/link";
 import { CHINESE_GRADES, getTotalQuestionCount } from "@/data/chinese-lang";
@@ -128,6 +129,8 @@ export default function ChineseLangPage() {
             <li className="flex gap-3"><span className="w-7 h-7 shrink-0 rounded-full bg-white text-[#2457A7] font-bold flex items-center justify-center">3</span><span>挑戰<strong className="text-[#263238]">閱讀理解</strong>，訓練分析能力</span></li>
           </ol>
         </section>
+
+        <AdSlot unit="list" />
 
         <RelatedPosts slugs={["zhuyin-practice", "idiom-learning-guide", "children-learning-motivation"]} />
 

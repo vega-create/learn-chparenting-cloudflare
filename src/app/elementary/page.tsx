@@ -1,4 +1,5 @@
 import { UNITS } from "@/data/elementary";
+import AdSlot from "@/components/AdSlot";
 import PageHeader from "@/components/PageHeader";
 import UnitPhotoCard from "@/components/UnitPhotoCard";
 import { unitImage } from "@/data/unit-images";
@@ -50,6 +51,8 @@ export default function ElementaryPage() {
             image={unitImage("elementary", u.id)} icon={u.icon} />
         ))}
       </div>
+
+      <AdSlot unit="list" />
 
       <section className="mt-10 p-6 bg-white rounded-2xl border border-slate-200">
         <h2 className="text-lg font-bold text-slate-800 mb-2">關於這個題庫</h2>

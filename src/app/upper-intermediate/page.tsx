@@ -1,4 +1,5 @@
 import { UI_UNITS as UNITS } from "@/data/upper-intermediate";
+import AdSlot from "@/components/AdSlot";
 import PageHeader from "@/components/PageHeader";
 import UnitPhotoCard from "@/components/UnitPhotoCard";
 import { unitImage } from "@/data/unit-images";
@@ -28,6 +29,7 @@ export default function ElementaryPage() {
             image={unitImage("upper-intermediate", u.id)} icon={u.icon} />
         ))}
       </div>
+      <AdSlot unit="list" />
     </div>
   );
 }

@@ -115,3 +115,6 @@ html { scroll-behavior: smooth; }
 .range-slider::-moz-range-thumb:hover {
   transform: scale(1.15);
 }
+
+/* 手動廣告位沒填到廣告時整塊收起，不留空白 */
+ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }

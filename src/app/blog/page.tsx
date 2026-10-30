@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import AdSlot from "@/components/AdSlot";
 import PageHeader from "@/components/PageHeader";
 import Link from 'next/link';
 import { getAllPosts, getAllCategories } from '@/lib/blog';
@@ -87,6 +88,8 @@ export default function BlogPage() {
       ) : (
         <BlogCategoryFilter posts={serializedPosts} categories={categories} />
       )}
+
+      <AdSlot unit="list" />
 
       <div className="mt-10">
         <Link href="/" className="text-sm font-semibold text-[#2457A7] no-underline hover:underline">

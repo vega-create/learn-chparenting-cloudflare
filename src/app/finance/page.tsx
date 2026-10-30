@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdSlot from "@/components/AdSlot";
 import Link from "next/link";
 import { FINANCE_MODULES } from "@/data/finance/modules";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
@@ -86,6 +87,8 @@ export default function FinancePage() {
             ))}
           </ol>
         </section>
+
+        <AdSlot unit="list" />
 
         <RelatedPosts slugs={["children-financial-education", "pocket-money-management", "children-learning-motivation"]} />
 

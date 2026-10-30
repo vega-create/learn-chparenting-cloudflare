@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdSlot from "@/components/AdSlot";
 import Link from "next/link";
 import { MUSIC_LEVELS, getTotalQuestionCount } from "@/data/music";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
@@ -87,6 +88,8 @@ export default function MusicPage() {
             );
           })}
         </div>
+
+        <AdSlot unit="list" />
 
         <RelatedPosts slugs={["music-theory-for-kids", "children-learning-motivation", "board-games-benefits-for-kids"]} />
 
