@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageHeader from "@/components/PageHeader";
 import SubjectVisitTracker from "@/components/SubjectVisitTracker";
 import BoardGameCatalog, { type CatalogCategory } from "@/components/BoardGameCatalog";
 
@@ -77,11 +78,8 @@ export default function BoardGamesPage() {
     <div className="bg-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <SubjectVisitTracker subject="board-games" />
-        <div className="mb-6">
-          <div className="text-sm font-bold text-[#E65E83] mb-1">教育遊戲專區</div>
-          <h1 className="text-3xl md:text-4xl font-black text-[#263238] mb-2">找一款遊戲，動動腦。</h1>
-          <p className="text-[#52616B] m-0">邏輯、程式、記憶、反應、數學、語言、棋盤共 21 款，大人小孩都能玩，不用下載、不用註冊。</p>
-        </div>
+        <PageHeader bare eyebrow="教育遊戲專區" title="找一款遊戲，動動腦。" image="/images/banners/board-games.webp"
+          desc="邏輯、程式、記憶、反應、數學、語言、棋盤共 21 款，大人小孩都能玩，不用下載、不用註冊。" />
         <BoardGameCatalog categories={CATEGORIES} />
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { UI_UNITS as UNITS } from "@/data/upper-intermediate";
+import PageHeader from "@/components/PageHeader";
 import UnitPhotoCard from "@/components/UnitPhotoCard";
 import { unitImage } from "@/data/unit-images";
 import type { Metadata } from "next";
@@ -13,11 +14,8 @@ export const metadata: Metadata = {
 export default function ElementaryPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <header className="mb-5">
-        <div className="text-sm font-bold text-[#E65E83] mb-1">英文與英檢</div>
-        <h1 className="text-[26px] md:text-4xl font-black text-[#263238] mb-2">全民英檢中高級免費練習</h1>
-        <p className="text-[15px] md:text-lg text-[#52616B]">大學畢業程度 · 約 8000 單字 · 40 個主題單元，選一個單元或模式就能開始，不用註冊。</p>
-      </header>
+      <PageHeader bare eyebrow="英文與英檢" title="全民英檢中高級免費練習" image="/images/banners/gept.webp"
+        desc="大學畢業程度 · 約 8000 單字 · 40 個主題單元，選一個單元或模式就能開始，不用註冊。" />
 
       <GeptLevelNav level="upper-intermediate" />
 

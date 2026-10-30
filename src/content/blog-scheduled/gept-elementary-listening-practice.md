@@ -5,7 +5,7 @@ date: "2026-09-28"
 category: "英檢攻略"
 tags: ["全民英檢", "GEPT", "初級", "英檢聽力", "聽力練習", "英檢準備"]
 author: "Mommy Wisdom"
-image: "/images/blog/gept-elementary-listening-practice.png"
+image: "/images/blog/gept-elementary-listening-practice-cover.jpg"
 faq:
   - q: "全民英檢初級聽力題目會播幾次？"
     a: "正式考試每題只播一次，所以練習時要養成「第一次就抓重點」的習慣。平常練習可以多聽幾次，但每次都先試著只聽一遍作答，對完答案再重聽。實際規定請以 LTTC 全民英檢官網的最新公告為準。"
@@ -38,6 +38,8 @@ faq:
 | 問答 | 聽一句問句，選出最適合的回應 | 沒聽清楚句首的疑問詞 |
 | 簡短對話 | 聽兩個人的對話，回答一個問題 | 只聽到單字，沒聽懂誰做了什麼 |
 | 短文聽解 | 聽一小段短文或廣播，回答問題 | 內容較長，聽到一半就跟丟 |
+
+![初級聽力的四種題型](/images/blog/gept-elementary-listening-practice-1.jpg)
 
 四種題型卡住的原因不一樣，所以練法也要分開。
 

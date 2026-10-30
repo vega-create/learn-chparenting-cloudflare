@@ -1,11 +1,11 @@
 /**
- * 內頁共用的頁首區塊（改版視覺：象牙底、左邊圖示＋標題＋說明、右邊插圖）。
- * 插圖放在 public/images/pages/<name>.webp，可不給。
+ * 內頁共用的頁首區塊。給 image 時是整片照片 banner（照片在 public/images/banners/），
+ * 沒給時是左邊圖示＋標題＋說明的精簡版。
  */
 import type { ReactNode } from "react";
 
 export default function PageHeader({
-  eyebrow, title, desc, icon, iconBg = "bg-[#E65E83]", image, children,
+  eyebrow, title, desc, icon, iconBg = "bg-[#E65E83]", image, children, bare = false,
 }: {
   eyebrow?: string;
   title: string;
@@ -14,7 +14,29 @@ export default function PageHeader({
   iconBg?: string;       // 圖示底色（Tailwind class）
   image?: string;        // 右側插圖路徑
   children?: ReactNode;  // 標題下方的按鈕、篩選等
+  bare?: boolean;        // 已在有左右留白的容器裡時設 true，避免重複內距
 }) {
+  if (image) {
+    // 有圖：整片 banner（照片鋪滿，左側漸層白底放標題；手機版圖在上、字在下）
+    return (
+      <section className={bare ? "pb-8" : "max-w-6xl mx-auto px-4 pt-6 pb-8"}>
+        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white md:min-h-[320px]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={image} alt="" className="w-full aspect-[16/9] object-cover md:absolute md:inset-0 md:h-full md:aspect-auto" />
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent" aria-hidden="true" />
+          <div className="relative p-6 md:p-10 md:max-w-[56%]">
+            {eyebrow && (
+              <span className="inline-block mb-3 px-3 py-1 rounded-full bg-[#FDECF1] text-[#C2416A] text-sm font-bold">{eyebrow}</span>
+            )}
+            <h1 className="text-[28px] md:text-[40px] font-black text-[#263238] leading-tight m-0">{title}</h1>
+            {desc && <p className="mt-3 mb-0 text-[15px] md:text-lg text-[#52616B] leading-relaxed">{desc}</p>}
+            {children && <div className="mt-5">{children}</div>}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="max-w-6xl mx-auto px-4 pt-6 pb-6 md:pt-8 md:pb-8">
       <div className="flex items-center gap-6">
@@ -33,10 +55,6 @@ export default function PageHeader({
           </div>
           {children && <div className="mt-5">{children}</div>}
         </div>
-        {image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={image} alt="" className="hidden md:block w-64 lg:w-80 aspect-[3/2] object-cover rounded-2xl shrink-0" />
-        )}
       </div>
     </section>
   );

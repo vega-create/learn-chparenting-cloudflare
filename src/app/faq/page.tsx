@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import PageHeader from "@/components/PageHeader";
 import InfoIcon, { type InfoIconName } from "@/components/InfoPageIcons";
 
 type FaqGroup = "start" | "content" | "device" | "records";
@@ -124,11 +125,7 @@ export default function FAQPage() {
       <div className="max-w-4xl mx-auto px-4 pt-6 md:pt-10">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-        <div className="text-center mb-6">
-          <div className="text-sm font-bold text-[#E65E83] mb-1">使用協助</div>
-          <h1 className="text-[28px] md:text-4xl font-black text-[#263238] mb-2">常見問題</h1>
-          <p className="text-[#52616B] m-0">關於親子多元學習平台的常見問題</p>
-        </div>
+        <PageHeader bare eyebrow="使用協助" title="常見問題" desc="關於親子多元學習平台的常見問題" image="/images/banners/faq.webp" />
 
         {/* 搜尋 */}
         <label className="flex items-center gap-3 bg-white rounded-xl border border-slate-200 px-4 py-3 mb-4 focus-within:border-[#2457A7]">

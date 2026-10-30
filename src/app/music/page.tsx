@@ -32,7 +32,7 @@ export default function MusicPage() {
         desc="音符 · 節拍 · 音階 · 和弦，從入門到進階。不需要會樂器，大人小孩都能練。"
         icon={<SubjectIcon name="music" size={40} />}
         iconBg="bg-[#9B5BD1]"
-        image="/images/pages/music.webp"
+        image="/images/banners/music.webp"
       >
         <span className="inline-block px-3 py-1 rounded-full bg-[#FDECF1] text-[#C2416A] text-sm font-bold">
           {total}+ 題免費練習

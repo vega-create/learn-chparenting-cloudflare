@@ -60,6 +60,8 @@ function pickFeatured(posts: Post[]): Post[] {
   return out;
 }
 
+const PAGE_SIZE = 10;
+
 export default function BlogCategoryFilter({ posts, categories }: { posts: Post[]; categories: string[] }) {
   const [active, setActive] = useState(ALL);
   const [query, setQuery] = useState("");
@@ -88,6 +90,12 @@ export default function BlogCategoryFilter({ posts, categories }: { posts: Post[
 
   const featuredSlugs = new Set(featured.map(p => p.slug));
   const rows = isFiltering ? filtered : posts.filter(p => !featuredSlugs.has(p.slug));
+
+  // 一次只列 PAGE_SIZE 篇，其餘按「展開」才出現；換分類或搜尋時自動收回
+  const sig = `${active}|${q}`;
+  const [expandedSig, setExpandedSig] = useState<string | null>(null);
+  const expanded = expandedSig === sig;
+  const shownRows = expanded ? rows : rows.slice(0, PAGE_SIZE);
 
   return (
     <>
@@ -193,7 +201,7 @@ export default function BlogCategoryFilter({ posts, categories }: { posts: Post[
           </div>
         ) : (
           <ul className="list-none p-0 m-0 space-y-3">
-            {rows.map(post => (
+            {shownRows.map(post => (
               <li key={post.slug}>
                 <Link
                   href={`/blog/${post.slug}`}
@@ -218,6 +226,26 @@ export default function BlogCategoryFilter({ posts, categories }: { posts: Post[
               </li>
             ))}
           </ul>
+        )}
+
+        {rows.length > PAGE_SIZE && (
+          <div className="text-center mt-5">
+            <button
+              type="button"
+              onClick={() => {
+                if (expanded) {
+                  setExpandedSig(null);
+                  document.getElementById("list-heading")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                } else {
+                  setExpandedSig(sig);
+                }
+              }}
+              aria-expanded={expanded}
+              className="px-6 py-2.5 rounded-xl border border-[#2457A7] text-[#2457A7] bg-white font-bold text-sm cursor-pointer hover:bg-[#EEF3FB]"
+            >
+              {expanded ? "收合文章 ▲" : `展開其餘 ${rows.length - PAGE_SIZE} 篇 ▼`}
+            </button>
+          </div>
         )}
       </section>
     </>

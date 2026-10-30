@@ -232,7 +232,7 @@ export default function ExamInfoPage() {
         eyebrow="考試日程與報名"
         title="報考資訊"
         desc="全民英檢 GEPT 與 日本語能力試驗 JLPT 報名時間、費用一覽"
-        image="/images/pages/exam-info.webp"
+        image="/images/banners/exam-info.webp"
       >
         <div className="inline-flex items-start gap-2 text-sm text-[#52616B] bg-white border border-slate-200 rounded-xl px-3.5 py-2.5">
           <InfoIcon name="info" size={18} className="text-[#2457A7] mt-px" />

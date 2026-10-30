@@ -5,7 +5,7 @@ date: "2026-10-05"
 category: "英檢攻略"
 tags: ["小學英檢", "GEPT Kids", "小學英檢模擬試題", "小學英文測驗", "兒童英檢", "國小英文"]
 author: "Mommy Wisdom"
-image: "/images/blog/gept-kids-preparation.png"
+image: "/images/blog/gept-kids-preparation-cover.jpg"
 faq:
   - q: "小學英檢的模擬試題要去哪裡找？"
     a: "最準確的來源是小學英檢官網（geptkids.org.tw），上面有官方提供的題型說明與範例試題，可以免費下載。坊間也有出版社的模擬試題本。其他網站的練習題（包括本站）適合用來練單字、聽力和口說的基本功，但題型不一定和正式考試完全相同。"
@@ -66,6 +66,8 @@ faq:
 ## 聽、讀、寫、說各怎麼練
 
 ### 聽力
+
+![聽、讀、寫、說各怎麼練](/images/blog/gept-kids-preparation-1.jpg)
 
 小學英檢的聽力是簡單的句子和短對話。練習重點是「聽到就知道意思」，不是先在腦中翻成中文。
 

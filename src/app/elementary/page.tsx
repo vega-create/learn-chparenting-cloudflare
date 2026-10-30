@@ -1,4 +1,5 @@
 import { UNITS } from "@/data/elementary";
+import PageHeader from "@/components/PageHeader";
 import UnitPhotoCard from "@/components/UnitPhotoCard";
 import { unitImage } from "@/data/unit-images";
 import type { Metadata } from "next";
@@ -33,11 +34,8 @@ export default function ElementaryPage() {
         subject="英語"
       />
       <SubjectVisitTracker subject="gept" />
-      <header className="mb-5">
-        <div className="text-sm font-bold text-[#E65E83] mb-1">英文與英檢</div>
-        <h1 className="text-[26px] md:text-4xl font-black text-[#263238] mb-2">全民英檢初級免費練習</h1>
-        <p className="text-[15px] md:text-lg text-[#52616B]">國中畢業程度 · 約 2000 單字 · 20 個主題單元，選一個單元或模式就能開始，不用註冊。</p>
-      </header>
+      <PageHeader bare eyebrow="英文與英檢" title="全民英檢初級免費練習" image="/images/banners/gept.webp"
+        desc="國中畢業程度 · 約 2000 單字 · 20 個主題單元，選一個單元或模式就能開始，不用註冊。" />
 
       <GeptLevelNav level="elementary" />
 

@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import PageHeader from "@/components/PageHeader";
 import Link from 'next/link';
 import { getAllPosts, getAllCategories } from '@/lib/blog';
 import BlogCategoryFilter from '@/components/BlogCategoryFilter';
@@ -76,15 +77,8 @@ export default function BlogPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <header className="mb-6 md:mb-8">
-        <div className="text-sm font-bold text-[#E65E83] mb-1">學習文章</div>
-        <h1 className="text-[28px] md:text-[40px] font-black text-[#263238] leading-tight m-0">
-          一起學，也讓自己更有方向
-        </h1>
-        <p className="mt-3 mb-0 text-[15px] md:text-lg text-[#52616B] leading-relaxed max-w-3xl">
-          英檢、日檢的準備攻略，國語、數學、打字的練習方法，還有陪孩子學習的心得——給想自學的大人，也給陪著孩子一起學的家長。
-        </p>
-      </header>
+      <PageHeader bare eyebrow="學習文章" title="一起學，也讓自己更有方向" image="/images/banners/blog.webp"
+        desc="英檢、日檢的準備攻略，國語、數學、打字的練習方法，還有陪孩子學習的心得——給想自學的大人，也給陪著孩子一起學的家長。" />
 
       {posts.length === 0 ? (
         <div className="text-center py-20 bg-slate-50 border border-slate-200 rounded-2xl">

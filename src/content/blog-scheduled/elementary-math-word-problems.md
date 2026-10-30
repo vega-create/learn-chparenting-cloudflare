@@ -5,7 +5,7 @@ date: "2026-10-12"
 category: "數學學習"
 tags: ["數學應用題", "國小數學", "數學練習", "小六應用題", "國小數學題目練習", "解題技巧"]
 author: "Mommy Wisdom"
-image: "/images/blog/elementary-math-word-problems.png"
+image: "/images/blog/elementary-math-word-problems-cover.jpg"
 faq:
   - q: "孩子計算都對，為什麼應用題就是不會？"
     a: "因為應用題考的是兩件事：讀懂題目，以及決定要用哪一種運算。計算只是最後一步。孩子卡住的地方通常在前面，也就是不知道題目在問什麼，或是看到數字就急著算。練習時要把重點放在列式之前的步驟。"
@@ -28,6 +28,8 @@ faq:
 ## 四步驟解題法
 
 不管哪一種題型，都走同樣的四步：
+
+![四步驟解題法](/images/blog/elementary-math-word-problems-1.jpg)
 
 | 步驟 | 做什麼 | 孩子要說出口的話 |
 |------|-------|----------------|

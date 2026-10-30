@@ -36,7 +36,7 @@ export default function HistoryGeoPage() {
         desc="台灣 · 亞洲 · 世界的歷史、地理與文化，每題都有詳解。大人小孩都能練，一起拓展視野。"
         icon={<SubjectIcon name="globe" size={40} />}
         iconBg="bg-[#1F9A7A]"
-        image="/images/pages/history-geo.webp"
+        image="/images/banners/history-geo.webp"
       >
         <span className="inline-block px-3 py-1 rounded-full bg-[#FDECF1] text-[#C2416A] text-sm font-bold">
           {total}+ 題免費練習

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
+import PageHeader from "@/components/PageHeader";
 
 /**
  * 鍵盤位置練習（分階段）。
@@ -161,19 +162,13 @@ export default function KeyboardPracticePage() {
         <a href="/typing-game" className="font-bold text-[#2457A7] hover:underline no-underline">← 回打字練習</a>
       </nav>
 
-      <div className="flex items-center gap-6 mb-6">
-        <div className="flex-1 min-w-0">
-          <div className="text-sm font-bold text-[#E65E83] mb-0.5">打字與鍵盤</div>
-          <h1 className="text-[26px] md:text-4xl font-black text-[#263238] leading-tight m-0">鍵盤位置練習</h1>
-          <p className="text-[15px] text-[#52616B] mt-1 mb-4">畫面會告訴你按哪個鍵、用哪根手指。先求按對，不用快。大人小孩都能練。</p>
-          <div className="inline-flex items-center gap-3 bg-[#FDF2F5] border border-[#F6D5DF] rounded-2xl px-4 py-2.5 text-sm">
-            <span className="text-xl shrink-0" aria-hidden="true">⌨️</span>
-            <span><span className="font-bold text-[#C2416A]">請使用實體鍵盤</span><span className="text-[#52616B]">，開著注音輸入法也能練</span></span>
-          </div>
+      <PageHeader bare eyebrow="打字與鍵盤" title="鍵盤位置練習" image="/images/banners/keyboard.webp"
+        desc="畫面會告訴你按哪個鍵、用哪根手指。先求按對，不用快。大人小孩都能練。">
+        <div className="inline-flex items-center gap-3 bg-[#FDF2F5] border border-[#F6D5DF] rounded-2xl px-4 py-2.5 text-sm">
+          <span className="text-xl shrink-0" aria-hidden="true">⌨️</span>
+          <span><span className="font-bold text-[#C2416A]">請使用實體鍵盤</span><span className="text-[#52616B]">，開著注音輸入法也能練</span></span>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/pages/keyboard.webp" alt="" className="hidden md:block w-64 aspect-[3/2] object-cover rounded-2xl shrink-0" />
-      </div>
+      </PageHeader>
 
       <div className="flex mb-6">
         <button onClick={() => setShowZhuyin(v => !v)}

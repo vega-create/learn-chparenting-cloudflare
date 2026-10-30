@@ -47,7 +47,7 @@ export default function MathPage() {
         title="數學練習"
         desc="從基礎運算到代數入門，每個主題先看觀念、再做練習、最後限時挑戰。大人小孩都能練，免費、不用註冊。"
         icon={<SubjectIcon name="calculator" size={40} />}
-        image="/images/pages/math.webp"
+        image="/images/banners/math.webp"
       >
         <nav className="flex flex-wrap gap-2" aria-label="依程度跳到主題">
           {GRADE_GROUPS.map((g) => (

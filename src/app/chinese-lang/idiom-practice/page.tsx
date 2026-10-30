@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import PageHeader from "@/components/PageHeader";
 import { createPortal } from "react-dom";
 import { IDIOMS, IDIOM_LEVELS, type Idiom, type IdiomLevel } from "@/data/idiom-practice";
-import { PracticeHeader } from "@/components/MathChineseUI";
 
 const MODE_ICON: Record<string, React.ReactNode> = {
   fill: <><path d="M4 20h4L19 9l-4-4L4 16v4Z" /><path d="m13.5 6.5 4 4" /></>,
@@ -225,14 +225,9 @@ export default function IdiomPracticePage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="flex items-center gap-6 mb-2">
-        <div className="flex-1 min-w-0">
-          <PracticeHeader backHref="/chinese-lang" backLabel="回國語學習" eyebrow="國語學習・中高年級" title="成語練習"
-            desc="填空、配對，還可以印成學習單用手寫。大人小孩都能一起練。" icon="成" />
-        </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/pages/idiom.webp" alt="" className="hidden md:block w-56 lg:w-64 aspect-[3/2] object-cover rounded-2xl shrink-0" />
-      </div>
+      <a href="/chinese-lang" className="inline-block mb-4 text-sm font-bold text-[#2457A7] hover:underline no-underline">← 回國語學習</a>
+      <PageHeader bare eyebrow="國語學習・中高年級" title="成語練習" image="/images/banners/idiom.webp"
+        desc="填空、配對，還可以印成學習單用手寫。大人小孩都能一起練。" />
 
       {/* 選程度與玩法 */}
       {mode === null && (

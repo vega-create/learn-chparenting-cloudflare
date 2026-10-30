@@ -34,7 +34,7 @@ export function JlptLevelBody({
         title={title}
         desc={desc}
         icon={<SubjectIcon name="torii" size={40} />}
-        image="/images/pages/jlpt.webp"
+        image="/images/banners/jlpt.webp"
       >
         <JlptLevelTabs current={level} />
       </PageHeader>

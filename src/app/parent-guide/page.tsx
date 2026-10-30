@@ -71,7 +71,7 @@ export default function ParentGuidePage() {
         eyebrow="家長陪伴指南"
         title="不需要當老師，也能陪孩子學習。"
         desc={<>共 {totalUnits} 個單元指南，涵蓋全民英檢初級到中高級、JLPT N5 到 N1。每個單元都告訴你今天學什麼、怎麼陪、學會了沒。</>}
-        image="/images/pages/parent-guide.webp"
+        image="/images/banners/parent-guide.webp"
       />
 
       <div className="max-w-6xl mx-auto px-4">

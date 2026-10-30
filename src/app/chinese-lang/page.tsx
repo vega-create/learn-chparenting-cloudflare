@@ -32,7 +32,7 @@ export default function ChineseLangPage() {
         title="國語學習"
         desc="注音 · 生字 · 成語 · 閱讀 — 小一到小六。每題都有解說，大人小孩都能練，免費、不用註冊。"
         icon={<SubjectIcon name="book" size={40} />}
-        image="/images/pages/chinese-lang.webp"
+        image="/images/banners/chinese-lang.webp"
       >
         <span className="inline-block px-3 py-1 rounded-full bg-[#FDECF1] text-[#C2416A] text-sm font-bold">
           {total}+ 題免費練習

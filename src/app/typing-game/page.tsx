@@ -287,7 +287,7 @@ export default function TypingGamePage() {
           desc="中英雙語打字訓練，提升打字速度與準確率。大人小孩都能練。"
           icon={<SubjectIcon name="keyboard" size={40} />}
           iconBg="bg-[#7C5CD6]"
-          image="/images/pages/typing.webp"
+          image="/images/banners/typing.webp"
         >
           <div className="inline-flex items-center gap-3 bg-[#EEF3FB] border border-[#D3E0F3] rounded-2xl px-4 py-2.5">
             <span className="text-[#2457A7] shrink-0"><SubjectIcon name="keyboard" size={24} /></span>

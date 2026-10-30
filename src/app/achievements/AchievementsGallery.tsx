@@ -40,7 +40,7 @@ export default function AchievementsGallery() {
         eyebrow="我的學習"
         title="學習成就"
         desc="完成單元、玩桌遊、每天回來練習，就會解鎖對應的徽章。大人小孩都能收集。"
-        image="/images/pages/achievements.webp"
+        image="/images/banners/achievements.webp"
       >
         <a
           href="/#subjects"
