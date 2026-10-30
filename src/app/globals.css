@@ -118,3 +118,12 @@ html { scroll-behavior: smooth; }
 
 /* 手動廣告位沒填到廣告時整塊收起，不留空白 */
 ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
+
+/* 遊戲頁桌機版：棋盤、按鈕多為固定 px，單純加寬不會變大，所以整欄等比例放大
+   （zoom 下 elementFromPoint / clientX 仍正確；依視窗高度分段，避免作答區被擠出畫面） */
+@media (min-width: 1024px) and (min-height: 700px) {
+  .game-desktop-zoom { zoom: 1.2; }
+}
+@media (min-width: 1280px) and (min-height: 850px) {
+  .game-desktop-zoom { zoom: 1.35; }
+}

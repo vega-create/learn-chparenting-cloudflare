@@ -14,6 +14,7 @@ export interface SiteUpdate {
 export const MAX_TICKER_ITEMS = 10;
 
 export const SITE_UPDATES: SiteUpdate[] = [
+  { date: "2026-10-30", kind: "更新", text: "教育遊戲在電腦上放大顯示，棋盤和按鈕更大、更好點", href: "/board-games" },
   { date: "2026-10-30", kind: "更新", text: "每頁換上大張主題照片，文章列表可展開收合，看起來更清爽", href: "/blog" },
   { date: "2026-10-30", kind: "更新", text: "歷史地理、樂理、理財、數學、國語換上新圖示；英檢日檢每個單元都有主題照片", href: "/history-geo" },
   { date: "2026-10-29", kind: "更新", text: "網站改版：找練習更快、文章換上新插圖，大人小孩都好用", href: "/" },

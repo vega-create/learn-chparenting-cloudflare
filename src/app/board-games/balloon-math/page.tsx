@@ -306,7 +306,7 @@ export default function BalloonMathPage() {
       </div>
 
       {/* 天空 */}
-      <div className={`relative h-[380px] sm:h-[420px] rounded-2xl overflow-hidden border-2 transition-colors
+      <div className={`relative h-[380px] sm:h-[420px] lg:h-[340px] rounded-2xl overflow-hidden border-2 transition-colors
         ${flash === "pop" ? "border-emerald-400 bg-emerald-50" : flash === "miss" ? "border-red-400 bg-red-50" : flash === "wrong" ? "border-amber-400 bg-amber-50" : "border-sky-200 bg-gradient-to-b from-sky-100 to-sky-50"}`}
         aria-live="polite" aria-label="掉落中的氣球">
         {balloons.map(b => (

@@ -84,11 +84,11 @@ export const GAME_UI = {
   segOff: "bg-white text-[#52616B] border-slate-200 hover:bg-slate-50",
 };
 
-/** Full-width ivory page background + centred column. */
+/** Full-width page background + centred column（桌機會整體等比例放大，見 globals.css 的 .game-desktop-zoom）. */
 export function GamePage({ children, maxW = "max-w-lg" }: { children: React.ReactNode; maxW?: string }) {
   return (
     <div className="min-h-screen">
-      <div className={`${maxW} mx-auto px-4 py-6 sm:py-8 animate-fadeIn text-[#263238]`}>{children}</div>
+      <div className={`${maxW} mx-auto px-4 py-6 sm:py-8 animate-fadeIn text-[#263238] game-desktop-zoom`}>{children}</div>
     </div>
   );
 }
