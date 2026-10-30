@@ -74,7 +74,7 @@ export default function AuthorPage() {
   const link = "text-[#2457A7] font-medium hover:underline";
 
   return (
-    <div className="bg-white pb-12">
+    <div className="pb-12">
       <div className="max-w-4xl mx-auto px-4 pt-6 md:pt-8">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
 

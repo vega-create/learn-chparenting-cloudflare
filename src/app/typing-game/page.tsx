@@ -275,7 +275,7 @@ export default function TypingGamePage() {
 
   // ─── MENU ───
   if (mode === "menu") return (
-    <div className="bg-white">
+    <div className="">
     <div className="max-w-6xl mx-auto px-4 py-6 md:py-8">
       <SubjectVisitTracker subject="typing" />
 
@@ -394,7 +394,7 @@ export default function TypingGamePage() {
     const wpm = getWPM();
     const acc = getAccuracy();
     return (
-      <div className="bg-white">
+      <div className="">
       <div className="max-w-md mx-auto px-4 py-12 text-center">
         <div className="bg-white rounded-2xl p-8 border border-slate-200">
           <div className="text-5xl mb-4">{acc >= 90 ? "🏆" : acc >= 70 ? "⭐" : "💪"}</div>
@@ -445,7 +445,7 @@ export default function TypingGamePage() {
 
   // ─── GAME SCREENS ───
   return (
-    <div className="bg-white">
+    <div className="">
     <div className="max-w-2xl mx-auto px-4 py-6">
       {/* HUD */}
       <div className="flex items-center justify-between mb-4">

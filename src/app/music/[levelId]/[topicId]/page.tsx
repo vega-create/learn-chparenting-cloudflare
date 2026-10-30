@@ -47,7 +47,7 @@ export default async function Page({
   const found = getTopicByIds(levelId, topicId);
 
   return (
-    <div className="bg-white">
+    <div className="">
       <ClientPage />
       {found && (
         <MusicTopicSEO

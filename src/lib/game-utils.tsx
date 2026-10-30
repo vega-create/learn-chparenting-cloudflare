@@ -87,7 +87,7 @@ export const GAME_UI = {
 /** Full-width ivory page background + centred column. */
 export function GamePage({ children, maxW = "max-w-lg" }: { children: React.ReactNode; maxW?: string }) {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="min-h-screen">
       <div className={`${maxW} mx-auto px-4 py-6 sm:py-8 animate-fadeIn text-[#263238]`}>{children}</div>
     </div>
   );

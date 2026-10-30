@@ -32,7 +32,7 @@ const GROUP_ICON: Record<string, string> = { basic: "基", advanced: "進", chal
 
 export default function MathPage() {
   return (
-    <div className="bg-white">
+    <div className="">
       <ToolStructuredData
         name="國小數學免費線上練習"
         description="專為國小生設計的免費數學練習平台，涵蓋四則運算和應用題"

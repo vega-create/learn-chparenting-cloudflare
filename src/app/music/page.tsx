@@ -24,7 +24,7 @@ export default function MusicPage() {
   const total = getTotalQuestionCount();
 
   return (
-    <div className="bg-white">
+    <div className="">
       <SubjectVisitTracker subject="music" />
       <PageHeader
         eyebrow="音樂與樂理"

@@ -17,7 +17,7 @@ const SISTER_SITES = [
 
 export default function Footer() {
   return (
-    <footer className="google-anno-skip bg-slate-50 border-t border-slate-200 mt-12 hidden md:block">
+    <footer className="google-anno-skip bg-[#F8EDDC] border-t border-[#EEDFC6] mt-12 hidden md:block">
       <div className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 no-underline">

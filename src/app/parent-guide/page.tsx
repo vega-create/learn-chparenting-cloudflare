@@ -66,7 +66,7 @@ export default function ParentGuidePage() {
     JLPT_GUIDES.reduce((sum, g) => sum + g.units, 0);
 
   return (
-    <div className="bg-white pb-12">
+    <div className="pb-12">
       <PageHeader
         eyebrow="家長陪伴指南"
         title="不需要當老師，也能陪孩子學習。"

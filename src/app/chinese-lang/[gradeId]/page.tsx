@@ -38,7 +38,7 @@ export default async function GradeOverviewPage({
   const lgCols = grade.topics.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
 
   return (
-    <div className="bg-white">
+    <div className="">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <PracticeHeader
           backHref="/chinese-lang"

@@ -222,7 +222,7 @@ function StepList({ steps }: { steps: string[] }) {
 
 export default function ExamInfoPage() {
   return (
-    <div className="bg-white pb-12">
+    <div className="pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

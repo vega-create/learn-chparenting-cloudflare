@@ -36,7 +36,7 @@ export default async function LevelOverviewPage({
   if (!level) notFound();
 
   return (
-    <div className="bg-white">
+    <div className="">
       <PageHeader
         eyebrow="樂理基礎"
         title={level.title}

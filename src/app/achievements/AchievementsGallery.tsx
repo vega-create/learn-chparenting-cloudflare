@@ -35,7 +35,7 @@ export default function AchievementsGallery() {
   const pct = Math.round((unlockedCount / totalCount) * 100);
 
   return (
-    <div className="bg-white pb-12">
+    <div className="pb-12">
       <PageHeader
         eyebrow="我的學習"
         title="學習成就"

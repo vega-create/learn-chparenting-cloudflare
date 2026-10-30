@@ -47,7 +47,7 @@ const PARENT_NOTES: { icon: InfoIconName; title: string; text: string }[] = [
 
 export default function HowToUsePage() {
   return (
-    <div className="bg-white pb-12">
+    <div className="pb-12">
       <PageHeader
         eyebrow="使用說明"
         title="3 步驟開始學習"

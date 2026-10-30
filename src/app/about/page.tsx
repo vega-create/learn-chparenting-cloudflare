@@ -49,7 +49,7 @@ const MORE_TOOLS: { href: string; icon: SubjectIconName | InfoIconName; sub?: bo
 
 export default function AboutPage() {
   return (
-    <div className="bg-white pb-12">
+    <div className="pb-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <div className="max-w-6xl mx-auto px-4 pt-6 md:pt-8">

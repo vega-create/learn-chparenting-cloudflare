@@ -75,7 +75,7 @@ const CATEGORIES: CatalogCategory[] = [
 
 export default function BoardGamesPage() {
   return (
-    <div className="bg-white">
+    <div className="">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <SubjectVisitTracker subject="board-games" />
         <PageHeader bare eyebrow="教育遊戲專區" title="找一款遊戲，動動腦。" image="/images/banners/board-games.webp"

@@ -121,7 +121,7 @@ export default function FAQPage() {
   const visibleCount = FAQ_ITEMS.filter(isVisible).length;
 
   return (
-    <div className="bg-white pb-12">
+    <div className="pb-12">
       <div className="max-w-4xl mx-auto px-4 pt-6 md:pt-10">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 

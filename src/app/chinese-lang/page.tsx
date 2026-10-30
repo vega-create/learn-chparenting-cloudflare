@@ -25,7 +25,7 @@ export default function ChineseLangPage() {
   const total = getTotalQuestionCount();
 
   return (
-    <div className="bg-white">
+    <div className="">
       <SubjectVisitTracker subject="chinese-lang" />
       <PageHeader
         eyebrow="國小 1–6 年級"

@@ -36,7 +36,7 @@ export default async function RegionOverviewPage({
   if (!region) notFound();
 
   return (
-    <div className="bg-white">
+    <div className="">
       <PageHeader
         eyebrow="歷史地理"
         title={region.title}

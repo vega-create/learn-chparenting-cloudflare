@@ -28,7 +28,7 @@ const PATH = [
 export default function FinancePage() {
   const byId = Object.fromEntries(FINANCE_MODULES.map((m) => [m.id, m]));
   return (
-    <div className="bg-white">
+    <div className="">
       <SubjectVisitTracker subject="finance" />
       <section className="max-w-6xl mx-auto px-4 pt-6 pb-8">
         <div className="relative overflow-hidden rounded-3xl bg-[#FFF6F1] border border-[#F6E3D8] md:min-h-[300px]">

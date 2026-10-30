@@ -28,7 +28,7 @@ export default function HistoryGeoPage() {
   const total = getTotalQuestionCount();
 
   return (
-    <div className="bg-white">
+    <div className="">
       <SubjectVisitTracker subject="history-geo" />
       <PageHeader
         eyebrow="社會科練習"

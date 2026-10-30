@@ -40,7 +40,7 @@ export default async function Page({
   const t = getTopicById(topic);
 
   return (
-    <div className="bg-white pb-4">
+    <div className="pb-4">
       <ClientPage />
       {t && <MathTopicSEO topic={t} />}
     </div>

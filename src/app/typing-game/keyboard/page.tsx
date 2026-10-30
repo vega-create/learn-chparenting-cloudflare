@@ -156,7 +156,7 @@ export default function KeyboardPracticePage() {
   );
 
   return (
-    <div className="bg-white">
+    <div className="">
     <div className="max-w-4xl mx-auto px-4 py-8">
       <nav className="text-sm mb-4" aria-label="breadcrumb">
         <a href="/typing-game" className="font-bold text-[#2457A7] hover:underline no-underline">← 回打字練習</a>
