@@ -14,6 +14,7 @@ export interface SiteUpdate {
 export const MAX_TICKER_ITEMS = 10;
 
 export const SITE_UPDATES: SiteUpdate[] = [
+  { date: "2026-10-30", kind: "更新", text: "歷史地理、樂理、理財、數學、國語換上新圖示；英檢日檢每個單元都有主題照片", href: "/history-geo" },
   { date: "2026-10-29", kind: "更新", text: "網站改版：找練習更快、文章換上新插圖，大人小孩都好用", href: "/" },
   { date: "2026-10-29", kind: "新增", text: "英檢初級、中級題庫頁加上考試倒數，還能一鍵分享到 LINE 給學生", href: "/intermediate" },
   { date: "2026-10-18", kind: "更新", text: "日檢 N5–N1 各單元的單字、例句、聽力、短文改用 AI 日文語音，發音更自然", href: "/jlpt-n5" },
