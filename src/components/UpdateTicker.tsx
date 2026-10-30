@@ -77,7 +77,7 @@ export default function UpdateTicker() {
         <span className="shrink-0 text-sm font-bold text-[#C2416A]">📢 最新消息</span>
         <div className="update-ticker relative flex-1 overflow-hidden">
           <div className={`update-ticker-track flex w-max ${paused ? "is-paused" : ""}`}
-            style={{ animationDuration: `${items.length * 6}s` }}>
+            style={{ animationDuration: `${items.length * 10}s` }}>
             <Items items={items} />
             <Items items={items} hidden />
           </div>

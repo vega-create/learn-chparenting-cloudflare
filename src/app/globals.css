@@ -24,7 +24,7 @@ body {
 @keyframes updateTicker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .update-ticker-track { animation: updateTicker 50s linear infinite; }
 .update-ticker:hover .update-ticker-track,
-.update-ticker:focus-within .update-ticker-track,
+.update-ticker:has(:focus-visible) .update-ticker-track,
 .update-ticker-track.is-paused { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   /* 系統設定「減少動態效果」：不跑，改成可以左右滑的清單，也不需要第二份和暫停鈕 */
