@@ -29,10 +29,11 @@ export function LangUnitHeader({
         </div>
         <div className="flex flex-col md:flex-row md:items-end gap-4">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl md:text-3xl font-black text-[#263238] leading-tight m-0">
+            {/* 不用 h1：頁面唯一的 h1 是下方 UnitSEOContent 的完整標題（含級別），這裡只是視覺上的大標 */}
+            <p className="text-2xl md:text-3xl font-black text-[#263238] leading-tight m-0">
               <span className="mr-2">Unit {unitNo}</span>{title}
               {icon && <span className="ml-2 text-2xl md:text-3xl align-middle" aria-hidden="true">{icon}</span>}
-            </h1>
+            </p>
             {subtitle && <p className="mt-1 mb-0 text-[#52616B]" lang="ja">{subtitle}</p>}
           </div>
           <div className="flex flex-wrap gap-2 md:justify-end">

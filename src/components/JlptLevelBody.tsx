@@ -8,6 +8,7 @@ import PageHeader, { SectionTitle } from "@/components/PageHeader";
 import SubjectIcon from "@/components/SubjectIcon";
 import { JlptLevelTabs, JlptModeCards, type JlptLevel } from "@/components/JlptLevelNav";
 import { JlptExamBanner } from "@/components/JlptExamBanner";
+import { UnitStudyFlow } from "@/components/UnitStudyFlow";
 
 /**
  * 日檢級別頁共用版面：精簡頁首 → 級別切換 → 練習模式 → (N5 五十音入門) → 倒數 → 單元 → 關於這個題庫。
@@ -85,6 +86,8 @@ export function JlptLevelBody({
           <h2 className="text-lg font-bold text-[#263238] border-l-4 border-[#E65E83] pl-3 mb-3">關於這個題庫</h2>
           {about}
         </section>
+
+        <UnitStudyFlow language="ja" />
       </div>
     </div>
   );

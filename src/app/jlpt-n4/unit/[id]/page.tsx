@@ -46,8 +46,9 @@ export default async function Page({ params }: Props) {
         <UnitSEOContent
           level={LEVEL}
           unit={seo}
-          vocabItems={unit.vocab.slice(0, 6).map(v => ({ display: v.ja, reading: v.reading, zh: v.zh, ex: v.ex }))}
-          grammarItems={unit.grammar.slice(0, 3).map(g => ({ title: g.title, explain: g.explain }))}
+          vocabItems={unit.vocab.slice(0, 10).map(v => ({ display: v.ja, reading: v.reading, zh: v.zh }))}
+          exampleSentences={unit.vocab.filter(v => v.ex).slice(0, 2).map(v => ({ text: v.ex, zh: v.exZh }))}
+          grammarItems={unit.grammar.slice(0, 4).map(g => ({ title: g.title, explain: g.explain }))}
           prevUnit={N4_UNITS.find(u => u.id === uid - 1) && { id: uid - 1, title: N4_UNITS.find(u => u.id === uid - 1)!.title }}
           nextUnit={N4_UNITS.find(u => u.id === uid + 1) && { id: uid + 1, title: N4_UNITS.find(u => u.id === uid + 1)!.title }}
         />

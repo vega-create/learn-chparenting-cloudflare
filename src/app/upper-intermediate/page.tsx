@@ -5,6 +5,7 @@ import UnitPhotoCard from "@/components/UnitPhotoCard";
 import { unitImage } from "@/data/unit-images";
 import type { Metadata } from "next";
 import { GeptLevelNav } from "@/components/GeptLevelNav";
+import { UnitStudyFlow } from "@/components/UnitStudyFlow";
 
 export const metadata: Metadata = {
   title: "全民英檢中高級免費練習 | 8000+ 單字・進階文法・模擬考 | learn.chparenting.com",
@@ -30,6 +31,7 @@ export default function ElementaryPage() {
         ))}
       </div>
       <AdSlot unit="list" />
+      <UnitStudyFlow />
     </div>
   );
 }

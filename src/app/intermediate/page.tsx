@@ -5,6 +5,7 @@ import UnitPhotoCard from "@/components/UnitPhotoCard";
 import { unitImage } from "@/data/unit-images";
 import type { Metadata } from "next";
 import { GeptLevelNav } from "@/components/GeptLevelNav";
+import { UnitStudyFlow } from "@/components/UnitStudyFlow";
 import { GeptExamBanner } from "@/components/GeptExamBanner";
 import { ToolStructuredData } from "@/components/ToolStructuredData";
 
@@ -62,6 +63,7 @@ export default function ElementaryPage() {
           <li>✓ 不需要帳號，免費直接練習</li>
         </ul>
       </section>
+      <UnitStudyFlow />
     </div>
   );
 }

@@ -9,6 +9,8 @@ export interface GuideContent {
   guidanceText: string;
   passChecklist: string[];
   commonIssues: string;
+  /** 這一單元自己的常見問題；沒有就不顯示 FAQ 區塊，不用模板題充數 */
+  faq?: { q: string; a: string }[];
 }
 
 interface ParentGuideProps {
