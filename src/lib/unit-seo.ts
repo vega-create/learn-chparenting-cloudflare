@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 
 /**
  * Shared SEO helpers for every /[level]/unit/[id] page.
@@ -32,10 +33,15 @@ export interface LevelInfo {
   educationalLevel: string; // "Elementary" | "Intermediate" | "Beginner" | "Advanced" ...
   totalUnits:     number;
   longSummary:    string;  // 1-line description for OG / FAQ
+  /**
+   * 這個級別的 unit 頁要不要進索引。2026-11 起只有「老師的話」已擴寫成單元專屬內容的級別
+   * 才開 true；其餘級別先 noindex+follow，等該級別內容改好再打開。
+   */
+  unitPagesIndexable?: boolean;
 }
 
 export const LEVELS: Record<string, LevelInfo> = {
-  "elementary":         { slug: "elementary",         pathSegment: "/elementary/unit",         displayName: "GEPT 初級",     testFamily: "GEPT", cefr: "A2", language: "en", educationalLevel: "Elementary",            totalUnits: 20, longSummary: "對應國中畢業英文程度，適合國小高年級到國中生" },
+  "elementary":         { slug: "elementary",         pathSegment: "/elementary/unit",         displayName: "GEPT 初級",     testFamily: "GEPT", cefr: "A2", language: "en", educationalLevel: "Elementary",            totalUnits: 20, longSummary: "對應國中畢業英文程度，適合國小高年級到國中生", unitPagesIndexable: true },
   "intermediate":       { slug: "intermediate",       pathSegment: "/intermediate/unit",       displayName: "GEPT 中級",     testFamily: "GEPT", cefr: "B1", language: "en", educationalLevel: "Intermediate",          totalUnits: 34, longSummary: "對應高中畢業英文程度，適合高中生與大專生" },
   "upper-intermediate": { slug: "upper-intermediate", pathSegment: "/upper-intermediate/unit", displayName: "GEPT 中高級",   testFamily: "GEPT", cefr: "B2", language: "en", educationalLevel: "UpperIntermediate",     totalUnits: 40, longSummary: "對應大學畢業英文程度，適合大專以上學習者" },
   "jlpt-n5":            { slug: "jlpt-n5",            pathSegment: "/jlpt-n5/unit",            displayName: "JLPT N5",       testFamily: "JLPT",             language: "ja", educationalLevel: "Beginner",              totalUnits: 20, longSummary: "JLPT 最入門等級，掌握 800 個基礎日文單字與基本文法" },
@@ -100,12 +106,9 @@ export function generateUnitMetadata(level: LevelInfo, unit: UnitSEOInput | unde
       description,
       images: [`${BASE}/og-image.png`],
     },
-    robots: {
-      index: true,
-      follow: true,
-      "max-snippet": -1,
-      "max-image-preview": "large",
-    },
+    robots: level.unitPagesIndexable
+      ? { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large" }
+      : NOINDEX_FOLLOW,
   };
 }
 

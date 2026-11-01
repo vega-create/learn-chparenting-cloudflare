@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "JLPT N5模擬測驗｜免費線上練習 | learn.chparenting.com",
   description: "日檢 N5免費線上模擬測驗：題型比照正式測驗，計時作答、交卷即時計分，答錯的題目可回看解說，考前先熟悉節奏最有效。免費使用、不用註冊，可重複練習。",
   alternates: { canonical: "https://learn.chparenting.com/jlpt-n5/mock-test" },
+  robots: NOINDEX_FOLLOW,
 };
 
 export default function JlptN5MockTestLayout({ children }: { children: React.ReactNode }) {

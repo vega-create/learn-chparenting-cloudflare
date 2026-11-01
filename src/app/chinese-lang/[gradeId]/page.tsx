@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 import Link from "next/link";
 import { CHINESE_GRADES, getGradeById } from "@/data/chinese-lang";
 import { notFound } from "next/navigation";
@@ -22,6 +23,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://learn.chparenting.com/chinese-lang/${gradeId}`,
     },
+    robots: NOINDEX_FOLLOW,
   };
 }
 

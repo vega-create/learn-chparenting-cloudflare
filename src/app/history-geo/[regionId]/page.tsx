@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 import Link from "next/link";
 import { HISTORY_GEO_REGIONS, getRegionById } from "@/data/history-geo";
 import { notFound } from "next/navigation";
@@ -23,6 +24,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://learn.chparenting.com/history-geo/${regionId}`,
     },
+    robots: NOINDEX_FOLLOW,
   };
 }
 

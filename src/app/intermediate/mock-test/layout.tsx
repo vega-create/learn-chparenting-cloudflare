@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { NOINDEX_FOLLOW } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "GEPT 中級模擬測驗｜免費線上練習 | learn.chparenting.com",
   description: "全民英檢中級免費線上模擬測驗：題型比照正式測驗，計時作答、交卷即時計分，答錯的題目可回看解說，考前先熟悉節奏最有效。免費使用、不用註冊，可重複練習。",
   alternates: { canonical: "https://learn.chparenting.com/intermediate/mock-test" },
+  robots: NOINDEX_FOLLOW,
 };
 
 export default function IntermediateMockTestLayout({ children }: { children: React.ReactNode }) {
