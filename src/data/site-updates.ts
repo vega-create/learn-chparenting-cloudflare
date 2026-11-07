@@ -14,6 +14,8 @@ export interface SiteUpdate {
 export const MAX_TICKER_ITEMS = 10;
 
 export const SITE_UPDATES: SiteUpdate[] = [
+  { date: "2026-11-07", kind: "更新", text: "N3 自學攻略改為六個月計畫：考試時間與分數門檻改用官方資料分成兩張表，聽力分散到每個月", href: "/blog/jlpt-n3-self-study" },
+  { date: "2026-11-07", kind: "更新", text: "陪孩子學英文：新增入門、已有基礎、備考三條路線，工具推薦表的說明對齊實際內容", href: "/blog/how-to-help-kids-learn-english" },
   { date: "2026-10-30", kind: "更新", text: "教育遊戲在電腦上放大顯示，棋盤和按鈕更大、更好點", href: "/board-games" },
   { date: "2026-10-30", kind: "更新", text: "每頁換上大張主題照片，文章列表可展開收合，看起來更清爽", href: "/blog" },
   { date: "2026-10-30", kind: "更新", text: "歷史地理、樂理、理財、數學、國語換上新圖示；英檢日檢每個單元都有主題照片", href: "/history-geo" },
