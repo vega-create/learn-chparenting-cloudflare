@@ -45,3 +45,6 @@ scripts/guides-data.json
 # Audio files are hosted on Cloudflare R2 (pub-a36eb12da250439e9bdd35709d3d1cd4.r2.dev)
 # Local copies are backup-only — exceed Cloudflare Pages 20K file limit if committed
 /public/audio/
+
+# Cloudflare 本機 secrets（wrangler pages dev / next dev 讀取）
+.dev.vars

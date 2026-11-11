@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 
 export interface ScheduleItem {
@@ -14,54 +13,43 @@ export interface ScheduleItem {
 
 export type WeekSchedule = Record<number, ScheduleItem[]>; // 0-6
 
+const FETCH_OPTS: RequestInit = { cache: "no-store", credentials: "same-origin" };
+
 export function useSchedule() {
   const { user } = useAuth();
   const [schedule, setSchedule] = useState<WeekSchedule>({});
   const [loading, setLoading] = useState(true);
 
   const fetchSchedule = useCallback(async () => {
-    if (!user || !isSupabaseConfigured()) { setLoading(false); return; }
-    const supabase = createClient();
-    if (!supabase) { setLoading(false); return; }
-
-    const { data } = await supabase
-      .from("weekly_schedules")
-      .select("day_of_week, activities")
-      .eq("user_id", user.id);
-
-    const map: WeekSchedule = {};
-    (data ?? []).forEach((row: { day_of_week: number; activities: ScheduleItem[] }) => {
-      map[row.day_of_week] = row.activities;
-    });
-    setSchedule(map);
+    if (!user) { setLoading(false); return; }
+    try {
+      const res = await fetch("/api/me/schedule", FETCH_OPTS);
+      const data = res.ok ? ((await res.json()) as { day_of_week: number; activities: ScheduleItem[] }[]) : [];
+      const map: WeekSchedule = {};
+      data.forEach((row) => { map[row.day_of_week] = row.activities; });
+      setSchedule(map);
+    } catch {
+      setSchedule({});
+    }
     setLoading(false);
   }, [user]);
 
   useEffect(() => { fetchSchedule(); }, [fetchSchedule]);
 
   const saveDay = useCallback(async (dayOfWeek: number, activities: ScheduleItem[]) => {
-    if (!user || !isSupabaseConfigured()) return;
-    const supabase = createClient();
-    if (!supabase) return;
-
-    await supabase.from("weekly_schedules").upsert(
-      { user_id: user.id, day_of_week: dayOfWeek, activities, updated_at: new Date().toISOString() },
-      { onConflict: "user_id,day_of_week" }
-    );
-
+    if (!user) return;
+    await fetch("/api/me/schedule", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dayOfWeek, activities }),
+      ...FETCH_OPTS,
+    }).catch(() => {});
     setSchedule((prev) => ({ ...prev, [dayOfWeek]: activities }));
   }, [user]);
 
   const deleteDay = useCallback(async (dayOfWeek: number) => {
-    if (!user || !isSupabaseConfigured()) return;
-    const supabase = createClient();
-    if (!supabase) return;
-
-    await supabase.from("weekly_schedules")
-      .delete()
-      .eq("user_id", user.id)
-      .eq("day_of_week", dayOfWeek);
-
+    if (!user) return;
+    await fetch(`/api/me/schedule?day=${dayOfWeek}`, { method: "DELETE", ...FETCH_OPTS }).catch(() => {});
     setSchedule((prev) => {
       const next = { ...prev };
       delete next[dayOfWeek];

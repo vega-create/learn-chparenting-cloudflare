@@ -2,3 +2,12 @@ name = "learn-chparenting"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
+
+# D1：學習紀錄、打卡、學習計畫、電子報名單、每日挑戰統計、使用者
+# database_id 由 Vega 執行 `npx wrangler d1 create learn` 後，把輸出的 database_id 貼進來（見 README「切換步驟」）。
+# 本機 `wrangler pages dev` / `next dev` 不需要真實 id，佔位字串也能跑在本機 D1（.wrangler/state）。
+[[d1_databases]]
+binding = "DB"
+database_name = "learn"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations/d1"

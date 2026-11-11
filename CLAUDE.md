@@ -7,8 +7,8 @@
 
 - **框架**：Next.js 14.2.35 (App Router) + React 18 + TypeScript
 - **樣式**：Tailwind CSS 3.4.1
-- **認證**：Supabase Auth (Google OAuth)
-- **資料庫**：無傳統 DB — 全部用靜態 TS 資料檔 + localStorage
+- **認證**：網站自己接 Google OAuth（PKCE）＋ HMAC 簽章 cookie session（`src/app/api/auth/*`、`src/lib/session.ts`）
+- **資料庫**：學習內容全部是靜態 TS 資料檔；學習紀錄／打卡／學習計畫／電子報名單／每日挑戰統計存 Cloudflare D1（`migrations/d1/`，binding `DB`，相容層 `src/lib/d1-compat.ts`）
 - **部署**：Cloudflare Pages（@cloudflare/next-on-pages，push main 自動部署）
 - **組織**：智慧媽咪國際有限公司 (Mommy Wisdom International LTD)
 
@@ -55,13 +55,13 @@ src/
 │   ├── intermediate-units/ # GEPT 中級單元
 │   ├── jlpt-n5-units/      # JLPT N5 單元
 │   └── ...
-└── lib/                    # supabase.ts, game-utils.tsx, speech.ts, sounds.ts
+└── lib/                    # db.ts, d1-compat.ts, session.ts, auth-server.ts, checkin.ts, game-utils.tsx, speech.ts, sounds.ts
 ```
 
 ## 重要設計決策
 
 - **全部學習內容是靜態 TS 檔**：無 CMS，極快且可離線
-- **認證是可選的**：所有內容無需登入就能使用
+- **認證是可選的**：所有內容無需登入就能使用；登入只有 Google，登入後 `/api/me/*` 用 session cookie 認人（取代原本 Supabase RLS）
 - **遊戲分數存 localStorage**：星級評分、連擊倍數、倒數計時
 - **Web Speech API**：英文 (en-US) 和日文 (ja-JP) 朗讀
 - **Google AdSense 整合**：`ca-pub-3493526929407874`
@@ -72,6 +72,6 @@ src/
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_GSC_CODE=xxxxxxxxxxxxxxxx
 NEXT_PUBLIC_SITE_URL=https://learn.chparenting.com
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
+
+Cloudflare secrets（正式用 `wrangler pages secret put`，本機放 `.dev.vars`）：`AUTH_SECRET`、`GOOGLE_CLIENT_ID`、`GOOGLE_CLIENT_SECRET`。D1 搬遷與切換步驟見 README。

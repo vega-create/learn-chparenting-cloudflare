@@ -1,5 +1,4 @@
 "use client";
-import { createClient } from "@/lib/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 import { BrandMark } from "@/components/SubjectIcon";
@@ -13,19 +12,10 @@ export default function LoginPage() {
     }
   }, [user, loading]);
 
-  const handleGoogleLogin = async () => {
-    const supabase = createClient();
-    if (!supabase) return;
-
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) {
-      console.error("Login error:", error.message);
-    }
+  const handleGoogleLogin = () => {
+    // 網站自己接 Google OAuth：/api/auth/login 產生 state/PKCE 後導去 Google，
+    // 回來走 /api/auth/callback/google 發 session cookie，再進 /dashboard。
+    window.location.href = "/api/auth/login?next=/dashboard";
   };
 
   if (loading) {
