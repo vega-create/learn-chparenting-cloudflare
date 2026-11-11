@@ -9,5 +9,5 @@ pages_build_output_dir = ".vercel/output/static"
 [[d1_databases]]
 binding = "DB"
 database_name = "learn"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "2a33efb7-f612-415f-9e81-a39e5ceeafa9"
 migrations_dir = "migrations/d1"
