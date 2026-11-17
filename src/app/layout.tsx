@@ -80,7 +80,7 @@ const organizationSchema = {
     "https://pregnancy.chparenting.com",
     "https://english.chparenting.com",
     "https://character.chparenting.com",
-    "https://mommystartup.com",
+    "https://startup.chparenting.com",
   ],
   knowsAbout: [
     "全民英檢 GEPT",

@@ -101,7 +101,7 @@ function generateLlmsTxt(posts) {
   lines.push("");
   lines.push(`- [媽媽生活復原力 Lab (chparenting.com)](https://chparenting.com): 媽媽情緒、育兒挑戰、生活實用文章`);
   lines.push(`- [Adventure English 冒險英語 (english.chparenting.com)](https://english.chparenting.com): 兒童英文學習部落格`);
-  lines.push(`- [亞洲媽媽創業 (mommystartup.com)](https://mommystartup.com): 媽媽創業、副業、AI 工具`);
+  lines.push(`- [亞洲媽媽創業 (startup.chparenting.com)](https://startup.chparenting.com): 媽媽創業、副業、AI 工具`);
   lines.push(`- [跟著媽咪團好康 (mommywisdom.tw)](https://mommywisdom.tw): 親子團購、優惠`);
   lines.push("");
 
