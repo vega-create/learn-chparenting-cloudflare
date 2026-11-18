@@ -13,6 +13,23 @@ faq:
     a: "每天練習 10–15 分鐘，大約 3–4 週就能看到速度明顯提升。關鍵是每天固定練習，不要一次練很久再中斷。"
   - q: "中文打字和英文打字哪個先學？"
     a: "建議先學英文打字，熟悉鍵盤位置之後再學注音輸入法，學習曲線比較平緩，孩子比較不容易放棄。"
+products:
+  - name: "logitech 羅技 跨平台藍牙鍵盤 K380s"
+    price: 940
+    image: "https://ads-partners.tw.coupang.com/image1/CHqRkccbrIiaaJotCLxCxRBQfvxxcSO8fyxlWJq4jSvxo1ncz_SQrTimlias-B97q4x5R1W5IDyZiqxMSEgiKj2Gps8X61C2-M156f4v5qzXTsDesnVo_HRGzDCsDtfOXTPmwdL-ma--dgJHB2LFSZ4mW9afBePU2mlygnQKVV3xWELaGucCh_7buhpa_SeHLR8p2j2doJQPYfdQBmKfzzTOzFVq2bMb1tjKif7BgvmNgz98ZNFbe-K-R65AEhCUFEkt6kwHxtIFh6Kog6x4TytB49JR7tdkFa7IIquKr-fr7zsyw6I9UCFv9v4X0CMqNdZLOIU4gd0kcPhv3gS1GiOrsQ=="
+    url: "https://coupa.ng/cq6Rjq"
+    note: "羅技 K380s，小尺寸、可接平板"
+  - name: "DTAudio 有線靜音鍵盤"
+    price: 328
+    image: "https://ads-partners.tw.coupang.com/image1/QsEktcz8zIZkAuAQQl8CzyB5Je38GPhYEdL1JO-JStv6nT4BCkvVg11QZm9eK9fvdHFSU_3xdJibTuwo3tTXefib-G1B2e8RDXgrU5Js3gLYzZ7KcmGyXjh51WMgwI19uthfMgbd7tu93trK46TiBmhtVT6pJ4OoIUm2V0wg7LREKryWXaa7Vpi72owdn4JTlQUThM4oEOrfBxeVYK9gBE_VkhkmyI9BugFV4T123gEcEHh7iH2gC1LzJ_WrVB9ECtfFOChqjL0geZpv-ZNa4R_Q6scDkUhYSeBVCPJnVlO2Ti7-ZyqaN-qsRgKg_ri0ORWMdtiZoecguKIg5lbGxhXDgA=="
+    url: "https://coupa.ng/cq6Rjr"
+    note: "有線靜音鍵盤，有注音字根"
+  - name: "DTAudio 輕巧無線鍵盤"
+    price: 149
+    image: "https://ads-partners.tw.coupang.com/image1/MLbB57vvTqISEDrkMCrKXja76pRrRQ0CplpzvK42e0QTXHlDmae7LIvhgIy1y4qcp-URL6NVA2xKFZ1FyLgTo1BpACrju8YqCwTwrpI-6OkjOZVZzkEAXBzKrxrmEvEawImdlpJ7p17YyeGIJHaT59t7T3DfO9H-e1fKyra6fLN_51sB_TjJX9a7u1_-TuXhSyjJpJjEAUQtSTDRX-Y0yxuxFhDs-RplN_3Ba4QEbMHYZiDLv8Pv746JATqIgSoOitfK_fAFp8jp-pwYWT3NR0T6u48gwU-Y5HAp5L9kuAL2GFj0qNpF9D3aiL4vgPdWujNbRKbveVp4JgsanTCu4bVbW0g="
+    url: "https://coupa.ng/cq6Rjs"
+    note: "輕巧無線款，預算有限可考慮"
+productsIntro: "孩子的手比較小，一把尺寸合適的鍵盤會順手很多。"
 ---
 
 ## 為什麼現在就要讓孩子練打字？

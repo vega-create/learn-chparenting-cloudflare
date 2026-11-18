@@ -13,6 +13,23 @@ faq:
     a: "能夠不看表格，直接讀出任意五十音的發音就算過關了。不需要會寫，能讀就可以開始學基本單字了。"
   - q: "孩子學五十音一直忘記怎麼辦？"
     a: "忘記很正常，重複是記憶的關鍵。建議每天花 5–10 分鐘複習，比一次練很久再中斷效果好很多。"
+products:
+  - name: "日語五十音圖 初學者學習掛圖 標準貼畫海報"
+    price: 168
+    image: "https://ads-partners.tw.coupang.com/image1/e45Fj0JGzxz8L46ye4jz4jj0x8GQORL2kjJKiz3CBN0cnO3GFKVBHE-CotpuVi3tcoqCkApb1BAMPMikYQXez6H9SokuYgKfG5MQXfHvTrIx7qUpfe-Hp8XWxcEo-cwQNYnl9pVc2GIXIFCm66kWM1F3c_aO2Jx9WtLaG7nB1hORYvqqW0-x-qA7yYFCH5P0eKghH7woRrsEDmLIh1Mr-a4u1lxMCQcoghBhs6grMsFCn2JNB21Rxi_IswnhP1_TH-uCacGLRBHaLQOII0PGOCTs1sslopZu_-GPbrQzXeSM2Au9-bTdOuSg3cU-jPb8gft7h1g5u-ihsrKQYriEcuxoPmT6JC75TwhKb8qWKoDJdI8T"
+    url: "https://coupa.ng/cq6Ri9"
+    note: "初學者掛圖，貼在書桌前"
+  - name: "日語入門學習 五十音 日語50音 學習卡"
+    price: 299
+    image: "https://ads-partners.tw.coupang.com/image1/qVagB_HLQsr_ffAiqXkLrujbQV0az6JcK1iiNK4BsuzjmGyM0tWcioisvDpbn6h14zGHk4otjPAz4WYp2QaZfiFuNi9iD5yCSLkEaFHMR_XazRk2YbcyUD7WYFiPMKqWSjBfkmyv0Zei14bEu_joYJwtVpotYugJExZXAZEsd86P1vb57-iThJ5cZFEzlsi0_lKEV2jbZxJ-ENrlynPTA30w5wsxAClMjdIoMVEtLXhOzfCZWBkimscDWUMds_tOUIJGkRjtMlieMpiMTSReEcR34pZbFonJMI2m5IxYcnjC_nMdCWQCHzF6LEEHc_M_UyFPM2f32seY0z6mVgAJCqySZsEU70yAsiyof2qxPBX6rZ0="
+    url: "https://coupa.ng/cq6Rja"
+    note: "一張一個假名，可以玩配對"
+  - name: "三民 日語五十音習字帖, 輕鬆上手！"
+    price: 137
+    image: "https://ads-partners.tw.coupang.com/image1/cXUa1HzhmZS65vZAcZba7EGyOLeWR1YskQFYokN21HmwBYjuirIESNQPrxJK7tsxU2e0tgpzCtukNj77dzm0TNSO5FHQDWGKLLuGyQdpLaX58jbAXhxJ1b2hLFilyHNpOHnEf1KJwwFWFhv5a9vXVZ8lVP65jZRwqlUEZ9CQscTKueF4Kx1Yq_mh-RMEShYRsAamq3g5SES2WNbXmLnVtZK3HTtlrR6wJsHD2aEhuuvpH7zCha1tgCkC491wnudSX9JFSyIDA9u0y3bo-6tCO_ictd3zSQd-x8qLIJxeLVzpu9rSKhzFYq5p_J9xlbFfOT6zGG4LfUKf46jZjk6lt_EAp5mLpNlHqE2XGhG8iApWCF8="
+    url: "https://coupa.ng/cq6Rjb"
+    note: "三民的習字帖，照著描寫"
+productsIntro: "貼在牆上的五十音表和配對用的假名卡片。"
 ---
 
 ## 五十音學習順序建議

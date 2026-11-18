@@ -17,7 +17,7 @@ interface Props {
   intro?: string;
 }
 
-const fmt = (n?: number) => (typeof n === 'number' && n > 0 ? `NT$${n.toLocaleString('zh-TW')}` : '');
+// price 是抓取當天的快照，不會自動更新 → 不顯示在頁面上，避免讀者看到過期價格（欄位保留，之後有自動更新再打開）
 
 export default function ProductPicks({ products = [], title = '文中提到的用品', intro }: Props) {
   if (!products.length) return null;
@@ -43,8 +43,7 @@ export default function ProductPicks({ products = [], title = '文中提到的�
               <span className="min-w-0 flex-1">
                 <span className="block text-[15px] font-semibold text-[#263238] leading-snug line-clamp-2">{p.name}</span>
                 {p.note && <span className="block text-xs text-[#52616B] mt-1 leading-relaxed">{p.note}</span>}
-                <span className="flex items-center justify-between gap-2 mt-2">
-                  <span className="text-sm font-bold text-[#E65E83]">{fmt(p.price)}</span>
+                <span className="flex items-center justify-end gap-2 mt-2">
                   <span className="text-xs font-semibold text-white bg-[#E65E83] rounded-full px-3 py-1">到酷澎看看 ↗</span>
                 </span>
               </span>
@@ -52,7 +51,7 @@ export default function ProductPicks({ products = [], title = '文中提到的�
           </li>
         ))}
       </ul>
-      <p className="text-[11px] text-slate-400 mt-3 mb-0 leading-relaxed">以上為酷澎分潤連結，透過連結購買不會增加您的費用，但能支持我們持續提供免費內容。價格以酷澎頁面為準。</p>
+      <p className="text-[11px] text-slate-400 mt-3 mb-0 leading-relaxed">我可能會從合作夥伴的活動中收取佣金。以上為酷澎分潤連結，透過連結購買不會增加您的費用，但能支持我們持續提供免費內容。價格與庫存以酷澎頁面為準。</p>
     </section>
   );
 }

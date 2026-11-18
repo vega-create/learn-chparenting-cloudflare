@@ -15,6 +15,23 @@ faq:
     a: "孩子說討厭數學通常是因為挫折感，而不是真的討厭。先從他能做到的簡單題目開始，重建信心。搭配生活中的數學應用，讓他發現數學其實很有用，態度就會慢慢改變。"
   - q: "數學不好是天生的嗎？"
     a: "絕對不是。研究顯示數學能力是可以培養的，真正的數學學習障礙（計算障礙症）非常罕見。大部分孩子數學不好是方法不對或基礎沒打好，不是天生不行。"
+products:
+  - name: "木製玩具E4I 早教蒙氏彩色小數棒 蒙特梭利正品 專業版兒童數學教具 商檢合格"
+    price: 263
+    image: "https://ads-partners.tw.coupang.com/image1/yovZqLA__-0XjK3iype5J3VA7XPgU4lHTQOkOkNp5EnWJpmjQBRKW1dzV6_XeD0UdPU321Jq7rcW2P6hqnYMQTCj6LuQn57gTnx9jU5MCF_zasriKNGMVRuZsLGFsvEIvUAARZGcgcW6ZprelCJA4bGKSCKvqs68dut62lU5bImgJPSsRw2pSuatyo7xn7nf2Kbj1KDySV5S1xuKVaF7xYfYcrycTa72B50F5n1k1TsraHEe4V8dBEP0vXgDDWrdPScmwdTXg7yTWGmpGZ-_uEzCUSIEz5yRyWmVEnEQkKUICY2KAktZmkJjhb7l90VhhfovbmYldvV_3W8k43Izl3UzvQMnaGZYk19lAyHGrMJdepjZ"
+    url: "https://coupa.ng/cq6RjG"
+    note: "蒙氏彩色小數棒，加減法看得見"
+  - name: "Junior Learning 十格數學積木塔 益智數學教具"
+    price: 1099
+    image: "https://ads-partners.tw.coupang.com/image1/OWHClqkhpW8LD_R0OUgcnuAek7rzvCR9A3eaBMkGl2bvYPSBt3uQCIpNQvDewzLTKHMxM_IkepYg0F8isnynItr7IVNyyBrmfGH-CvqIFFwf6CC2gFta8OOrbOx9uuivivXosFIRbIgU4KoiNGhq5H4xDfvgdEkanXSnCp3iQ1nu_1HJ6CODtDrn3CuCBd_dGuqI1EGUdy-OcgTHOJ46WbKNQICje3FaqHzTrvSy2N_-ApVSAfnD1knm-TSAByfQBOB0TnBL3WywxSYKke7_rJO0kSEmqPLwlVFLdxMjl59AqyUr_IA8B7nqum_x0z6Gve7U9PwP5wKdDG5gNg0CnRKF"
+    url: "https://coupa.ng/cq6RjH"
+    note: "十格數學積木塔，湊十概念"
+  - name: "GOLD FISH A級塑膠撲克牌"
+    price: 126
+    image: "https://ads-partners.tw.coupang.com/image1/pp4AWfaHKMh2eH62phvOcyUYupHnRxdNhZwaE26ELP0V1mmwNSAY-fPLQkLBwK7pNjrYb799nRlyO0IK3jGda2kQ9V5y1eFVRWFg7Hl8P2KXMaJMXkfp85EXdLoinCqVb5FDDM8XurOlmGb0d8n2kpE_5tumFhrC-YCSfkA5joiFPX7G2Zu6tu0Izjhz3O9GeTnYPRDCAzpttY6pzhgxI_16Y7F2ps8fvEXB0_8-hqNpgzCMs08Khz9IT8qc_7jn34ltQRXW_raLGvy27ttut2LHCu65_QtfN_cWpxiPywodvUpZJI0nIru9vEytVxvsPfppW9TwyFOLu-rV9RdWC22VzKIARfE3yn2W"
+    url: "https://coupa.ng/cq6RjI"
+    note: "A 級塑膠撲克牌，玩數學牌卡用"
+productsIntro: "方法四視覺化學習用的數棒、積木，這裡有幾款。"
 ---
 
 ## 孩子數學不好，問題出在哪裡？

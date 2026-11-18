@@ -15,6 +15,28 @@ faq:
     a: "機制上是一樣的，練到的思考方式也接近。差別在實體桌遊多了「看得到對手的表情」和「要自己收拾」這兩件事，線上版則勝在隨時能玩、難度會自動調整、不用找人湊。兩種各有各的位置，不必二選一。"
   - q: "玩桌遊算螢幕時間嗎？會不會玩太多？"
     a: "算，但性質跟看影片不同——桌遊是主動輸出（要決定下一步），影片是被動接收。真正該管的不是總時數，而是「有沒有在該停的時候停得下來」。建議用回合數而不是時間來約定，例如「玩完這三局就收」，比「再十分鐘」好執行，因為孩子知道終點在哪裡。"
+products:
+  - name: "BROADWAY 栢龍 小小貓頭鷹 貓頭鷹回家 Hoot Owl Hoot 繁體中文版 兒童STEAM桌遊 4歲以上 2~4人"
+    price: 502
+    image: "https://ads-partners.tw.coupang.com/image1/lIt83HZJK-T1Q9XKlNPzkI50XDNLc2BhguKZ-RyVJibsxN-zPHM8W7zo7G7Q9tYKRxmus-01kmY8yY-SGHuR34x6CH6uUnyUGtn2BA7BjkOFEMv_xiAU2WFRiU2O6DW-MwcQ5TQrKiRtncT72z9pSa9Lfn6QsET92E8cbzOT4TQ2PHNM3IVQLXlsZGOapgCMMWmUPoXaV75b20fqkpnBFmVu1rtEscj5BvN1rDJJrdRcCc8RcMrridIGEjmYoGlLmAZsE90GuKeVIBSAZzjmz0DereM9jc6cbftkKlq1nAbJfvXFK2mPjQfYRkDXAc4v5S4RgsljFw_x2ytLBMncsLdbXtta"
+    url: "https://coupa.ng/cq6RiZ"
+    note: "貓頭鷹回家，合作型桌遊，4 歲就能玩"
+  - name: "BS Toys 記憶配對樂"
+    price: 359
+    image: "https://ads-partners.tw.coupang.com/image1/GZ4skfhf7rTnr8fPGW0GmZsL_fagFNLrlhSFce1kSkmDaW8mHa6lksvjXTHF8aEfSg8JRoi7XIrndWbC4yGuNHm-tKx_URiYPKFfPiMuXXmfz25UufSS-xHpTPb0P-CMC5PUF6jtNOXr7WGVsUOXnBsi0zSHqwOS2AhazkceGMvQto7OorXBVSTHBdf9lLrkXOGdxQg3pjt9U0S-T6e5vamSH47dc6EdiMysgWRnrnWuiBEJfOAsLji8Vvo7qks8blw3T-5I1LR22xuL9TDZspa26jVPWV1_xMZPuGNdHWrbYMfeP6HAbl-6uuIkmsAvmuq3emA0gzvH2sbahasnT-UaGS4="
+    url: "https://coupa.ng/cq6Ri0"
+    note: "BS Toys 記憶配對樂，就是實體版翻牌"
+  - name: "大富翁 新磁石跳棋 G801 大"
+    price: 160
+    image: "https://ads-partners.tw.coupang.com/image1/xW8BK8G5aBmakqDIxRcu_dYi_yDDAxSYKbdRwQkvwn40JckwfqTQUM9ubuVlxY0ArUOsecqYE2wl3fRVWJaVrHxterShL1E-WBNciDYy3iaJ6sJ8WowwdbvgFLce-4cO4GYwdCB7gt4xYF72AAZUsO_RMj4sWsa-tKL1pML_CvI08yPA49-jRVaF8AHIhD4LzzDbjTsBXz91AhZIf3j3rQbatepgktNbxzjMOAURH6RYGbDJ4-a_bfeGizkWcCPsMDoypQWQTJ8skuuvgNcW7Ejc3GOSK-fc0iERRzIzWtsgB4vZ540yq_jo_syNYgn4QY_Zzof365_m-A5F---AotXO__M2"
+    url: "https://coupa.ng/cq6Ri1"
+    note: "大富翁磁石跳棋"
+  - name: "大富翁 大富翁圍棋 D961 6歲以上"
+    price: 156
+    image: "https://ads-partners.tw.coupang.com/image1/FwWeUjta8gXSJK2WFxV4MfZbULHa89iXyPTZIAG1suTT4X8QP1SuJaSAdInalHIuvmcCaJVULy6RO8K9ENbzHFVhmZe9YOuBz1s_mqtRt4yoNGjAYOScR2xoWiD5dhMtvbgFhxu-CehWovQDgrUiBfsjS3qvrsdzgqUq7sKiPNGtReW_zS4risyH5795a19GPRrjN85NUM3TKM7dnKQ-FwxZEl6ROvGSgDXdNZnxj1dGJVHQqeww24UYlxP9jQz-UUZpiUrCeQufizavieVUDsfj0lWxMGPsvEEB4rQH3-xpd_jUIO6-BlWkO61pPyU8_R98Y9yUrNuVzniRyqDRNXTUPwt6WPXgNrRu"
+    url: "https://coupa.ng/cq6Ri2"
+    note: "大富翁圍棋，6 歲以上入門款"
+productsIntro: "線上版玩順了，想換實體桌遊在餐桌上玩，這幾款規則都短。"
 ---
 
 ## 「桌遊有什麼好處」這個問題，答案常常太空泛

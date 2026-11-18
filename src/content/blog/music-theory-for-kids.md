@@ -15,6 +15,23 @@ faq:
     a: "基礎樂理完全可以在家自學，網路上有很多免費資源和互動工具。等孩子有興趣深入學習時，再考慮找老師做系統性指導即可。"
   - q: "學樂理對孩子的數學能力真的有幫助嗎？"
     a: "有的。節拍涉及分數和倍數概念，音程涉及數字關係，多項研究都指出學音樂的孩子在數學表現上有明顯優勢。"
+products:
+  - name: "電子琴 61鍵 兒童初學入門 三步教學 200種音色 200種節奏 黑色 基礎款"
+    price: 1099
+    image: "https://ads-partners.tw.coupang.com/image1/W-7c-pYBqF43gNj9W8nPLBcWh3y9h17rTbCogVuCycb3cnBsQYGaXxgJqF251XQyIJ0LQ1rZXCQKOdGgsqcPQh4wkyCaffzwQVyPNdAAp2953RnUx2kWNAO_H945WLYmUI8eGCcHzpsJ11Zf1U87LPcrIUJn909xkiQ0VfcU_DWde5C24Lv5EfOxA0diaFIwyX_n382vgj-K3E36ix0pJ3G5bNp0LcnI_X-IvbQE_sli3tlAMq0nV0twNwAJHuGtThTZv7H77h1uRYkNPR2JA-tbpVqUu2CPHlAwmuiR48To2SO-K6ngt8uZ79-ocEuXea1v6X6Zxo8EJQ6aKktGR1aKlCG0MyAiCvwv4b0q3uU2FaQ="
+    url: "https://coupa.ng/cq6RjT"
+    note: "61 鍵入門電子琴，摸音階夠用"
+  - name: "愛樂城堡 可愛音符卡 - 識譜教具 音樂教學"
+    price: 259
+    image: "https://ads-partners.tw.coupang.com/image1/iWzPfyvO594fs6cdieOsK1dGwlL-X_GGEDjNKUUd3C4eAHnN8lSq663CaayFpEo45YPkFjyWDSysasOGZM7jaGX4WEWJQOJXRtsUl8pIFE_PKIN1Wh5c_italhs73ctS2L2qvOZIfikQzuq96RmmhXRNwUPgTwWTezlLJIn8rw-wvCwqS38I7OYWQmyw9YcX3M1GcWUDtbe6PTbIoD0_cIMtVVry5VRjIjrlvk91WnVBUZmXvJFrbh4TFm7Zc2DoNdVcZXB7e03Cg1tLIUkuRXLXucUfyT3GL_jmX84vpyRPa9B6jl8tf2m3Z7278-x05EpXH2N8lOVLAotpcCk2ffg_wTLtcrQNjfF4lBYcT5zc0kuv"
+    url: "https://coupa.ng/cq6RjU"
+    note: "愛樂城堡音符卡，認五線譜"
+  - name: "【愛樂城堡】AROMA AM-707 阿諾瑪機械節拍器 發條式節拍器 精準節拍 穩定練習 現貨"
+    price: 420
+    image: "https://ads-partners.tw.coupang.com/image1/hCxfIxxSq5uPHDoqhDDb-BswmAuTfZNk_mWRm_jrA1MCUW6rkJMhiJ9Rg1QpUy6c2ouGkxxOxg1ZeOxm4Agljoo1XKwDbjNOHf4fdwAYtSpAM54MPV14yS896ePDqP3jhX9MqeM_pqhtai_jPaDjsolY5qOZOzFh0-IRFN2zrktGb9ua_E2jJJoFH0GOl2o7ASg3pm8ZoAmZEvd9VbBulSUSgqEhpLZOTX51xUW_i1RnGBkeXTzPqWm-3axXxBut-lfPGz0hqI3Z_LYPDJrllJM9Y8Ei5mWbPDqgmyv_HmmksV0XRwnNSgvGC9EarowGwyTg76zNFhj1CrDKtA8bWdLlKJiwTmeijdO5PDizLiGyxoUHSmA3"
+    url: "https://coupa.ng/cq6RjV"
+    note: "AROMA 機械節拍器，發條式不用電池"
+productsIntro: "想讓孩子在鍵盤上摸音階，入門的兒童電子琴就夠。"
 ---
 
 ## 為什麼學樂器之前要先懂樂理？

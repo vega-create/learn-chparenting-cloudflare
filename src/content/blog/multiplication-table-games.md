@@ -15,6 +15,23 @@ faq:
     a: "不一定要按順序。建議先從簡單的 2、5、10 開始，再學 3、4，最後才是 6、7、8、9。讓孩子先有成就感，後面比較難的才不會排斥。"
   - q: "可以用計算機代替背乘法嗎？"
     a: "不建議。九九乘法是所有進階數學的基礎，包括除法、分數、面積計算都要用到。熟記乘法表能讓後續學習事半功倍，計算機只適合用來驗算。"
+products:
+  - name: "GOLD FISH A級塑膠撲克牌"
+    price: 126
+    image: "https://ads-partners.tw.coupang.com/image1/jz8kQM9gpkj4xavvj4eLdfl4A_98-TtQEi-ieX2Ra_1a9wmx26a_vF2KvXAflDP3kgjf5oekqHLDkngiK2UritZYGZy4dWHq3HjduKsui36TClsPM2PCOpPcfWZAlxkgOqyigIWkQH69cJ4HsCNChJc5qIdhigiVNu_W5k2hKH4WMy4-kBbp_0Jo6XRTax-wagKIHIbD53SFHemp9HGuaeZRiWKfm-x7MghZWjIBl7qpXBvKndSQhkw0U3oGMhwvtz7TN-s-g0MsdeADrYqDPUzKspvlo2cVCEkXJ1GyXkXc52-FDulKSQ0SiBeUY2W9WzlvfZ2iuVp26UucBWgjgiFZ2GbCtq8MTKUbYcA="
+    url: "https://coupa.ng/cq6Rjh"
+    note: "A 級塑膠撲克牌，耐玩"
+  - name: "Mellow 九九乘法表海報 + 11~19乘法表海報組"
+    price: 268
+    image: "https://ads-partners.tw.coupang.com/image1/mrwlqCA5-9XgE6WMmrV9JHBL8elgyvkfgyyS8St1-1EBlc3qtNsdqRslQAKL4OZSB69bf-_DWdSiDEWxES5UM9zUBYnwarJB0JV37MOvB0BCYietX7kF0tMh2Ac6KhSA5NDpBomvdGkkZOvgF6L3E2Q5tfW3v8s9BxvhWwy36AJR9aZwhGvxO5LSjf0M9Y4DJ_0FbDyH75sX1kGcE7O1pis5YOzxFJR4lwRys94v8PWngk-2MEJtiCGl58uX2MtLeZgIDmNPCMqUyZYhgCKbtlmXsrVjK8v0cIm4mC2rYIEA459DxqFKtoZAJYXd3fdAoR9fAjFJMbEu-XxhdcVBkSwaol4="
+    url: "https://coupa.ng/cq6Rji"
+    note: "九九乘法表＋11～19 乘法表海報組"
+  - name: "DK 轉一轉 翻一翻 學乘法遊戲書 3歲以上"
+    price: 351
+    image: "https://ads-partners.tw.coupang.com/image1/pcmrCJ-ae43OEUgQpZmF_w2XQPXpaddl9YVlL3aSk21JGoJtThjbsoAKCXKUoWtA7WBdKcyYdUcbRi0fE790v-rSSRRio4Mqk2xatppF5RZR4qvDqHvjTd7HRsOPX2W-tFg-EKpzsi41HVBVtgI1u4SUF-UAjB1Uzjqb1jrDLRItDWNdjjJXJ4aS7zfRiSOPRyBfbQxjxsYo8qQx3AXy9wOUz-OOcTHDxpSy1yYDtXp82e-tDkBC7ULKnw5waCluAtNZGMdd9_zZ56os8sRqeyCuVx0KUisHK01-HgmnrJXj4cuq4ZvwOVXZCP_cqkwHSDbECRnZpPq2cHMZkX8V63A5IA5W4OL6CHFYhQ=="
+    url: "https://coupa.ng/cq6Rjj"
+    note: "DK 翻翻書，自己翻答案"
+productsIntro: "方法二要用的撲克牌，和貼在書桌前的九九乘法表。"
 ---
 
 ## 為什麼九九乘法對孩子來說這麼難？

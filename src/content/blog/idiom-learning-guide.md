@@ -15,6 +15,28 @@ faq:
     a: "非常有幫助。了解成語背後的故事可以加深記憶，也能幫助孩子理解成語的正確意思和使用情境。建議選擇有注音、有插圖的成語故事書，讓孩子當課外讀物來讀。"
   - q: "英文有沒有類似成語的東西？學成語對學英文有幫助嗎？"
     a: "英文有 idioms（慣用語）和 proverbs（諺語），概念類似。學好中文成語對理解英文慣用語有間接幫助，因為兩者都需要理解字面意思以外的深層含義。語文素養是跨語言的，中文底子好的孩子學英文也會比較順。"
+products:
+  - name: "fundo 樂多動漫 成語接龍 IDIOMS GAMES"
+    price: 82
+    image: "https://ads-partners.tw.coupang.com/image1/yl6cWDcIfgfQwMURyvEnZpFSTIk-S3kdnXaKm1SSx33X3EL8BSIBvuBRJZkEGkv967rWYYF003foTI2HP4hD59FL6B0z2tkdtVlvdnLNtsRMO9YseqOXVrKJJL3hayuCxiGuOERkOg3Nh0BTC2Xb2iUTHcyFe1EjRUMJktOdwlPYoQsg3TbZEWAJDSgWH_KSToeTg2AQd7j8LO-YfwL8zGMeATpMvuDGIWM_A6Gh6aORtIYCBDRhzQ1er_DPh8JHNO4EKE8pNHtmFL0ZjEVcBKp6tkaJjNzPUD5QTD3rWeFbA3bNh7gdVSUG7W75gfBbFXD8nEuYGdxkM-TcSrRBBx04_6I="
+    url: "https://coupa.ng/cq6Rjy"
+    note: "成語接龍卡牌，一盒不到一百元"
+  - name: "世一文化 畫說成語桌遊"
+    price: 213
+    image: "https://ads-partners.tw.coupang.com/image1/VOCA2XeBknielXRQVJxP0-JKwiKuL3KV8l_OJKaMyrzG3KlPcdDoIbUCyJc1yDxlseZQ1RfIJ2o0T-j8PwjWErUVVGU4vwRYRRqOpmOMdhJ90CS8YdM0hlxh-ltT7p5c_KugFHMsJ3NGw203d6Eq1zZJZDEaKtYnfVTnHjUzswF0shbDoOFCU93zdXjG3svwhGFYeShSWW-lcU4ChyDchzvKyBeZx8Pz7NaAYmjkucyBXMlOzz4JpHx7YVagUpRA7FZ_0hNHFv2SOzA6ylm-5WwOKVADJ8kVNdpV867ecH7A5fLo-CHwPbGR-G_tXMlFW8wJavaXP9yFxpLvr7ICuLD4PJkxmGCoH5C5"
+    url: "https://coupa.ng/cq6Rjz"
+    note: "畫說成語桌遊，看圖猜成語"
+  - name: "少年讀成語故事1：自然篇"
+    price: 244
+    image: "https://ads-partners.tw.coupang.com/image1/X910zZp9mF0cgRfvX25BZo0nqsAcfNbbU09bQ4U_n23k3bgzAP4cAKvd-dO9_TVd2j7kFyPOXZtP7A4V8bhkmDupCEJBN-RUiQe5Ex9GEICF_sJZeSZCGRF5saIBVf_0gBcARaRjRkjGs1mnl2a-hFqTMAfCWJxpE6j0vYHvOlj_5cJ52Fb1qKefkcXeA2B_OYCbvllVvWP7GQzBf9BjZiDpTfIZEAv_R_F4esb8bKN_FisaQiO_Giwyf7bfR47whH3EceeegznYWIXp0cwatEp2Yz7m0YUNnw1hp8mXIsbzZj2xVVNQRlsKw74N1rOfzoYCWg353sK7o05MbZw9pf9I7GMsReFE9-bm"
+    url: "https://coupa.ng/cq6RjA"
+    note: "少年讀成語故事：自然篇"
+  - name: "FOOD超人 圖解成語辭典"
+    price: 159
+    image: "https://ads-partners.tw.coupang.com/image1/7BhJV8Q4rJeWmEWw7CCJJgW2aJXvkDkR7PZqzayd8Z2PNCmMKgamZifbi0GXnwzgePdVejmbxQU1fnujYiZWhs0pMYrguZrTsjw7_FQQGPlbCIqB71Z42Zeq-A5u9VHeyxC3Dl9u9WwHKp6vm8dyl3tvUUu9YT2EyYeBlLgCzEIYzsJ5-ARRt2ymOHYaxaiBsuJskSnSt3L__EO-Csx1ccUYG400iqyrAfvgdahv3E_OxGnnzsGzvWpt9dhEFgDCfXh4kuLyAfunJ4IdWSwlmgO1-oeUsP6NmI9x222mCkfiZ-TvVzNqOz4BL85jCBWqiuUp4BaRvNuRa5i2QdqbB84xrr7bN-9BnRmoWg=="
+    url: "https://coupa.ng/cq6RjB"
+    note: "FOOD超人圖解成語辭典，查意思用"
+productsIntro: "方法四的成語卡片，以及適合國小的成語故事書。"
 ---
 
 ## 為什麼成語對國小學生這麼重要？
