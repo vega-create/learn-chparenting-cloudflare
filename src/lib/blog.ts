@@ -34,6 +34,14 @@ export interface FaqItem {
   a: string;
 }
 
+export interface ProductPick {
+  name: string;
+  url: string;
+  price?: number;
+  image?: string;
+  note?: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -48,6 +56,10 @@ export interface BlogPost {
   toc?: TocItem[];
   readingTime?: number;
   faq?: FaqItem[];
+  /** 文章內商品卡（酷澎分潤），見 components/ProductPicks.tsx */
+  products?: ProductPick[];
+  productsTitle?: string;
+  productsIntro?: string;
 }
 
 function estimateReadingTime(content: string): number {
@@ -143,6 +155,9 @@ export function getPostBySlug(slug: string): BlogPost | null {
     content,
     readingTime: estimateReadingTime(content),
     faq: data.faq || undefined,
+    products: data.products || undefined,
+    productsTitle: data.productsTitle || undefined,
+    productsIntro: data.productsIntro || undefined,
   };
 }
 

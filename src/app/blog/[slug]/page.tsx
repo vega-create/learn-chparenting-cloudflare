@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import AdSlot from "@/components/AdSlot";
+import ProductPicks from "@/components/ProductPicks";
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllSlugs, getPostWithHtml, getAllPosts, TocItem, FaqItem } from '@/lib/blog';
@@ -324,6 +325,9 @@ export default async function BlogPostPage({ params }: Props) {
               ) : (
                 <article className={PROSE} dangerouslySetInnerHTML={{ __html: articleHtml }} />
               )}
+
+              {/* 商品卡（酷澎分潤，只在 frontmatter 有 products 時出現） */}
+              <ProductPicks products={post.products} title={post.productsTitle} intro={post.productsIntro} />
 
               <AdSlot unit="articleMid" className="mt-10" />
 

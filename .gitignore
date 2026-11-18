@@ -48,3 +48,4 @@ scripts/guides-data.json
 
 # Cloudflare 本機 secrets（wrangler pages dev / next dev 讀取）
 .dev.vars
+.env

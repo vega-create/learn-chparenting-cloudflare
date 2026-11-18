@@ -44,6 +44,9 @@ export default function Footer() {
             </a>{" "}
             製作・所有內容免費使用
           </p>
+          <p className="m-0 mt-2 text-[11px] text-[#78909C]">
+            部分文章含聯盟行銷連結（酷澎分潤），透過連結購買不會增加您的費用，但能支持我們持續提供免費內容。
+          </p>
         </div>
       </div>
     </footer>

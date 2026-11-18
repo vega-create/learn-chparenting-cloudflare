@@ -1,0 +1,41 @@
+{
+  "site": "learn.chparenting.com",
+  "note": "第一批適合放酷澎商品卡的文章。keywords 是搜尋酷澎用的關鍵字，跑 `node scripts/coupang.mjs plan` 列出候選後，挑合適的寫進該文章 frontmatter 的 products[]。intro 會顯示在商品卡上方。",
+  "articles": [
+    {
+      "file": "src/content/blog/board-games-benefits-for-kids.md",
+      "intro": "線上版玩順了，想換實體桌遊在餐桌上玩，這幾款規則都短。",
+      "keywords": ["兒童桌遊 4歲", "記憶翻牌 桌遊", "跳棋 兒童", "圍棋 入門"]
+    },
+    {
+      "file": "src/content/blog/hiragana-katakana-memory.md",
+      "intro": "貼在牆上的五十音表和配對用的假名卡片。",
+      "keywords": ["五十音 海報", "五十音 學習卡", "日文 五十音 練習本"]
+    },
+    {
+      "file": "src/content/blog/multiplication-table-games.md",
+      "intro": "方法二要用的撲克牌，和貼在書桌前的九九乘法表。",
+      "keywords": ["撲克牌", "九九乘法表 海報", "九九乘法 教具"]
+    },
+    {
+      "file": "src/content/blog/children-typing-practice.md",
+      "intro": "孩子的手比較小，一把尺寸合適的鍵盤會順手很多。",
+      "keywords": ["兒童鍵盤", "無線鍵盤 小尺寸", "鍵盤 注音 彩色"]
+    },
+    {
+      "file": "src/content/blog/idiom-learning-guide.md",
+      "intro": "方法四的成語卡片，以及適合國小的成語故事書。",
+      "keywords": ["成語 卡片 遊戲", "成語故事 國小", "成語 桌遊"]
+    },
+    {
+      "file": "src/content/blog/math-struggling-kids.md",
+      "intro": "方法四視覺化學習用的數棒、積木，這裡有幾款。",
+      "keywords": ["數學 教具 數棒", "數學 積木 國小", "撲克牌"]
+    },
+    {
+      "file": "src/content/blog/music-theory-for-kids.md",
+      "intro": "想讓孩子在鍵盤上摸音階，入門的兒童電子琴就夠。",
+      "keywords": ["兒童電子琴", "音符 卡片 教具", "節拍器"]
+    }
+  ]
+}
