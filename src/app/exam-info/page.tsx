@@ -374,6 +374,18 @@ export default function ExamInfoPage() {
                 <OutlineLink href="https://reg6.lttc.org.tw/GEPT_Exam_New/">全民英檢報名系統</OutlineLink>
               </div>
             </div>
+
+            {/* 小學英檢 GEPT Kids */}
+            <div id="gept-kids" className="mt-8 rounded-xl border border-slate-200 bg-[#F6F4F1] p-4 md:p-5 scroll-mt-20">
+              <SectionTitle>還沒到初級程度？先看小學英檢 GEPT Kids</SectionTitle>
+              <p className="text-sm text-[#52616B] m-0 mb-3 leading-relaxed">
+                小學英檢是 LTTC 為小學生設計的測驗，程度約 CEFR A1，比初級（A2）低一級。分「筆試」（聽力、閱讀、寫作）與「口試」（一對一面試或語言教室電腦錄音），兩項可分開報名、順序不拘；成績以太陽數量呈現，不分及格與不及格。考試日期與費用請以官網公告為準。
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <OutlineLink href="https://www.geptkids.org.tw/">小學英檢官網</OutlineLink>
+                <a href="/blog/gept-kids-preparation" className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#2457A7] text-[#2457A7] bg-white font-bold text-sm hover:bg-[#F4F7FB] transition no-underline">小學英檢怎麼準備 →</a>
+              </div>
+            </div>
           </div>
         </section>
 
