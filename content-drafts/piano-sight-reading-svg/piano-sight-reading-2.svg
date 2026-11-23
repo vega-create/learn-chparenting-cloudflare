@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="PingFang TC, Noto Sans TC, Helvetica Neue, Arial, sans-serif">
+  <rect width="1200" height="700" fill="#ffffff"/>
+  <text x="600" y="56" text-anchor="middle" font-size="34" font-weight="700" fill="#263238">先背這五個定位音，其他的音用「跳」的</text>
+
+  <!-- treble staff: lines at y=140..252 gap 28 -->
+  <text x="80" y="112" font-size="26" font-weight="700" fill="#263238">高音譜（右手）</text>
+  <g stroke="#263238" stroke-width="2">
+    <line x1="80" x2="860" y1="140" y2="140"/>
+    <line x1="80" x2="860" y1="168" y2="168"/>
+    <line x1="80" x2="860" y1="196" y2="196"/>
+    <line x1="80" x2="860" y1="224" y2="224"/>
+    <line x1="80" x2="860" y1="252" y2="252"/>
+  </g>
+  <text x="84" y="282" font-size="20" fill="#52616B">第一線（最下面）</text>
+  <text x="860" y="130" text-anchor="end" font-size="20" fill="#52616B">第五線（最上面）</text>
+  <!-- anchors: G line2 (y=224), C space3 (between 196 and 168 -> 182), F line5 (140) -->
+  <g fill="#D9A441" stroke="#8a6a1f" stroke-width="2">
+    <ellipse cx="260" cy="224" rx="17" ry="12"/>
+    <ellipse cx="520" cy="182" rx="17" ry="12"/>
+    <ellipse cx="780" cy="140" rx="17" ry="12"/>
+  </g>
+  <!-- stepping example from G: A space (210), B line3 (196) -->
+  <g fill="#cfd4d8" stroke="#52616B" stroke-width="2">
+    <ellipse cx="340" cy="210" rx="17" ry="12"/>
+    <ellipse cx="420" cy="196" rx="17" ry="12"/>
+  </g>
+  <g font-size="26" font-weight="700" fill="#8a6a1f" text-anchor="middle">
+    <text x="260" y="330">G（Sol）第二線</text>
+    <text x="520" y="330">C（Do）第三間</text>
+    <text x="780" y="330">F（Fa）第五線</text>
+  </g>
+  <g font-size="20" fill="#52616B" text-anchor="middle">
+    <text x="340" y="365">G 往上一格 = A</text>
+    <text x="420" y="395">再上一格 = B</text>
+  </g>
+
+  <!-- bass staff: lines at y=470..582 -->
+  <text x="80" y="442" font-size="26" font-weight="700" fill="#263238">低音譜（左手）</text>
+  <g stroke="#263238" stroke-width="2">
+    <line x1="80" x2="860" y1="470" y2="470"/>
+    <line x1="80" x2="860" y1="498" y2="498"/>
+    <line x1="80" x2="860" y1="526" y2="526"/>
+    <line x1="80" x2="860" y1="554" y2="554"/>
+    <line x1="80" x2="860" y1="582" y2="582"/>
+  </g>
+  <!-- F line4 from bottom = y 498; C space2 from bottom = between 554 and 526 -> 540 -->
+  <g fill="#D9A441" stroke="#8a6a1f" stroke-width="2">
+    <ellipse cx="340" cy="498" rx="17" ry="12"/>
+    <ellipse cx="620" cy="540" rx="17" ry="12"/>
+  </g>
+  <g font-size="26" font-weight="700" fill="#8a6a1f" text-anchor="middle">
+    <text x="340" y="640">F（Fa）第四線</text>
+    <text x="620" y="640">C（Do）第二間</text>
+  </g>
+
+  <!-- legend -->
+  <g font-size="22" fill="#52616B">
+    <text x="900" y="180">線 ＝ 音符壓在線上</text>
+    <text x="900" y="216">間 ＝ 夾在兩線中間</text>
+    <text x="900" y="252">往上一格 ＝ 上一個音</text>
+    <text x="900" y="288">往上兩格 ＝ 跳三度</text>
+    <text x="900" y="520">線和間都從</text>
+    <text x="900" y="552">最下面往上數</text>
+  </g>
+</svg>
