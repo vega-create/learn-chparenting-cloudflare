@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" font-family="PingFang TC, Noto Sans TC, Helvetica Neue, Arial, sans-serif">
+  <rect width="1200" height="560" fill="#ffffff"/>
+  <text x="600" y="64" text-anchor="middle" font-size="34" font-weight="700" fill="#263238">Do Re Mi 和 C D E 是同一組琴鍵</text>
+
+  <!-- white keys -->
+  <g stroke="#9aa3ab" stroke-width="2">
+    <rect x="120" y="110" width="136" height="300" rx="8" fill="#FDF6EC"/>
+    <rect x="256" y="110" width="136" height="300" rx="8" fill="#ffffff"/>
+    <rect x="392" y="110" width="136" height="300" rx="8" fill="#ffffff"/>
+    <rect x="528" y="110" width="136" height="300" rx="8" fill="#FDF6EC"/>
+    <rect x="664" y="110" width="136" height="300" rx="8" fill="#FDF6EC"/>
+    <rect x="800" y="110" width="136" height="300" rx="8" fill="#ffffff"/>
+    <rect x="936" y="110" width="136" height="300" rx="8" fill="#ffffff"/>
+  </g>
+  <!-- black keys -->
+  <g fill="#2C2C2A">
+    <rect x="210" y="110" width="84" height="186" rx="6"/>
+    <rect x="346" y="110" width="84" height="186" rx="6"/>
+    <rect x="618" y="110" width="84" height="186" rx="6"/>
+    <rect x="754" y="110" width="84" height="186" rx="6"/>
+    <rect x="890" y="110" width="84" height="186" rx="6"/>
+  </g>
+  <!-- letter names -->
+  <g text-anchor="middle" font-size="40" font-weight="700">
+    <text x="188" y="350" fill="#B8862B">C</text>
+    <text x="324" y="350" fill="#263238">D</text>
+    <text x="460" y="350" fill="#263238">E</text>
+    <text x="596" y="350" fill="#B8862B">F</text>
+    <text x="732" y="350" fill="#B8862B">G</text>
+    <text x="868" y="350" fill="#263238">A</text>
+    <text x="1004" y="350" fill="#263238">B</text>
+  </g>
+  <g text-anchor="middle" font-size="24" fill="#52616B">
+    <text x="188" y="390">Do</text>
+    <text x="324" y="390">Re</text>
+    <text x="460" y="390">Mi</text>
+    <text x="596" y="390">Fa</text>
+    <text x="732" y="390">Sol</text>
+    <text x="868" y="390">La</text>
+    <text x="1004" y="390">Si</text>
+  </g>
+  <!-- group hints -->
+  <g font-size="24" fill="#52616B" text-anchor="middle">
+    <text x="320" y="96">兩個黑鍵一組</text>
+    <text x="796" y="96">三個黑鍵一組</text>
+  </g>
+  <g font-size="26" font-weight="700" fill="#8a6a1f" text-anchor="middle">
+    <text x="188" y="470">兩黑鍵左邊 = C（Do）</text>
+    <text x="596" y="470">三黑鍵左邊 = F（Fa）</text>
+    <text x="900" y="470">F 右邊 = G（Sol）</text>
+  </g>
+  <text x="600" y="528" text-anchor="middle" font-size="22" fill="#52616B">記住「兩個黑鍵左邊是 Do」，其他六個鍵往右照順序數就全出來了</text>
+</svg>

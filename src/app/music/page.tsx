@@ -91,7 +91,7 @@ export default function MusicPage() {
 
         <AdSlot unit="list" />
 
-        <RelatedPosts slugs={["music-theory-for-kids", "children-learning-motivation", "board-games-benefits-for-kids"]} />
+        <RelatedPosts slugs={["piano-sight-reading-basics", "music-theory-for-kids", "children-learning-motivation"]} />
 
         <HmAboutBox>
           <ol className="grid sm:grid-cols-3 gap-3 list-none p-0 m-0">
